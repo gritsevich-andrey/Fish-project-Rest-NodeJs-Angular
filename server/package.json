@@ -1,0 +1,15 @@
+{
+  "name": "fish-server",
+  "version": "1.0.0",
+  "description": "Nodejs. Express, Mongoose, PassportJs Rest server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "express",
+    "angular"
+  ],
+  "author": "Andrey Hrytsevich",
+  "license": "ISC"
+}
