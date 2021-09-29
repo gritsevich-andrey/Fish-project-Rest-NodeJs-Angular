@@ -1,3 +1,3 @@
 <h1>NodeJs server<h1>
-Library: Express, Morgan, Mongoose, Passport
+Library: ExpressJs, MorganJs, Mongoose, PassportJs, BcryptJs
 Database: MongoDB
