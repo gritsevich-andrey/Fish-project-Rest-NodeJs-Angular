@@ -1,4 +1,5 @@
 const express = require('express');
+const passport = require('passport');
 const app = express();
 const authRoutes = require('./routes/auth');
 const bodyParser = require('body-parser');
@@ -14,5 +15,7 @@ app.use(require('cors')());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use('/api/auth', authRoutes);
+app.use(passport.initialize());
+require('./middleware/passport')(passport);
 
 module.exports = app;
