@@ -16,7 +16,6 @@ module.exports.getById = async function (req, res) {
     } catch (e) {
         errorHandler(res, e);
     }
-
 }
 module.exports.remove = async function (req, res) {
     try {
@@ -28,15 +27,16 @@ module.exports.remove = async function (req, res) {
         errorHandler(res, e);
     }
 }
-module.exports.create = async function (req, res) {
+module.exports.create = function (req, res) {
+    console.log('id Пользователя из контроллера Cabinet', req.user.id);
     try {
-        const cabinet = await new Cabinet({
+        const cabinet =  new Cabinet({
             fio: req.body.fio,
             gender: req.body.gender,
             age: req.body.age,
             technique: req.body.technique,
             juridicalPerson: req.body.juridicalPerson,
-            imgSrc: req.body.imgSrc,
+            imgSrc: req.file ? req.file.path : '',
             user: req.user.id,
             date: Date.now()
         }).save();
@@ -46,10 +46,21 @@ module.exports.create = async function (req, res) {
     }
 }
 module.exports.update = async function (req, res) {
+    const updated = {
+        fio: req.body.fio,
+        age: req.body.age,
+        technique: req.body.technique,
+        juridicalPerson: req.body.juridicalPerson,
+        date: Date.now
+    }
+
+    if (req.file) {
+        updated.imageSrc = req.file.path
+    }
     try {
         const cabinet = await Cabinet.findOneAndUpdate(
             {_id: req.params.id},
-            {$set: req.body},
+            {$set: updated},
             {new: true}
         )
         res.status(200).json(cabinet);
