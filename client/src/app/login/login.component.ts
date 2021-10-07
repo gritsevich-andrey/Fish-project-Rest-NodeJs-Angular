@@ -22,27 +22,26 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.form = new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.email]),
+      email: new FormControl('', [Validators.required, Validators.pattern("/^[a-z]+[a-z0-9._]+@[a-z]+\\.[a-z.]{2,5}$/"), Validators.email]),
       password: new FormControl('', [Validators.required, Validators.minLength(6)])
     })
     this.route.queryParams.subscribe((params: Params) => {
-if(params['registered']) {
+      if (params['registered']) {
 // Может зайти
-} else if(params['accessDenied']) {
+      } else if (params['accessDenied']) {
 //Для начала авторизуйтесь в системе
-}
+      }
     });
   }
 
   onSubmit() {
-    // this.form.disable();
-    this.aSub = this.auth.login(this.form.value).subscribe(
-      () => this.router.navigate(['/']),
-      error => {
-        console.warn(error);
-        this.form.enable();
-      }
-    );
+      this.aSub = this.auth.login(this.form.value).subscribe(
+        () => this.router.navigate(['/']),
+        error => {
+          console.warn(error);
+          this.form.enable();
+        }
+      );
   }
 
   get f() {
