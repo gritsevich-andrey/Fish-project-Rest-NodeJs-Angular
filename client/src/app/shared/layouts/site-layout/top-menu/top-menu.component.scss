@@ -1,0 +1,17 @@
+.top-menu {
+    background-color: #757575;
+}
+.sidenav-trigger {
+    display: none;
+}
+
+@media only screen and (max-width: 992px) {
+    .nav-wrapper {
+        display: flex;
+        justify-content: center;
+        padding-left: 0px;
+    }
+    .sidenav-trigger {
+        display: block;
+    }
+}

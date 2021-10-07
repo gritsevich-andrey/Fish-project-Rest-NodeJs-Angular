@@ -1,0 +1,26 @@
+@media only screen and (max-width: 992px) {
+    .hide-on-med-and-down {
+        display: block !important;
+    }
+
+    nav .brand-logo {
+        display: inline;
+        position: unset;
+    }
+
+    .mobile-nav {
+        display: block;
+
+        a {
+            padding-left: 0;
+        } 
+    }
+
+    .desktop-nav {
+        display: none !important;
+    }
+}
+
+.mobile-nav {
+    display: none;
+}

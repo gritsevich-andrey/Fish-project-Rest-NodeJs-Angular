@@ -1,1 +1,21 @@
-Хеадер компонент
+<nav>
+    <div class="nav-wrapper grey darken-1">
+        <a routerLink="/" class="brand-logo">Newborn</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down mobile-nav">
+            <li routerLinkActive="active">
+                <a routerLink="/login"><i class="small  material-icons">account_circle</i></a>
+            </li>
+            <li routerLinkActive="active">
+                <a routerLink="/register"><i class="material-icons">add_circle_outline</i></a>
+            </li>
+        </ul>
+        <ul id="nav-mobile" class="right hide-on-med-and-down desktop-nav">
+            <li routerLinkActive="active">
+                <a routerLink="/login">Вход</a>
+            </li>
+            <li routerLinkActive="active">
+                <a routerLink="/register">Регистрация</a>
+            </li>
+        </ul>
+    </div>
+</nav>
