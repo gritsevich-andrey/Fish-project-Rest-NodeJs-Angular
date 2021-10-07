@@ -1,30 +1,57 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {AuthService} from "../shared/services/auth.service";
+import {Subscription} from "rxjs";
+import {ActivatedRoute, Params, Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
 
   form!: FormGroup;
+  aSub!: Subscription;
 
-  constructor() {
+  constructor(private auth: AuthService,
+              private router: Router,
+              private route: ActivatedRoute
+  ) {
   }
 
   ngOnInit(): void {
     this.form = new FormGroup({
-      email: new FormControl(' ', [Validators.required, Validators.email]),
-      password: new FormControl(' ', [Validators.required, Validators.minLength(6)])
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [Validators.required, Validators.minLength(6)])
     })
+    this.route.queryParams.subscribe((params: Params) => {
+if(params['registered']) {
+// Может зайти
+} else if(params['accessDenied']) {
+//Для начала авторизуйтесь в системе
+}
+    });
   }
 
   onSubmit() {
-
+    // this.form.disable();
+    this.aSub = this.auth.login(this.form.value).subscribe(
+      () => this.router.navigate(['/main']),
+      error => {
+        console.warn(error);
+        this.form.enable();
+      }
+    );
   }
-  get f()
-  {
+
+  get f() {
     return this.form.controls;
+  }
+
+  ngOnDestroy(): void {
+    if (this.aSub) {
+      this.aSub.unsubscribe();
+    }
   }
 }

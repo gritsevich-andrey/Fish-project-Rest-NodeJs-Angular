@@ -11,6 +11,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HeaderComponent} from "./shared/layouts/site-layout/header/header.component";
 import {TopMenuComponent} from "./shared/layouts/site-layout/top-menu/top-menu.component";
 import {FooterComponent} from "./shared/layouts/site-layout/footer/footer.component";
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import {FooterComponent} from "./shared/layouts/site-layout/footer/footer.compon
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
