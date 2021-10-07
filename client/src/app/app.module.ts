@@ -8,6 +8,9 @@ import { AuthLayoutComponent } from './shared/layouts/auth-layout/auth-layout.co
 import { SiteLayoutComponent } from './shared/layouts/site-layout/site-layout.component';
 import { RegisterComponent } from './register/register.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {HeaderComponent} from "./shared/layouts/site-layout/header/header.component";
+import {TopMenuComponent} from "./shared/layouts/site-layout/top-menu/top-menu.component";
+import {FooterComponent} from "./shared/layouts/site-layout/footer/footer.component";
 
 @NgModule({
   declarations: [
@@ -15,7 +18,10 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     LoginComponent,
     AuthLayoutComponent,
     SiteLayoutComponent,
-    RegisterComponent
+    RegisterComponent,
+    HeaderComponent,
+    TopMenuComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
