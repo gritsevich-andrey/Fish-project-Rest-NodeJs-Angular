@@ -37,7 +37,7 @@ if(params['registered']) {
   onSubmit() {
     // this.form.disable();
     this.aSub = this.auth.login(this.form.value).subscribe(
-      () => this.router.navigate(['/main']),
+      () => this.router.navigate(['/']),
       error => {
         console.warn(error);
         this.form.enable();
