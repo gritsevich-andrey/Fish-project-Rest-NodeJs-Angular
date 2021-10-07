@@ -5,11 +5,11 @@
   <div class="card-content">
     <span class="card-title">Регистрация</span>
     <div class="input-field">
-      <label for="email">Email:</label>
       <input id="email" type="text"
              formControlName="email"
              [ngClass]="{invalid: f.email.touched && f.email.invalid}"
       >
+      <label for="email">Email:</label>
       <span class="helper-text red-text"
             *ngIf="f.email.touched && f.email.invalid">
        <span *ngIf="f.email.hasError('required')">Email не должен быть пустым</span>
@@ -17,14 +17,14 @@
       </span>
     </div>
     <div class="input-field">
-      <label for="password">Пароль:</label>
       <input id="password" type="password" formControlName="password"
              [ngClass]="{invalid: f.password.touched && f.password.invalid}"
       >
+      <label for="password">Пароль:</label>
       <span class="helper-text red-text"
             *ngIf="f.password.touched && f.password.invalid">
-       <span *ngIf="f.password.hasError('required')">Пароль не должен быть пустым</span>
-       <span *ngIf="f.password.hasError('minlength')">Пароль должен быть больше 6 символов.</span>
+       <small *ngIf="f.password.hasError('required')">Пароль не должен быть пустым</small>
+       <small *ngIf="f.password.hasError('minlength')">Пароль должен быть больше 6 символов.</small>
       </span>
     </div>
   </div>
