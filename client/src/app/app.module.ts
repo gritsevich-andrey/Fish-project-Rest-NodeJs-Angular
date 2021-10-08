@@ -11,8 +11,9 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HeaderComponent} from "./shared/layouts/site-layout/header/header.component";
 import {TopMenuComponent} from "./shared/layouts/site-layout/top-menu/top-menu.component";
 import {FooterComponent} from "./shared/layouts/site-layout/footer/footer.component";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import { AdminComponent } from './admin/admin.component';
+import {TokenInterceptor} from "./shared/classes/token.interceptor";
 
 @NgModule({
   declarations: [
@@ -33,7 +34,11 @@ import { AdminComponent } from './admin/admin.component';
     FormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    multi: true,
+    useClass: TokenInterceptor
+  }],
   bootstrap: [AppComponent]
 })
 

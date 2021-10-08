@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../shared/services/auth.service";
 import {Subscription} from "rxjs";
 import {ActivatedRoute, Params, Router} from "@angular/router";
+import {MaterialService} from "../shared/classes/material.service";
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   form!: FormGroup;
   aSub!: Subscription;
-  validPasword: any;
 
   constructor(private auth: AuthService,
               private router: Router,
@@ -28,21 +28,23 @@ export class LoginComponent implements OnInit, OnDestroy {
     })
     this.route.queryParams.subscribe((params: Params) => {
       if (params['registered']) {
-// Может зайти
+        MaterialService.toast('Теперь можете зайти в систему под своими данными');
       } else if (params['accessDenied']) {
-//Для начала авторизуйтесь в системе
+        MaterialService.toast('Для начала авторизуйтесь в системе');
+      } else if(params['sessionExpired']) {
+        MaterialService.toast('Безопасность в приоритете. Пожалуйста, войдите в систему снова.');
       }
     });
   }
 
   onSubmit() {
-      this.aSub = this.auth.login(this.form.value).subscribe(
-        () => this.router.navigate(['/']),
-        error => {
-          console.warn(error);
-          this.form.enable();
-        }
-      );
+    this.aSub = this.auth.login(this.form.value).subscribe(
+      () => this.router.navigate(['/main']),
+      error => {
+        MaterialService.toast(error.error.message);
+        this.form.enable();
+      }
+    );
   }
 
   get f() {

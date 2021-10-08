@@ -1,7 +1,7 @@
 <nav class="top-menu">
   <div class="nav-wrapper">
     <ul class="left hide-on-med-and-down" *ngFor="let item of transfer">
-      <li  class="active"><a [routerLink]="[item.url]">{{item.name}}</a></li>
+      <li  class="active"><a [routerLink]=item.url>{{item.name}}</a></li>
     </ul>
     <span data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></span>
   </div>
