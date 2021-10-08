@@ -6,9 +6,8 @@ import {SiteLayoutComponent} from "./shared/layouts/site-layout/site-layout.comp
 import {RegisterComponent} from "./register/register.component";
 
 const routes: Routes = [
-  {path: '', component: SiteLayoutComponent},
   {path: '', component: AuthLayoutComponent, children: [
-       {path: '', redirectTo: 'login', pathMatch: 'full'},
+       {path: '', redirectTo: '/login', pathMatch: 'full'},
       {path: 'login', component: LoginComponent},
       {path: 'register', component: RegisterComponent},
     ]},

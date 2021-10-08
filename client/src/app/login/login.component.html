@@ -19,7 +19,7 @@
     </div>
     <div class="input-field">
       <input id="password" type="password" formControlName="password"
-             minlength="6"
+             minlength="6" [(ngModel)]="validPasword"
              [ngClass]="{invalid: f.password.touched && f.password.invalid}"
       >
       <label>Пароль:</label>

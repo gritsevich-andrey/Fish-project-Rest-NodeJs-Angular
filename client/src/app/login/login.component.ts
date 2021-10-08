@@ -13,6 +13,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   form!: FormGroup;
   aSub!: Subscription;
+  validPasword: any;
 
   constructor(private auth: AuthService,
               private router: Router,
