@@ -1,0 +1,40 @@
+<form class="card"
+      [formGroup]="form"
+      (ngSubmit)="onSubmit()"
+>
+  <div class="card-content">
+    <span class="card-title">Регистрация</span>
+    <div class="input-field">
+      <input id="email" type="text"
+             formControlName="email"
+             ng-pattern="/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/"
+             [ngClass]="{invalid: f.email.touched && f.email.invalid}"
+      >
+      <label for="email">Email:</label>
+      <span class="helper-text red-text"
+            *ngIf="f.email.touched && f.email.invalid">
+       <span *ngIf="f.email.hasError('required')">Email не должен быть пустым</span>
+       <span *ngIf="f.email.hasError('email')">Введите корректный email</span>
+      </span>
+    </div>
+    <div class="input-field">
+      <input id="password" type="password" formControlName="password"
+             minlength="6"
+             [ngClass]="{invalid: f.password.touched && f.password.invalid}"
+      >
+      <label for="password">Пароль:</label>
+      <span class="helper-text red-text"
+            *ngIf="f.password.touched && f.password.invalid">
+       <small *ngIf="f.password.hasError('required')">Пароль не должен быть пустым</small>
+       <small *ngIf="f.password.hasError('minlength')">Пароль должен быть больше 6 символов.</small>
+      </span>
+    </div>
+  </div>
+  <div class="card-action">
+    <button
+      type="submit"
+      class="modal-action btn waves-effect"
+    >Войти
+    </button>
+  </div>
+</form>
