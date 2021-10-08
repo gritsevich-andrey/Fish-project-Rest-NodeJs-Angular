@@ -12,6 +12,7 @@ import {HeaderComponent} from "./shared/layouts/site-layout/header/header.compon
 import {TopMenuComponent} from "./shared/layouts/site-layout/top-menu/top-menu.component";
 import {FooterComponent} from "./shared/layouts/site-layout/footer/footer.component";
 import {HttpClientModule} from "@angular/common/http";
+import { AdminComponent } from './admin/admin.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import {HttpClientModule} from "@angular/common/http";
     RegisterComponent,
     HeaderComponent,
     TopMenuComponent,
-    FooterComponent
+    FooterComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,
