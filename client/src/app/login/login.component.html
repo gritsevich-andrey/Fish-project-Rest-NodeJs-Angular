@@ -18,11 +18,14 @@
       </span>
     </div>
     <div class="input-field">
-      <input id="password" type="password" formControlName="password"
+      <input id="password" formControlName="password"
              minlength="6"
              [ngClass]="{invalid: f.password.touched && f.password.invalid}"
+             [type]="hide ? 'password' : 'text'"
       >
-      <label>Пароль:</label>
+<label for="password">Пароль:</label>
+      <span class="placeholder small material-icons"
+            (click)="showPassword()">{{hide ? 'visibility_off' : 'visibility'}}</span>
       <span class="helper-text red-text"
             *ngIf="f.password.touched && f.password.invalid">
        <span *ngIf="f.password.hasError('required')">Пароль не должен быть пустым</span>

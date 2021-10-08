@@ -13,6 +13,7 @@ import {MaterialService} from "../shared/classes/material.service";
 export class RegisterComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   aSub!: Subscription
+  hide = true;
 
   constructor(
     private auth: AuthService,
@@ -53,5 +54,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
     if (this.aSub) {
       this.aSub.unsubscribe();
     }
+  }
+
+  showPassword(): void {
+    this.hide = !this.hide;
   }
 }

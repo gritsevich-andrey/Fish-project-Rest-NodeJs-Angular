@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   form!: FormGroup;
   aSub!: Subscription;
+  hide = true;
 
   constructor(private auth: AuthService,
               private router: Router,
@@ -31,7 +32,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         MaterialService.toast('Теперь можете зайти в систему под своими данными');
       } else if (params['accessDenied']) {
         MaterialService.toast('Для начала авторизуйтесь в системе');
-      } else if(params['sessionExpired']) {
+      } else if (params['sessionExpired']) {
         MaterialService.toast('Безопасность в приоритете. Пожалуйста, войдите в систему снова.');
       }
     });
@@ -55,5 +56,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (this.aSub) {
       this.aSub.unsubscribe();
     }
+  }
+
+  showPassword(): void {
+    this.hide = !this.hide;
   }
 }
