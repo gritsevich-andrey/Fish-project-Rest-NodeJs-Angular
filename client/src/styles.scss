@@ -23,6 +23,14 @@ body {
   min-height: 100vh;
   flex-direction: column;
   position: relative;
+  //Либо таким способом, либо каждому блоку с контентом нужно указывать min height
+  padding-bottom: 251px;
+  @media only screen and (max-width: 992px) {
+    padding-bottom: 331px;
+  }
+  @media only screen and (max-width: 420px) {
+    padding-bottom: 353px;
+  }
 }
 footer {
   position: absolute;
