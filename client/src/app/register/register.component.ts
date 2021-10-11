@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../shared/services/auth.service";
 import {Router} from "@angular/router";
 import {Subscription} from "rxjs";
+import {MaterialService} from "../shared/classes/material.service";
 
 @Component({
   selector: 'app-register',
@@ -12,6 +13,7 @@ import {Subscription} from "rxjs";
 export class RegisterComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   aSub!: Subscription
+  hide = true;
 
   constructor(
     private auth: AuthService,
@@ -41,7 +43,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
         })
       },
       error => {
-        console.warn(error);
+        MaterialService.toast(error.error.message);
         this.form.enable();
       }
     );
@@ -52,5 +54,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
     if (this.aSub) {
       this.aSub.unsubscribe();
     }
+  }
+
+  showPassword(): void {
+    this.hide = !this.hide;
   }
 }

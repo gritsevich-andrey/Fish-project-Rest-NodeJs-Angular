@@ -1,5 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {HeaderNavButton} from "../../../interfaces";
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -7,7 +6,7 @@ import {HeaderNavButton} from "../../../interfaces";
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  @Input() nav_buttons: Array<HeaderNavButton> = [];
+
   constructor() { }
 
   ngOnInit(): void {
