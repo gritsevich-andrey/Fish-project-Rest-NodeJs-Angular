@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class SiteLayoutComponent implements OnInit {
-  top_menu= [
+  top_menu: any[]= [
     {
       title: 'Живая лента',
       href: '#',
@@ -30,7 +30,7 @@ export class SiteLayoutComponent implements OnInit {
       href: '#'
     },
   ]
-  header = [
+  header: any[] = [
     {
       title: 'Вход',
       icon_name: 'account_circle',
@@ -42,7 +42,7 @@ export class SiteLayoutComponent implements OnInit {
       href: '/register'
     },
   ]
-  footer_links = [
+  footer_links: any[] = [
     {
       title: 'Ссылка 1',
       href: '#'
