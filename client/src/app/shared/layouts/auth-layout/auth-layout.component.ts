@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {FooterLink, HeaderNavButton} from "../../interfaces";
 
 @Component({
   selector: 'app-auth-layout',
@@ -7,8 +6,7 @@ import {FooterLink, HeaderNavButton} from "../../interfaces";
   styleUrls: ['./auth-layout.component.scss']
 })
 export class AuthLayoutComponent implements OnInit {
-  //Я думаю эту логику нужно как-то вынести или вообще сделать header статичным
-  header: Array<HeaderNavButton> = [
+  header = [
     {
       title: 'Вход',
       icon_name: 'account_circle',
@@ -20,7 +18,7 @@ export class AuthLayoutComponent implements OnInit {
       href: '/register'
     },
   ]
-  footer_links: Array<FooterLink> = [
+  footer_links = [
     {
       title: 'Ссылка 1',
       href: '#'

@@ -1,5 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {TopMenuItem} from "../../../interfaces";
 
 declare var M: { Sidenav: { init: (arg0: NodeListOf<Element>) => any; }; }
 
@@ -9,7 +8,7 @@ declare var M: { Sidenav: { init: (arg0: NodeListOf<Element>) => any; }; }
   styleUrls: ['./top-menu.component.scss']
 })
 export class TopMenuComponent implements OnInit {
-  @Input() menu: Array<TopMenuItem> = [];
+  @Input() menu: any[] = [];
 
   constructor() {
   }

@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import {FooterLink, HeaderNavButton, TopMenuItem} from "../../interfaces";
 
 @Component({
   selector: 'app-site-layout',
   templateUrl: './site-layout.component.html',
   styleUrls: ['./site-layout.component.scss']
 })
+
 export class SiteLayoutComponent implements OnInit {
-  top_menu: Array<TopMenuItem> = [
+  top_menu= [
     {
       title: 'Живая лента',
       href: '#',
@@ -30,7 +30,7 @@ export class SiteLayoutComponent implements OnInit {
       href: '#'
     },
   ]
-  header: Array<HeaderNavButton> = [
+  header = [
     {
       title: 'Вход',
       icon_name: 'account_circle',
@@ -42,7 +42,7 @@ export class SiteLayoutComponent implements OnInit {
       href: '/register'
     },
   ]
-  footer_links: Array<FooterLink> = [
+  footer_links = [
     {
       title: 'Ссылка 1',
       href: '#'

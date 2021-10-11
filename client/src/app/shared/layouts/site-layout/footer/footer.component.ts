@@ -1,5 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {FooterLink} from "../../../interfaces";
 
 @Component({
   selector: 'app-footer',
@@ -7,7 +6,7 @@ import {FooterLink} from "../../../interfaces";
   styleUrls: ['./footer.component.scss']
 })
 export class FooterComponent implements OnInit {
-  @Input() links: Array<FooterLink> = [];
+  @Input() links: any[] = [];
   constructor() { }
 
   ngOnInit(): void {
