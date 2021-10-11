@@ -1,35 +1,34 @@
 import {NgModule} from "@angular/core";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {HttpClientModule} from "@angular/common/http";
 import {BrowserModule} from "@angular/platform-browser";
-import {TokenInterceptor} from "./classes/token.interceptor";
 import {CommonModule} from "@angular/common";
-import {AuthGuard} from "./classes/auth.guard";
+import {HeaderComponent} from "./layouts/site-layout/header/header.component";
+import {TopMenuComponent} from "./layouts/site-layout/top-menu/top-menu.component";
+import {FooterComponent} from "./layouts/site-layout/footer/footer.component";
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    HeaderComponent,
+    TopMenuComponent,
+    FooterComponent
+  ],
   imports: [
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
-    BrowserModule,
-    CommonModule
+    BrowserModule
   ],
   exports: [
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
+    CommonModule,
     BrowserModule,
-    CommonModule
-  ],
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      multi: true,
-      useClass: TokenInterceptor
-    },
-    AuthGuard
+    HeaderComponent,
+    TopMenuComponent,
+    FooterComponent
   ]
-
 })
-export class SharedModule{}
+export class SharedModule {
+}

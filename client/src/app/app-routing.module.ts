@@ -12,7 +12,7 @@ const routes: Routes = [
     path: '', component: AuthLayoutComponent, children: [
       {path: '', redirectTo: '/login', pathMatch: 'full'},
       {path: 'login', component: LoginComponent},
-      {path: 'register', component: RegisterComponent},
+      {path: 'register', component: RegisterComponent}
     ]
   },
   {
@@ -20,9 +20,7 @@ const routes: Routes = [
       {path: 'cabinet', component: CabinetComponent}
     ]
   },
-  {
-    path: 'administrator', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)
-  }
+  { path: 'administrator', loadChildren: () => import('./admin/shared/layouts/admin-layouts/admin-layouts.module').then(m => m.AdminLayoutsModule) }
 ];
 
 @NgModule({
