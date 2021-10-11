@@ -6,6 +6,7 @@ import {SiteLayoutComponent} from "./shared/layouts/site-layout/site-layout.comp
 import {RegisterComponent} from "./register/register.component";
 import {AuthGuard} from "./shared/classes/auth.guard";
 import {AdminComponent} from "./admin/admin.component";
+import {CabinetComponent} from "./site-pages/cabinet/cabinet.component";
 
 const routes: Routes = [
   {path: '', component: AuthLayoutComponent, children: [
@@ -13,7 +14,8 @@ const routes: Routes = [
       {path: 'login', component: LoginComponent},
       {path: 'register', component: RegisterComponent},
     ]},
-  {path: 'main', component: SiteLayoutComponent, canActivate: [AuthGuard],  children: [
+  {path: '', component: SiteLayoutComponent, canActivate: [AuthGuard],  children: [
+      {path: 'cabinet', component: CabinetComponent}
     ]},
   {path: 'administrator', component: AdminComponent, canActivate: [AuthGuard],  children: [
     ]}

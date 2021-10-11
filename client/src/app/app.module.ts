@@ -14,6 +14,7 @@ import {FooterComponent} from "./shared/layouts/site-layout/footer/footer.compon
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import { AdminComponent } from './admin/admin.component';
 import {TokenInterceptor} from "./shared/classes/token.interceptor";
+import { CabinetComponent } from './site-pages/cabinet/cabinet.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import {TokenInterceptor} from "./shared/classes/token.interceptor";
     HeaderComponent,
     TopMenuComponent,
     FooterComponent,
-    AdminComponent
+    AdminComponent,
+    CabinetComponent
   ],
   imports: [
     BrowserModule,
