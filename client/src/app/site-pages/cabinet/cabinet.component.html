@@ -30,13 +30,28 @@
         </p>
       </div>
 
-
       <div class="input-field">
         <input id="age" type="text"
                formControlName="age"
         >
         <label for="age">Возраст:</label>
       </div>
+
+      <div class="input-field" formControlName="juridicalPerson">
+        <p>
+          <label>
+            <input name="group1" type="radio" checked />
+            <span>Физическое лицо</span>
+          </label>
+        </p>
+        <p>
+          <label>
+            <input name="group1" type="radio" />
+            <span>Юридическое лицо</span>
+          </label>
+        </p>
+      </div>
+
     </form>
   </div>
 </div>
