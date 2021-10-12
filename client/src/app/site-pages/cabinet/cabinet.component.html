@@ -1,0 +1,57 @@
+<div class="container">
+  <div class="card-cabinet">
+    <form
+      [formGroup]="form"
+      (ngSubmit)="onSubmit()"
+    >
+      <div class="input-field">
+        <input id="fio" type="text"
+               formControlName="fio"
+               [ngClass]="{invalid: f.fio.touched && f.fio.invalid}"
+        >
+        <label for="fio">ФИО:</label>
+        <span class="helper-text red-text"
+              *ngIf="f.fio.touched && f.fio.invalid">
+       <small *ngIf="f.fio.hasError('required')">Поле не должно быть пустым</small>
+      </span>
+      </div>
+      <div class="input-field" formControlName="gender">
+        <p>
+          <label>
+            <input name="group1" type="radio" checked />
+            <span>Мужской</span>
+          </label>
+        </p>
+        <p>
+          <label>
+            <input name="group1" type="radio" />
+            <span>Женский</span>
+          </label>
+        </p>
+      </div>
+
+      <div class="input-field">
+        <input id="age" type="text"
+               formControlName="age"
+        >
+        <label for="age">Возраст:</label>
+      </div>
+
+      <div class="input-field" formControlName="juridicalPerson">
+        <p>
+          <label>
+            <input name="group1" type="radio" checked />
+            <span>Физическое лицо</span>
+          </label>
+        </p>
+        <p>
+          <label>
+            <input name="group1" type="radio" />
+            <span>Юридическое лицо</span>
+          </label>
+        </p>
+      </div>
+
+    </form>
+  </div>
+</div>

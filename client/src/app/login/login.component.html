@@ -23,7 +23,7 @@
              [ngClass]="{invalid: f.password.touched && f.password.invalid}"
              [type]="hide ? 'password' : 'text'"
       >
-<label for="password">Пароль:</label>
+      <label for="password">Пароль:</label>
       <span class="placeholder small material-icons"
             (click)="showPassword()">{{hide ? 'visibility_off' : 'visibility'}}</span>
       <span class="helper-text red-text"
@@ -41,3 +41,4 @@
     </button>
   </div>
 </form>
+<app-footer></app-footer>

@@ -1,0 +1,14 @@
+
+.card-cabinet {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  background-color: #fff;
+  transition: box-shadow .25s;
+  border-radius: 2px;
+  flex-wrap: wrap;
+  width: 50%;
+}
+input[type=text] {
+  width: 400px;
+}

@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     this.aSub = this.auth.login(this.form.value).subscribe(
-      () => this.router.navigate(['/main']),
+      () => this.router.navigate(['/cabinet']),
       error => {
         MaterialService.toast(error.error.message);
         this.form.enable();
