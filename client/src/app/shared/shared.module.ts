@@ -6,6 +6,7 @@ import {CommonModule} from "@angular/common";
 import {HeaderComponent} from "./layouts/site-layout/header/header.component";
 import {TopMenuComponent} from "./layouts/site-layout/top-menu/top-menu.component";
 import {FooterComponent} from "./layouts/site-layout/footer/footer.component";
+import {RouterModule} from "@angular/router";
 
 @NgModule({
   declarations: [
@@ -13,12 +14,16 @@ import {FooterComponent} from "./layouts/site-layout/footer/footer.component";
     TopMenuComponent,
     FooterComponent
   ],
-  imports: [
-  ],
+    imports: [
+        CommonModule,
+        RouterModule,
+        FormsModule
+    ],
   exports: [
     HeaderComponent,
     TopMenuComponent,
-    FooterComponent
+    FooterComponent,
+    FormsModule
   ]
 })
 export class SharedModule {
