@@ -8,9 +8,12 @@ import {SiteLayoutComponent} from './shared/layouts/site-layout/site-layout.comp
 import {RegisterComponent} from './register/register.component';
 import {SharedModule} from "./shared/shared.module";
 import {CabinetComponent} from "./site-pages/cabinet/cabinet.component";
-import {HTTP_INTERCEPTORS} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {TokenInterceptor} from "./shared/classes/token.interceptor";
 import {AuthGuard} from "./shared/classes/auth.guard";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {BrowserModule} from "@angular/platform-browser";
+import {CommonModule} from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -23,6 +26,11 @@ import {AuthGuard} from "./shared/classes/auth.guard";
   ],
   imports: [
     AppRoutingModule,
+    ReactiveFormsModule,
+    FormsModule,
+    HttpClientModule,
+    BrowserModule,
+    CommonModule,
     SharedModule
   ],
   exports: [],

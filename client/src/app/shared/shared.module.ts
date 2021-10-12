@@ -14,18 +14,8 @@ import {FooterComponent} from "./layouts/site-layout/footer/footer.component";
     FooterComponent
   ],
   imports: [
-    ReactiveFormsModule,
-    FormsModule,
-    HttpClientModule,
-    BrowserModule,
-    CommonModule
   ],
   exports: [
-    ReactiveFormsModule,
-    FormsModule,
-    HttpClientModule,
-    CommonModule,
-    BrowserModule,
     HeaderComponent,
     TopMenuComponent,
     FooterComponent
