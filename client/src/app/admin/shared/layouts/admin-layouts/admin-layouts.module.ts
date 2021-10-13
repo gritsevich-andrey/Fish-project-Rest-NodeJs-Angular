@@ -5,6 +5,7 @@ import {AdminLayoutsRoutingModule} from './admin-layouts-routing.module';
 import {AdminLayoutsComponent} from './admin-layouts.component';
 import {AdminComponent} from "../../../admin.component";
 import {SharedModule} from "../../../../shared/shared.module";
+import {MatSortModule} from "@angular/material/sort";
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import {SharedModule} from "../../../../shared/shared.module";
   imports: [
     CommonModule,
     AdminLayoutsRoutingModule,
-    SharedModule
+    SharedModule,
+    MatSortModule
   ]
 })
 export class AdminLayoutsModule { }

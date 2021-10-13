@@ -8,23 +8,23 @@ import { Component, OnInit } from '@angular/core';
 export class AdminLayoutsComponent implements OnInit {
   top_menu: any[]= [
     {
-      title: 'Живая лента',
+      title: 'Все пользователи',
+      href: 'users'
+    },
+    {
+      title: 'Все путешествия',
       href: '#'
     },
     {
-      title: 'Отправиться на отдых',
+      title: 'Документы пользователей',
       href: '#'
     },
     {
-      title: 'Предложить место отдыха',
+      title: 'Отзывы и рейтинг',
       href: '#'
     },
     {
-      title: 'Личный кабинет',
-      href: '#'
-    },
-    {
-      title: 'Чат',
+      title: 'Фото и видео',
       href: '#'
     },
   ]
