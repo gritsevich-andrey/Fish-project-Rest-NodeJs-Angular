@@ -11,7 +11,8 @@ module.exports.login = async function (req, res) {
         if (passwordResult) {
             const token = jwt.sign({
                 email: candidate.email,
-                userId: candidate._id
+                userId: candidate._id,
+                role: candidate.role
             }, keys.jwt, {expiresIn: 60 * 60});
             res.status(200).json({
                 token: `Bearer ${token}`
@@ -40,7 +41,8 @@ module.exports.register = async function (req, res) {
         const password = req.body.password;
         const user = new User({
             email: req.body.email,
-            password: bcrypt.hashSync(password, salt)
+            password: bcrypt.hashSync(password, salt),
+            role: req.body.role
         });
         try {
             await user.save()
