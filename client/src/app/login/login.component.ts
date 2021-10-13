@@ -4,6 +4,7 @@ import {AuthService} from "../shared/services/auth.service";
 import {Subscription} from "rxjs";
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {MaterialService} from "../shared/classes/material.service";
+import jwt_decode from "jwt-decode";
 
 @Component({
   selector: 'app-login',
@@ -40,7 +41,24 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     this.aSub = this.auth.login(this.form.value).subscribe(
-      () => this.router.navigate(['/cabinet']),
+      () => {
+       const token = localStorage.getItem('auth-token');
+       // @ts-ignore
+        const tokenSplit = token.split(' ');
+        console.log('Сплит', tokenSplit);
+        const decoded = jwt_decode(tokenSplit[1]);
+        // @ts-ignore
+        console.log(decoded.email);
+        // @ts-ignore
+        const userRoles = decoded.role;
+        userRoles.forEach( (item: any) => {
+          if (item === 'ADMIN') {
+            this.router.navigate(['/administrator']);
+          } else {
+            this.router.navigate(['/cabinet'])
+          }
+        });
+      },
       error => {
         MaterialService.toast(error.error.message);
         this.form.enable();
