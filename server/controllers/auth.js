@@ -42,7 +42,8 @@ module.exports.register = async function (req, res) {
         const user = new User({
             email: req.body.email,
             password: bcrypt.hashSync(password, salt),
-            role: req.body.role
+            role: req.body.role,
+            banned: req.body.banned
         });
         try {
             await user.save()
@@ -50,5 +51,17 @@ module.exports.register = async function (req, res) {
         } catch (e) {
             errorHandler(res, e);
         }
+    }
+}
+module.exports.getAll = async function (req, res) {
+    try {
+        const users = await User.find();
+        let email = [];
+       users.forEach((values) => {
+           email.push(values.email);
+       })
+       res.status(200).json(email);
+    } catch (e) {
+        errorHandler(res, e);
     }
 }

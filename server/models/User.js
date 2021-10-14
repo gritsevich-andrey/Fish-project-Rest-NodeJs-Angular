@@ -16,6 +16,10 @@ const userSchema = new Schema({
         enum: ['USER', 'ADMIN', 'MODERATOR', 'SUPER-ADMIN'],
         default: ['USER']
     },
+    banned: {
+        type: Boolean,
+        default: false
+    },
 });
 
 module.exports = mongoose.model('users', userSchema);
