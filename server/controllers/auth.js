@@ -42,7 +42,8 @@ module.exports.register = async function (req, res) {
         const user = new User({
             email: req.body.email,
             password: bcrypt.hashSync(password, salt),
-            role: req.body.role
+            role: req.body.role,
+            banned: req.body.banned
         });
         try {
             await user.save()
