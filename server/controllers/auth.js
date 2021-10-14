@@ -57,9 +57,10 @@ module.exports.getAll = async function (req, res) {
     try {
         const users = await User.find();
         let email = [];
-       users.forEach((values) => {
-           email.push(values.email);
-       })
+        users.map(item => email.push(item.email, item.banned));
+       // users.forEach((values) => {
+       //     email.push(values.email);
+       // })
        res.status(200).json(email);
     } catch (e) {
         errorHandler(res, e);
