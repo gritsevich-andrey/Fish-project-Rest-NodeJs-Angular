@@ -32,7 +32,6 @@ export class UsersComponent implements OnInit {
         const data = this.userData.slice();
         if (!sort.active || sort.direction === '') {
             this.sortedData = data;
-            console.log('Данные в методе сортировки',this.sortedData)
             return;
         }
 
@@ -40,7 +39,6 @@ export class UsersComponent implements OnInit {
             const isAsc = sort.direction === 'asc';
             switch (sort.active) {
                 case 'email': {
-                    console.log('Работает метод сортировки по email');
                     return this.compare(a.email, b.email, isAsc);
                 }
                 // case 'banned': return this.compare(a.banned, b.banned, isAsc);
@@ -51,7 +49,6 @@ export class UsersComponent implements OnInit {
     }
 
     compare(a: string | number, b: string | number, isAsc: boolean) {
-        console.log('Что возвращает метод сравнения', (a < b ? -1 : 1) * (isAsc ? 1 : -1))
         return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
     }
 }

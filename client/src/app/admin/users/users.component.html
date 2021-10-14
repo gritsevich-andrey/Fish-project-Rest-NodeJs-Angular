@@ -1,10 +1,12 @@
 <div class="container">
 <table matSort (matSortChange)="sortData($event)">
   <tr>
+    <th mat-sort-header="number">№</th>
     <th mat-sort-header="email">Email</th>
     <th mat-sort-header="banned">Забанен</th>
   </tr>
-  <tr *ngFor="let value of sortedData">
+  <tr *ngFor="let value of sortedData; let i=index;">
+    <td>{{i+1}}</td>
     <td>{{value.email}}</td>
     <td>{{value.banned}}</td>
   </tr>
