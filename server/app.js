@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const authRoutes = require('./routes/auth');
 const cabinetRoutes = require('./routes/cabinet');
+const complaintRoutes = require('./routes/complaint');
 
 const mongoose = require('mongoose');
 const keys = require('./config/keys')
@@ -19,6 +20,7 @@ app.use(bodyParser.json());
 
 app.use('/api/auth', authRoutes);
 app.use('/api/cabinet', cabinetRoutes);
+app.use('/api/complaint', complaintRoutes);
 
 app.use(passport.initialize());
 require('./middleware/passport')(passport);
