@@ -56,12 +56,15 @@ module.exports.register = async function (req, res) {
 module.exports.getAll = async function (req, res) {
     try {
         const users = await User.find();
-        let email = [];
-        users.map(item => email.push(item.email, item.banned));
+        let resData = [];
+        users.map(item => {
+            let emailBanned = {email: item.email, banned: item.banned}
+            resData.push(emailBanned)
+        });
        // users.forEach((values) => {
        //     email.push(values.email);
        // })
-       res.status(200).json(email);
+       res.status(200).json(resData);
     } catch (e) {
         errorHandler(res, e);
     }

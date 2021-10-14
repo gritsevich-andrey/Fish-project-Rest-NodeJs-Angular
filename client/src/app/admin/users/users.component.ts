@@ -1,59 +1,57 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {MatSort} from '@angular/material/sort';
-import {MatTableDataSource} from '@angular/material/table';
+import {Component, OnInit} from '@angular/core';
 import {UserService} from "../../shared/services/user.service";
+import {Sort} from "@angular/material/sort";
 
-export interface PeriodicElement {
-    name: string;
-    position: number;
-    weight: number;
-    symbol: string;
+export interface UserData {
+    email: string;
+    banned: boolean;
 }
 
-const ELEMENT_DATA: PeriodicElement[] = [
-    {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-    {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-    {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-    {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-    {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-    {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-    {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-    {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-    {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-    {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-];
-
-/**
- * @title Table with sorting
- */
 @Component({
     selector: 'app-users',
     templateUrl: './users.component.html',
     styleUrls: ['./users.component.scss']
 })
-export class UsersComponent implements AfterViewInit, OnInit {
-    displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-    dataSource = new MatTableDataSource(ELEMENT_DATA);
-    listEmails: any[] = [];
+export class UsersComponent implements OnInit {
+    userData: UserData[] = [];
+    sortedData!: UserData[];
 
     constructor(private userService: UserService) {
-
     }
 
     ngOnInit(): void {
-        this.userService.getListUsers().subscribe(emails => {
-                console.log(emails);
-                this.listEmails.push(emails);
-            },
+        this.userService.getListUsers().subscribe(
+            data => {
+                this.userData = data;
+                this.sortedData = this.userData.slice();
+                },
             error => console.log(error));
-        console.log('Лист email', this.listEmails)
     }
 
-    //@ts-ignore
-    @ViewChild(MatSort) sort: MatSort;
+    sortData(sort: Sort) {
+        const data = this.userData.slice();
+        if (!sort.active || sort.direction === '') {
+            this.sortedData = data;
+            console.log('Данные в методе сортировки',this.sortedData)
+            return;
+        }
 
-    ngAfterViewInit() {
-        this.dataSource.sort = this.sort;
-        debugger
+        this.sortedData = data.sort((a, b) => {
+            const isAsc = sort.direction === 'asc';
+            switch (sort.active) {
+                case 'email': {
+                    console.log('Работает метод сортировки по email');
+                    return this.compare(a.email, b.email, isAsc);
+                }
+                // case 'banned': return this.compare(a.banned, b.banned, isAsc);
+                default:
+                    return 0;
+            }
+        });
+    }
+
+    compare(a: string | number, b: string | number, isAsc: boolean) {
+        console.log('Что возвращает метод сравнения', (a < b ? -1 : 1) * (isAsc ? 1 : -1))
+        return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
     }
 }
