@@ -14,11 +14,7 @@ import {AuthGuard} from "./shared/classes/auth.guard";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {BrowserModule} from "@angular/platform-browser";
 import {CommonModule} from "@angular/common";
-import { UsersComponent } from './admin/users/users.component';
-import { FilterComponent } from './admin/users/filter/filter.component';
-import { TableRowComponent } from './admin/users/table-row/table-row.component';
-import {MatTableModule} from '@angular/material/table';
-import {MatSortModule} from "@angular/material/sort";
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -27,10 +23,7 @@ import {MatSortModule} from "@angular/material/sort";
     AuthLayoutComponent,
     SiteLayoutComponent,
     RegisterComponent,
-    CabinetComponent,
-    UsersComponent,
-    FilterComponent,
-    TableRowComponent
+    CabinetComponent
   ],
   imports: [
     AppRoutingModule,
@@ -40,8 +33,7 @@ import {MatSortModule} from "@angular/material/sort";
     BrowserModule,
     CommonModule,
     SharedModule,
-    MatTableModule,
-    MatSortModule
+    BrowserAnimationsModule
   ],
   exports: [],
   providers: [{
