@@ -15,6 +15,10 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {BrowserModule} from "@angular/platform-browser";
 import {CommonModule} from "@angular/common";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatIconModule} from "@angular/material/icon";
+import {MatButtonModule} from "@angular/material/button";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
 
 @NgModule({
   declarations: [
@@ -25,16 +29,20 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     RegisterComponent,
     CabinetComponent
   ],
-  imports: [
-    AppRoutingModule,
-    ReactiveFormsModule,
-    FormsModule,
-    HttpClientModule,
-    BrowserModule,
-    CommonModule,
-    SharedModule,
-    BrowserAnimationsModule
-  ],
+    imports: [
+        AppRoutingModule,
+        ReactiveFormsModule,
+        FormsModule,
+        HttpClientModule,
+        BrowserModule,
+        CommonModule,
+        SharedModule,
+        BrowserAnimationsModule,
+        MatIconModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatInputModule
+    ],
   exports: [],
   providers: [{
     provide: HTTP_INTERCEPTORS,
