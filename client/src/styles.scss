@@ -175,9 +175,11 @@ footer {
   cursor: pointer;
   z-index: 10;
 }
-.collection-item-icon i.material-icons:hover {
+
+i.material-icons:hover {
   color: #f44336 !important;
   transition: 0.3s color;
+  cursor: pointer;
 }
 .pl0 {
   padding-left: 0 !important;
@@ -196,3 +198,12 @@ footer {
 
 //html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+.form-group {
+  display: flex;
+  flex: 0 0 auto;
+  flex-flow: row wrap;
+  align-items: center;
+  margin-bottom: 0;
+}

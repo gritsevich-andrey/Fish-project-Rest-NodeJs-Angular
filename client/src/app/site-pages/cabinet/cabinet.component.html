@@ -1,57 +1,80 @@
 <div class="container">
-  <div class="card-cabinet">
-    <form
-      [formGroup]="form"
-      (ngSubmit)="onSubmit()"
-    >
-      <div class="input-field">
-        <input id="fio" type="text"
-               formControlName="fio"
-               [ngClass]="{invalid: f.fio.touched && f.fio.invalid}"
+    <div class="card-cabinet">
+        <form
+                [formGroup]="form"
+                (ngSubmit)="onSubmit()"
         >
-        <label for="fio">ФИО:</label>
-        <span class="helper-text red-text"
-              *ngIf="f.fio.touched && f.fio.invalid">
+            <div class="input-field">
+                <input id="fio" type="text"
+                       formControlName="fio"
+                       [ngClass]="{invalid: f.fio.touched && f.fio.invalid}"
+                >
+                <label for="fio">ФИО:</label>
+                <span class="helper-text red-text"
+                      *ngIf="f.fio.touched && f.fio.invalid">
        <small *ngIf="f.fio.hasError('required')">Поле не должно быть пустым</small>
       </span>
-      </div>
-      <div class="input-field" formControlName="gender">
-        <p>
-          <label>
-            <input name="group1" type="radio" checked />
-            <span>Мужской</span>
-          </label>
-        </p>
-        <p>
-          <label>
-            <input name="group1" type="radio" />
-            <span>Женский</span>
-          </label>
-        </p>
-      </div>
+            </div>
+            <div class="input-field">
+                <p>
+                    <label>
+                        <input name="gender" formControlName="gender" value="Мужской" type="radio" checked/>
+                        <span>Мужской</span>
+                    </label>
+                </p>
+                <p>
+                    <label>
+                        <input name="gender" formControlName="gender" value="Женский" type="radio"/>
+                        <span>Женский</span>
+                    </label>
+                </p>
+            </div>
 
-      <div class="input-field">
-        <input id="age" type="text"
-               formControlName="age"
-        >
-        <label for="age">Возраст:</label>
-      </div>
+            <div class="input-field">
+                <input id="age" type="text"
+                       formControlName="age"
+                >
+                <label for="age">Возраст:</label>
+            </div>
+            <div class="input-field">
+<!--                <input id="technique" type="text"-->
+<!--                       formControlName="technique"-->
+<!--                >-->
+<!--                <label for="technique">Техника:</label>-->
 
-      <div class="input-field" formControlName="juridicalPerson">
-        <p>
-          <label>
-            <input name="group1" type="radio" checked />
-            <span>Физическое лицо</span>
-          </label>
-        </p>
-        <p>
-          <label>
-            <input name="group1" type="radio" />
-            <span>Юридическое лицо</span>
-          </label>
-        </p>
-      </div>
+<!--                <button mat-mini-fab (click)="addTechnique()">-->
+<!--                    <mat-icon class="add-course-btn">add</mat-icon>-->
+<!--                </button>-->
+                <div formArrayName="technique">
+                    <div class="form-group" *ngFor="let technique of getFormsControls()['controls']; let i = index">
+                        <label>Техника</label>
+                        <input class="form-control" formControlName="{{i}}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <i class="material-icons" (click)="addTechnique()">add_box</i>
+                    <i class="material-icons" (click)="removeTechnique()">remove_box</i>
+                </div>
+            </div>
 
-    </form>
-  </div>
+            <div class="input-field">
+                <p>
+                    <label>
+                        <input name="juridicalPerson" formControlName="juridicalPerson" value="false" type="radio"
+                               checked/>
+                        <span>Физическое лицо</span>
+                    </label>
+                </p>
+                <p>
+                    <label>
+                        <input name="juridicalPerson" formControlName="juridicalPerson" value="true" type="radio"/>
+                        <span>Юридическое лицо</span>
+                    </label>
+                </p>
+            </div>
+            <button mat-mini-fab type="submit">
+                                    <mat-icon>send</mat-icon>
+                                </button>
+        </form>
+    </div>
 </div>
