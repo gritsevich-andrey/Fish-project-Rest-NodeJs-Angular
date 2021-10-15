@@ -1,7 +1,5 @@
 import {NgModule} from "@angular/core";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {HttpClientModule} from "@angular/common/http";
-import {BrowserModule} from "@angular/platform-browser";
+import {FormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import {HeaderComponent} from "./layouts/site-layout/header/header.component";
 import {TopMenuComponent} from "./layouts/site-layout/top-menu/top-menu.component";

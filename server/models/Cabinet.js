@@ -23,7 +23,7 @@ const cabinetSchema = new Schema({
         type: Boolean,
         required: true
     },
-    imgSrc: {
+    avatar: {
         type: String,
         default: ''
     },

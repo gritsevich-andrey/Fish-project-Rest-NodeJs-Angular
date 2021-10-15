@@ -30,13 +30,13 @@ module.exports.remove = async function (req, res) {
 module.exports.create = function (req, res) {
     console.log('id Пользователя из контроллера Cabinet', req.user.id);
     try {
-        const cabinet =  new Cabinet({
+        const cabinet = new Cabinet({
             fio: req.body.fio,
+            avatar: req.file ? req.file.path : '',
             gender: req.body.gender,
             age: req.body.age,
             technique: req.body.technique,
             juridicalPerson: req.body.juridicalPerson,
-            imgSrc: req.file ? req.file.path : '',
             user: req.user.id,
             date: Date.now()
         }).save();
@@ -48,6 +48,7 @@ module.exports.create = function (req, res) {
 module.exports.update = async function (req, res) {
     const updated = {
         fio: req.body.fio,
+        avatar: req.body.avatar,
         age: req.body.age,
         technique: req.body.technique,
         juridicalPerson: req.body.juridicalPerson,
@@ -55,7 +56,7 @@ module.exports.update = async function (req, res) {
     }
 
     if (req.file) {
-        updated.imageSrc = req.file.path
+        updated.avatar = req.file.path
     }
     try {
         const cabinet = await Cabinet.findOneAndUpdate(

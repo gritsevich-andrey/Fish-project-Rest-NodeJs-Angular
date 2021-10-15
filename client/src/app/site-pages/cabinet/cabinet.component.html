@@ -15,6 +15,18 @@
        <small *ngIf="f.fio.hasError('required')">Поле не должно быть пустым</small>
       </span>
             </div>
+
+            <div class="input-field">
+                <div class="image-preview"
+                     *ngIf="imagePreview !== '' && imagePreview !== null && f.avatar.valid"
+
+                >
+                    <img [src]="imagePreview" [alt]="form.value.title">
+                </div>
+                <i class="material-icons" (click)="fileAvatar.click()" matTooltip="Добавить аватар">add_a_photo</i>
+                <input [hidden]="hide" type="file" (change)="onImageLoad($event)" #fileAvatar
+                />
+            </div>
             <div class="input-field">
                 <p>
                     <label>
@@ -37,23 +49,15 @@
                 <label for="age">Возраст:</label>
             </div>
             <div class="input-field">
-<!--                <input id="technique" type="text"-->
-<!--                       formControlName="technique"-->
-<!--                >-->
-<!--                <label for="technique">Техника:</label>-->
-
-<!--                <button mat-mini-fab (click)="addTechnique()">-->
-<!--                    <mat-icon class="add-course-btn">add</mat-icon>-->
-<!--                </button>-->
                 <div formArrayName="technique">
                     <div class="form-group" *ngFor="let technique of getFormsControls()['controls']; let i = index">
                         <label>Техника</label>
-                        <input class="form-control" formControlName="{{i}}" />
+                        <input class="form-control" formControlName="{{i}}"/>
                     </div>
                 </div>
                 <div class="form-group">
-                    <i class="material-icons" (click)="addTechnique()">add_box</i>
-                    <i class="material-icons" (click)="removeTechnique()">remove_box</i>
+                    <i class="material-icons" (click)="addTechnique()" matTooltip="Добавить технику">add_box</i>
+                    <i class="material-icons" (click)="removeTechnique()" matTooltip="Удалить технику">remove_box</i>
                 </div>
             </div>
 
@@ -72,9 +76,9 @@
                     </label>
                 </p>
             </div>
-            <button mat-mini-fab type="submit">
-                                    <mat-icon>send</mat-icon>
-                                </button>
+            <button mat-mini-fab type="submit" matTooltip="Сохранить изменения">
+                <mat-icon>send</mat-icon>
+            </button>
         </form>
     </div>
 </div>
