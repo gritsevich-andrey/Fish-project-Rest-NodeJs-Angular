@@ -6,18 +6,26 @@ import {AdminLayoutsComponent} from './admin-layouts.component';
 import {AdminComponent} from "../../../admin.component";
 import {SharedModule} from "../../../../shared/shared.module";
 import {MatSortModule} from "@angular/material/sort";
+import {UsersComponent} from "../../../users/users.component";
+import {FilterComponent} from "../../../users/filter/filter.component";
+import {TableRowComponent} from "../../../users/table-row/table-row.component";
+import {MatTableModule} from "@angular/material/table";
 
 
 @NgModule({
   declarations: [
     AdminLayoutsComponent,
-    AdminComponent
+    AdminComponent,
+    UsersComponent,
+    FilterComponent,
+    TableRowComponent
   ],
   imports: [
     CommonModule,
     AdminLayoutsRoutingModule,
     SharedModule,
-    MatSortModule
+    MatSortModule,
+    MatTableModule
   ]
 })
 export class AdminLayoutsModule { }

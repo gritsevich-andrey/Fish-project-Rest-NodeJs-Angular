@@ -10,7 +10,18 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   getListUsers(): Observable<any> {
-    return this.http.get('/api/auth/users');
+    return this.http.get('/api/administrator');
   }
 
+  getComplaintById(id: string): Observable<any> {
+    return this.http.get(`/api/complaint/${id}`);
+  }
+
+  banUserById(id: string) {
+    return this.http.post('/api/administrator/ban', {id})
+  }
+
+  unBanUserById(id: string) {
+    return this.http.post('/api/administrator/unban', {id})
+  }
 }

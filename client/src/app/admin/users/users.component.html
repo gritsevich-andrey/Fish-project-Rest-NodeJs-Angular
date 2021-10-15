@@ -1,283 +1,39 @@
-<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
-
-<!--  <ng-container matColumnDef="email">-->
-<!--    <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>-->
-<!--    <td mat-cell *matCellDef="let element"> {{element.email}} </td>-->
-<!--  </ng-container>-->
-<!--  <div *ngFor="let email of ELEMENT_DATA">-->
-<!--      {{email}}-->
-<!--    </div>-->
-  <td  *ngFor="let email of ELEMENT_DATA">{{email}}</td>
-
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
-<!--<div *ngFor="let email of ELEMENT_DATA">-->
-<!--  {{email}}-->
-<!--</div>-->
-<!--<div *ngFor="let email of listEmails">-->
-<!--  {{email}}-->
-<!--</div>-->
-<!--<div class="container">-->
-<!--  <app-filter></app-filter>-->
-<!--  <table>-->
-<!--    <thead>-->
-<!--      <tr>-->
-<!--        <th>-->
-<!--          №-->
-<!--        </th>-->
-<!--        <th>-->
-<!--          Дата регистрации-->
-<!--        </th>-->
-<!--        <th>-->
-<!--         ФИО-->
-<!--        </th>-->
-<!--        <th>-->
-<!--          Подтвержден-->
-<!--        </th>-->
-<!--        <th>-->
-<!--          Написать жалобу-->
-<!--        </th>-->
-<!--        <th>-->
-<!--          Забанить-->
-<!--        </th>-->
-<!--        <th>-->
-<!--          Описание жалобы или бана-->
-<!--        </th>-->
-<!--      </tr>-->
-<!--    </thead>-->
-<!--    <tbody>-->
-<!--&lt;!&ndash; <app-table-row></app-table-row> &ndash;&gt;-->
-<!--&lt;!&ndash;<tr>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    1&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td class="td-center">&ndash;&gt;-->
-<!--&lt;!&ndash;    01.0.1.2022&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    Иванов И.И.&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td class="td-center">&ndash;&gt;-->
-<!--&lt;!&ndash;    <span class="green-text text-darken-2">Да</span>&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    <a class="waves-effect waves-light btn">Пожаловаться</a>&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    <a class="waves-effect waves-light btn red">Забанить</a>&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam, sit!&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;</tr>&ndash;&gt;-->
-<!--&lt;!&ndash;<tr>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    1&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td class="td-center">&ndash;&gt;-->
-<!--&lt;!&ndash;    01.0.1.2022&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    Иванов И.И.&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td class="td-center">&ndash;&gt;-->
-<!--&lt;!&ndash;    <span class="green-text text-darken-2">Да</span>&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    <a class="waves-effect waves-light btn">Пожаловаться</a>&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    <a class="waves-effect waves-light btn red">Забанить</a>&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam, sit!&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;</tr>&ndash;&gt;-->
-<!--&lt;!&ndash;<tr>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    1&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td class="td-center">&ndash;&gt;-->
-<!--&lt;!&ndash;    01.0.1.2022&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    Иванов И.И.&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td class="td-center">&ndash;&gt;-->
-<!--&lt;!&ndash;    <span class="red-text text-darken-2">Нет</span>&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    <a class="waves-effect waves-light btn">Пожаловаться</a>&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    <a class="waves-effect waves-light btn red">Разбанить</a>&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam, sit!&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;</tr>&ndash;&gt;-->
-<!--&lt;!&ndash;<tr>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    1&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td class="td-center">&ndash;&gt;-->
-<!--&lt;!&ndash;    01.0.1.2022&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    Иванов И.И.&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td class="td-center">&ndash;&gt;-->
-<!--&lt;!&ndash;    <span class="green-text text-darken-2">Да</span>&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    <a class="waves-effect waves-light btn">Пожаловаться</a>&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    <a class="waves-effect waves-light btn red">Забанить</a>&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam, sit!&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;</tr>&ndash;&gt;-->
-<!--&lt;!&ndash;<tr>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    1&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td class="td-center">&ndash;&gt;-->
-<!--&lt;!&ndash;    01.0.1.2022&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    Иванов И.И.&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td class="td-center">&ndash;&gt;-->
-<!--&lt;!&ndash;    <span class="green-text text-darken-2">Да</span>&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    <a class="waves-effect waves-light btn">Пожаловаться</a>&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    <a class="waves-effect waves-light btn red">Забанить</a>&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam, sit!&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;</tr>&ndash;&gt;-->
-<!--&lt;!&ndash;<tr>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    1&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td class="td-center">&ndash;&gt;-->
-<!--&lt;!&ndash;    01.0.1.2022&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    Иванов И.И.&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td class="td-center">&ndash;&gt;-->
-<!--&lt;!&ndash;    <span class="green-text text-darken-2">Да</span>&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    <a class="waves-effect waves-light btn">Пожаловаться</a>&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    <a class="waves-effect waves-light btn red">Забанить</a>&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam, sit!&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;</tr>&ndash;&gt;-->
-<!--&lt;!&ndash;<tr>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    1&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td class="td-center">&ndash;&gt;-->
-<!--&lt;!&ndash;    01.0.1.2022&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    Иванов И.И.&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td class="td-center">&ndash;&gt;-->
-<!--&lt;!&ndash;    <span class="green-text text-darken-2">Да</span>&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    <a class="waves-effect waves-light btn">Пожаловаться</a>&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    <a class="waves-effect waves-light btn red">Забанить</a>&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam, sit!&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;</tr>&ndash;&gt;-->
-<!--&lt;!&ndash;<tr>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    1&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td class="td-center">&ndash;&gt;-->
-<!--&lt;!&ndash;    01.0.1.2022&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    Иванов И.И.&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td class="td-center">&ndash;&gt;-->
-<!--&lt;!&ndash;    <span class="green-text text-darken-2">Да</span>&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    <a class="waves-effect waves-light btn">Пожаловаться</a>&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    <a class="waves-effect waves-light btn red">Забанить</a>&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam, sit!&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;</tr>&ndash;&gt;-->
-<!--&lt;!&ndash;<tr>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    1&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td class="td-center">&ndash;&gt;-->
-<!--&lt;!&ndash;    01.0.1.2022&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    Иванов И.И.&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td class="td-center">&ndash;&gt;-->
-<!--&lt;!&ndash;    <span class="green-text text-darken-2">Да</span>&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    <a class="waves-effect waves-light btn">Пожаловаться</a>&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    <a class="waves-effect waves-light btn red">Забанить</a>&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam, sit!&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;</tr>&ndash;&gt;-->
-<!--&lt;!&ndash;<tr>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    1&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td class="td-center">&ndash;&gt;-->
-<!--&lt;!&ndash;    01.0.1.2022&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    Иванов И.И.&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td class="td-center">&ndash;&gt;-->
-<!--&lt;!&ndash;    <span class="green-text text-darken-2">Да</span>&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    <a class="waves-effect waves-light btn">Пожаловаться</a>&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    <a class="waves-effect waves-light btn red">Забанить</a>&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;  <td>&ndash;&gt;-->
-<!--&lt;!&ndash;    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam, sit!&ndash;&gt;-->
-<!--&lt;!&ndash;  </td>&ndash;&gt;-->
-<!--&lt;!&ndash;</tr>&ndash;&gt;-->
-<!--    </tbody>-->
-<!--  </table>-->
-<!--</div>-->
+<div class="container">
+  <table matSort (matSortChange)="sortData($event)">
+    <tr>
+      <th mat-sort-header="number">№</th>
+      <th mat-sort-header="email">Email</th>
+      <th>Дата регистрации</th>
+      <th>ФИО</th>
+      <th mat-sort-header="banned">Забанен</th>
+      <th>Забанить</th>
+      <th>Написать жалобу</th>
+      <th>Список жалоб</th>
+    </tr>
+    <tr *ngFor="let value of sortedData; let i=index;">
+      <td>{{i + 1}}</td>
+      <td>{{value.email}}</td>
+      <td>{{value.date}}</td>
+      <td>{{value.fio}}</td>
+      <td>
+        <span *ngIf="value.banned">Да</span>
+        <span *ngIf="!value.banned">Нет</span>
+      </td>
+      <td>
+        <button (click)="unBanUserById(value.id)" class="waves-effect waves-light btn-small" *ngIf="value.banned">
+          Разбанить
+        </button>
+        <button (click)="banUserById(value.id)" class="waves-effect waves-light btn-small" *ngIf="!value.banned">
+          Забанить
+        </button>
+      </td>
+      <td>
+        <!--Надо доделать бек-->
+        <button class="waves-effect waves-light btn-small">Написать</button>
+      </td>
+      <td>
+        <button (click)="getComplaints(value.id)" class="waves-effect waves-light btn-small">Открыть</button>
+      </td>
+    </tr>
+  </table>
+</div>

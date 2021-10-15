@@ -1,7 +1,7 @@
 const Complaint = require('../models/Complaint')
 const errorHandler = require('../utils/errorHandler')
 
-module.exports.getAll = async function (req, res) {
+module.exports.getAllById = async function (req, res) {
     try {
         const complaints = await Complaint.find({userId: req.params.id});
         res.status(200).json(complaints);

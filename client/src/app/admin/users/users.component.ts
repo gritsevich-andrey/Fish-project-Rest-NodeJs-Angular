@@ -1,46 +1,81 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {MatSort} from '@angular/material/sort';
-import {MatTableDataSource} from '@angular/material/table';
+import {Component, OnInit} from '@angular/core';
 import {UserService} from "../../shared/services/user.service";
+import {Sort} from "@angular/material/sort";
 
-export interface PeriodicElement {
-    email: any
+export interface UserData {
+  email: string;
+  banned: boolean;
+  date?: string;
+  fio?: string;
+  id: string;
 }
 
-//const ELEMENT_DATA: PeriodicElement[] = [];
-
-/**
- * @title Table with sorting
- */
 @Component({
-    selector: 'app-users',
-    templateUrl: './users.component.html',
-    styleUrls: ['./users.component.scss']
+  selector: 'app-users',
+  templateUrl: './users.component.html',
+  styleUrls: ['./users.component.scss']
 })
-export class UsersComponent implements AfterViewInit, OnInit {
-    ELEMENT_DATA: PeriodicElement[] = [];
-    displayedColumns: string[] = ['email'];
-    dataSource = new MatTableDataSource(this.ELEMENT_DATA);
-    listEmails: any[] = [];
+export class UsersComponent implements OnInit {
+  userData: UserData[] = [];
+  sortedData!: UserData[];
 
-    constructor(private userService: UserService) {
+  constructor(private userService: UserService) {
+  }
 
+  ngOnInit(): void {
+    this.userService.getListUsers().subscribe(
+      data => {
+        this.userData = data;
+        this.sortedData = this.userData.slice();
+      },
+      error => console.log(error));
+  }
+
+  sortData(sort: Sort) {
+    const data = this.userData.slice();
+    if (!sort.active || sort.direction === '') {
+      this.sortedData = data;
+      return;
     }
 
-    ngOnInit(): void {
-        this.userService.getListUsers().subscribe(emails => {
-                console.log(emails);
-                this.ELEMENT_DATA = emails
-                console.log(this.ELEMENT_DATA);
-            },
-            error => console.log(error));
-        console.log('Лист email', this.listEmails)
-    }
+    this.sortedData = data.sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+      switch (sort.active) {
+        case 'email': {
+          return this.compare(a.email, b.email, isAsc);
+        }
+        // case 'banned': return this.compare(a.banned, b.banned, isAsc);
+        default:
+          return 0;
+      }
+    });
+  }
 
-    //@ts-ignore
-    @ViewChild(MatSort) sort: MatSort;
+  compare(a: string | number, b: string | number, isAsc: boolean) {
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
 
-    ngAfterViewInit() {
-        this.dataSource.sort = this.sort;
-    }
+  getComplaints(id: string) {
+    this.userService.getComplaintById(id).subscribe(
+      data => {
+        console.log(data)
+      },
+      error => console.log(error));
+  }
+
+  banUserById(id: string) {
+    this.userService.banUserById(id).subscribe(
+      data => {
+        console.log(data)
+      },
+      error => console.log(error));
+  }
+
+  unBanUserById(id: string) {
+    this.userService.unBanUserById(id).subscribe(
+      data => {
+        console.log(data)
+      },
+      error => console.log(error));;
+  }
 }
