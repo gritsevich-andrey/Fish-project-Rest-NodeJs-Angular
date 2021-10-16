@@ -9,7 +9,7 @@ module.exports.getAll = async function (req, res) {
         let resData = [];
         for(let item of users) {
             let cabinetData = await Cabinet.findById(item._id);
-            let data = {email: item.email, banned: item.banned, id: item._id, fio: cabinetData?.fio, date: cabinetData?.date}
+            let data = {email: item.email, banned: item.banned, fio: cabinetData?.fio, date: cabinetData?.date}
             resData.push(data)
         }
         res.status(200).json(resData);
@@ -20,8 +20,7 @@ module.exports.getAll = async function (req, res) {
 
 module.exports.banById = async function (req, res) {
     try {
-        console.log(req.body.id)
-        const user = await User.updateOne({_id: req.body.id}, {banned: true});
+        const user = await User.updateOne({email: req.body.email}, {banned: true});
         res.status(200).json({
             message: 'Пользователь был забанен'
         });
@@ -32,7 +31,7 @@ module.exports.banById = async function (req, res) {
 
 module.exports.unBanById = async function (req, res) {
     try {
-        const user = await User.updateOne({_id: req.body.id}, {banned: false});
+        const user = await User.updateOne({email: req.body.email}, {banned: false});
         res.status(200).json({
             message: 'Пользователь был разбанен'
         });

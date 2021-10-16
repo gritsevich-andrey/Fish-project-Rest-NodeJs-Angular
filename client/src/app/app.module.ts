@@ -21,6 +21,7 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
+import { ComplaintsComponent } from './admin/users/complaints/complaints.component';
 
 @NgModule({
     declarations: [
@@ -29,7 +30,8 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
         AuthLayoutComponent,
         SiteLayoutComponent,
         RegisterComponent,
-        CabinetComponent
+        CabinetComponent,
+        ComplaintsComponent
     ],
     imports: [
         AppRoutingModule,
