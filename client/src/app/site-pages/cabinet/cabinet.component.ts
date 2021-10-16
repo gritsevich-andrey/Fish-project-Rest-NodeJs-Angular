@@ -1,18 +1,27 @@
 import {Component, OnInit} from '@angular/core';
 import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 import {mimeType} from "./mime-type.validator";
-import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from "@angular/material/snack-bar";
 import {WarningService} from "../../shared/services/warning.service";
+import {animate, state, style, transition, trigger} from "@angular/animations";
 
 @Component({
     selector: 'app-cabinet',
     templateUrl: './cabinet.component.html',
-    styleUrls: ['./cabinet.component.scss']
+    styleUrls: ['./cabinet.component.scss'],
+    animations: [
+        trigger('borderForm', [
+            state('start', style({background: 'red'})),
+            state('end', style({background: '#757575'})),
+            transition('start => end', animate('0.3s')),
+        ]),
+    ]
 })
 export class CabinetComponent implements OnInit {
     form!: FormGroup;
     hide = true;
     imagePreview: string = '';
+    borderState = 'end';
+    flag: boolean = false;
 
     constructor(private warningService: WarningService) {
         this.form = new FormGroup({
@@ -21,8 +30,8 @@ export class CabinetComponent implements OnInit {
             gender: new FormControl('', Validators.required),
             age: new FormControl('', Validators.required),
             technique: new FormArray([
-                    new FormControl('', Validators.required)
-                ]),
+                new FormControl('', Validators.required)
+            ]),
             juridicalPerson: new FormControl('', Validators.required)
         })
     }
@@ -31,20 +40,23 @@ export class CabinetComponent implements OnInit {
     }
 
 
-
     onSubmit() {
         this.warningService.sendWarning('Надо отправить на бек', 'Напоминалка');
     }
+
     get f() {
         return this.form.controls;
     }
-    getFormsControls() : FormArray{
+
+    getFormsControls(): FormArray {
         return this.form.controls['technique'] as FormArray;
     }
-    addTechnique(){
+
+    addTechnique() {
         (<FormArray>this.form.controls["technique"]).push(new FormControl('', Validators.required));
     }
-    removeTechnique(){
+
+    removeTechnique() {
         (<FormArray>this.form.controls["technique"]).removeAt(-1);
     }
 
@@ -58,5 +70,11 @@ export class CabinetComponent implements OnInit {
             this.imagePreview = <string>reader.result;
         }
         reader.readAsDataURL(file);
+    }
+
+    changeBorderStyle() {
+        this.flag = !this.flag;
+        this.borderState = this.flag ? 'end' : 'start';
+
     }
 }

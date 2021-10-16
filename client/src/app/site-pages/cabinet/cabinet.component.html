@@ -3,6 +3,7 @@
         <form
                 [formGroup]="form"
                 (ngSubmit)="onSubmit()"
+                (mouseover)="changeBorderStyle()"
         >
             <div class="input-field">
                 <input id="fio" type="text"
@@ -76,7 +77,9 @@
                     </label>
                 </p>
             </div>
-            <button mat-mini-fab type="submit" matTooltip="Сохранить изменения">
+            <button mat-mini-fab type="submit" matTooltip="Сохранить изменения"
+                    [@borderForm]="borderState"
+            >
                 <mat-icon>send</mat-icon>
             </button>
         </form>
