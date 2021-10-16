@@ -7,7 +7,7 @@ const complaintsSchema = new Schema({
         required: true,
         default: []
     },
-    userId: {
+    email: {
         type: String,
         required: true
     }

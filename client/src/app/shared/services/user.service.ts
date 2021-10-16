@@ -13,15 +13,19 @@ export class UserService {
     return this.http.get('/api/administrator');
   }
 
-  getComplaintById(id: string): Observable<any> {
-    return this.http.get(`/api/complaint/${id}`);
+  getComplaintByEmail(email: string): Observable<any> {
+    return this.http.get(`/api/complaint/${email}`);
   }
 
-  banUserById(id: string) {
-    return this.http.post('/api/administrator/ban', {id})
+  createComplaintByEmail(email: string, description: string): Observable<any> {
+    return this.http.post(`/api/complaint/`, {email, description});
   }
 
-  unBanUserById(id: string) {
-    return this.http.post('/api/administrator/unban', {id})
+  banUserByEmail(email: string) {
+    return this.http.post('/api/administrator/ban', {email})
+  }
+
+  unBanUserByEmail(email: string) {
+    return this.http.post('/api/administrator/unban', {email})
   }
 }

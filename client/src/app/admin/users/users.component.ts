@@ -55,27 +55,37 @@ export class UsersComponent implements OnInit {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
 
-  getComplaints(id: string) {
-    this.userService.getComplaintById(id).subscribe(
+  getComplaints(email: string) {
+    this.userService.getComplaintByEmail(email).subscribe(
       data => {
         console.log(data)
       },
       error => console.log(error));
   }
 
-  banUserById(id: string) {
-    this.userService.banUserById(id).subscribe(
+  createComplaints(email: string, description: string) {
+    this.userService.createComplaintByEmail(email, description).subscribe(
       data => {
         console.log(data)
       },
       error => console.log(error));
   }
 
-  unBanUserById(id: string) {
-    this.userService.unBanUserById(id).subscribe(
+  banUserByEmail(email: string, index: number) {
+    this.userService.banUserByEmail(email).subscribe(
       data => {
         console.log(data)
+        this.sortedData[index].banned = true;
       },
-      error => console.log(error));;
+      error => console.log(error));
+  }
+
+  unBanUserByEmail(email: string, index: number) {
+    this.userService.unBanUserByEmail(email).subscribe(
+      data => {
+        console.log(data)
+        this.sortedData[index].banned = false;
+      },
+      error => console.log(error));
   }
 }

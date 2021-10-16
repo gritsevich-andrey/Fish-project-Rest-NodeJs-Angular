@@ -20,19 +20,18 @@
         <span *ngIf="!value.banned">Нет</span>
       </td>
       <td>
-        <button (click)="unBanUserById(value.id)" class="waves-effect waves-light btn-small" *ngIf="value.banned">
+        <button (click)="unBanUserByEmail(value.email, i)" class="waves-effect waves-light btn-small" *ngIf="value.banned">
           Разбанить
         </button>
-        <button (click)="banUserById(value.id)" class="waves-effect waves-light btn-small" *ngIf="!value.banned">
+        <button (click)="banUserByEmail(value.email, i)" class="waves-effect waves-light btn-small" *ngIf="!value.banned">
           Забанить
         </button>
       </td>
       <td>
-        <!--Надо доделать бек-->
-        <button class="waves-effect waves-light btn-small">Написать</button>
+        <button (click)="createComplaints(value.email, 'ай ай ай')" class="waves-effect waves-light btn-small">Написать</button>
       </td>
       <td>
-        <button (click)="getComplaints(value.id)" class="waves-effect waves-light btn-small">Открыть</button>
+        <button (click)="getComplaints(value.email)" class="waves-effect waves-light btn-small">Открыть</button>
       </td>
     </tr>
   </table>
