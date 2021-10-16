@@ -1,4 +1,13 @@
 @import "~materialize-css/dist/css/materialize.min.css";
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+:root {
+  --primary-color: #333;
+  --dark-color: #757575;
+  --light-color: #f4f4f4;
+  --danger-color: #dc3545;
+  --success-color: #28a745;
+}
 .a-sidenav {
   transform: translateX(0) !important;
   width: 250px !important;
@@ -12,32 +21,6 @@
   position: absolute;
   bottom: 62px;
   width: 100%;
-}
-main,
-footer {
-  //Зачем это?
-  //margin-left: 250px;
-}
-body {
-  display: flex;
-  min-height: 100vh;
-  flex-direction: column;
-  position: relative;
-  //Либо таким способом, либо каждому блоку с контентом нужно указывать min height
-  padding-bottom: 251px;
-  @media only screen and (max-width: 992px) {
-    padding-bottom: 331px;
-  }
-  @media only screen and (max-width: 420px) {
-    padding-bottom: 353px;
-  }
-}
-footer {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  background-color: #757575 !important;
 }
 .content {
   padding: 0 30px;
@@ -70,12 +53,6 @@ footer {
 }
 .order-img {
   height: 100px !important;
-}
-.frow {
-  display: flex;
-  margin-bottom: 20px;
-  margin-left: auto;
-  margin-right: auto;
 }
 .page-title {
   display: flex;
@@ -160,7 +137,7 @@ footer {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top: 50px;
+  margin: 3rem;
 }
 .auth-block .card {
   width: 400px;
@@ -195,15 +172,20 @@ i.material-icons:hover {
 .pb3 {
   padding-bottom: 30px;
 }
-
-//html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
-
 .form-group {
   display: flex;
   flex: 0 0 auto;
   flex-flow: row wrap;
   align-items: center;
   margin-bottom: 0;
+}
+.container {
+  min-height: calc(100vh - 220px);
+}
+
+@media only screen and (max-width: 823px)
+{
+  .container {
+    min-height: calc(100vh - 300px);
+  }
 }

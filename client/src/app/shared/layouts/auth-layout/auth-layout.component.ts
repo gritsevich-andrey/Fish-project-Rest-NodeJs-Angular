@@ -10,12 +10,12 @@ export class AuthLayoutComponent implements OnInit {
     {
       title: 'Вход',
       icon_name: 'account_circle',
-      href: '/login'
+      href: 'login'
     },
     {
       title: 'Регистрация',
       icon_name: 'add_circle_outline',
-      href: '/register'
+      href: 'register'
     },
   ]
   footer_links = [

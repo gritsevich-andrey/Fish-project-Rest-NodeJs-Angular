@@ -31,6 +31,7 @@
        <small *ngIf="f.password.hasError('minlength')">Пароль должен быть больше 6 символов.</small>
       </span>
     </div>
+    <span>Уже зарегистрированы? <a [routerLink]="['/login']">Войти</a> </span>
   </div>
   <div class="card-action">
     <button
@@ -40,4 +41,3 @@
     </button>
   </div>
 </form>
-<app-footer></app-footer>

@@ -1,0 +1,10 @@
+.page-footer {
+  height: 220px;
+  background: var(--dark-color)!important;
+}
+@media only screen and (max-width: 823px)
+{
+  .page-footer {
+    height: 300px;
+  }
+}

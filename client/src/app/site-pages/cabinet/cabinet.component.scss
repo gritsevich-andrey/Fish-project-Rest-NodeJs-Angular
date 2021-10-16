@@ -3,17 +3,17 @@
   margin-top: 20px;
   display: flex;
   justify-content: center;
-  background-color: #fff;
   transition: box-shadow .25s;
   border-radius: 2px;
   flex-wrap: wrap;
+  flex-direction: column;
   width: 50%;
 }
 input[type=text] {
   width: 400px;
 }
 .mat-mini-fab:hover{
-  background: #757575;
+  background: var(--dark-color);
 }
 .image-preview{
   height: 6rem;
