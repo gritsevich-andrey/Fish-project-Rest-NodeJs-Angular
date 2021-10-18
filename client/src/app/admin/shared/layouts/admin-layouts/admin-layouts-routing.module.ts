@@ -10,7 +10,7 @@ const routes: Routes = [{
       path: 'users', component: UsersComponent,
     },
     {
-      path: 'complaints', component: ComplaintsComponent
+      path: 'complaints/:email', component: ComplaintsComponent
     }
   ],
 }];

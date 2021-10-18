@@ -6,18 +6,6 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./auth-layout.component.scss']
 })
 export class AuthLayoutComponent implements OnInit {
-  header = [
-    {
-      title: 'Вход',
-      icon_name: 'account_circle',
-      href: 'login'
-    },
-    {
-      title: 'Регистрация',
-      icon_name: 'add_circle_outline',
-      href: 'register'
-    },
-  ]
   footer_links = [
     {
       title: 'Ссылка 1',

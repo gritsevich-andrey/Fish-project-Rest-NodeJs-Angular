@@ -55,6 +55,7 @@ export class UsersComponent implements OnInit {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
 
+  /*
   getComplaints(email: string) {
     this.userService.getComplaintByEmail(email).subscribe(
       data => {
@@ -62,7 +63,10 @@ export class UsersComponent implements OnInit {
       },
       error => console.log(error));
   }
+  */
 
+
+  /*
   createComplaints(email: string, description: string) {
     this.userService.createComplaintByEmail(email, description).subscribe(
       data => {
@@ -70,6 +74,7 @@ export class UsersComponent implements OnInit {
       },
       error => console.log(error));
   }
+  */
 
   banUserByEmail(email: string, index: number) {
     this.userService.banUserByEmail(email).subscribe(

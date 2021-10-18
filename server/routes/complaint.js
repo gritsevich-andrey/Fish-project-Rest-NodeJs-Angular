@@ -1,11 +1,13 @@
 const express = require('express');
 const controller = require('../controllers/complaint');
+const passport = require("passport");
 const router = express.Router();
 
 
 // http://localhost:5000/api/complaint
-router.get('/:email', controller.getByEmail);
-router.post('/', controller.createComplaint);
-router.delete('/', controller.deleteByEmail)
+/*const authenticate = passport.authenticate('jwt', {session: false});*/
+router.get('/:email'/*,authenticate*/, controller.getByEmail);
+router.post('/',/*authenticate,*/ controller.createComplaint);
+router.delete('/',/*authenticate,*/ controller.deleteByEmail)
 
 module.exports = router

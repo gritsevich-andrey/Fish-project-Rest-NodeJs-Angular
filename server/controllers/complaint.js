@@ -4,7 +4,7 @@ const errorHandler = require('../utils/errorHandler')
 module.exports.getByEmail = async function (req, res) {
     try {
         const complaints = await Complaint.find({email: req.params.email});
-        res.status(200).json(complaints[0].description);
+        res.status(200).json(complaints[0]?.description);
     } catch (e) {
         errorHandler(res, e);
     }

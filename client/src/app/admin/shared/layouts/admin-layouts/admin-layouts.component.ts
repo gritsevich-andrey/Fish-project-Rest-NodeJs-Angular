@@ -28,18 +28,6 @@ export class AdminLayoutsComponent implements OnInit {
       href: '#'
     },
   ]
-  header: any[] = [
-    {
-      title: 'Вход',
-      icon_name: 'account_circle',
-      href: '/login'
-    },
-    {
-      title: 'Регистрация',
-      icon_name: 'add_circle_outline',
-      href: '/register'
-    },
-  ]
   footer_links: any[] = [
     {
       title: 'Ссылка 1',

@@ -7,7 +7,6 @@
       <th>ФИО</th>
       <th mat-sort-header="banned">Забанен</th>
       <th>Забанить</th>
-      <th>Написать жалобу</th>
       <th>Список жалоб</th>
     </tr>
     <tr *ngFor="let value of sortedData; let i=index;">
@@ -20,18 +19,19 @@
         <span *ngIf="!value.banned">Нет</span>
       </td>
       <td>
-        <button (click)="unBanUserByEmail(value.email, i)" class="waves-effect waves-light btn-small" *ngIf="value.banned">
+        <button (click)="unBanUserByEmail(value.email, i)" class="waves-effect waves-light btn-small"
+                *ngIf="value.banned">
           Разбанить
         </button>
-        <button (click)="banUserByEmail(value.email, i)" class="waves-effect waves-light btn-small" *ngIf="!value.banned">
+        <button (click)="banUserByEmail(value.email, i)" class="waves-effect waves-light btn-small"
+                *ngIf="!value.banned">
           Забанить
         </button>
       </td>
       <td>
-        <button (click)="createComplaints(value.email, 'ай ай ай')" class="waves-effect waves-light btn-small">Написать</button>
-      </td>
-      <td>
-        <button (click)="getComplaints(value.email)" class="waves-effect waves-light btn-small">Открыть</button>
+        <a [routerLink]="['/administrator/complaints/' + value.email]">
+          <button class="waves-effect waves-light btn-small">Открыть</button>
+        </a>
       </td>
     </tr>
   </table>
