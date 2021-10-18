@@ -23,7 +23,9 @@ export class CabinetComponent implements OnInit {
     imagePreview: string = '';
     borderState = 'end';
     flag: boolean = false;
-
+ formData = {
+     fio: ''
+ }
     constructor(private warningService: WarningService,
                 private userService: UserService) {
         this.form = new FormGroup({
@@ -41,12 +43,25 @@ export class CabinetComponent implements OnInit {
     ngOnInit(): void {
         const email = this.userService.getUserDataFromLocal();
        this.userService.getCabinetData(email).subscribe(data => {
+
+           // @ts-ignore
+           data.map(value => {
+               // @ts-ignore
+               this.form.get('fio').setValue(value.fio);
+               // @ts-ignore
+               this.form.get('age').setValue(value.age);
+               // @ts-ignore
+               this.form.get('gender').setValue(value.gender);
+               // @ts-ignore
+               this.form.get('technique').setValue(value.fio);
+           })
+           this.formData.fio = data.fio;
            this.form.value.fio = data.fio,
            this.form.value.gender = data.gender,
            this.form.value.age = data.age
-           console.log(data);
        });
-       console.log(this.form.value);
+
+
     }
 
 

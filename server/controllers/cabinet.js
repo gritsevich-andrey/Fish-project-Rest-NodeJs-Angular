@@ -12,7 +12,7 @@ module.exports.getAll = async function (req, res) {
 module.exports.getByEmail = async function (req, res) {
     try {
         const cabinet = await Cabinet.find(req.params.email);
-        res.status(200).json({cabinet});
+        res.status(200).json(cabinet);
     } catch (e) {
         errorHandler(res, e);
     }
