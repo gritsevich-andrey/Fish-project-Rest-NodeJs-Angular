@@ -3,6 +3,7 @@ import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 import {mimeType} from "./mime-type.validator";
 import {WarningService} from "../../shared/services/warning.service";
 import {animate, state, style, transition, trigger} from "@angular/animations";
+import {UserService} from "../../shared/services/user.service";
 
 @Component({
     selector: 'app-cabinet',
@@ -23,7 +24,8 @@ export class CabinetComponent implements OnInit {
     borderState = 'end';
     flag: boolean = false;
 
-    constructor(private warningService: WarningService) {
+    constructor(private warningService: WarningService,
+                private userService: UserService) {
         this.form = new FormGroup({
             fio: new FormControl('', Validators.required),
             avatar: new FormControl(null, {validators: [Validators.required], asyncValidators: [mimeType]}),
@@ -37,11 +39,29 @@ export class CabinetComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        const email = this.userService.getUserDataFromLocal();
+       this.userService.getCabinetData(email).subscribe(data => {
+           this.form.value.fio = data.fio,
+           this.form.value.gender = data.gender,
+           this.form.value.age = data.age
+           console.log(data);
+       });
+       console.log(this.form.value);
     }
 
 
     onSubmit() {
-        this.warningService.sendWarning('Надо отправить на бек', 'Напоминалка');
+        const userEmail = this.userService.getUserDataFromLocal();
+        const cabinet = {
+            email: userEmail,
+            fio: this.form.value.fio,
+            age: this.form.value.age,
+            gender: this.form.value.gender,
+            juridicalPerson: this.form.value.juridicalPerson,
+            avatar: this.form.value.avatar
+        };
+        this.userService.createCabinetData(cabinet)
+            .subscribe(data => {console.log(data)}, err => console.log(err));
     }
 
     get f() {

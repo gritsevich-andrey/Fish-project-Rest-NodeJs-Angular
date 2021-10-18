@@ -45,7 +45,6 @@ export class LoginComponent implements OnInit, OnDestroy {
        const token = localStorage.getItem('auth-token');
        // @ts-ignore
         const tokenSplit = token.split(' ');
-        console.log('Сплит', tokenSplit);
         const decoded = jwt_decode(tokenSplit[1]);
         // @ts-ignore
         console.log(decoded.email);

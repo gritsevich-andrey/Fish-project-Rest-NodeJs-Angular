@@ -9,9 +9,9 @@ module.exports.getAll = async function (req, res) {
         errorHandler(res, e);
     }
 }
-module.exports.getById = async function (req, res) {
+module.exports.getByEmail = async function (req, res) {
     try {
-        const cabinet = await Cabinet.findById(req.params.id);
+        const cabinet = await Cabinet.find(req.params.email);
         res.status(200).json({cabinet});
     } catch (e) {
         errorHandler(res, e);
@@ -28,16 +28,16 @@ module.exports.remove = async function (req, res) {
     }
 }
 module.exports.create = function (req, res) {
-    console.log('id Пользователя из контроллера Cabinet', req.user.id);
     try {
-        const cabinet = new Cabinet({
+        const cabinet = new Cabinet(
+            {
+            email: req.body.email,
             fio: req.body.fio,
             avatar: req.file ? req.file.path : '',
             gender: req.body.gender,
             age: req.body.age,
             technique: req.body.technique,
             juridicalPerson: req.body.juridicalPerson,
-            user: req.user.id,
             date: Date.now()
         }).save();
         res.status(201).json(cabinet);
@@ -50,6 +50,7 @@ module.exports.update = async function (req, res) {
         fio: req.body.fio,
         avatar: req.body.avatar,
         age: req.body.age,
+        gender: req.body.gender,
         technique: req.body.technique,
         juridicalPerson: req.body.juridicalPerson,
         date: Date.now

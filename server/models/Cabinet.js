@@ -2,6 +2,11 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const cabinetSchema = new Schema({
+    email: {
+        type: String,
+        required: true,
+        unique: true
+    },
     fio: {
         type: String,
         required: true
@@ -11,8 +16,7 @@ const cabinetSchema = new Schema({
         default: ''
     },
     age: {
-        type: Number,
-        required: true
+        type: Number
     },
     technique: [{
         name: {type: String , default: ''},
@@ -21,15 +25,11 @@ const cabinetSchema = new Schema({
     }],
     juridicalPerson: {
         type: Boolean,
-        required: true
+        default: false
     },
     avatar: {
         type: String,
         default: ''
-    },
-    user: {
-        ref: 'users',
-        type: Schema.Types.ObjectId
     },
     date: {
         type: Date,
