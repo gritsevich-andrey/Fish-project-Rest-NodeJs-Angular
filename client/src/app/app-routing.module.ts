@@ -17,7 +17,7 @@ const routes: Routes = [
   },
   {
     path: '', component: SiteLayoutComponent, canActivate: [AuthGuard], children: [
-      {path: 'cabinet', component: CabinetComponent}
+      {path: 'cabinet', component: CabinetComponent, canActivate: [AuthGuard]}
     ]
   },
   { path: 'administrator', loadChildren: () => import('./admin/shared/layouts/admin-layouts/admin-layouts.module').then(m => m.AdminLayoutsModule) }
