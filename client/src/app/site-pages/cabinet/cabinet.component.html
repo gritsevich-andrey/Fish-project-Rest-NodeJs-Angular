@@ -6,11 +6,12 @@
                 (mouseover)="changeBorderStyle()"
         >
             <div class="input-field">
+                <label for="fio">ФИО:</label>
                 <input id="fio" type="text"
                        formControlName="fio"
                        [ngClass]="{invalid: f.fio.touched && f.fio.invalid}"
                 >
-                <label for="fio">ФИО:</label>
+
                 <span class="helper-text red-text"
                       *ngIf="f.fio.touched && f.fio.invalid">
        <small *ngIf="f.fio.hasError('required')">Поле не должно быть пустым</small>

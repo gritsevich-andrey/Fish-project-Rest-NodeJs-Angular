@@ -23,9 +23,7 @@ export class CabinetComponent implements OnInit {
     imagePreview: string = '';
     borderState = 'end';
     flag: boolean = false;
- formData = {
-     fio: ''
- }
+
     constructor(private warningService: WarningService,
                 private userService: UserService) {
         this.form = new FormGroup({
@@ -42,26 +40,9 @@ export class CabinetComponent implements OnInit {
 
     ngOnInit(): void {
         const email = this.userService.getUserDataFromLocal();
-       this.userService.getCabinetData(email).subscribe(data => {
-
-           // @ts-ignore
-           data.map(value => {
-               // @ts-ignore
-               this.form.get('fio').setValue(value.fio);
-               // @ts-ignore
-               this.form.get('age').setValue(value.age);
-               // @ts-ignore
-               this.form.get('gender').setValue(value.gender);
-               // @ts-ignore
-               this.form.get('technique').setValue(value.fio);
-           })
-           this.formData.fio = data.fio;
-           this.form.value.fio = data.fio,
-           this.form.value.gender = data.gender,
-           this.form.value.age = data.age
-       });
-
-
+        this.userService.getCabinetData(email).subscribe(data => {
+            this.addDataOnForm(data);
+        });
     }
 
 
@@ -76,7 +57,9 @@ export class CabinetComponent implements OnInit {
             avatar: this.form.value.avatar
         };
         this.userService.createCabinetData(cabinet)
-            .subscribe(data => {console.log(data)}, err => console.log(err));
+            .subscribe(data => {
+                console.log(data)
+            }, err => console.log(err));
     }
 
     get f() {
@@ -111,5 +94,21 @@ export class CabinetComponent implements OnInit {
         this.flag = !this.flag;
         this.borderState = this.flag ? 'end' : 'start';
 
+    }
+
+    addDataOnForm(data: any) {
+        //@ts-ignore
+        data.map(value => {
+            this.form.get('fio')?.setValue(value.fio);
+            this.form.get('fio')?.markAsTouched();
+            this.form.get('age')?.setValue(value.age);
+            this.form.get('age')?.markAsTouched();
+            this.form.get('gender')?.setValue(value.gender);
+            this.form.get('gender')?.markAsTouched();
+            this.form.get('technique')?.setValue(value.technique);
+            this.form.get('technique')?.markAsTouched();
+            this.form.get('juridicalPerson')?.setValue(value.juridicalPerson);
+            this.form.get('juridicalPerson')?.markAsTouched();
+        });
     }
 }
