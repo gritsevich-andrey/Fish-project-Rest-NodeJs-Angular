@@ -31,20 +31,7 @@ export class UserService {
         return this.http.post('/api/administrator/unban', {email})
     }
 
-    getCabinetData(email: string): Observable<any> {
-        return this.http.get(`api/cabinet/${email}`);
-    }
-    createCabinetData(data: any) {
-        return this.http.post('api/cabinet', {
-            email: data.email,
-            fio: data.fio,
-            age: data.age,
-            gender: data.gender,
-            technique: data.technique,
-            juridicalPerson: data.juridicalPerson,
-            avatar: data.avatar
-        });
-    }
+
 
     getUserDataFromLocal(): string {
         const token = localStorage.getItem('auth-token');

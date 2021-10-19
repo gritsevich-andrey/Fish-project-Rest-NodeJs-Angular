@@ -11,7 +11,7 @@ module.exports.getAll = async function (req, res) {
 }
 module.exports.getByEmail = async function (req, res) {
     try {
-        const cabinet = await Cabinet.find(req.params.email);
+        const cabinet = await Cabinet.findOne(req.params.email);
         res.status(200).json(cabinet);
     } catch (e) {
         errorHandler(res, e);
@@ -27,20 +27,42 @@ module.exports.remove = async function (req, res) {
         errorHandler(res, e);
     }
 }
-module.exports.create = function (req, res) {
+module.exports.create = async function (req, res) {
     try {
+        const isCabinet = await Cabinet.findOne({email: req.body.email});
+        console.log(isCabinet);
+        if (!isCabinet) {
         const cabinet = new Cabinet(
             {
-            email: req.body.email,
-            fio: req.body.fio,
-            avatar: req.file ? req.file.path : '',
-            gender: req.body.gender,
-            age: req.body.age,
-            technique: req.body.technique,
-            juridicalPerson: req.body.juridicalPerson,
-            date: Date.now()
-        }).save();
-        res.status(201).json(cabinet);
+                email: req.body.email,
+                fio: req.body.fio,
+                avatar: req.file ? req.file.path : '',
+                gender: req.body.gender,
+                age: req.body.age,
+                technique: req.body.technique,
+                juridicalPerson: req.body.juridicalPerson
+            }).save();
+        console.log('Внутри нового кабинета');
+            res.status(201).json(cabinet);
+        }
+        else {
+            console.log('Обновление кабинета');
+            const updated = {
+                fio: req.body.fio,
+                avatar: req.file ? req.file.path : '',
+                age: req.body.age,
+                gender: req.body.gender,
+                technique: req.body.technique,
+                juridicalPerson: req.body.juridicalPerson
+                // date: Date.now
+            }
+             await Cabinet.findOneAndUpdate(
+                {email: req.body.email},
+                {$set: updated},
+                {new: true}
+            )
+            res.status(200).json(updated);
+        }
     } catch (e) {
         errorHandler(res, e);
     }
@@ -48,11 +70,11 @@ module.exports.create = function (req, res) {
 module.exports.update = async function (req, res) {
     const updated = {
         fio: req.body.fio,
-        avatar: req.body.avatar,
+        // avatar: req.file ? req.file.path : '',
         age: req.body.age,
         gender: req.body.gender,
-        technique: req.body.technique,
-        juridicalPerson: req.body.juridicalPerson,
+        // technique: req.body.technique,
+        // juridicalPerson: req.body.juridicalPerson,
         date: Date.now
     }
 
@@ -61,7 +83,7 @@ module.exports.update = async function (req, res) {
     }
     try {
         const cabinet = await Cabinet.findOneAndUpdate(
-            {_id: req.params.id},
+            {_id: req.params.email},
             {$set: updated},
             {new: true}
         )

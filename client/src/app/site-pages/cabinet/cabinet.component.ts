@@ -4,6 +4,7 @@ import {mimeType} from "./mime-type.validator";
 import {WarningService} from "../../shared/services/warning.service";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {UserService} from "../../shared/services/user.service";
+import {CabinetService} from "./cabinet.service";
 
 @Component({
     selector: 'app-cabinet',
@@ -23,9 +24,12 @@ export class CabinetComponent implements OnInit {
     imagePreview: string = '';
     borderState = 'end';
     flag: boolean = false;
-
+    isNew = true;
+    file!: File;
     constructor(private warningService: WarningService,
+                private cabinetService: CabinetService,
                 private userService: UserService) {
+
         this.form = new FormGroup({
             fio: new FormControl('', Validators.required),
             avatar: new FormControl(null, {validators: [Validators.required], asyncValidators: [mimeType]}),
@@ -40,8 +44,9 @@ export class CabinetComponent implements OnInit {
 
     ngOnInit(): void {
         const email = this.userService.getUserDataFromLocal();
-        this.userService.getCabinetData(email).subscribe(data => {
-            this.addDataOnForm(data);
+        this.cabinetService.getCabinetData(email).subscribe(data => {
+           this.addDataOnForm(data);
+            this.isNew = false;
         });
     }
 
@@ -53,13 +58,16 @@ export class CabinetComponent implements OnInit {
             fio: this.form.value.fio,
             age: this.form.value.age,
             gender: this.form.value.gender,
+            technique: this.form.value.technique,
             juridicalPerson: this.form.value.juridicalPerson,
-            avatar: this.form.value.avatar
+            avatar: this.file
         };
-        this.userService.createCabinetData(cabinet)
-            .subscribe(data => {
-                console.log(data)
-            }, err => console.log(err));
+        console.log('Данные на отправку с формы', cabinet);
+            this.cabinetService.createCabinetData(cabinet)
+                .subscribe(data => {
+                    console.log('Отправка данных на создание кабинета', data)
+                }, err => console.log(err));
+
     }
 
     get f() {
@@ -81,6 +89,7 @@ export class CabinetComponent implements OnInit {
     onImageLoad(event: Event) {
         // @ts-ignore
         const file = (event.target as HTMLInputElement).files[0];
+       this.file = file;
         this.form.patchValue({avatar: file});
         this.form.get('avatar')?.updateValueAndValidity();
         const reader = new FileReader();
@@ -97,18 +106,17 @@ export class CabinetComponent implements OnInit {
     }
 
     addDataOnForm(data: any) {
-        //@ts-ignore
-        data.map(value => {
-            this.form.get('fio')?.setValue(value.fio);
-            this.form.get('fio')?.markAsTouched();
-            this.form.get('age')?.setValue(value.age);
-            this.form.get('age')?.markAsTouched();
-            this.form.get('gender')?.setValue(value.gender);
-            this.form.get('gender')?.markAsTouched();
-            this.form.get('technique')?.setValue(value.technique);
-            this.form.get('technique')?.markAsTouched();
-            this.form.get('juridicalPerson')?.setValue(value.juridicalPerson);
-            this.form.get('juridicalPerson')?.markAsTouched();
-        });
+        // @ts-ignore
+        this.form.get('fio').setValue(data.fio);
+        // @ts-ignore
+        this.form.get('age').setValue(data.age);
+        // @ts-ignore
+        this.form.get('gender').setValue(data.gender);
+        // @ts-ignore
+        this.form.get('technique').setValue(data.technique);
+        // @ts-ignore
+        this.form.get('avatar').setValue(data.avatar);
+        // @ts-ignore
+        this.form.get('juridicalPerson').setValue(data.juridicalPerson);
     }
 }
