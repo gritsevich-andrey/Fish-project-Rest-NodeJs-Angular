@@ -10,6 +10,7 @@ import {UsersComponent} from "../../../users/users.component";
 import {FilterComponent} from "../../../users/filter/filter.component";
 import {TableRowComponent} from "../../../users/table-row/table-row.component";
 import {MatTableModule} from "@angular/material/table";
+import {NgxPaginationModule} from "ngx-pagination";
 
 
 @NgModule({
@@ -20,12 +21,13 @@ import {MatTableModule} from "@angular/material/table";
     FilterComponent,
     TableRowComponent
   ],
-  imports: [
-    CommonModule,
-    AdminLayoutsRoutingModule,
-    SharedModule,
-    MatSortModule,
-    MatTableModule
-  ]
+    imports: [
+        CommonModule,
+        AdminLayoutsRoutingModule,
+        SharedModule,
+        MatSortModule,
+        MatTableModule,
+        NgxPaginationModule
+    ]
 })
 export class AdminLayoutsModule { }

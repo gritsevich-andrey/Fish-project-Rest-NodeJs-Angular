@@ -2,13 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {UserService} from "../../../shared/services/user.service";
 
+interface Complains {
+  complaintDescription: string,
+  complaintId: string
+}
+
 @Component({
   selector: 'app-complaints',
   templateUrl: './complaints.component.html',
   styleUrls: ['./complaints.component.scss']
 })
 export class ComplaintsComponent implements OnInit {
-  complains: string[] = [];
+  complains: Complains[] = [];
   email: string = '';
 
   constructor(
@@ -20,8 +25,18 @@ export class ComplaintsComponent implements OnInit {
     this.userService.getComplaintByEmail(email).subscribe(
       data => {
         this.complains = data;
+        console.log(data)
       },
       error => console.log(error));
+  }
+
+  deleteComplaint(email: string, id: string) {
+    this.userService.deleteComplaintById(email, id).subscribe(
+      data => {
+        console.log(data)
+        this.getComplaints(email)
+      }
+    )
   }
 
   ngOnInit(): void {
