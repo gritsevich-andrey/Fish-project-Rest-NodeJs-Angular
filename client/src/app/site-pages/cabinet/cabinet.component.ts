@@ -19,6 +19,8 @@ import {CabinetService} from "./cabinet.service";
     ]
 })
 export class CabinetComponent implements OnInit {
+    //@ts-ignore
+    public techList: FormArray;
     form!: FormGroup;
     hide = true;
     imagePreview: string = '';
@@ -26,6 +28,7 @@ export class CabinetComponent implements OnInit {
     flag: boolean = false;
     isNew = true;
     file!: File;
+
     constructor(private warningService: WarningService,
                 private cabinetService: CabinetService,
                 private userService: UserService) {
@@ -35,17 +38,16 @@ export class CabinetComponent implements OnInit {
             avatar: new FormControl(null, {validators: [Validators.required], asyncValidators: [mimeType]}),
             gender: new FormControl('', Validators.required),
             age: new FormControl('', Validators.required),
-            technique: new FormArray([
-                new FormControl('', Validators.required)
-            ]),
+            technique: new FormArray([this.createTechForm()]),
             juridicalPerson: new FormControl('', Validators.required)
         })
     }
 
     ngOnInit(): void {
+        this.techList = this.form.get('technique') as FormArray;
         const email = this.userService.getUserDataFromLocal();
         this.cabinetService.getCabinetData(email).subscribe(data => {
-           this.addDataOnForm(data);
+            this.addDataOnForm(data);
             this.isNew = false;
         });
     }
@@ -58,38 +60,24 @@ export class CabinetComponent implements OnInit {
             fio: this.form.value.fio,
             age: this.form.value.age,
             gender: this.form.value.gender,
-            technique: this.form.value.technique,
+            technique: this.techList.value,
             juridicalPerson: this.form.value.juridicalPerson,
             avatar: this.file
         };
-        console.log('Данные на отправку с формы', cabinet);
-            this.cabinetService.createCabinetData(cabinet)
-                .subscribe(data => {
-                    console.log('Отправка данных на создание кабинета', data)
-                }, err => console.log(err));
-
+        this.cabinetService.createCabinetData(cabinet)
+            .subscribe(data => {
+                console.log('Отправка данных на создание кабинета', data)
+            }, err => console.log(err));
     }
 
     get f() {
         return this.form.controls;
     }
 
-    getFormsControls(): FormArray {
-        return this.form.controls['technique'] as FormArray;
-    }
-
-    addTechnique() {
-        (<FormArray>this.form.controls["technique"]).push(new FormControl('', Validators.required));
-    }
-
-    removeTechnique() {
-        (<FormArray>this.form.controls["technique"]).removeAt(-1);
-    }
-
     onImageLoad(event: Event) {
         // @ts-ignore
         const file = (event.target as HTMLInputElement).files[0];
-       this.file = file;
+        this.file = file;
         this.form.patchValue({avatar: file});
         this.form.get('avatar')?.updateValueAndValidity();
         const reader = new FileReader();
@@ -109,6 +97,8 @@ export class CabinetComponent implements OnInit {
         // @ts-ignore
         this.form.get('fio').setValue(data.fio);
         // @ts-ignore
+        this.form.get('fio').touched = true;
+        // @ts-ignore
         this.form.get('age').setValue(data.age);
         // @ts-ignore
         this.form.get('gender').setValue(data.gender);
@@ -118,5 +108,19 @@ export class CabinetComponent implements OnInit {
         this.form.get('avatar').setValue(data.avatar);
         // @ts-ignore
         this.form.get('juridicalPerson').setValue(data.juridicalPerson);
+    }
+    createTechForm(): FormGroup {
+        return new FormGroup({
+            name: new FormControl(),
+            license: new FormControl()
+        });
+    }
+
+    addTechnique() {
+        this.techList.push(this.createTechForm());
+    }
+
+    removeTechnique(index: any) {
+        this.techList.removeAt(index);
     }
 }

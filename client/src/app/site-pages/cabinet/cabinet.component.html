@@ -6,12 +6,11 @@
                 (mouseover)="changeBorderStyle()"
         >
             <div class="input-field">
-                <label for="fio">ФИО:</label>
-                <input id="fio" type="text"
+<!--                <label for="fio">ФИО:</label>-->
+                <input placeholder="ФИО" id="fio" type="text"
                        formControlName="fio"
                        [ngClass]="{invalid: f.fio.touched && f.fio.invalid}"
                 >
-
                 <span class="helper-text red-text"
                       *ngIf="f.fio.touched && f.fio.invalid">
        <small *ngIf="f.fio.hasError('required')">Поле не должно быть пустым</small>
@@ -30,6 +29,7 @@
                 />
             </div>
             <div class="input-field">
+                <span>Пол:</span>
                 <p>
                     <label>
                         <input name="gender" formControlName="gender" value="Мужской" type="radio" checked/>
@@ -45,35 +45,39 @@
             </div>
 
             <div class="input-field">
-                <input id="age" type="text"
+                <span>Возраст:</span>
+                <p><label>
+                <input placeholder="Возраст" id="age" type="text"
                        formControlName="age"
                 >
-                <label for="age">Возраст:</label>
+                </label>
+                </p>
             </div>
             <div class="input-field">
-                <div formArrayName="technique">
-                    <div class="form-group" *ngFor="let technique of getFormsControls()['controls']; let i = index">
-                        <label>Техника</label>
-                        <input class="form-control" formControlName="{{i}}"/>
+                <span>Техника и права:</span>
+                <div formArrayName="technique" *ngFor="let technique of techList.controls; let i = index;" >
+                    <div [formGroupName]="i" >
+                        <input type="text" placeholder="Название техники" formControlName="name" matTooltip="Указать технику, на которой оказываются услуги">
+                        <input type="text" placeholder="Права на управление" formControlName="license" matTooltip="Указать категорию прав на управление">
+                        <div class="form-group">
+                            <i class="material-icons" (click)="addTechnique()" matTooltip="Добавить технику">add_box</i>
+                            <i class="material-icons" (click)="removeTechnique(i)" matTooltip="Удалить технику">remove_box</i>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <i class="material-icons" (click)="addTechnique()" matTooltip="Добавить технику">add_box</i>
-                    <i class="material-icons" (click)="removeTechnique()" matTooltip="Удалить технику">remove_box</i>
                 </div>
             </div>
 
             <div class="input-field">
                 <p>
                     <label>
-                        <input name="juridicalPerson" formControlName="juridicalPerson" value="false" type="radio"
-                               checked/>
+                        <input name="juridicalPerson" formControlName="juridicalPerson" value="Физическое лицо" type="radio"
+                               checked />
                         <span>Физическое лицо</span>
                     </label>
                 </p>
                 <p>
                     <label>
-                        <input name="juridicalPerson" formControlName="juridicalPerson" value="true" type="radio"/>
+                        <input name="juridicalPerson" formControlName="juridicalPerson" value="Юридическое лицо" type="radio"/>
                         <span>Юридическое лицо</span>
                     </label>
                 </p>

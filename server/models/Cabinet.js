@@ -18,14 +18,13 @@ const cabinetSchema = new Schema({
     age: {
         type: Number
     },
-    technique: [{
-        name: {type: String , default: ''},
-        techPassport: {type: String, default: ''},
-        driverLicense: {type: String, default: ''}
-    }],
+    technique: {
+        type: [],
+        default: []
+    },
     juridicalPerson: {
-        type: Boolean,
-        default: false
+        type: String,
+        default: 'Физическое лицо'
     },
     avatar: {
         type: String,
