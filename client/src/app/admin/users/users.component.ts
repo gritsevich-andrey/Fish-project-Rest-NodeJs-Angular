@@ -18,6 +18,7 @@ export interface UserData {
 export class UsersComponent implements OnInit {
   userData: UserData[] = [];
   sortedData!: UserData[];
+  page: number = 1;
 
   constructor(private userService: UserService) {
   }

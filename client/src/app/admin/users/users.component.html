@@ -9,10 +9,10 @@
       <th>Забанить</th>
       <th>Список жалоб</th>
     </tr>
-    <tr *ngFor="let value of sortedData; let i=index;">
+    <tr *ngFor="let value of sortedData | paginate: { itemsPerPage: 10, currentPage: page }; let i=index;">
       <td>{{i + 1}}</td>
       <td>{{value.email}}</td>
-      <td>{{value.date}}</td>
+      <td>{{value.date | date:'dd/MM/yyyy'}}</td>
       <td>{{value.fio}}</td>
       <td>
         <span *ngIf="value.banned">Да</span>
@@ -35,4 +35,5 @@
       </td>
     </tr>
   </table>
+  <pagination-controls (pageChange)="page = $event"></pagination-controls>
 </div>

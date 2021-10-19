@@ -1,10 +1,11 @@
 const Complaint = require('../models/Complaint')
 const errorHandler = require('../utils/errorHandler')
+const {v4} = require("uuid");
 
 module.exports.getByEmail = async function (req, res) {
     try {
-        const complaints = await Complaint.find({email: req.params.email});
-        res.status(200).json(complaints[0]?.description);
+        const complaintsData = await Complaint.findOne({email: req.params.email});
+        res.status(200).json(complaintsData.complaints);
     } catch (e) {
         errorHandler(res, e);
     }
@@ -13,15 +14,19 @@ module.exports.getByEmail = async function (req, res) {
 module.exports.createComplaint = async function (req, res) {
     try {
         const complaintCandidate = await Complaint.findOne({email: req.body.email});
+        const newComplaint = {
+            complaintId: v4(),
+            complaintDescription: req.body.description
+        }
         if (!complaintCandidate) {
             const complaint = new Complaint({
-                description: req.body.description,
+                complaints: [newComplaint],
                 email: req.body.email
             })
             await complaint.save();
             res.status(201).json(complaint);
         } else {
-            const complaint = await complaintCandidate.updateOne({$push: {description: req.body.description}})
+            const complaint = await complaintCandidate.updateOne({$push: {complaints: newComplaint}})
             res.status(201).json(complaint);
         }
     } catch (e) {
@@ -31,7 +36,8 @@ module.exports.createComplaint = async function (req, res) {
 
 module.exports.deleteByEmail = async function (req, res) {
     try {
-        //нужно чтото решить с моделью жалоб
+        const complaints = await Complaint.updateOne({email: req.params.email}, {$pull: {'complaints': {complaintId: req.params.id}}});
+        res.status(201).json({message: 'Жалоба удалена'});
     } catch (e) {
         errorHandler(res, e);
     }

@@ -21,43 +21,45 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
-import { ComplaintsComponent } from './admin/users/complaints/complaints.component';
+import {ComplaintsComponent} from './admin/users/complaints/complaints.component';
+import {NgxPaginationModule} from "ngx-pagination";
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        LoginComponent,
-        AuthLayoutComponent,
-        SiteLayoutComponent,
-        RegisterComponent,
-        CabinetComponent,
-        ComplaintsComponent
-    ],
-    imports: [
-        AppRoutingModule,
-        ReactiveFormsModule,
-        FormsModule,
-        HttpClientModule,
-        BrowserModule,
-        CommonModule,
-        SharedModule,
-        BrowserAnimationsModule,
-        MatIconModule,
-        MatButtonModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatTooltipModule,
-        MatSnackBarModule
-    ],
-    exports: [],
-    providers: [{
-        provide: HTTP_INTERCEPTORS,
-        multi: true,
-        useClass: TokenInterceptor
-    },
-        AuthGuard
-    ],
-    bootstrap: [AppComponent]
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    AuthLayoutComponent,
+    SiteLayoutComponent,
+    RegisterComponent,
+    CabinetComponent,
+    ComplaintsComponent
+  ],
+  imports: [
+    AppRoutingModule,
+    ReactiveFormsModule,
+    FormsModule,
+    HttpClientModule,
+    BrowserModule,
+    CommonModule,
+    SharedModule,
+    BrowserAnimationsModule,
+    MatIconModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatTooltipModule,
+    MatSnackBarModule,
+    NgxPaginationModule
+  ],
+  exports: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    multi: true,
+    useClass: TokenInterceptor
+  },
+    AuthGuard
+  ],
+  bootstrap: [AppComponent]
 })
 
 export class AppModule {

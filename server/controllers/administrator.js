@@ -8,7 +8,7 @@ module.exports.getAll = async function (req, res) {
         const users = await User.find();
         let resData = [];
         for(let item of users) {
-            let cabinetData = await Cabinet.findById(item._id);
+            let cabinetData = await Cabinet.findOne({email: item.email});
             let data = {email: item.email, banned: item.banned, fio: cabinetData?.fio, date: cabinetData?.date}
             resData.push(data)
         }
