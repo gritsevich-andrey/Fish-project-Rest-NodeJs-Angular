@@ -8,7 +8,7 @@ import jwt_decode from "jwt-decode";
 })
 export class UserService {
 
-  constructor(private http: HttpClient) {
+constructor(private http: HttpClient) {
   }
 
   getListUsers(): Observable<any> {
