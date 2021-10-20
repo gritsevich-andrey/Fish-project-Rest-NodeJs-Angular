@@ -5,6 +5,7 @@ import {WarningService} from "../../shared/services/warning.service";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {UserService} from "../../shared/services/user.service";
 import {CabinetService} from "./cabinet.service";
+import {environment} from "../../../environments/environment";
 
 @Component({
     selector: 'app-cabinet',
@@ -23,7 +24,7 @@ export class CabinetComponent implements OnInit {
     public techList: FormArray;
     form!: FormGroup;
     hide = true;
-    imagePreview: string = '';
+    imagePreview = '';
     borderState = 'end';
     flag: boolean = false;
     isNew = true;
@@ -50,6 +51,7 @@ export class CabinetComponent implements OnInit {
             this.addDataOnForm(data);
             this.isNew = false;
         });
+
     }
 
 
@@ -64,7 +66,7 @@ export class CabinetComponent implements OnInit {
             juridicalPerson: this.form.value.juridicalPerson,
             avatar: this.file
         };
-        this.cabinetService.createCabinetData(cabinet)
+        this.cabinetService.createCabinetData(cabinet, this.file)
             .subscribe(data => {
                 console.log('Отправка данных на создание кабинета', data)
             }, err => console.log(err));
@@ -83,6 +85,7 @@ export class CabinetComponent implements OnInit {
         const reader = new FileReader();
         reader.onload = () => {
             this.imagePreview = <string>reader.result;
+            console.log('Адрес картинки', this.imagePreview);
         }
         reader.readAsDataURL(file);
     }
@@ -103,9 +106,9 @@ export class CabinetComponent implements OnInit {
         // @ts-ignore
         this.form.get('gender').setValue(data.gender);
         // @ts-ignore
-        this.form.get('technique').setValue(data.technique);
+        // this.form.get('technique').setValue(data.technique);
         // @ts-ignore
-        this.form.get('avatar').setValue(data.avatar);
+        this.imagePreview = environment.backUrl + data.avatar;
         // @ts-ignore
         this.form.get('juridicalPerson').setValue(data.juridicalPerson);
     }

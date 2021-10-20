@@ -54,7 +54,10 @@ module.exports.create = async function (req, res) {
                 gender: req.body.gender,
                 technique: req.body.technique,
                 juridicalPerson: req.body.juridicalPerson
-                // date: Date.now
+            }
+            console.log('Прием файла на беке', req.file)
+            if (req.file) {
+                updated.avatar = req.file.path
             }
              await Cabinet.findOneAndUpdate(
                 {email: req.body.email},
@@ -70,12 +73,11 @@ module.exports.create = async function (req, res) {
 module.exports.update = async function (req, res) {
     const updated = {
         fio: req.body.fio,
-        // avatar: req.file ? req.file.path : '',
+        avatar: req.file ? req.file.path : '',
         age: req.body.age,
         gender: req.body.gender,
-        // technique: req.body.technique,
-        // juridicalPerson: req.body.juridicalPerson,
-        date: Date.now
+        technique: req.body.technique,
+        juridicalPerson: req.body.juridicalPerson
     }
 
     if (req.file) {
