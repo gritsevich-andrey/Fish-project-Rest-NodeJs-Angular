@@ -8,5 +8,8 @@
 </nav>
 
 <ul class="sidenav" id="mobile-demo">
+  <div class="logo-block">
+    <a routerLink="/" class="brand-logo">Newborn</a>
+  </div>
   <li *ngFor="let item of menu" class="{{item.active ? 'active': null}}"><a [routerLink]="[item.href]">{{item.title}}</a></li>
 </ul>

@@ -19,15 +19,15 @@ import {NgxPaginationModule} from "ngx-pagination";
     AdminComponent,
     UsersComponent,
     FilterComponent,
-    TableRowComponent
+    TableRowComponent,
   ],
-    imports: [
-        CommonModule,
-        AdminLayoutsRoutingModule,
-        SharedModule,
-        MatSortModule,
-        MatTableModule,
-        NgxPaginationModule
-    ]
+  imports: [
+    CommonModule,
+    AdminLayoutsRoutingModule,
+    SharedModule,
+    MatSortModule,
+    MatTableModule,
+    NgxPaginationModule,
+  ]
 })
 export class AdminLayoutsModule { }

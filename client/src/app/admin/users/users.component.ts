@@ -19,6 +19,9 @@ export class UsersComponent implements OnInit {
   userData: UserData[] = [];
   sortedData!: UserData[];
   page: number = 1;
+  query!: string;
+
+  public searchFilter: any = '';
 
   constructor(private userService: UserService) {
   }
