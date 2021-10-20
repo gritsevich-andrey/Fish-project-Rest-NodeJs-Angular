@@ -1,5 +1,4 @@
 import {NgModule} from '@angular/core';
-
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {LoginComponent} from './login/login.component';
@@ -23,6 +22,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {ComplaintsComponent} from './admin/users/complaints/complaints.component';
 import {NgxPaginationModule} from "ngx-pagination";
+import {SearchFilterPipe} from "./pipe/search-filter.pipe";
 
 @NgModule({
   declarations: [
@@ -32,7 +32,8 @@ import {NgxPaginationModule} from "ngx-pagination";
     SiteLayoutComponent,
     RegisterComponent,
     CabinetComponent,
-    ComplaintsComponent
+    ComplaintsComponent,
+    SearchFilterPipe
   ],
   imports: [
     AppRoutingModule,
@@ -51,13 +52,15 @@ import {NgxPaginationModule} from "ngx-pagination";
     MatSnackBarModule,
     NgxPaginationModule
   ],
-  exports: [],
   providers: [{
     provide: HTTP_INTERCEPTORS,
     multi: true,
     useClass: TokenInterceptor
   },
     AuthGuard
+  ],
+  exports: [
+    SearchFilterPipe
   ],
   bootstrap: [AppComponent]
 })
