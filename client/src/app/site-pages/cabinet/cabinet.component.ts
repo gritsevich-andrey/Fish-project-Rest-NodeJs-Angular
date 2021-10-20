@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 import {mimeType} from "./mime-type.validator";
 import {WarningService} from "../../shared/services/warning.service";
@@ -29,7 +29,8 @@ export class CabinetComponent implements OnInit {
     flag: boolean = false;
     isNew = true;
     file!: File;
-
+    //@ts-ignore
+@ViewChild('addTech', {static: false}) techRef: ElementRef;
     constructor(private warningService: WarningService,
                 private cabinetService: CabinetService,
                 private userService: UserService) {
@@ -54,7 +55,6 @@ export class CabinetComponent implements OnInit {
 
     }
 
-
     onSubmit() {
         const userEmail = this.userService.getUserDataFromLocal();
         const cabinet = {
@@ -68,7 +68,10 @@ export class CabinetComponent implements OnInit {
         };
         this.cabinetService.createCabinetData(cabinet, this.file)
             .subscribe(data => {
-                console.log('Отправка данных на создание кабинета', data)
+                //@ts-ignore
+                console.log('Парсим результат', JSON.parse(data.technique));
+                console.log(this.techList);
+                console.log('Получение данныхна создание кабинета', data);
             }, err => console.log(err));
     }
 
@@ -85,7 +88,6 @@ export class CabinetComponent implements OnInit {
         const reader = new FileReader();
         reader.onload = () => {
             this.imagePreview = <string>reader.result;
-            console.log('Адрес картинки', this.imagePreview);
         }
         reader.readAsDataURL(file);
     }
@@ -105,8 +107,12 @@ export class CabinetComponent implements OnInit {
         this.form.get('age').setValue(data.age);
         // @ts-ignore
         this.form.get('gender').setValue(data.gender);
-        // @ts-ignore
-        // this.form.get('technique').setValue(data.technique);
+        const array = Object.keys(JSON.parse(data.technique));
+        for (let i=0; i<array.length-1; i++){
+            this.addTechnique();
+        }
+// @ts-ignore
+        this.form.get('technique').setValue(JSON.parse(data.technique));
         // @ts-ignore
         this.imagePreview = environment.backUrl + data.avatar;
         // @ts-ignore

@@ -22,15 +22,23 @@ export class CabinetService {
       fio: data.fio,
       age: data.age,
       gender: data.gender,
-      technique: [data.technique.name, data.technique.license],
+      technique: data.technique,
       juridicalPerson: data.juridicalPerson,
       avatar: data.avatar
     };
     for (let cabinetKey in cabinet) {
-      //Переработать массив с техникой
-      // @ts-ignore
-      fd.append(`${cabinetKey}`, `${cabinet[cabinetKey]}`);
+        // @ts-ignore
+      if (cabinetKey !== 'technique'){
+        // @ts-ignore
+        console.log(cabinetKey, cabinet[cabinetKey])
+        // @ts-ignore
+        fd.append(`${cabinetKey}`, `${cabinet[cabinetKey]}`);
+      }
+    else {
+          fd.append('technique', JSON.stringify(cabinet.technique));
+      }
     }
+    console.log(fd);
     return this.http.post('api/cabinet', fd);
   }
 }

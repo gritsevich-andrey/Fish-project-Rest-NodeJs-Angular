@@ -60,7 +60,7 @@
                         <input type="text" placeholder="Название техники" formControlName="name" matTooltip="Указать технику, на которой оказываются услуги">
                         <input type="text" placeholder="Права на управление" formControlName="license" matTooltip="Указать категорию прав на управление">
                         <div class="form-group">
-                            <i class="material-icons" (click)="addTechnique()" matTooltip="Добавить технику">add_box</i>
+                            <i #addTech class="material-icons" (click)="addTechnique()" matTooltip="Добавить технику">add_box</i>
                             <i class="material-icons" (click)="removeTechnique(i)" matTooltip="Удалить технику">remove_box</i>
                         </div>
                     </div>

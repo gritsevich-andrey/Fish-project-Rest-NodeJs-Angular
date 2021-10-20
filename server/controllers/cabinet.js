@@ -30,7 +30,6 @@ module.exports.remove = async function (req, res) {
 module.exports.create = async function (req, res) {
     try {
         const isCabinet = await Cabinet.findOne({email: req.body.email});
-        console.log(isCabinet);
         if (!isCabinet) {
         const cabinet = new Cabinet(
             {
@@ -42,11 +41,9 @@ module.exports.create = async function (req, res) {
                 technique: req.body.technique,
                 juridicalPerson: req.body.juridicalPerson
             }).save();
-        console.log('Внутри нового кабинета');
             res.status(201).json(cabinet);
         }
         else {
-            console.log('Обновление кабинета');
             const updated = {
                 fio: req.body.fio,
                 avatar: req.file ? req.file.path : '',
@@ -55,7 +52,6 @@ module.exports.create = async function (req, res) {
                 technique: req.body.technique,
                 juridicalPerson: req.body.juridicalPerson
             }
-            console.log('Прием файла на беке', req.file)
             if (req.file) {
                 updated.avatar = req.file.path
             }
