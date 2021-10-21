@@ -23,6 +23,7 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {ComplaintsComponent} from './admin/users/complaints/complaints.component';
 import {NgxPaginationModule} from "ngx-pagination";
 import {SearchFilterPipe} from "./pipe/search-filter.pipe";
+import {NgxStarRatingModule} from "ngx-star-rating";
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import {SearchFilterPipe} from "./pipe/search-filter.pipe";
     MatInputModule,
     MatTooltipModule,
     MatSnackBarModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    NgxStarRatingModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

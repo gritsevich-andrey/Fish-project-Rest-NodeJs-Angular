@@ -44,23 +44,7 @@ module.exports.create = async function (req, res) {
             res.status(201).json(cabinet);
         }
         else {
-            const updated = {
-                fio: req.body.fio,
-                avatar: req.file ? req.file.path : '',
-                age: req.body.age,
-                gender: req.body.gender,
-                technique: req.body.technique,
-                juridicalPerson: req.body.juridicalPerson
-            }
-            if (req.file) {
-                updated.avatar = req.file.path
-            }
-             await Cabinet.findOneAndUpdate(
-                {email: req.body.email},
-                {$set: updated},
-                {new: true}
-            )
-            res.status(200).json(updated);
+            res.status(404).json('Ошибка сохранения данных о кабинете');
         }
     } catch (e) {
         errorHandler(res, e);
@@ -81,7 +65,7 @@ module.exports.update = async function (req, res) {
     }
     try {
         const cabinet = await Cabinet.findOneAndUpdate(
-            {_id: req.params.email},
+            {email: req.body.email},
             {$set: updated},
             {new: true}
         )
