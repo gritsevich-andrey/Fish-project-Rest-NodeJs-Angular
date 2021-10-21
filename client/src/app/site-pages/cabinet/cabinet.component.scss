@@ -14,8 +14,9 @@
   flex-direction: column;
 }
 input[type=text] {
-  width: 400px;
+  max-width: 300px;
 }
+
 .mat-mini-fab:hover{
   background: var(--dark-color);
 }
