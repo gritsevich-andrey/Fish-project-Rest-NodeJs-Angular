@@ -9,6 +9,16 @@ module.exports.getAll = async function (req, res) {
         errorHandler(res, e);
     }
 }
+// module.exports.getByEmail =  (req, res) => {
+//         Cabinet.findOne(req.params.email).then(cabinet => {
+//             if(cabinet) {
+//                 res.status(200).json(cabinet);
+//             } else {
+//                 res.status(404).json({message: 'Кабинет не найден'})
+//             }
+//         })
+// }
+
 module.exports.getByEmail = async function (req, res) {
     try {
         const cabinet = await Cabinet.findOne(req.params.email);
@@ -17,6 +27,7 @@ module.exports.getByEmail = async function (req, res) {
         errorHandler(res, e);
     }
 }
+
 module.exports.remove = async function (req, res) {
     try {
         await Cabinet.remove({_id: req.params.id});
