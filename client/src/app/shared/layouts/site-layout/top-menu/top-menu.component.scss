@@ -1,8 +1,23 @@
 .top-menu {
   background-color: #757575;
 }
+
 .sidenav-trigger {
   display: none;
+}
+
+li {
+  a {
+    display: flex;
+
+    i {
+      margin-right: 10px;
+    }
+
+    i:hover {
+      color: #FFFFFF !important;
+    }
+  }
 }
 
 @media only screen and (max-width: 992px) {
@@ -13,6 +28,11 @@
   }
   .sidenav-trigger {
     display: block;
+  }
+  li:hover {
+    a i {
+      color: var(--danger-color) !important;
+    }
   }
 }
 

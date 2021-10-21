@@ -9,23 +9,28 @@ export class AdminLayoutsComponent implements OnInit {
   top_menu: any[]= [
     {
       title: 'Все пользователи',
-      href: 'users'
+      href: 'users',
+      icon: 'account_box'
     },
     {
       title: 'Все путешествия',
-      href: '#'
+      href: '#',
+      icon: 'flight'
     },
     {
       title: 'Документы пользователей',
-      href: '#'
+      href: '#',
+      icon: 'folder_shared'
     },
     {
       title: 'Отзывы и рейтинг',
-      href: '#'
+      href: '#',
+      icon: 'star'
     },
     {
       title: 'Фото и видео',
-      href: '#'
+      href: '#',
+      icon: 'insert_photo'
     },
   ]
   footer_links: any[] = [

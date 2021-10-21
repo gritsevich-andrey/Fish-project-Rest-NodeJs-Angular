@@ -8,6 +8,7 @@ const router = express.Router();
 /*const authenticate = passport.authenticate('jwt', {session: false});*/
 router.get('/:email'/*,authenticate*/, controller.getByEmail);
 router.post('/',/*authenticate,*/ controller.createComplaint);
+router.patch('/', /*authenticate,*/ controller.updateComplaint)
 router.delete('/:email/:id',/*authenticate,*/ controller.deleteByEmail)
 
 module.exports = router

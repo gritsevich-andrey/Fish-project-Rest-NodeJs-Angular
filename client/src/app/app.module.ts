@@ -22,7 +22,6 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {ComplaintsComponent} from './admin/users/complaints/complaints.component';
 import {NgxPaginationModule} from "ngx-pagination";
-import {SearchFilterPipe} from "./pipe/search-filter.pipe";
 
 @NgModule({
   declarations: [
@@ -33,7 +32,6 @@ import {SearchFilterPipe} from "./pipe/search-filter.pipe";
     RegisterComponent,
     CabinetComponent,
     ComplaintsComponent,
-    SearchFilterPipe
   ],
   imports: [
     AppRoutingModule,
@@ -58,9 +56,6 @@ import {SearchFilterPipe} from "./pipe/search-filter.pipe";
     useClass: TokenInterceptor
   },
     AuthGuard
-  ],
-  exports: [
-    SearchFilterPipe
   ],
   bootstrap: [AppComponent]
 })

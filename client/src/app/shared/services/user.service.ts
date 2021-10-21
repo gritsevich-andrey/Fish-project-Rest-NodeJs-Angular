@@ -23,17 +23,12 @@ constructor(private http: HttpClient) {
     return this.http.delete(`/api/complaint/${email}/${id}`)
   }
 
-  //Не работает, нужно делать по другому (см. бек)
-  // createComplaintByEmail(email: string, description: string): Observable<any> {
-  //     return this.http.post(`/api/complaint/`, {email, description});
-  // }
-
   banUserByEmail(email: string): Observable<any> {
-    return this.http.post('/api/administrator/ban', {email})
+    return this.http.patch('/api/administrator/ban', {email})
   }
 
   unBanUserByEmail(email: string): Observable<any> {
-    return this.http.post('/api/administrator/unban', {email})
+    return this.http.patch('/api/administrator/unban', {email})
   }
 
   getCabinetData(email: string): Observable<any> {

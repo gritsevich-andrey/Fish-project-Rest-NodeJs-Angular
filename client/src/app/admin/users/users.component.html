@@ -1,8 +1,8 @@
 <div class="container">
   <h1>Таблица всех пользователей</h1>
   <div class="input-field col s6">
-    <input placeholder="Search" [(ngModel)]="query" id="first_name" type="text" class="validate">
-    <label for="first_name">First Name</label>
+    <input [(ngModel)]="searchValue" id="search_input" type="text" class="validate">
+    <label for="search_input" >Поиск по Email или ФИО</label>
   </div>
   <div class="sorting" matSort (matSortChange)="sortData($event)">
     <span>Сортировка: </span>
@@ -23,7 +23,7 @@
     </tr>
     </thead>
     <tr *ngFor="
-let value of sortedData | paginate: { itemsPerPage: 10, currentPage: page }; let i=index;">
+let value of sortedData | searchFilter: searchValue | paginate: { itemsPerPage: 10, currentPage: page }; let i=index;">
       <td>{{i + 1}}</td>
       <td>{{value.email}}</td>
       <td>{{value.date | date:'dd/MM/yyyy'}}</td>
@@ -51,7 +51,4 @@ let value of sortedData | paginate: { itemsPerPage: 10, currentPage: page }; let
   </table>
   <pagination-controls previousLabel="Предыдущая"
                        nextLabel="Следующая" (pageChange)="page = $event"></pagination-controls>
-  <div *ngFor="let value of sortedData">
-    <h1>{{value.email}}</h1>
-  </div>
 </div>

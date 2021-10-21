@@ -13,22 +13,30 @@ module.exports.getByEmail = async function (req, res) {
 
 module.exports.createComplaint = async function (req, res) {
     try {
+        const newComplaint = {
+            complaintId: v4(),
+            complaintDescription: req.body.description
+        }
+        const complaint = new Complaint({
+            complaints: [newComplaint],
+            email: req.body.email
+        })
+        await complaint.save();
+        res.status(201).json(complaint);
+    } catch (e) {
+        errorHandler(res, e);
+    }
+}
+
+module.exports.updateComplaint = async function (req, res) {
+    try {
         const complaintCandidate = await Complaint.findOne({email: req.body.email});
         const newComplaint = {
             complaintId: v4(),
             complaintDescription: req.body.description
         }
-        if (!complaintCandidate) {
-            const complaint = new Complaint({
-                complaints: [newComplaint],
-                email: req.body.email
-            })
-            await complaint.save();
-            res.status(201).json(complaint);
-        } else {
-            const complaint = await complaintCandidate.updateOne({$push: {complaints: newComplaint}})
-            res.status(201).json(complaint);
-        }
+        const complaint = await complaintCandidate.updateOne({$push: {complaints: newComplaint}})
+        res.status(201).json(complaint);
     } catch (e) {
         errorHandler(res, e);
     }

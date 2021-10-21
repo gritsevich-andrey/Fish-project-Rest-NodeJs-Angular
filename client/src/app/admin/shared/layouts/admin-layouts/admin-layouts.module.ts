@@ -11,6 +11,7 @@ import {FilterComponent} from "../../../users/filter/filter.component";
 import {TableRowComponent} from "../../../users/table-row/table-row.component";
 import {MatTableModule} from "@angular/material/table";
 import {NgxPaginationModule} from "ngx-pagination";
+import {SearchFilterPipe} from "../../../../pipe/search-filter.pipe";
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import {NgxPaginationModule} from "ngx-pagination";
     UsersComponent,
     FilterComponent,
     TableRowComponent,
+    SearchFilterPipe
   ],
   imports: [
     CommonModule,
@@ -28,6 +30,9 @@ import {NgxPaginationModule} from "ngx-pagination";
     MatSortModule,
     MatTableModule,
     NgxPaginationModule,
+  ],
+  exports: [
+    SearchFilterPipe
   ]
 })
 export class AdminLayoutsModule { }
