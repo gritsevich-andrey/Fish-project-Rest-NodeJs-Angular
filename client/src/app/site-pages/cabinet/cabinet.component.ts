@@ -1,5 +1,5 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {mimeType} from "./mime-type.validator";
 import {WarningService} from "../../shared/services/warning.service";
 import {animate, state, style, transition, trigger} from "@angular/animations";
@@ -31,9 +31,13 @@ export class CabinetComponent implements OnInit {
     file!: File;
     //@ts-ignore
 @ViewChild('addTech', {static: false}) techRef: ElementRef;
+    rating: any;
+    rating3: number;
+    public formRating: FormGroup;
     constructor(private warningService: WarningService,
                 private cabinetService: CabinetService,
-                private userService: UserService) {
+                private userService: UserService,
+                private fb: FormBuilder) {
 
         this.form = new FormGroup({
             fio: new FormControl('', Validators.required),
@@ -42,7 +46,12 @@ export class CabinetComponent implements OnInit {
             age: new FormControl('', Validators.required),
             technique: new FormArray([this.createTechForm()]),
             juridicalPerson: new FormControl('', Validators.required)
-        })
+        });
+        this.rating3 = 0;
+        this.formRating = this.fb.group({
+            rating1: ['', Validators.required],
+            rating2: [4]
+        });
     }
 
     ngOnInit(): void {
@@ -66,15 +75,24 @@ export class CabinetComponent implements OnInit {
             juridicalPerson: this.form.value.juridicalPerson,
             avatar: this.file
         };
-        this.cabinetService.createCabinetData(cabinet, this.file)
-            .subscribe(data => {
-                //@ts-ignore
-                console.log('Парсим результат', JSON.parse(data.technique));
-                console.log(this.techList);
-                console.log('Получение данныхна создание кабинета', data);
-            }, err => console.log(err));
-    }
+        if (this.form.value.fio)
+        {
+            this.cabinetService.updateCabinetData(cabinet, this.file)
+                .subscribe(data => {
+                    this.warningService.sendWarning('Данные успешно обновлены');
+                    //@ts-ignore
+                    console.log('Данные кабинет обновлены', JSON.parse(data.technique));
+                }, err => console.log(err));
+        } else {
+            this.cabinetService.createCabinetData(cabinet, this.file)
+                .subscribe(data => {
+                    this.warningService.sendWarning('Данные успешно сохранены');
+                    //@ts-ignore
+                    console.log('Данные кабинета успешно созданы', JSON.parse(data.technique));
+                }, err => console.log(err));
+        }
 
+    }
     get f() {
         return this.form.controls;
     }

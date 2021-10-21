@@ -13,6 +13,16 @@ export class CabinetService {
   }
 
   createCabinetData(data: any, image?: File): Observable<any> {
+   const fd = this.createFormData(data, image);
+    return this.http.post('api/cabinet', fd);
+  }
+
+  updateCabinetData(data: any, image?: File): Observable<any> {
+   const fd = this.createFormData(data, image);
+    return this.http.patch('api/cabinet', fd);
+  }
+
+  createFormData(data: any, image?: File) {
     const fd = new FormData();
     if(image) {
       fd.append('image', image, image.name);
@@ -27,18 +37,17 @@ export class CabinetService {
       avatar: data.avatar
     };
     for (let cabinetKey in cabinet) {
-        // @ts-ignore
+      // @ts-ignore
       if (cabinetKey !== 'technique'){
         // @ts-ignore
         console.log(cabinetKey, cabinet[cabinetKey])
         // @ts-ignore
         fd.append(`${cabinetKey}`, `${cabinet[cabinetKey]}`);
       }
-    else {
-          fd.append('technique', JSON.stringify(cabinet.technique));
+      else {
+        fd.append('technique', JSON.stringify(cabinet.technique));
       }
     }
-    console.log(fd);
-    return this.http.post('api/cabinet', fd);
+    return fd;
   }
 }
