@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import {Pipe, PipeTransform} from '@angular/core';
 
 @Pipe({
   name: 'searchFilter'
@@ -6,7 +6,13 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class SearchFilterPipe implements PipeTransform {
 
   transform(value: any, args?: any): any {
-    return 123
+    if (args) {
+      return value.filter((el: any) => {
+        return el.email.toLowerCase().match(args.toLowerCase()) || el.fio?.toLowerCase().match(args.toLowerCase())
+      })
+    } else {
+      return value
+    }
   }
 
 }

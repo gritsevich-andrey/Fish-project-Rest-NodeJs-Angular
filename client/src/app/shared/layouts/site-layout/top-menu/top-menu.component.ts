@@ -9,7 +9,6 @@ declare var M: { Sidenav: { init: (arg0: NodeListOf<Element>) => any; }; }
 })
 export class TopMenuComponent implements OnInit {
   @Input() menu: any[] = [];
-  text = "Привет";
 
   constructor() {
   }

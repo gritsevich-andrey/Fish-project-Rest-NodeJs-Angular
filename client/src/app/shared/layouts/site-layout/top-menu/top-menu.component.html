@@ -1,7 +1,8 @@
 <nav class="top-menu">
   <div class="nav-wrapper">
     <ul class="left hide-on-med-and-down">
-      <li *ngFor="let item of menu" class="{{item.active ? 'active': null}}"><a [routerLink]="[item.href]">{{item.title}}</a></li>
+      <li *ngFor="let item of menu" class="{{item.active ? 'active': null}}">
+        <a [routerLink]="[item.href]"><i class="material-icons" *ngIf="item.icon">{{item.icon}}</i>{{item.title}}</a></li>
     </ul>
     <span data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></span>
   </div>
@@ -11,5 +12,7 @@
   <div class="logo-block">
     <a routerLink="/" class="brand-logo">Newborn</a>
   </div>
-  <li *ngFor="let item of menu" class="{{item.active ? 'active': null}}"><a [routerLink]="[item.href]">{{item.title}}</a></li>
+  <li *ngFor="let item of menu" class="{{item.active ? 'active': null}}">
+    <a [routerLink]="[item.href]"><i class="material-icons" *ngIf="item.icon">{{item.icon}}</i>{{item.title}}</a>
+  </li>
 </ul>

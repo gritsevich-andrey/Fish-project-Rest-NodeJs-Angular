@@ -22,7 +22,6 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {ComplaintsComponent} from './admin/users/complaints/complaints.component';
 import {NgxPaginationModule} from "ngx-pagination";
-import {SearchFilterPipe} from "./pipe/search-filter.pipe";
 import {NgxStarRatingModule} from "ngx-star-rating";
 
 @NgModule({
@@ -34,7 +33,6 @@ import {NgxStarRatingModule} from "ngx-star-rating";
     RegisterComponent,
     CabinetComponent,
     ComplaintsComponent,
-    SearchFilterPipe
   ],
   imports: [
     AppRoutingModule,
@@ -60,9 +58,6 @@ import {NgxStarRatingModule} from "ngx-star-rating";
     useClass: TokenInterceptor
   },
     AuthGuard
-  ],
-  exports: [
-    SearchFilterPipe
   ],
   bootstrap: [AppComponent]
 })
