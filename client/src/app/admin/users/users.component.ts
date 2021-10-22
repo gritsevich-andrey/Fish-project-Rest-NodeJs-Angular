@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {UserService} from "../../shared/services/user.service";
 import {Sort} from "@angular/material/sort";
 
+declare var M: { FormSelect: { init: (arg0: NodeListOf<Element>) => any; }; }
+
 export interface UserData {
   email: string;
   banned: boolean;
@@ -19,12 +21,16 @@ export class UsersComponent implements OnInit {
   userData: UserData[] = [];
   sortedData!: UserData[];
   page: number = 1;
+  usersOnPage!: number;
+  defaultUsersOnPage: number = 10;
   searchValue!: string;
 
   constructor(private userService: UserService) {
   }
 
   ngOnInit(): void {
+    const elems = document.querySelectorAll('select');
+    M.FormSelect.init(elems);
     this.userService.getListUsers().subscribe(
       data => {
         this.userData = data;

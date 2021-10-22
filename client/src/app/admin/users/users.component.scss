@@ -61,3 +61,21 @@ a {
     margin-bottom: 20px;
   }
 }
+
+input {
+  margin-bottom: 0 !important;
+}
+
+.input-field:first-child {
+  @media screen and (max-width: 420px) {
+    width: 100%;
+  }
+  width: 60%;
+  min-width: 300px;
+}
+
+.sortingBlock {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
