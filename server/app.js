@@ -1,5 +1,5 @@
 const express = require('express');
-const passport = require('passport');
+const passport = require('passport')
 const bodyParser = require('body-parser');
 const app = express();
 const authRoutes = require('./routes/auth');
@@ -14,8 +14,8 @@ mongoose.connect(keys.mongoURI)
     .then(() => console.log('MongoDB connected'))
     .catch(error => console.log(error))
 
-app.use(passport.initialize());
-require('./middleware/passport')(passport);
+app.use(passport.initialize())
+require('./middleware/passport')(passport)
 
 app.use(require('morgan')('dev'));
 app.use('/uploads', express.static('uploads'));
