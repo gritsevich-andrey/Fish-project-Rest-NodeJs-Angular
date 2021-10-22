@@ -9,6 +9,22 @@ module.exports.getAll = async function (req, res) {
         errorHandler(res, e);
     }
 }
+
+// module.exports.getByEmail = (req, res) => {
+//     Cabinet.findOne({email:req.params.email})
+//         .then(cabinet => {
+//             if (cabinet) {
+//                 res.status(200).json(cabinet);
+//             } else {
+//                 res.status(404).json({message: 'Кабинет не найден'})
+//             }
+//         })
+//         .catch(e => {
+//             res.status(404).json({message: 'Ошибка получения данных из базы'});
+//             errorHandler(res, e);
+//         })
+// }
+
 module.exports.getByEmail = async function (req, res) {
     try {
         const cabinet = await Cabinet.findOne({email: req.params.email});
@@ -18,6 +34,7 @@ module.exports.getByEmail = async function (req, res) {
         errorHandler(res, e);
     }
 }
+
 module.exports.remove = async function (req, res) {
     try {
         await Cabinet.remove({_id: req.params.id});
@@ -32,19 +49,18 @@ module.exports.create = async function (req, res) {
     try {
         const isCabinet = await Cabinet.findOne({email: req.body.email});
         if (!isCabinet) {
-        const cabinet = new Cabinet(
-            {
-                email: req.body.email,
-                fio: req.body.fio,
-                avatar: req.file ? req.file.path : '',
-                gender: req.body.gender,
-                age: req.body.age,
-                technique: req.body.technique,
-                juridicalPerson: req.body.juridicalPerson
-            }).save();
+            const cabinet = new Cabinet(
+                {
+                    email: req.body.email,
+                    fio: req.body.fio,
+                    avatar: req.file ? req.file.path : '',
+                    gender: req.body.gender,
+                    age: req.body.age,
+                    technique: req.body.technique,
+                    juridicalPerson: req.body.juridicalPerson
+                }).save();
             res.status(201).json(cabinet);
-        }
-        else {
+        } else {
             res.status(404).json('Ошибка сохранения данных о кабинете');
         }
     } catch (e) {

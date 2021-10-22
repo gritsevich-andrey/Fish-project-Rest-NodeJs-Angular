@@ -5,7 +5,6 @@ import {WarningService} from "../../shared/services/warning.service";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {UserService} from "../../shared/services/user.service";
 import {CabinetService} from "./cabinet.service";
-import {environment} from "../../../environments/environment";
 
 @Component({
     selector: 'app-cabinet',
@@ -24,7 +23,7 @@ export class CabinetComponent implements OnInit {
     public techList: FormArray;
     form!: FormGroup;
     hide = true;
-    imagePreview = '';
+    imagePreview = 'uploads/avatar.jpg';
     borderState = 'end';
     flag: boolean = false;
     isNew = true;
@@ -80,18 +79,18 @@ export class CabinetComponent implements OnInit {
             this.cabinetService.updateCabinetData(cabinet, this.file)
                 .subscribe(data => {
                     this.warningService.sendWarning('Данные успешно обновлены');
-                    //@ts-ignore
-                    console.log('Данные кабинет обновлены', JSON.parse(data.technique));
-                }, err => console.log(err));
+                }, err => {
+                    console.log(err);
+                    this.warningService.sendWarning('Ошибка обновления данных')});
         } else {
             this.cabinetService.createCabinetData(cabinet, this.file)
                 .subscribe(data => {
                     this.warningService.sendWarning('Данные успешно сохранены');
-                    //@ts-ignore
-                    console.log('Данные кабинета успешно созданы', JSON.parse(data.technique));
-                }, err => console.log(err));
+                }, err => {
+                    console.log(err);
+                    this.warningService.sendWarning('Ошибка создания данных');
+                });
         }
-
     }
     get f() {
         return this.form.controls;
@@ -131,8 +130,7 @@ export class CabinetComponent implements OnInit {
         }
 // @ts-ignore
         this.form.get('technique').setValue(JSON.parse(data.technique));
-        // @ts-ignore
-        this.imagePreview = environment.backUrl + data.avatar;
+            this.imagePreview = data.avatar;
         // @ts-ignore
         this.form.get('juridicalPerson').setValue(data.juridicalPerson);
     }

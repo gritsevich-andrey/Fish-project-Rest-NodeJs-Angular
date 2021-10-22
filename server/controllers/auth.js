@@ -22,7 +22,6 @@ module.exports.login = async function (req, res) {
                 message: 'Пароли не совпали'
             })
         }
-        //Проверяем пароль
     } else {
         res.status(404).json({
             message: 'Пользователь с таким email не найден'
