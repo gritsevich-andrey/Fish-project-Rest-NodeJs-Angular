@@ -29,14 +29,23 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const elems = document.querySelectorAll('select');
-    M.FormSelect.init(elems);
+    this.initFormSelect()
+    this.getListUsers()
+  }
+
+  //Может сделать приватными методами?
+  getListUsers() {
     this.userService.getListUsers().subscribe(
       data => {
         this.userData = data;
         this.sortedData = this.userData.slice();
       },
       error => console.log(error));
+  }
+
+  initFormSelect() {
+    const elems = document.querySelectorAll('select');
+    M.FormSelect.init(elems);
   }
 
   sortData(sort: Sort) {
@@ -62,27 +71,6 @@ export class UsersComponent implements OnInit {
   compare(a: string | number, b: string | number, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
-
-  /*
-  getComplaints(email: string) {
-    this.userService.getComplaintByEmail(email).subscribe(
-      data => {
-        console.log(data)
-      },
-      error => console.log(error));
-  }
-  */
-
-
-  /*
-  createComplaints(email: string, description: string) {
-    this.userService.createComplaintByEmail(email, description).subscribe(
-      data => {
-        console.log(data)
-      },
-      error => console.log(error));
-  }
-  */
 
   banUserByEmail(email: string, index: number) {
     this.userService.banUserByEmail(email).subscribe(

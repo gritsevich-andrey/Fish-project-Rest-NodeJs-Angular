@@ -21,11 +21,18 @@ export class ComplaintsComponent implements OnInit {
     private userService: UserService
   ) { }
 
+  ngOnInit(): void {
+    this.route.params.subscribe(params => {
+      this.email = params['email']
+      this.getComplaints(params['email'])
+    });
+  }
+
   getComplaints(email: string) {
     this.userService.getComplaintByEmail(email).subscribe(
       data => {
         this.complains = data;
-        console.log(data)
+        console.log(data);
       },
       error => console.log(error));
   }
@@ -38,12 +45,4 @@ export class ComplaintsComponent implements OnInit {
       }
     )
   }
-
-  ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      this.email = params['email']
-      this.getComplaints(params['email'])
-    });
-  }
-
 }

@@ -14,5 +14,4 @@ export class SearchFilterPipe implements PipeTransform {
       return value
     }
   }
-
 }

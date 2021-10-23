@@ -5,7 +5,7 @@ const app = express();
 const authRoutes = require('./routes/auth');
 const cabinetRoutes = require('./routes/cabinet');
 const complaintRoutes = require('./routes/complaint');
-const administatorRoutes = require('./routes/administrator');
+const administratorRoutes = require('./routes/administrator');
 
 const mongoose = require('mongoose');
 const keys = require('./config/keys')
@@ -26,7 +26,7 @@ app.use(bodyParser.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/cabinet', cabinetRoutes);
 app.use('/api/complaint', complaintRoutes);
-app.use('/api/administrator', administatorRoutes);
+app.use('/api/administrator', administratorRoutes);
 
 
 

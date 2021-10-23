@@ -1,7 +1,6 @@
 const User = require("../models/User");
 const Cabinet = require('../models/Cabinet')
 const errorHandler = require("../utils/errorHandler");
-const Complaint = require("../models/Complaint");
 
 module.exports.getAll = async function (req, res) {
     try {

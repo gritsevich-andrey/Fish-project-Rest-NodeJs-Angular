@@ -1,9 +1,25 @@
-<div class="container">
-  <h1>Жалобы пользователя {{email}}</h1>
-  <div *ngFor="let item of complains;let i=index;" class="complaint">
-    <h2>{{i + 1 }} - {{item.complaintDescription}}</h2>
-    <button (click)="deleteComplaint(email, item.complaintId)" class="waves-effect waves-light btn-small">
-      Удалить
-    </button>
-  </div>
-</div>
+<h1>Жалобы пользователя {{email}}</h1>
+<table>
+  <thead>
+  <tr>
+    <th>№</th>
+    <th>Текст жалобы</th>
+    <th>Удалить жалобу</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let item of complains;let i=index;">
+    <td>
+      {{i + 1 }}
+    </td>
+    <td>
+      {{item.complaintDescription}}
+    </td>
+    <td>
+      <button (click)="deleteComplaint(email, item.complaintId)" class="waves-effect waves-light btn-small">
+        Удалить
+      </button>
+    </td>
+  </tr>
+  </tbody>
+</table>

@@ -14,41 +14,41 @@ export class AdminLayoutsComponent implements OnInit {
     },
     {
       title: 'Все путешествия',
-      href: '#',
+      href: 'travels',
       icon: 'flight'
     },
     {
       title: 'Документы пользователей',
-      href: '#',
+      href: 'documents',
       icon: 'folder_shared'
     },
     {
       title: 'Отзывы и рейтинг',
-      href: '#',
+      href: 'rating',
       icon: 'star'
     },
     {
       title: 'Фото и видео',
-      href: '#',
+      href: 'photos',
       icon: 'insert_photo'
     },
   ]
   footer_links: any[] = [
     {
       title: 'Ссылка 1',
-      href: '#'
+      href: '#!'
     },
     {
       title: 'Ссылка 2',
-      href: '#'
+      href: '#!'
     },
     {
       title: 'Ссылка 3',
-      href: '#'
+      href: '#!'
     },
     {
       title: 'Ссылка 4',
-      href: '#'
+      href: '#!'
     },
   ]
 

@@ -1,6 +1,5 @@
 const Complaint = require('../models/Complaint')
 const errorHandler = require('../utils/errorHandler')
-const {v4} = require("uuid");
 
 module.exports.getByEmail = async function (req, res) {
     try {
@@ -13,12 +12,12 @@ module.exports.getByEmail = async function (req, res) {
 
 module.exports.createComplaint = async function (req, res) {
     try {
-        const newComplaint = {
-            complaintId: v4(),
-            complaintDescription: req.body.description
-        }
         const complaint = new Complaint({
-            complaints: [newComplaint],
+            complaints: [
+                {
+                    complaintDescription: req.body.description
+                }
+            ],
             email: req.body.email
         })
         await complaint.save();
@@ -31,11 +30,13 @@ module.exports.createComplaint = async function (req, res) {
 module.exports.updateComplaint = async function (req, res) {
     try {
         const complaintCandidate = await Complaint.findOne({email: req.body.email});
-        const newComplaint = {
-            complaintId: v4(),
-            complaintDescription: req.body.description
-        }
-        const complaint = await complaintCandidate.updateOne({$push: {complaints: newComplaint}})
+        const complaint = await complaintCandidate.updateOne({
+            $push: {
+                complaints: {
+                    complaintDescription: req.body.description
+                }
+            }
+        })
         res.status(201).json(complaint);
     } catch (e) {
         errorHandler(res, e);
