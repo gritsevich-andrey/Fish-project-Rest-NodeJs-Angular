@@ -70,8 +70,8 @@ module.exports.create = async function (req, res) {
 module.exports.update = async function (req, res) {
     const updated = {
         fio: req.body.fio,
-        avatar: req.file ? req.file.path : '',
         age: req.body.age,
+        avatar: req.file ? req.file.path : '',
         gender: req.body.gender,
         technique: req.body.technique,
         juridicalPerson: req.body.juridicalPerson

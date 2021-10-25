@@ -22,7 +22,7 @@ export class SiteLayoutComponent implements OnInit {
     },
     {
       title: 'Личный кабинет',
-      href: '#'
+      href: 'cabinet'
     },
     {
       title: 'Чат',
