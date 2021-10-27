@@ -11,7 +11,7 @@ router.get('/',authenticate , controller.getAll);
 router.get('/:email',authenticate, controller.getByEmail);
 router.post('/fio',authenticate,controller.getFIO)
 router.delete('/:id', authenticate, controller.remove);
-router.post('/', upload.single('image'), controller.create);
-router.patch('/', upload.single('image'), controller.update);
+router.post('/', authenticate, upload.single('image'), controller.create);
+router.patch('/', authenticate, upload.single('image'), controller.update);
 
 module.exports = router

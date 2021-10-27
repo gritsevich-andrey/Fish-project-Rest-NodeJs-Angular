@@ -1,0 +1,37 @@
+<!--<div class="sorting" matSort (matSortChange)="sortService.sortData($event)">-->
+<!--<span>Сортировка: </span>-->
+<!--<span mat-sort-header="number">Номер</span>-->
+<!--<span mat-sort-header="role">Роль</span>-->
+<!--<span mat-sort-header="date">Дата</span>-->
+<!--</div>-->
+<div class="cab-container">
+<table matSort (matSortChange)="sortService.sortData($event)">
+  <thead>
+  <tr>
+    <th mat-sort-header="number">№</th>
+    <th mat-sort-header="role">Роль</th>
+    <th mat-sort-header="date">Дата</th>
+    <th mat-sort-header="status">Статус</th>
+    <th mat-sort-header="carrier">Перевозчик</th>
+    <th mat-sort-header="place">Место</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>
+    </td>
+    <td>
+
+    </td>
+    <td>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<pagination-controls previousLabel="Предыдущая"
+                     nextLabel="Следующая" (pageChange)="page = $event"></pagination-controls>
+</div>

@@ -7,6 +7,7 @@
   --light-color: #f4f4f4;
   --danger-color: #dc3545;
   --success-color: #28a745;
+  --button-color: #26a69a;
 }
 .a-sidenav {
   transform: translateX(0) !important;
@@ -193,4 +194,9 @@ i.material-icons:hover {
 
 #mobile-demo li a:hover {
   color: #dc3545;
+}
+.cab-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }

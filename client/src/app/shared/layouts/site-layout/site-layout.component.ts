@@ -17,12 +17,14 @@ export class SiteLayoutComponent implements OnInit {
       href: '#'
     },
     {
-      title: 'Предложить место отдыха',
-      href: '#'
+      title: 'Мои поездки',
+      href: 'travel',
+      icon: 'flight'
     },
     {
       title: 'Личный кабинет',
-      href: '#'
+      href: 'cabinet',
+      icon: 'contacts'
     },
     {
       title: 'Чат',

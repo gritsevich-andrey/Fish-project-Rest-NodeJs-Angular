@@ -2,6 +2,7 @@ const express = require('express');
 const passport = require('passport')
 const bodyParser = require('body-parser');
 const app = express();
+const cors = require('cors');
 const authRoutes = require('./routes/auth');
 const cabinetRoutes = require('./routes/cabinet');
 const complaintRoutes = require('./routes/complaint');
@@ -24,8 +25,12 @@ app.use(require('cors')());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
+app.use(cors({
+    origin: ['localhost:4200']
+}));
 app.use('/api/auth', authRoutes);
 app.use('/api/cabinet', cabinetRoutes);
+app.use('/api/photo', photoRoutes);
 app.use('/api/complaint', complaintRoutes);
 app.use('/api/administrator', administratorRoutes);
 app.use('/api/photo', photoRoutes);

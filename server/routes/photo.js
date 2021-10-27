@@ -9,8 +9,8 @@ const authenticate = passport.authenticate('jwt', {session: false});
 router.get('/:userId', authenticate, controller.getPhotoByUserId);
 router.get('/', authenticate, controller.getAllPhoto);
 router.get('/:id', authenticate, controller.getPhotoById);
-router.post('/',/* authenticate,*/ upload.single('image'), controller.create);
+router.post('/', authenticate, upload.single('image'), controller.create);
 router.patch('/:id', authenticate, controller.update);
-router.delete('/:id'/*, authenticate*/, controller.remove);
+router.delete('/:id', authenticate, controller.remove);
 
 module.exports = router;
