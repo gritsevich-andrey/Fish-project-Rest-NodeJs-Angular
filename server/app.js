@@ -6,6 +6,7 @@ const authRoutes = require('./routes/auth');
 const cabinetRoutes = require('./routes/cabinet');
 const complaintRoutes = require('./routes/complaint');
 const administratorRoutes = require('./routes/administrator');
+const photoRoutes = require('./routes/photo');
 
 const mongoose = require('mongoose');
 const keys = require('./config/keys')
@@ -27,6 +28,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/cabinet', cabinetRoutes);
 app.use('/api/complaint', complaintRoutes);
 app.use('/api/administrator', administratorRoutes);
+app.use('/api/photo', photoRoutes);
 
 
 

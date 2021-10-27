@@ -1,0 +1,82 @@
+h1 {
+  margin-top: 20px;
+}
+
+a {
+  color: #FFFFFF;
+}
+
+.sorting {
+  display: none;
+}
+
+@media screen and (max-width: 768px) {
+  table thead {
+    display: none;
+  }
+  tr td:last-child {
+    border-bottom: 1px solid #000;
+  }
+  tr td {
+    display: flex;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    word-break: break-all;
+  }
+  tr td::before {
+    font-weight: bold;
+    width: 120px;
+    min-width: 120px;
+    margin-right: 20px;
+  }
+
+  table td:nth-child(1)::before {
+    content: '№';
+  }
+  table td:nth-child(2)::before {
+    content: 'Email';
+  }
+  table td:nth-child(3)::before {
+    content: 'Дата регистрации';
+  }
+  table td:nth-child(4)::before {
+    content: 'ФИО';
+  }
+  table td:nth-child(5)::before {
+    content: 'Забанен';
+  }
+  table td:nth-child(6)::before {
+    content: 'Забанить';
+  }
+  table td:nth-child(7)::before {
+    content: 'Список жалоб';
+  }
+  .sorting {
+    display: flex;
+
+    span:first-child {
+      font-weight: bold;
+      margin-right: 20px;
+      font-size: 18px;
+    }
+
+    margin-bottom: 20px;
+  }
+}
+
+input {
+  margin-bottom: 0 !important;
+}
+
+.input-field:first-child {
+  @media screen and (max-width: 420px) {
+    width: 100%;
+  }
+  width: 60%;
+  min-width: 300px;
+}
+
+.sortingBlock {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
