@@ -23,6 +23,8 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {ComplaintsComponent} from './admin/users/complaints/complaints.component';
 import {NgxPaginationModule} from "ngx-pagination";
 import {NgxStarRatingModule} from "ngx-star-rating";
+import { TravelComponent } from './site-pages/travel/travel.component';
+import {MatSortModule} from "@angular/material/sort";
 
 @NgModule({
   declarations: [
@@ -33,6 +35,7 @@ import {NgxStarRatingModule} from "ngx-star-rating";
     RegisterComponent,
     CabinetComponent,
     ComplaintsComponent,
+    TravelComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -50,7 +53,8 @@ import {NgxStarRatingModule} from "ngx-star-rating";
     MatTooltipModule,
     MatSnackBarModule,
     NgxPaginationModule,
-    NgxStarRatingModule
+    NgxStarRatingModule,
+    MatSortModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

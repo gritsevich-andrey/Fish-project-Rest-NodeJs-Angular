@@ -195,3 +195,8 @@ i.material-icons:hover {
 #mobile-demo li a:hover {
   color: #dc3545;
 }
+.cab-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
