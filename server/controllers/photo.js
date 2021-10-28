@@ -9,8 +9,9 @@ module.exports.getPhotoByUserId = (req, res) => {
 
 module.exports.getAllPhoto = (req, res) => {
     Photo.find()
-        .then(photos =>
-            res.status(200).json(photos))
+        .then(photos =>{
+            console.log(photos)
+            res.status(200).json(photos)})
         .catch(e => errorHandler(res, e))
 }
 
@@ -44,7 +45,7 @@ module.exports.remove = function (req, res) {
 module.exports.update = function (req, res) {
     const updated = {
         imageSrc: req.file ? req.file.path : '',
-        userId: req.body.userId,
+        userEmail: req.body.userEmail,
         coordinates: req.body.coordinates,
         description: req.body.description,
         moderation: req.body.moderation,
@@ -54,7 +55,7 @@ module.exports.update = function (req, res) {
         updated.imageSrc = req.file.path
     }
     Photo.findOneAndUpdate({
-        _id: req.params.id,
+        _id: req.body.fotoId,
         $set: updated,
         new: true
     }).then(photo => res.status(200).json(photo))
