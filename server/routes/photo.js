@@ -4,6 +4,7 @@ const passport = require('passport');
 const router = express.Router();
 const upload = require('../middleware/upload');
 
+// http://localhost:5000/api/photo
 const authenticate = passport.authenticate('jwt', {session: false});
 router.get('/:userId', authenticate, controller.getPhotoByUserId);
 router.get('/', authenticate, controller.getAllPhoto);

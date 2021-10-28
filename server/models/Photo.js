@@ -5,7 +5,7 @@ const photoSchema = new Schema({
         type: String,
         required: true
     },
-    userId: {
+    userEmail: {
         type: String,
         default: ''
     },
@@ -24,6 +24,14 @@ const photoSchema = new Schema({
     public: {
         type: Boolean,
         default: false
+    },
+    date: {
+        type: Date,
+        default: Date.now
+    },
+    banDescription: {
+        type: String,
+        default: ''
     }
 });
 module.exports= mongoose.model('photos', photoSchema);

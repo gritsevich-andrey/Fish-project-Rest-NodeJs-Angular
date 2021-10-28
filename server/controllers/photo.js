@@ -24,7 +24,7 @@ module.exports.create = function (req, res) {
     try {
         const photo = new Photo({
             imageSrc: req.file ? req.file.path : '',
-            userId: req.body.userId,
+            userEmail: req.body.email,
             coordinates: req.body.coordinates,
             description: req.body.description,
             moderation: req.body.moderation,

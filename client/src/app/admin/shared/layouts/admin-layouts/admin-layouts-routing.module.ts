@@ -3,6 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {AdminLayoutsComponent} from './admin-layouts.component';
 import {UsersComponent} from "../../../users/users.component";
 import {ComplaintsComponent} from "../../../users/complaints/complaints.component";
+import {PhotosComponent} from "../../../photos/photos/photos.component";
 
 const routes: Routes = [{
   path: '', component: AdminLayoutsComponent, children: [
@@ -11,6 +12,9 @@ const routes: Routes = [{
     },
     {
       path: 'complaints/:email', component: ComplaintsComponent
+    },
+    {
+      path: 'photos', component: PhotosComponent
     }
   ],
 }];

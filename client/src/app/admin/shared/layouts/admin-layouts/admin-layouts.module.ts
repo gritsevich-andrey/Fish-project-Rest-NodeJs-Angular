@@ -9,12 +9,14 @@ import {UsersComponent} from "../../../users/users.component";
 import {MatTableModule} from "@angular/material/table";
 import {NgxPaginationModule} from "ngx-pagination";
 import {SearchFilterPipe} from "../../../../pipe/search-filter.pipe";
+import {PhotosComponent} from "../../../photos/photos/photos.component";
 
 
 @NgModule({
   declarations: [
     AdminLayoutsComponent,
     UsersComponent,
+    PhotosComponent,
     SearchFilterPipe
   ],
   imports: [
