@@ -1,25 +1,25 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
+import {environment} from "../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CabinetService {
-
   constructor(private http: HttpClient) { }
   getCabinetData(email: string): Observable<any> {
-    return this.http.get(`api/cabinet/${email}`);
+    return this.http.get(environment.CABINET_API+`/${email}`);
   }
 
   createCabinetData(data: any, image?: File): Observable<any> {
    const fd = this.createFormData(data, image);
-    return this.http.post('api/cabinet', fd);
+    return this.http.post(environment.CABINET_API, fd);
   }
 
   updateCabinetData(data: any, image?: File): Observable<any> {
    const fd = this.createFormData(data, image);
-    return this.http.patch('api/cabinet', fd);
+    return this.http.patch(environment.CABINET_API, fd);
   }
 
   createFormData(data: any, image?: File) {
@@ -49,5 +49,8 @@ export class CabinetService {
       }
     }
     return fd;
+  }
+  getPhotoByUserEmail(): Observable<any> {
+    return this.http.get(environment.PHOTO_API);
   }
 }

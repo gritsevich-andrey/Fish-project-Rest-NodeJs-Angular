@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import jwt_decode from "jwt-decode";
+import {environment} from "../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -12,31 +13,31 @@ constructor(private http: HttpClient) {
   }
 
   getListUsers(): Observable<any> {
-    return this.http.get('/api/administrator');
+    return this.http.get(environment.ADMIN_API);
   }
 
   getComplaintByEmail(email: string): Observable<any> {
-    return this.http.get(`/api/complaint/${email}`);
+    return this.http.get(environment.COMPLAINT_API +`/${email}`);
   }
 
   deleteComplaintById(email: string, id: string): Observable<any> {
-    return this.http.delete(`/api/complaint/${email}/${id}`)
+    return this.http.delete(environment.COMPLAINT_API +`/${email}/${id}`)
   }
 
   banUserByEmail(email: string): Observable<any> {
-    return this.http.patch('/api/administrator/ban', {email})
+    return this.http.patch(environment.ADMIN_API +'/ban', {email})
   }
 
   unBanUserByEmail(email: string): Observable<any> {
-    return this.http.patch('/api/administrator/unban', {email})
+    return this.http.patch(environment.ADMIN_API+'/unban', {email})
   }
 
   getCabinetData(email: string): Observable<any> {
-    return this.http.get(`api/cabinet/${email}`);
+    return this.http.get(environment.CABINET_API+ `/${email}`);
   }
 
   createCabinetData(data: any) {
-    return this.http.post('api/cabinet', {
+    return this.http.post(environment.CABINET_API, {
       email: data.email,
       fio: data.fio,
       age: data.age,

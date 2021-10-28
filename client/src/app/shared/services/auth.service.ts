@@ -3,6 +3,7 @@ import {User} from "../interfaces";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {tap} from "rxjs/operators";
+import {environment} from "../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -14,11 +15,11 @@ export class AuthService {
   }
 
   register(user: User): Observable<User> {
-return this.http.post<User>('/api/auth/register', user)
+return this.http.post<User>(environment.AUTH_API +'/register', user)
   }
 
   login(user: User): Observable<{ token: string }> {
-    return this.http.post<{ token: string }>('/api/auth/login', user)
+    return this.http.post<{ token: string }>(environment.AUTH_API+ '/login', user)
       .pipe(
         tap(
           ({token}) => {

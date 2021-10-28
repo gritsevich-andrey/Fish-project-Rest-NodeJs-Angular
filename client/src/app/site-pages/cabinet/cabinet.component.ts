@@ -5,6 +5,8 @@ import {WarningService} from "../../shared/services/warning.service";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {UserService} from "../../shared/services/user.service";
 import {CabinetService} from "./cabinet.service";
+import {Photo} from "../../shared/interfaces";
+import {SortService} from "../../shared/services/sort.service";
 
 @Component({
     selector: 'app-cabinet',
@@ -28,6 +30,7 @@ export class CabinetComponent implements OnInit {
     flag: boolean = false;
     isNew = true;
     file!: File;
+    userPhotos: Photo[]=[];
     //@ts-ignore
 @ViewChild('addTech', {static: false}) techRef: ElementRef;
     rating: any;
@@ -36,7 +39,8 @@ export class CabinetComponent implements OnInit {
     constructor(private warningService: WarningService,
                 private cabinetService: CabinetService,
                 private userService: UserService,
-                private fb: FormBuilder) {
+                private fb: FormBuilder,
+                public sortService: SortService) {
 
         this.form = new FormGroup({
             fio: new FormControl('', Validators.required),
@@ -61,6 +65,7 @@ export class CabinetComponent implements OnInit {
             this.isNew = false;
         });
 
+      this.getMyPhoto();
     }
 
     onSubmit() {
@@ -148,4 +153,20 @@ export class CabinetComponent implements OnInit {
     removeTechnique(index: any) {
         this.techList.removeAt(index);
     }
+
+  private getMyPhoto() {
+    this.cabinetService.getPhotoByUserEmail().subscribe(data => {
+      const dataStream = data.map((value: any) => {
+        this.userPhotos.push(
+          {
+            userEmail: value.userEmail,
+            description: value.description,
+            imageSrc: value.imageSrc,
+            moderation: value.moderation,
+            public: value.public
+          });
+      })
+      this.userPhotos.push(dataStream);
+    })
+  }
 }

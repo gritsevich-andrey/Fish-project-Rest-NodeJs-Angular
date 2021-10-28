@@ -1,4 +1,4 @@
-const Photo = require('../models/Foto')
+const Photo = require('../models/Photo')
 const errorHandler = require('../utils/errorHandler')
 
 module.exports.getPhotoByUserId = (req, res) => {

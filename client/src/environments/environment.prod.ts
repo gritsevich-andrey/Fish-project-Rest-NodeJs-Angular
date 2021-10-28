@@ -1,4 +1,9 @@
-export const environment = {
+import {Constants} from "./Constants";
+export const environment: Constants = {
   production: true,
-  backUrl: 'http://localhost:5000/'
-};
+  AUTH_API: '/api/auth',
+  CABINET_API: '/api/cabinet',
+  ADMIN_API: '/api/administrator',
+  COMPLAINT_API: '/api/complaint',
+  PHOTO_API: '/api/photo'
+}
