@@ -33,7 +33,6 @@ export class PhotosComponent implements OnInit {
   getPhotos() {
     this.photoService.getPhotos().subscribe(
       data => {
-        debugger
         this.photosData = data
         this.emailsArray = data.map((el: any) => el.userEmail)
         this.getEmailFIO(this.emailsArray)
@@ -44,6 +43,7 @@ export class PhotosComponent implements OnInit {
   getEmailFIO(emailsArray: any) {
     this.photoService.getFIO(emailsArray).subscribe(
       (data: any) => {
+        debugger
         this.photosData.forEach(el => {
           data.forEach((elem: any) => {
             if (el.userEmail === elem.email) {

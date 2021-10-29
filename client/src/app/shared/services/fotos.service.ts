@@ -13,7 +13,6 @@ export class PhotoService {
 
   getPhotos(): Observable<any> {
     return this.http.get('/api/photo').pipe(map((data: any) => {
-      debugger
       return data.map((data: any) => {
         return {
           fotoId: data._id,

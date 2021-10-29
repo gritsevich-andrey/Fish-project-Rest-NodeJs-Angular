@@ -53,7 +53,12 @@
         <span>Подтвердить</span>
       </label>
     </td>
-    <td>{{item.banDescription}}</td>
+    <td>
+      <div class="input-field col s12">
+        <textarea [(ngModel)]="item.banDescription" id="textarea1" class="materialize-textarea"></textarea>
+        <span class="helper-text">Описание отказа публикации</span>
+      </div>
+    </td>
   </tr>
   </tbody>
 </table>

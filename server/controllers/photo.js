@@ -43,8 +43,9 @@ module.exports.remove = function (req, res) {
 }
 
 module.exports.update = function (req, res) {
+    console.log(req.body)
     const updated = {
-        imageSrc: req.file ? req.file.path : '',
+        imageSrc: req.file ? req.file.path : req.body.imageSrc,
         userEmail: req.body.userEmail,
         coordinates: req.body.coordinates,
         description: req.body.description,
