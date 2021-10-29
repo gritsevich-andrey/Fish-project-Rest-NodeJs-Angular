@@ -23,9 +23,10 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {ComplaintsComponent} from './admin/users/complaints/complaints.component';
 import {NgxPaginationModule} from "ngx-pagination";
 import {NgxStarRatingModule} from "ngx-star-rating";
-import { TravelComponent } from './site-pages/travel/travel.component';
+import {TravelComponent} from './site-pages/travel/travel.component';
 import {MatSortModule} from "@angular/material/sort";
 import {MatTabsModule} from "@angular/material/tabs";
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -36,28 +37,29 @@ import {MatTabsModule} from "@angular/material/tabs";
     RegisterComponent,
     CabinetComponent,
     ComplaintsComponent,
-    TravelComponent,
+    TravelComponent
   ],
-    imports: [
-        AppRoutingModule,
-        ReactiveFormsModule,
-        FormsModule,
-        HttpClientModule,
-        BrowserModule,
-        CommonModule,
-        SharedModule,
-        BrowserAnimationsModule,
-        MatIconModule,
-        MatButtonModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatTooltipModule,
-        MatSnackBarModule,
-        NgxPaginationModule,
-        NgxStarRatingModule,
-        MatSortModule,
-        MatTabsModule
-    ],
+  imports: [
+    AppRoutingModule,
+    ReactiveFormsModule,
+    FormsModule,
+    HttpClientModule,
+    BrowserModule,
+    CommonModule,
+    SharedModule,
+    BrowserAnimationsModule,
+    MatIconModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatTooltipModule,
+    MatSnackBarModule,
+    NgxPaginationModule,
+    NgxStarRatingModule,
+    MatSortModule,
+    MatTabsModule,
+    MatPaginatorModule
+  ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
     multi: true,

@@ -23,6 +23,7 @@
     "angular-material": "^1.2.3",
     "jwt-decode": "^3.1.2",
     "materialize-css": "^1.0.0-rc.2",
+    "ng-image-slider": "^2.8.0",
     "ngx-pagination": "^5.1.1",
     "ngx-star-rating": "^2.0.3",
     "rxjs": "~6.6.0",
@@ -31,7 +32,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~12.2.7",
-    "@angular/cli": "^12.2.11",
+    "@angular/cli": "^12.2.12",
     "@angular/compiler-cli": "~12.2.0",
     "@types/jasmine": "~3.8.0",
     "@types/node": "^12.11.1",
