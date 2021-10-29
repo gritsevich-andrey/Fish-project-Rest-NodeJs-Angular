@@ -32,7 +32,7 @@ export class PhotoService {
     return this.http.post('/api/cabinet/fio', {emails});
   }
 
-  updateFotoInfo(photoInfo: any): Observable<any> {
+  updatePhotoInfo(photoInfo: any): Observable<any> {
     return this.http.patch(`/api/photo/${photoInfo.userEmail}`, {...photoInfo})
   }
 

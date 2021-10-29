@@ -43,14 +43,14 @@ module.exports.remove = function (req, res) {
 }
 
 module.exports.update = function (req, res) {
-    console.log(req.body)
     const updated = {
         imageSrc: req.file ? req.file.path : req.body.imageSrc,
         userEmail: req.body.userEmail,
         coordinates: req.body.coordinates,
         description: req.body.description,
         moderation: req.body.moderation,
-        public: req.body.public
+        public: req.body.public,
+        banDescription: req.body.banDescription
     }
     if (req.file) {
         updated.imageSrc = req.file.path

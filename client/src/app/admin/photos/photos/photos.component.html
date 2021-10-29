@@ -5,12 +5,12 @@
     <label for="search_input">Поиск по Email или ФИО</label>
   </div>
   <div class="input-field">
-    <label *ngIf="!usersOnPage">Кол-во пользователей</label>
+    <label *ngIf="!usersOnPage">Кол-во постов</label>
     <select [(ngModel)]="usersOnPage">
-      <option value="10">10 пользователей</option>
-      <option value="25">25 пользователей</option>
-      <option value="50">50 пользователей</option>
-      <option value="100">100 пользователей</option>
+      <option value="10">10 постов</option>
+      <option value="25">25 постов</option>
+      <option value="50">50 постов</option>
+      <option value="100">100 постов</option>
     </select>
   </div>
 </div>
@@ -18,7 +18,7 @@
   <thead>
   <tr>
     <th>№</th>
-    <th>Дата прикрепления</th>
+    <th>Дата</th>
     <th>Email</th>
     <th>ФИО</th>
     <th>Контент</th>
@@ -26,6 +26,7 @@
     <th>Опубликовать в ленте</th>
     <th>Подтверждение</th>
     <th>Описание отказа публикации</th>
+    <th>Сохранить</th>
   </tr>
   </thead>
   <tbody>
@@ -36,7 +37,7 @@
     <td>{{item.userEmail}}</td>
     <td>{{item.fio}}</td>
     <td>
-      <img src="{{item.imageSrc}}" alt="{{item.description}}">
+      <ng-image-slider  [images]="[{image: item.imageSrc, thumbImage: item.imageSrc, alt: item.description}]" #nav></ng-image-slider>
     </td>
     <td>{{item.description}}</td>
     <td>
@@ -58,6 +59,9 @@
         <textarea [(ngModel)]="item.banDescription" id="textarea1" class="materialize-textarea"></textarea>
         <span class="helper-text">Описание отказа публикации</span>
       </div>
+    </td>
+    <td>
+      <a class="waves-effect waves-light btn" (click)="updatePhotoInfo(item)" >Сохранить</a>
     </td>
   </tr>
   </tbody>
