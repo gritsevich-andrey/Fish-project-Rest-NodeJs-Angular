@@ -140,7 +140,7 @@
           <tbody>
           <tr *ngFor="let photo of userPhotos; let i = index;">
             <td>{{i+1}}</td>
-            <td><img [src]="photo.imageSrc"></td>
+            <td class="image-preview"><img [src]="photo.imageSrc"></td>
             <td>{{photo.description}}</td>
             <td>{{photo.moderation}}</td>
             <td>{{photo.public}}</td>
