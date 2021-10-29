@@ -33,7 +33,6 @@ export class PhotosComponent implements OnInit {
   getPhotos() {
     this.photoService.getPhotos().subscribe(
       data => {
-        debugger
         this.photosData = data
         this.emailsArray = data.map((el: any) => el.userEmail)
         this.getEmailFIO(this.emailsArray)
@@ -59,7 +58,7 @@ export class PhotosComponent implements OnInit {
     this.photosData.forEach(el => {
       if (el.fotoId === fotoId) {
         el.public = isPublic;
-        this.updateFotoInfo(el)
+        //this.updatePhotoInfo(el)
       }
     })
   }
@@ -68,16 +67,15 @@ export class PhotosComponent implements OnInit {
     this.photosData.forEach(el => {
       if (el.fotoId === fotoId) {
         el.moderation = moderation;
-        this.updateFotoInfo(el)
+        //this.updatePhotoInfo(el)
       }
     })
   }
 
-  updateFotoInfo(photoInfo: any) {
-    this.photoService.updateFotoInfo(photoInfo).subscribe(
+  updatePhotoInfo(photoInfo: any) {
+    this.photoService.updatePhotoInfo(photoInfo).subscribe(
       data => {
-        console.log(data)
-        this.getPhotos()
+        //console.log(data)
       },
       error => console.log(error)
     )

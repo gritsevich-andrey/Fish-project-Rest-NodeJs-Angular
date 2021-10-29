@@ -33,22 +33,31 @@ a {
     content: '№';
   }
   table td:nth-child(2)::before {
-    content: 'Email';
+    content: 'Дата прикрепления';
   }
   table td:nth-child(3)::before {
-    content: 'Дата регистрации';
+    content: 'Email';
   }
   table td:nth-child(4)::before {
     content: 'ФИО';
   }
   table td:nth-child(5)::before {
-    content: 'Забанен';
+    content: 'Контент';
   }
   table td:nth-child(6)::before {
-    content: 'Забанить';
+    content: 'Описание фото/видео';
   }
   table td:nth-child(7)::before {
-    content: 'Список жалоб';
+    content: 'Опубликовать в ленте';
+  }
+  table td:nth-child(8)::before {
+    content: 'Подтверждение';
+  }
+  table td:nth-child(9)::before {
+    content: 'Описание отказа публикации';
+  }
+  table td:nth-child(10)::before {
+    content: 'Сохранить';
   }
   .sorting {
     display: flex;
@@ -73,6 +82,13 @@ input {
   }
   width: 60%;
   min-width: 300px;
+}
+
+table {
+  .input-field {
+    width: auto;
+    min-width: auto;
+  }
 }
 
 .sortingBlock {

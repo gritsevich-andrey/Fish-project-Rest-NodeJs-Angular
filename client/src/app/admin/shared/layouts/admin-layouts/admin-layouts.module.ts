@@ -10,6 +10,7 @@ import {MatTableModule} from "@angular/material/table";
 import {NgxPaginationModule} from "ngx-pagination";
 import {SearchFilterPipe} from "../../../../pipe/search-filter.pipe";
 import {PhotosComponent} from "../../../photos/photos/photos.component";
+import {NgImageSliderModule} from "ng-image-slider";
 
 
 @NgModule({
@@ -19,14 +20,15 @@ import {PhotosComponent} from "../../../photos/photos/photos.component";
     PhotosComponent,
     SearchFilterPipe
   ],
-  imports: [
-    CommonModule,
-    AdminLayoutsRoutingModule,
-    SharedModule,
-    MatSortModule,
-    MatTableModule,
-    NgxPaginationModule,
-  ],
+    imports: [
+        CommonModule,
+        AdminLayoutsRoutingModule,
+        SharedModule,
+        MatSortModule,
+        MatTableModule,
+        NgxPaginationModule,
+        NgImageSliderModule,
+    ],
   exports: [
     SearchFilterPipe
   ]

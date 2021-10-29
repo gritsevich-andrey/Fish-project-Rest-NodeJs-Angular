@@ -94,10 +94,9 @@ module.exports.update = async function (req, res) {
 module.exports.getFIO = async function (req, res) {
     try {
         let data = []
-        console.log(req.body.emails)
         for (let i = 0; req.body.emails.length > i; i++) {
             let email = req.body.emails[i]
-            let user = await Cabinet.find({email: email});
+            let user = await Cabinet.findOne({email: email});
             data.push({
                 email: email,
                 fio: user.fio

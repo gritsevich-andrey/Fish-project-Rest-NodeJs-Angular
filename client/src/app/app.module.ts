@@ -27,6 +27,7 @@ import {TravelComponent} from './site-pages/travel/travel.component';
 import {MatSortModule} from "@angular/material/sort";
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatPaginatorModule} from '@angular/material/paginator';
+import { NgImageSliderModule } from 'ng-image-slider';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     TravelComponent
   ],
   imports: [
+    NgImageSliderModule,
     AppRoutingModule,
     ReactiveFormsModule,
     FormsModule,
