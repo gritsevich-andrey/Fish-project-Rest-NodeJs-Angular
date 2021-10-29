@@ -163,7 +163,7 @@ export class CabinetComponent implements OnInit, OnDestroy {
 
   private getMyPhoto(photosPerPage: number, currentPage: number) {
     this.cabinetService.getPhotoByUserEmail(photosPerPage, currentPage || 1).subscribe(data => {
-      const dataStream = data.map((value: any) => {
+       data.map((value: any) => {
         this.userPhotos.push(
           {
             userEmail: value.userEmail,
@@ -173,7 +173,6 @@ export class CabinetComponent implements OnInit, OnDestroy {
             public: value.public
           });
       })
-      this.userPhotos.push(dataStream);
     })
   }
 
