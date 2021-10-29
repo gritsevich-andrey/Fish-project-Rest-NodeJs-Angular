@@ -8,10 +8,18 @@ module.exports.getPhotoByUserId = (req, res) => {
 }
 
 module.exports.getAllPhoto = (req, res) => {
-    Photo.find()
-        .then(photos =>{
+    const pageSize = +req.query.pagesize;
+    const currentPage = +req.query.page;
+    const photoQuery = Photo.find();
+    if (pageSize && currentPage) {
+        photoQuery.skip(pageSize * (currentPage - 1))
+            .limit(pageSize)
+    }
+    photoQuery
+        .then(photos => {
             console.log(photos)
-            res.status(200).json(photos)})
+            res.status(200).json(photos)
+        })
         .catch(e => errorHandler(res, e))
 }
 

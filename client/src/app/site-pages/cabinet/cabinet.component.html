@@ -124,8 +124,6 @@
         </div>
         <button class="btn">Мои отзывы</button>
       </div>
-
-
     </mat-tab>
     <mat-tab label="Мои фото">
       <div>
@@ -142,7 +140,7 @@
           <tbody>
           <tr *ngFor="let photo of userPhotos; let i = index;">
             <td>{{i+1}}</td>
-            <td class="image-preview"><img src="{{photo.imageSrc}}"></td>
+            <td><img [src]="photo.imageSrc"></td>
             <td>{{photo.description}}</td>
             <td>{{photo.moderation}}</td>
             <td>{{photo.public}}</td>
@@ -150,7 +148,11 @@
           </tbody>
         </table>
       </div>
-      <mat-paginator></mat-paginator>
+      <mat-paginator [length]="totalPhotos"
+                     [pageSize]="photosPerPage"
+      [pageSizeOptions]="pageSizeOptions"
+                     (page) = "onChangedPage($event)"
+      ></mat-paginator>
     </mat-tab>
   </mat-tab-group>
 

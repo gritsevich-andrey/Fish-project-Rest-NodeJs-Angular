@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {mimeType} from "./mime-type.validator";
 import {WarningService} from "../../shared/services/warning.service";
@@ -7,6 +7,8 @@ import {UserService} from "../../shared/services/user.service";
 import {CabinetService} from "./cabinet.service";
 import {Photo} from "../../shared/interfaces";
 import {SortService} from "../../shared/services/sort.service";
+import {PageEvent} from "@angular/material/paginator";
+import {Subscription} from "rxjs";
 
 @Component({
     selector: 'app-cabinet',
@@ -20,7 +22,7 @@ import {SortService} from "../../shared/services/sort.service";
         ]),
     ]
 })
-export class CabinetComponent implements OnInit {
+export class CabinetComponent implements OnInit, OnDestroy {
     //@ts-ignore
     public techList: FormArray;
     form!: FormGroup;
@@ -31,11 +33,16 @@ export class CabinetComponent implements OnInit {
     isNew = true;
     file!: File;
     userPhotos: Photo[]=[];
+    totalPhotos = 10;
+    photosPerPage = 10;
+    pageSizeOptions = [10,20,50,100];
+    currentPage = 1;
     //@ts-ignore
 @ViewChild('addTech', {static: false}) techRef: ElementRef;
     rating: any;
     rating3: number;
     public formRating: FormGroup;
+  private photoSub!: Subscription;
     constructor(private warningService: WarningService,
                 private cabinetService: CabinetService,
                 private userService: UserService,
@@ -60,12 +67,12 @@ export class CabinetComponent implements OnInit {
     ngOnInit(): void {
         this.techList = this.form.get('technique') as FormArray;
         const email = this.userService.getUserDataFromLocal();
-        this.cabinetService.getCabinetData(email).subscribe(data => {
+      this.photoSub =  this.cabinetService.getCabinetData(email).subscribe(data => {
             this.addDataOnForm(data);
             this.isNew = false;
         });
 
-      this.getMyPhoto();
+      this.getMyPhoto(this.photosPerPage, 1);
     }
 
     onSubmit() {
@@ -154,8 +161,8 @@ export class CabinetComponent implements OnInit {
         this.techList.removeAt(index);
     }
 
-  private getMyPhoto() {
-    this.cabinetService.getPhotoByUserEmail().subscribe(data => {
+  private getMyPhoto(photosPerPage: number, currentPage: number) {
+    this.cabinetService.getPhotoByUserEmail(photosPerPage, currentPage || 1).subscribe(data => {
       const dataStream = data.map((value: any) => {
         this.userPhotos.push(
           {
@@ -168,5 +175,15 @@ export class CabinetComponent implements OnInit {
       })
       this.userPhotos.push(dataStream);
     })
+  }
+
+  onChangedPage(pageData: PageEvent) {
+      this.currentPage = pageData.pageIndex + 1;
+      this.photosPerPage = pageData.pageSize;
+this.getMyPhoto(this.photosPerPage, this.currentPage)
+  }
+
+  ngOnDestroy(): void {
+      this.photoSub.unsubscribe();
   }
 }
