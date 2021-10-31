@@ -1,6 +1,7 @@
 const express = require('express');
 const passport = require('passport')
 const bodyParser = require('body-parser');
+const path = require('path');
 const app = express();
 const cors = require('cors');
 const authRoutes = require('./routes/auth');
@@ -35,6 +36,15 @@ app.use('/api/complaint', complaintRoutes);
 app.use('/api/administrator', administratorRoutes);
 app.use('/api/photo', photoRoutes);
 
-
+if (process.env.NODE_ENV === 'production') {
+app.use(express.static('client/dist/fish'))
+    app.get('*', (req, res) => {
+res.sendFile(
+    path.resolve(
+        __dirname, 'client', 'dist', 'fish', 'index.html'
+    )
+)
+    })
+}
 
 module.exports = app;

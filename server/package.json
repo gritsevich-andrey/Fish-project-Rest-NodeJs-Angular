@@ -3,9 +3,17 @@
   "version": "1.0.0",
   "description": "Nodejs. Express, Mongoose, PassportJs Rest server",
   "main": "index.js",
+  "engines": {
+    "node": "14.18.1",
+    "npm": "6.14.15"
+  },
   "scripts": {
     "start": "node index",
-    "server": "nodemon index"
+    "server": "nodemon index",
+    "client-install": "npm install --prefix client",
+    "client": "npm run start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm run client-install && npm run build --prefix client"
   },
   "keywords": [
     "express",
