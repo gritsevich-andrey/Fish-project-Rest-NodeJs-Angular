@@ -89,14 +89,14 @@ export class CabinetComponent implements OnInit, OnDestroy {
         if (this.form.value.fio)
         {
             this.cabinetService.updateCabinetData(cabinet, this.file)
-                .subscribe(data => {
+                .subscribe(() => {
                     this.warningService.sendWarning('Данные успешно обновлены');
                 }, err => {
                     console.log(err);
                     this.warningService.sendWarning('Ошибка обновления данных')});
         } else {
             this.cabinetService.createCabinetData(cabinet, this.file)
-                .subscribe(data => {
+                .subscribe(() => {
                     this.warningService.sendWarning('Данные успешно сохранены');
                 }, err => {
                     console.log(err);
