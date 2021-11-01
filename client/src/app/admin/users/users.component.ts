@@ -33,7 +33,6 @@ export class UsersComponent implements OnInit {
     this.getListUsers()
   }
 
-  //Может сделать приватными методами?
   getListUsers() {
     this.userService.getListUsers().subscribe(
       data => {
@@ -75,7 +74,6 @@ export class UsersComponent implements OnInit {
   banUserByEmail(email: string, index: number) {
     this.userService.banUserByEmail(email).subscribe(
       data => {
-        console.log(data)
         this.sortedData[index].banned = true;
       },
       error => console.log(error));
@@ -84,7 +82,6 @@ export class UsersComponent implements OnInit {
   unBanUserByEmail(email: string, index: number) {
     this.userService.unBanUserByEmail(email).subscribe(
       data => {
-        console.log(data)
         this.sortedData[index].banned = false;
       },
       error => console.log(error));

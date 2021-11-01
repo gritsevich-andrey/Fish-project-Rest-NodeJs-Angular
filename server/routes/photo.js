@@ -6,7 +6,7 @@ const upload = require('../middleware/upload');
 
 // http://localhost:5000/api/photo
 const authenticate = passport.authenticate('jwt', {session: false});
-router.get('/:userId', authenticate, controller.getPhotoByUserId);
+router.get('/:userEmail', authenticate, controller.getPhotoByUserEmail);
 router.get('/', controller.getAllPhoto);
 router.get('/:id', authenticate, controller.getPhotoById);
 router.post('/', authenticate, upload.single('image'), controller.create);

@@ -1,8 +1,8 @@
 const Photo = require('../models/Photo')
 const errorHandler = require('../utils/errorHandler')
 
-module.exports.getPhotoByUserId = (req, res) => {
-    Photo.find({userId: req.params.userId})
+module.exports.getPhotoByUserEmail = (req, res) => {
+    Photo.find({userEmail: req.params.userEmail})
         .then(photos => res.status(200).json(photos))
         .catch(e => errorHandler(res, e))
 }
@@ -17,7 +17,6 @@ module.exports.getAllPhoto = (req, res) => {
     }
     photoQuery
         .then(photos => {
-            console.log(photos)
             res.status(200).json(photos)
         })
         .catch(e => errorHandler(res, e))
@@ -64,7 +63,7 @@ module.exports.update = function (req, res) {
         updated.imageSrc = req.file.path
     }
     Photo.findOneAndUpdate({
-        _id: req.body.fotoId,
+        _id: req.body.photoId,
         $set: updated,
         new: true
     }).then(photo => res.status(200).json(photo))

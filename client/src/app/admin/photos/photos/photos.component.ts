@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {PhotoService} from "../../../shared/services/fotos.service";
+import {PhotoService} from "../../../shared/services/photos.service";
 
 declare var M: { FormSelect: { init: (arg0: NodeListOf<Element>) => any; }; }
 
@@ -10,8 +10,8 @@ declare var M: { FormSelect: { init: (arg0: NodeListOf<Element>) => any; }; }
 })
 export class PhotosComponent implements OnInit {
   page: number = 1;
-  usersOnPage!: number;
-  defaultUsersOnPage: number = 10;
+  postsOnPage!: number;
+  defaultPostsOnPage: number = 10;
   searchValue!: string;
   photosData: any[] = [];
   emailsArray: string[] = []
@@ -54,20 +54,18 @@ export class PhotosComponent implements OnInit {
       error => console.log(error));
   }
 
-  setPublic(fotoId: string, isPublic: boolean) {
+  setPublic(photoId: string, isPublic: boolean) {
     this.photosData.forEach(el => {
-      if (el.fotoId === fotoId) {
+      if (el.photoId === photoId) {
         el.public = isPublic;
-        //this.updatePhotoInfo(el)
       }
     })
   }
 
-  setModeration(fotoId: string, moderation: boolean) {
+  setModeration(photoId: string, moderation: boolean) {
     this.photosData.forEach(el => {
-      if (el.fotoId === fotoId) {
+      if (el.photoId === photoId) {
         el.moderation = moderation;
-        //this.updatePhotoInfo(el)
       }
     })
   }

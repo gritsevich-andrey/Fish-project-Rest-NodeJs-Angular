@@ -10,7 +10,8 @@ a {
   display: none;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1240px) {
+
   table thead {
     display: none;
   }
@@ -33,7 +34,7 @@ a {
     content: '№';
   }
   table td:nth-child(2)::before {
-    content: 'Дата прикрепления';
+    content: 'Дата';
   }
   table td:nth-child(3)::before {
     content: 'Email';
@@ -45,16 +46,16 @@ a {
     content: 'Контент';
   }
   table td:nth-child(6)::before {
-    content: 'Описание фото/видео';
+    content: 'Описание';
   }
   table td:nth-child(7)::before {
-    content: 'Опубликовать в ленте';
+    content: 'Опубликовать';
   }
   table td:nth-child(8)::before {
-    content: 'Подтверждение';
+    content: 'Подтверждть';
   }
   table td:nth-child(9)::before {
-    content: 'Описание отказа публикации';
+    content: 'Описание отказа';
   }
   table td:nth-child(10)::before {
     content: 'Сохранить';
@@ -97,7 +98,7 @@ table {
   flex-wrap: wrap;
 }
 
-img {
+.imageBlock {
   height: 100px;
-  width: 100px;
+  min-width: 105px;
 }

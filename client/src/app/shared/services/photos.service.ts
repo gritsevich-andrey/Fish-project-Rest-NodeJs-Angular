@@ -15,7 +15,7 @@ export class PhotoService {
     return this.http.get('/api/photo').pipe(map((data: any) => {
       return data.map((data: any) => {
         return {
-          fotoId: data._id,
+          photoId: data._id,
           imageSrc: data.imageSrc,
           userEmail: data.userEmail,
           description: data.description,
