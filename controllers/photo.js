@@ -17,7 +17,7 @@ module.exports.getAllPhoto = (req, res) => {
     }
     photoQuery
         .then(photos => {
-            console.log(photos)
+            console.log('Пагинация фото на беке', photos)
             res.status(200).json(photos)
         })
         .catch(e => errorHandler(res, e))

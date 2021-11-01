@@ -52,6 +52,6 @@ export class CabinetService {
   }
   getPhotoByUserEmail(photosPerPage: number, currentPage: number): Observable<any> {
     const queryParams = `?pagesize=${photosPerPage}&page=${currentPage}`
-    return this.http.get(environment.PHOTO_API + queryParams);
+    return this.http.get<{message: string, photos: any, maxPhotos: number}>(environment.PHOTO_API + queryParams);
   }
 }

@@ -8,18 +8,6 @@
           (mouseover)="changeBorderStyle()"
         >
           <div class="input-field">
-            <!--                <label for="fio">ФИО:</label>-->
-            <input placeholder="ФИО" id="fio" type="text"
-                   formControlName="fio"
-                   [ngClass]="{invalid: f.fio.touched && f.fio.invalid}"
-            >
-            <span class="helper-text red-text"
-                  *ngIf="f.fio.touched && f.fio.invalid">
-       <small *ngIf="f.fio.hasError('required')">Поле не должно быть пустым</small>
-      </span>
-          </div>
-
-          <div class="input-field">
             <div class="image-preview"
                  *ngIf="imagePreview !== '' && imagePreview !== null"
 
@@ -29,6 +17,16 @@
             <i class="material-icons" (click)="fileAvatar.click()" matTooltip="Добавить аватар">add_a_photo</i>
             <input [hidden]="hide" type="file" (change)="onImageLoad($event)" #fileAvatar
             />
+          </div>
+          <div class="input-field">
+            <input placeholder="ФИО" id="fio" type="text"
+                   formControlName="fio"
+                   [ngClass]="{invalid: f.fio.touched && f.fio.invalid}"
+            >
+            <span class="helper-text red-text"
+                  *ngIf="f.fio.touched && f.fio.invalid">
+       <small *ngIf="f.fio.hasError('required')">Поле не должно быть пустым</small>
+      </span>
           </div>
           <div class="input-field">
             <span>Пол:</span>
@@ -138,8 +136,13 @@
           </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let photo of userPhotos; let i = index;">
-            <td>{{i+1}}</td>
+          <tr *ngFor="let photo of userPhotos | paginate
+          : {
+              itemsPerPage: itemsPerPage,
+              currentPage: page,
+              totalItems: totalItems
+            }; let i = index;">
+            <td>{{i + 1}}</td>
             <td class="image-preview"><img [src]="photo.imageSrc"></td>
             <td>{{photo.description}}</td>
             <td>{{photo.moderation}}</td>
@@ -148,14 +151,22 @@
           </tbody>
         </table>
       </div>
-      <mat-paginator [length]="totalPhotos"
-                     [pageSize]="photosPerPage"
-      [pageSizeOptions]="pageSizeOptions"
-                     (page) = "onChangedPage($event)"
-      ></mat-paginator>
+      <div class="select-dropdown">
+        <select (change)="handlePageSizeChange($event)">
+          <option *ngFor="let size of pageSizes" [ngValue]="size">
+            {{ size }}
+          </option>
+        </select>
+      </div>
+      <pagination-controls
+        (pageChange)="handlePageChange($event)"
+        previousLabel="Назад"
+        nextLabel="Вперед"
+        [responsive]="true"
+        [autoHide]="true"
+        screenReaderPaginationLabel="Pagination"
+      ></pagination-controls>
     </mat-tab>
   </mat-tab-group>
-
-
 
 </div>
