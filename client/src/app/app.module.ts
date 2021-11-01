@@ -28,6 +28,7 @@ import {MatSortModule} from "@angular/material/sort";
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { NgImageSliderModule } from 'ng-image-slider';
+import { QuestionsComponent } from './site-pages/chat/questions/questions.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { NgImageSliderModule } from 'ng-image-slider';
     RegisterComponent,
     CabinetComponent,
     ComplaintsComponent,
-    TravelComponent
+    TravelComponent,
+    QuestionsComponent
   ],
   imports: [
     NgImageSliderModule,

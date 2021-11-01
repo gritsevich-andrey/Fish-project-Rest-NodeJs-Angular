@@ -28,7 +28,8 @@ export class SiteLayoutComponent implements OnInit {
     },
     {
       title: 'Чат',
-      href: '#'
+      href: 'chat',
+      icon: 'chat'
     },
   ]
   footer_links: any[] = [

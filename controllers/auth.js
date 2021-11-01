@@ -60,9 +60,6 @@ module.exports.getAll = async function (req, res) {
             let emailBanned = {email: item.email, banned: item.banned}
             resData.push(emailBanned)
         });
-       // users.forEach((values) => {
-       //     email.push(values.email);
-       // })
        res.status(200).json(resData);
     } catch (e) {
         errorHandler(res, e);

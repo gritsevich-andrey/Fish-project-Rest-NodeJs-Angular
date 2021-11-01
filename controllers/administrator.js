@@ -2,19 +2,23 @@ const User = require("../models/User");
 const Cabinet = require('../models/Cabinet')
 const errorHandler = require("../utils/errorHandler");
 
-module.exports.getAll = async function (req, res) {
-    try {
-        const users = await User.find();
+module.exports.getAll = function (req, res) {
+    User.find().then(users => {
         let resData = [];
-        for(let item of users) {
-            let cabinetData = await Cabinet.findOne({email: item.email});
-            let data = {email: item.email, banned: item.banned, fio: cabinetData?.fio, date: cabinetData?.date}
-            resData.push(data)
-        }
-        res.status(200).json(resData);
-    } catch (e) {
-        errorHandler(res, e);
-    }
+        Cabinet.find().then(cabinet => {
+            users.forEach(item => {
+                let data = {email: item.email, banned: item.banned}
+                cabinet.forEach(el => {
+                    if (el.email === item.email) {
+                        data.fio = el.fio
+                        data.date = el.date
+                    }
+                })
+                resData.push(data)
+            })
+            res.status(200).json(resData)
+        })
+    });
 }
 
 module.exports.banById = async function (req, res) {
