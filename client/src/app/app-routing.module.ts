@@ -8,13 +8,15 @@ import {AuthGuard} from "./shared/classes/auth.guard";
 import {CabinetComponent} from "./site-pages/cabinet/cabinet.component";
 import {TravelComponent} from "./site-pages/travel/travel.component";
 import {QuestionsComponent} from "./site-pages/chat/questions/questions.component";
+import {RestorePasswordComponent} from "./restore-password/restore-password.component";
 
 const routes: Routes = [
   {
     path: '', component: AuthLayoutComponent, children: [
       {path: '', redirectTo: '/login', pathMatch: 'full'},
       {path: 'login', component: LoginComponent},
-      {path: 'register', component: RegisterComponent}
+      {path: 'register', component: RegisterComponent},
+      {path: 'restore-password', component: RestorePasswordComponent}
     ]
   },
   {

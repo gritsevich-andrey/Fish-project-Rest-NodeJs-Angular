@@ -15,11 +15,11 @@ export class AuthService {
   }
 
   register(user: User): Observable<User> {
-return this.http.post<User>(environment.AUTH_API +'/register', user)
+    return this.http.post<User>(environment.AUTH_API + '/register', user)
   }
 
   login(user: User): Observable<{ token: string }> {
-    return this.http.post<{ token: string }>(environment.AUTH_API+ '/login', user)
+    return this.http.post<{ token: string }>(environment.AUTH_API + '/login', user)
       .pipe(
         tap(
           ({token}) => {
@@ -37,11 +37,17 @@ return this.http.post<User>(environment.AUTH_API +'/register', user)
   getToken(): string {
     return this.token;
   }
+
   isAuthenticated(): boolean {
     return !!this.token;
   }
+
   logout() {
     this.setToken('');
     localStorage.clear();
+  }
+
+  restorePassword(email: any): Observable<any> {
+    return this.http.post(environment.AUTH_API + '/restore-password', {email})
   }
 }

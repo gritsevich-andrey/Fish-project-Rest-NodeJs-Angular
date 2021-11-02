@@ -29,6 +29,7 @@ import {MatTabsModule} from "@angular/material/tabs";
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { NgImageSliderModule } from 'ng-image-slider';
 import { QuestionsComponent } from './site-pages/chat/questions/questions.component';
+import { RestorePasswordComponent } from './restore-password/restore-password.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { QuestionsComponent } from './site-pages/chat/questions/questions.compon
     CabinetComponent,
     ComplaintsComponent,
     TravelComponent,
-    QuestionsComponent
+    QuestionsComponent,
+    RestorePasswordComponent
   ],
   imports: [
     NgImageSliderModule,
