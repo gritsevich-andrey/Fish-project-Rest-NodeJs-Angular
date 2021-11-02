@@ -10,7 +10,8 @@ export class SiteLayoutComponent implements OnInit {
   top_menu: any[]= [
     {
       title: 'Живая лента',
-      href: '#'
+      href: 'feed',
+      icon: 'feed'
     },
     {
       title: 'Отправиться на отдых',

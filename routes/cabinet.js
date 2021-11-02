@@ -14,4 +14,5 @@ router.delete('/:id', authenticate, controller.remove);
 router.post('/', authenticate, upload.single('image'), controller.create);
 router.patch('/', authenticate, upload.single('image'), controller.update);
 
+
 module.exports = router

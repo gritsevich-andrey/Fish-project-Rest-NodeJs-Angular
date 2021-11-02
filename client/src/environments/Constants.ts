@@ -5,4 +5,5 @@ export interface Constants {
   ADMIN_API: string;
   COMPLAINT_API: string;
   PHOTO_API: string;
+  BACK_URL: string;
 }

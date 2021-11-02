@@ -30,6 +30,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import { NgImageSliderModule } from 'ng-image-slider';
 import { QuestionsComponent } from './site-pages/chat/questions/questions.component';
 import { RestorePasswordComponent } from './restore-password/restore-password.component';
+import { LiveFeedComponent } from './site-pages/live-feed/live-feed.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { RestorePasswordComponent } from './restore-password/restore-password.co
     ComplaintsComponent,
     TravelComponent,
     QuestionsComponent,
-    RestorePasswordComponent
+    RestorePasswordComponent,
+    LiveFeedComponent
   ],
   imports: [
     NgImageSliderModule,

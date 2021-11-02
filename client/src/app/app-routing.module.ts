@@ -9,6 +9,7 @@ import {CabinetComponent} from "./site-pages/cabinet/cabinet.component";
 import {TravelComponent} from "./site-pages/travel/travel.component";
 import {QuestionsComponent} from "./site-pages/chat/questions/questions.component";
 import {RestorePasswordComponent} from "./restore-password/restore-password.component";
+import {LiveFeedComponent} from "./site-pages/live-feed/live-feed.component";
 
 const routes: Routes = [
   {
@@ -23,7 +24,9 @@ const routes: Routes = [
     path: '', component: SiteLayoutComponent, canActivate: [AuthGuard], children: [
       {path: 'cabinet', component: CabinetComponent, canActivate: [AuthGuard]},
       {path: 'travel', component: TravelComponent, canActivate: [AuthGuard]},
-      {path: 'chat', component: QuestionsComponent, canActivate: [AuthGuard]}
+      {path: 'chat', component: QuestionsComponent, canActivate: [AuthGuard]},
+      {path: 'feed', component: LiveFeedComponent, canActivate: [AuthGuard]},
+
     ]
   },
   { path: 'administrator', loadChildren: () => import('./admin/shared/layouts/admin-layouts/admin-layouts.module').then(m => m.AdminLayoutsModule) }

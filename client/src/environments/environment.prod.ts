@@ -5,5 +5,6 @@ export const environment: Constants = {
   CABINET_API: '/api/cabinet',
   ADMIN_API: '/api/administrator',
   COMPLAINT_API: '/api/complaint',
-  PHOTO_API: '/api/photo'
+  PHOTO_API: '/api/photo',
+  BACK_URL: 'localhost:5000',
 }
