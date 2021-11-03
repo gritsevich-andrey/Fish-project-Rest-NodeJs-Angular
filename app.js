@@ -12,7 +12,6 @@ const photoRoutes = require('./routes/photo');
 
 const mongoose = require('mongoose');
 const keys = require('./config/keys')
-const expressWs = require('express-ws')(app);
 
 mongoose.connect(keys.mongoURI)
     .then(() => console.log('MongoDB connected'))
