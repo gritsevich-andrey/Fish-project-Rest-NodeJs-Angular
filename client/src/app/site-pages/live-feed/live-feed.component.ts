@@ -1,9 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {WebsocketService} from "../../shared/services/websocket.service";
 import {ChatMessageDto} from "../../shared/models/chatMessageDto";
-import {FormArray, FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
+import {FormControl, FormGroup} from "@angular/forms";
 import {UserService} from "../../shared/services/user.service";
-import {mimeType} from "../cabinet/mime-type.validator";
 
 @Component({
   selector: 'app-live-feed',
@@ -16,23 +14,20 @@ export class LiveFeedComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   imagePreview = 'uploads/file.jpg';
 
-  constructor(public webSocketService: WebsocketService,
-              private userService: UserService) {
+  constructor(private userService: UserService) {
     this.form = new FormGroup({
-      description:  new FormControl(''),
+      description: new FormControl(''),
       file: new FormControl('')
     });
   }
 
   ngOnInit(): void {
-    this.webSocketService.openWebSocket();
     this.userEmail = this.userService.getUserDataFromLocal();
     console.log(this.userEmail);
   }
 
   sendMessage() {
     const chatMessageDto = new ChatMessageDto(this.userEmail, this.form.value.description, this.form.value.file);
-    this.webSocketService.sendMessage(chatMessageDto);
     this.form.controls.description.reset();
     this.form.controls.file.reset();
   }
@@ -49,6 +44,5 @@ export class LiveFeedComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.webSocketService.closeWebSocket();
   }
 }
