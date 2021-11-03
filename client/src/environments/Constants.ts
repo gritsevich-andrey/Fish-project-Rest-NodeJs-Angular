@@ -6,4 +6,5 @@ export interface Constants {
   COMPLAINT_API: string;
   PHOTO_API: string;
   BACK_URL: string;
+  CHAT_API: string;
 }

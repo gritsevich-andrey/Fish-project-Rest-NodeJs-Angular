@@ -7,4 +7,5 @@ export const environment: Constants = {
   COMPLAINT_API: '/api/complaint',
   PHOTO_API: '/api/photo',
   BACK_URL: 'localhost:5000',
+  CHAT_API: '/chat'
 }
