@@ -31,6 +31,7 @@ import { NgImageSliderModule } from 'ng-image-slider';
 import { QuestionsComponent } from './site-pages/chat/questions/questions.component';
 import { RestorePasswordComponent } from './restore-password/restore-password.component';
 import { LiveFeedComponent } from './site-pages/live-feed/live-feed.component';
+import { ChatComponent } from './site-pages/chat/chat.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { LiveFeedComponent } from './site-pages/live-feed/live-feed.component';
     TravelComponent,
     QuestionsComponent,
     RestorePasswordComponent,
-    LiveFeedComponent
+    LiveFeedComponent,
+    ChatComponent
   ],
   imports: [
     NgImageSliderModule,
