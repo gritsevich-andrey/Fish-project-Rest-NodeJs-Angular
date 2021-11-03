@@ -12,3 +12,18 @@ div.chat-content {
   height: 100%;
   overflow: auto;
 }
+
+.buttonsBlock {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.image {
+ max-width: 300px;
+}
+
+.list-group-item {
+  display: flex;
+  flex-direction: column;
+}

@@ -5,21 +5,24 @@
         <ul class="list-group list-group-flush">
           <li class="list-group-item" *ngFor="let chatMessage of webSocketService.chatMessages">
             <strong>{{chatMessage.user}}: </strong>
+            <img class="image" [src]="chatMessage.file">
             <span>{{chatMessage.message}}</span>
           </li>
         </ul>
       </div>
     </div>
-    <form (ngSubmit)="sendMessage(sendForm)" #sendForm="ngForm">
+    <form [formGroup]="form" (ngSubmit)="sendMessage()">
       <div class="chat-send row">
         <div class="col-2">
-          <input type="text" class="form-control" name="user" id="input-user" [(ngModel)]="userEmail">
+          <input disabled type="text" class="form-control" name="user" id="input-user" [value]="userEmail">
         </div>
         <div class="col-8">
-          <input type="text" class="form-control" name="message" id="input-message" ngModel>
+          <input formControlName="description" type="text" class="form-control" name="message" id="input-message" ngModel>
         </div>
-        <div class="col-2">
+        <div class="col-2 buttonsBlock">
           <button type="submit" class="btn btn-primary">Send</button>
+          <i class="material-icons" (click)="file.click()" matTooltip="Добавить фото">add_a_photo</i>
+          <input [hidden]="true" type="file" (change)="onImageLoad($event)" #file/>
         </div>
       </div>
     </form>
