@@ -2,21 +2,28 @@
   <div class="container">
     <div class="chat-content">
       <div class="card">
-    </div>
-    <form [formGroup]="form" (ngSubmit)="sendMessage()">
-      <div class="chat-send row">
-        <div class="col-2">
-          <input disabled type="text" class="form-control" name="user" id="input-user" [value]="userEmail">
-        </div>
-        <div class="col-8">
-          <input formControlName="description" type="text" class="form-control" name="message" id="input-message" ngModel>
-        </div>
-        <div class="col-2 buttonsBlock">
-          <button type="submit" class="btn btn-primary">Send</button>
-          <i class="material-icons" (click)="file.click()" matTooltip="Добавить фото">add_a_photo</i>
-          <input [hidden]="true" type="file" (change)="onImageLoad($event)" #file/>
+        <div *ngFor="let item of photos" class="list-group-item">
+          <strong>{{item.userEmail}}</strong>
+          <img class="image" src="{{item.imageSrc}}" alt="{{item.description}}">
+          <span>{{item.description}}</span>
         </div>
       </div>
-    </form>
+      <form [formGroup]="form" (ngSubmit)="sendMessage()">
+        <div class="chat-send row">
+          <div class="col-2">
+            <input disabled type="text" class="form-control" name="user" id="input-user" [value]="userEmail">
+          </div>
+          <div class="col-8">
+            <input formControlName="description" type="text" class="form-control" name="message" id="input-message"
+                   ngModel>
+          </div>
+          <div class="col-2 buttonsBlock">
+            <button type="submit" class="btn btn-primary">Send</button>
+            <i class="material-icons" (click)="file.click()" matTooltip="Добавить фото">add_a_photo</i>
+            <input [hidden]="true" type="file" (change)="onImageLoad($event)" #file/>
+          </div>
+        </div>
+      </form>
+    </div>
   </div>
 </div>

@@ -27,3 +27,7 @@ div.chat-content {
   display: flex;
   flex-direction: column;
 }
+
+.container {
+  min-height: calc(100vh - 140px);
+}

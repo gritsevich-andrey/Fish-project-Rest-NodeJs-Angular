@@ -17,7 +17,6 @@ module.exports.getAllPhoto = (req, res) => {
     }
     photoQuery
         .then(photos => {
-            console.log('Пагинация фото на беке', photos)
             res.status(200).json(photos)
         })
         .catch(e => errorHandler(res, e))
@@ -63,10 +62,7 @@ module.exports.update = function (req, res) {
     if (req.file) {
         updated.imageSrc = req.file.path
     }
-    Photo.findOneAndUpdate({
-        _id: req.body.fotoId,
-        $set: updated,
-        new: true
-    }).then(photo => res.status(200).json(photo))
+    Photo.findOneAndUpdate({_id: req.body.fotoId}, updated)
+        .then(photo => res.status(200).json(photo))
         .catch(e => errorHandler(res, e))
 }
