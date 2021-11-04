@@ -3,16 +3,18 @@ const port = process.env.PORT || 5000
 const cors = require('cors');
 const server = require('http' , {
     cors: {
-        origin: '*'
+        origin: "http://localhost:4200",
+        credentials: true,
+        methods: ["GET", "POST"]
     }
 }).Server(app);
 
 const io = require('socket.io')(server, {
     cors: {
         origin: "http://localhost:4200",
+        credentials: true,
         methods: ["GET", "POST"]
-    }
-});
+    }});
 
 app.use(cors());
 
@@ -26,6 +28,8 @@ server.listen(3001, ()=>{
 
 io.on('connection', socket => {
     console.log('Клиент присоединился');
-users.push(socket);
-console.log(users);
+
+socket.on('chat', (data) => {
+    socket.emit('newMessage', data );
+})
 });

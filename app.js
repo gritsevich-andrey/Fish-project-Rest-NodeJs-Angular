@@ -9,6 +9,7 @@ const cabinetRoutes = require('./routes/cabinet');
 const complaintRoutes = require('./routes/complaint');
 const administratorRoutes = require('./routes/administrator');
 const photoRoutes = require('./routes/photo');
+const chatRoutes = require('./routes/chat')
 
 const mongoose = require('mongoose');
 const keys = require('./config/keys')
@@ -31,10 +32,10 @@ app.use(cors({
 }));
 app.use('/api/auth', authRoutes);
 app.use('/api/cabinet', cabinetRoutes);
-app.use('/api/photo', photoRoutes);
 app.use('/api/complaint', complaintRoutes);
 app.use('/api/administrator', administratorRoutes);
 app.use('/api/photo', photoRoutes);
+app.use('/chat', chatRoutes);
 
 if (process.env.NODE_ENV === 'production') {
 app.use(express.static('client/dist/fish'))

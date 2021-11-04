@@ -1,0 +1,29 @@
+.chat {
+  margin-top: 1rem;
+}
+
+div.chat-content {
+  border-radius: .25rem;
+  height: 40rem;
+  margin-bottom: 2rem;
+}
+
+.card {
+  height: 100%;
+  overflow: auto;
+}
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+.flex-col-users{
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+  height: 80%;
+}
+.flex-col-chats{
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+}
