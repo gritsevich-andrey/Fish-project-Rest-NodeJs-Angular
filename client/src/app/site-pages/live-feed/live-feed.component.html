@@ -6,6 +6,23 @@
           <strong>{{item.userEmail}}</strong>
           <img class="image" src="{{item.imageSrc}}" alt="{{item.description}}">
           <span>{{item.description}}</span>
+          <div class="likeBlock">
+            <i class="material-icons">favorite_border</i>
+            <i class="material-icons"
+               (click)="item.showComments = !item.showComments; getComments(item.imageId, item.showComments)">mode_comment</i>
+          </div>
+          <div *ngIf="item.showComments">
+            <div *ngFor="let comment of item.comments">
+              <span><strong>{{comment.userEmail}}</strong> {{comment.commentValue}}</span>
+              <i *ngIf="comment.userEmail === userEmail" class="material-icons" (click)="deleteComment(comment.commentId)" )>delete</i>
+            </div>
+            <div class="row">
+              <div class="input-field col s6">
+                <input [(ngModel)]="item.comment" placeholder="Ваш комментарий" type="text" >
+              </div>
+              <a class="waves-effect waves-light btn" (click)="sendComment(item.imageId, item.comment); item.comment = ''">Отправить</a>
+            </div>
+          </div>
         </div>
       </div>
       <form [formGroup]="form" (ngSubmit)="sendMessage()">

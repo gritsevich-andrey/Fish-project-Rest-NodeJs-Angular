@@ -8,6 +8,11 @@ interface Photos {
   imageSrc: string
   userEmail: string
   description: string
+  readMore: boolean
+  showComments: boolean
+  comments: any
+  imageId: string
+  comment: string
 }
 
 @Component({
@@ -72,5 +77,37 @@ export class LiveFeedComponent implements OnInit {
     // @ts-ignore
     const file = (event.target as HTMLInputElement).files[0];
     this.form.patchValue({file});
+  }
+
+  getComments(imageId: string, showComments: boolean) {
+    if (showComments) {
+      this.photoService.getComments(imageId).subscribe(
+        data => {
+          this.photos.forEach(el => {
+            if (el.imageId === imageId) {
+              if (data.length === 0) el.comments = [{commentValue: 'Комментрариев нет'}]
+              else el.comments = data
+            }
+          })
+        },
+        error => console.log(error))
+    }
+  }
+
+  sendComment(imageId: string, commentValue: string) {
+    this.photoService.setComment(imageId, commentValue, this.userEmail).subscribe(
+      data => {
+        MaterialService.toast('Ваш комментарий отправлен')
+        this.getComments(imageId, true)
+      },
+      error => {
+        MaterialService.toast('Ошибка отправки комментария')
+        console.log(error)
+      }
+    )
+  }
+
+  deleteComment(commentId: string) {
+
   }
 }

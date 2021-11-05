@@ -7,4 +7,5 @@ export interface Constants {
   PHOTO_API: string;
   BACK_URL: string;
   CHAT_API: string;
+  COMMENTS_API: string
 }

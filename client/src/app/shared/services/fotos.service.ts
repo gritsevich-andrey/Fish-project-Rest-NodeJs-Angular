@@ -36,7 +36,14 @@ export class PhotoService {
           return {
             imageSrc: data.imageSrc,
             userEmail: data.userEmail,
-            description: data.description
+            description: data.description,
+            //Для свертывания текста
+            readMore: false,
+            //Показывать комментарии
+            showComments: false,
+            //Текст комментария (input)
+            comment: '',
+            imageId: data._id
           }
         })
       ))
@@ -52,7 +59,7 @@ export class PhotoService {
       if ((item === 'image') && data[item]) formData.append(item, data[item], data[item].name)
       formData.append(item, data[item])
     }*/
-    return this.http.post('/api/photo', formData)
+    return this.http.post(environment.PHOTO_API, formData)
   }
 
   getFIO(emails: any): Observable<any> {
@@ -63,4 +70,17 @@ export class PhotoService {
     return this.http.patch(environment.PHOTO_API + "/" + photoInfo.userEmail, {...photoInfo})
   }
 
+  getComments(imageId: string): Observable<any> {
+    return this.http.get(environment.COMMENTS_API + '/' + imageId)
+  }
+
+  setComment(photoId: string, commentValue: string, userEmail: string) {
+    return this.http.post(environment.COMMENTS_API, {photoId, commentValue, userEmail})
+  }
+
+  deleteComment() {
+
+  }
 }
+
+

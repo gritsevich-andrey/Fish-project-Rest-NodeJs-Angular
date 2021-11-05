@@ -46,7 +46,7 @@ import { ChatComponent } from './site-pages/chat/chat.component';
     QuestionsComponent,
     RestorePasswordComponent,
     LiveFeedComponent,
-    ChatComponent
+    ChatComponent,
   ],
   imports: [
     NgImageSliderModule,
