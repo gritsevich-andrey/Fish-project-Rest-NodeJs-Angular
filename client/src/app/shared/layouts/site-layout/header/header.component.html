@@ -1,6 +1,6 @@
 <nav>
   <div class="nav-wrapper grey darken-1">
-    <a routerLink="/" class="brand-logo">Newborn</a>
+    <a routerLink="/" class="brand-logo">Onloc</a>
     <ul *ngIf="nav_buttons[0].title !== 'Выход'" class="right">
       <li routerLinkActive="active" *ngFor="let item of nav_buttons">
         <a class="mobile-nav" [routerLink]="[item.href]"><i class="small material-icons">{{item.icon_name}}</i></a>

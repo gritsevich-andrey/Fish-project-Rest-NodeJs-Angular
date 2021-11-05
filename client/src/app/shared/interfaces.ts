@@ -10,3 +10,11 @@ export interface Photo {
   moderation: boolean,
   public: boolean
 }
+export interface SocketMessageDto {
+  driverEmail: string;
+  passenger: [{
+    email: string,
+    message: string,
+    date: Date
+  }]
+}
