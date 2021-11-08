@@ -56,4 +56,19 @@ constructor(private http: HttpClient) {
     const {email} = jwt_decode(tokenSplit[1]);
     return email;
   }
+
+  getUserRole(): string {
+    const decoded = this.decodeToken();
+    const userRoles = decoded.role;
+    return userRoles;
+  }
+
+  decodeToken(): any {
+    const token = localStorage.getItem('auth-token');
+    // @ts-ignore
+    const tokenSplit = token.split(' ');
+    const decoded = jwt_decode(tokenSplit[1]);
+    return decoded;
+  }
+
 }

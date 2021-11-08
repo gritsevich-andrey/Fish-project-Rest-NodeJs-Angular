@@ -5,7 +5,7 @@
         <div  class="card">
           <ul *ngFor="let info of getInfoWithChatDto()">
             <li class="chat-container darker">
-              <span class="user-left">{{info.email}}</span>
+              <span class="user-left" (click)="addReceiverEmail(info.email)">{{info.email}}</span>
             </li>
           </ul>
         </div>
@@ -32,7 +32,7 @@
   <form (ngSubmit)="sendMessage(sendForm)" #sendForm="ngForm">
     <div class="row">
       <div>
-        <input [disabled]="true" type="text" class="mat-form-field-autofill-control" name="user" id="input-user" [(ngModel)]="driverEmail">
+        <input [disabled]="true" type="text" class="mat-form-field-autofill-control" name="user" id="input-user" [(ngModel)]="userEmail">
       </div>
       <div>
         <textarea placeholder="Напишите сюда сообщение" type="text" class="mat-form-field-autofill-control" name="message" id="input-message" ngModel></textarea>

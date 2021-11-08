@@ -1,7 +1,7 @@
 const app = require('./app')
 const port = process.env.PORT || 5000
 const cors = require('cors');
-const server = require('http' , {
+const server = require('http', {
     cors: {
         origin: "http://localhost:4200",
         credentials: true,
@@ -14,14 +14,14 @@ const io = require('socket.io')(server, {
         origin: "http://localhost:4200",
         credentials: true,
         methods: ["GET", "POST"]
-    }});
+    }
+});
 
 app.use(cors());
 
-let users = [];
 app.listen(port, () => console.log(`Server has been started on port: ${port}`))
 
-server.listen(3001, ()=>{
+server.listen(3001, () => {
     console.log('Сервер для socket.io работает на порту 3001');
 });
 
@@ -29,7 +29,12 @@ server.listen(3001, ()=>{
 io.on('connection', socket => {
     console.log('Клиент присоединился');
 
-socket.on('chat', (data) => {
-    socket.emit('newMessage', data );
-})
+    socket.on('chat', (data) => {
+        const room = data.userEmail + '-' + data.receiverEmail;
+        socket.join(room);
+        console.log('Название комнаты', room);
+        // socket.emit('newMessage', data);
+        // socket.broadcast.to('room').emit('newMessage', 'SERVER', 'Пользователь присоединился');
+        io.sockets.in(room).emit('newMessage', data);
+    })
 });

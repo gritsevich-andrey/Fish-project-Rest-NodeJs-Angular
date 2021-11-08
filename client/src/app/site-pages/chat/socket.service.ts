@@ -17,7 +17,7 @@ export class SocketService {
       this.chatInfo.push(data);
     });
   }
-  sendMessage(chatInfoDto: any) {
+  sendMessage(chatInfoDto: SocketMessageDto) {
     this.socket.emit('chat', chatInfoDto);
   }
 }

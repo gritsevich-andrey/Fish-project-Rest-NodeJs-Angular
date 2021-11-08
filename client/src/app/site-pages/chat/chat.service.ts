@@ -17,11 +17,11 @@ export class ChatService {
     return this.http.post<SocketMessageDto>(environment.CHAT_API, chatInfoDto);
   }
   getDriverSubscriber(): Observable<any> {
-    const email = this.getDriverEmail();
+    const email = this.getUserEmail();
     return this.http.get(environment.CHAT_API + `/${email}`);
   }
 
-  getDriverEmail(): string {
+  getUserEmail(): string {
     const email = this.userService.getUserDataFromLocal();
     return email;
   }

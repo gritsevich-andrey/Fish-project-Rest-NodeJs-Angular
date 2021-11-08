@@ -11,7 +11,8 @@ export interface Photo {
   public: boolean
 }
 export interface SocketMessageDto {
-  driverEmail: string;
+  userEmail: string;
+  receiverEmail?: string;
   passenger: [{
     email: string,
     message: string,

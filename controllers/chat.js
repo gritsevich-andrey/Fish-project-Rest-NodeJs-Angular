@@ -8,7 +8,7 @@ module.exports.getAll = function (req, res) {
 }
 
 module.exports.getByEmail = function (req, res) {
-        Chat.findOne({driverEmail: req.params.email})
+        Chat.findOne({userEmail: req.params.email})
             .then(chat =>  res.status(200).json(chat))
             .catch(e => errorHandler(res, e))
 }
@@ -25,11 +25,12 @@ module.exports.remove = async function (req, res) {
 }
 module.exports.create = async function (req, res) {
     try {
-        const isChat = await Chat.findOne({driverEmail: req.body.driverEmail});
+        const isChat = await Chat.findOne({userEmail: req.body.userEmail});
         if (!isChat) {
             const chat = new Chat(
                 {
-                    driverEmail: req.body.driverEmail,
+                    userEmail: req.body.userEmail,
+                    receiverEmail: req.body.receiverEmail,
                     passenger: req.body.passenger
                 }).save();
             res.status(201).json(chat);
@@ -38,7 +39,7 @@ module.exports.create = async function (req, res) {
                 passenger: req.body.passenger
             }
             Chat.findOneAndUpdate(
-                {driverEmail: req.body.driverEmail},
+                {userEmail: req.body.userEmail},
                 {$push: updated},
                 {new: true}
             )
@@ -51,13 +52,14 @@ module.exports.create = async function (req, res) {
 }
 module.exports.update = async function (req, res) {
     const updated = {
-        driverEmail: req.body.driverEmail,
+        userEmail: req.body.userEmail,
+        receiverEmail: req.body.receiverEmail,
         passenger: req.body.passenger
     }
 
     try {
         const chat = await Chat.findOneAndUpdate(
-            {driverEmail: req.body.driverEmail},
+            {userEmail: req.body.userEmail},
             {$set: updated},
             {new: true}
         )

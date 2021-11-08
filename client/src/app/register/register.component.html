@@ -7,7 +7,6 @@
     <div class="input-field">
       <input id="email" type="text"
              formControlName="email"
-             ng-pattern="/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/"
              [ngClass]="{invalid: f.email.touched && f.email.invalid}"
       >
       <label for="email">Email:</label>
@@ -37,7 +36,7 @@
     <button
       type="submit"
       class="modal-action btn waves-effect"
-    >Войти
+    >Регистрация
     </button>
   </div>
 </form>
