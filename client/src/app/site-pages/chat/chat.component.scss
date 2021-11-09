@@ -14,6 +14,10 @@ div.chat-content {
   padding: 10px;
   margin: 10px 0;
 }
+.user-container {
+  padding: 10px;
+  margin: 10px 0;
+}
 .chat-container::after {
   content: "";
   clear: both;
@@ -27,9 +31,21 @@ div.chat-content {
   float: left;
   color: #999;
 }
+.user-left:hover{
+  color: var(--button-color);
+  cursor: pointer;
+}
+а:active{
+  color: var(--success-color);
+}
 .darker {
-  border-color: #ccc;
-  background-color: #ddd;
+  color: var(--dark-color);
+}
+.darker:hover{
+  color: var(--success-color);
+}
+.darker:focus{
+  color: var(--success-color);
 }
 .card {
   height: 100%;

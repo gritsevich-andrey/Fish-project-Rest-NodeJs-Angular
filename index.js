@@ -33,8 +33,6 @@ io.on('connection', socket => {
         const room = data.userEmail + '-' + data.receiverEmail;
         socket.join(room);
         console.log('Название комнаты', room);
-        // socket.emit('newMessage', data);
-        // socket.broadcast.to('room').emit('newMessage', 'SERVER', 'Пользователь присоединился');
         io.sockets.in(room).emit('newMessage', data);
     })
 });
