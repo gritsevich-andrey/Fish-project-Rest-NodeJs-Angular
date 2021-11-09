@@ -87,7 +87,10 @@ export class ChatComponent implements OnInit, OnDestroy {
         infoUsers.push(value);
       })
     });
-    return infoUsers;
+    const sortedArray =  infoUsers.sort((item1: any, item2: any) => {
+      return item1.date - item2.date;
+    });
+    return sortedArray;
   }
 
   getUniqueReceiver() {
