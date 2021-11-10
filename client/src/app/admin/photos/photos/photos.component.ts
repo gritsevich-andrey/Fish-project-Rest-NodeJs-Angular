@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
+import { MaterialService } from 'src/app/shared/classes/material.service';
 import {PhotoService} from "../../../shared/services/fotos.service";
+
 
 declare var M: { FormSelect: { init: (arg0: NodeListOf<Element>) => any; }; }
 
@@ -76,6 +78,7 @@ export class PhotosComponent implements OnInit {
     this.photoService.updatePhotoInfo(photoInfo).subscribe(
       data => {
         //console.log(data)
+        MaterialService.toast('Изменения сохранены')
       },
       error => console.log(error)
     )

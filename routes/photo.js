@@ -10,6 +10,7 @@ router.get('/:userId', authenticate, controller.getPhotoByUserId);
 router.get('/', authenticate, controller.getAllPhoto);
 router.get('/:id', authenticate, controller.getPhotoById);
 router.post('/', authenticate, upload.single('image'), controller.create);
+router.patch('/updateLikes', authenticate, controller.setLikes);
 router.patch('/:id', authenticate, controller.update);
 router.delete('/:id', authenticate, controller.remove);
 

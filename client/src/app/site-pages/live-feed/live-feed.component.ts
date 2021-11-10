@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup} from "@angular/forms";
-import {UserService} from "../../shared/services/user.service";
-import {PhotoService} from "../../shared/services/fotos.service";
-import {MaterialService} from "../../shared/classes/material.service";
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from "@angular/forms";
+import { UserService } from "../../shared/services/user.service";
+import { PhotoService } from "../../shared/services/fotos.service";
+import { MaterialService } from "../../shared/classes/material.service";
 
 interface Photos {
   imageSrc: string
@@ -13,6 +13,9 @@ interface Photos {
   comments: any
   imageId: string
   comment: string
+  likeCount: number
+  isLiked: boolean
+  date: string
 }
 
 @Component({
@@ -20,7 +23,7 @@ interface Photos {
   templateUrl: './live-feed.component.html',
   styleUrls: ['./live-feed.component.scss']
 })
-export class LiveFeedComponent implements OnInit {
+export class LiveFeedComponent implements OnInit, OnDestroy {
   photos!: Photos[];
   userEmail!: string;
   file!: File;
@@ -43,6 +46,28 @@ export class LiveFeedComponent implements OnInit {
     this.getPhotos()
   }
 
+  @HostListener('window:beforeunload')
+  ngOnDestroy() {
+    this.photoService.likeCount.forEach((el: any) => {
+      this.photoService.updateLikes(el.imageId, el.likeCount).subscribe()
+    })
+    this.photoService.likeCount = []
+  }
+
+  setLike(imageId: string, likeCount: number, isLiked: boolean) {
+    if (!isLiked) {
+      this.photoService.likeCount.push({
+        imageId
+      })
+      this.photos.forEach(el => {
+        if (el.imageId === imageId) {
+          el.isLiked = true
+          el.likeCount = likeCount
+        }
+      })
+    }
+  }
+
   getPhotos() {
     this.photoService.getFeedPhotos().subscribe(
       data => this.photos = data,
@@ -62,7 +87,7 @@ export class LiveFeedComponent implements OnInit {
     else if (!photoData.image) MaterialService.toast('Ваш пост должен содержать изображение')
     else {
       this.photoService.createPhoto(photoData).subscribe(
-        data => MaterialService.toast('Ваш пост был отправлен на модерацию'),
+        () => MaterialService.toast('Ваш пост был отправлен на модерацию'),
         error => {
           MaterialService.toast('Ошибка при загрузке на сервер')
           console.log(error)
@@ -76,7 +101,7 @@ export class LiveFeedComponent implements OnInit {
   onImageLoad(event: Event) {
     // @ts-ignore
     const file = (event.target as HTMLInputElement).files[0];
-    this.form.patchValue({file});
+    this.form.patchValue({ file });
   }
 
   getComments(imageId: string, showComments: boolean) {
@@ -85,7 +110,7 @@ export class LiveFeedComponent implements OnInit {
         data => {
           this.photos.forEach(el => {
             if (el.imageId === imageId) {
-              if (data.length === 0) el.comments = [{commentValue: 'Комментрариев нет'}]
+              if (data.length === 0) el.comments = [{ commentValue: 'Комментрариев нет' }]
               else el.comments = data
             }
           })
@@ -96,7 +121,7 @@ export class LiveFeedComponent implements OnInit {
 
   sendComment(imageId: string, commentValue: string) {
     this.photoService.setComment(imageId, commentValue, this.userEmail).subscribe(
-      data => {
+      () => {
         MaterialService.toast('Ваш комментарий отправлен')
         this.getComments(imageId, true)
       },
@@ -105,9 +130,5 @@ export class LiveFeedComponent implements OnInit {
         console.log(error)
       }
     )
-  }
-
-  deleteComment(commentId: string) {
-
   }
 }
