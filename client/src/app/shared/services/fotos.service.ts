@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
-import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
-import { environment } from "../../../environments/environment";
+import {Injectable} from '@angular/core';
+import {HttpClient} from "@angular/common/http";
+import {Observable} from "rxjs";
+import {map} from "rxjs/operators";
+import {environment} from "../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -31,8 +31,11 @@ export class PhotoService {
     ))
   }
 
-  getFeedPhotos(): Observable<any> {
-    return this.http.get(environment.PHOTO_API).pipe(
+  getFeedPhotos(pageSize?: number, page?: number): Observable<any> {
+    let url = ''
+    if (pageSize && page) url = `${environment.PHOTO_API}?pagesize=${pageSize}&page=${page}`
+    else url = environment.PHOTO_API
+    return this.http.get(url).pipe(
       map((data: any) =>
         data.filter((el: any) => el.public && el.moderation).map((data: any) => {
           return {
@@ -66,11 +69,11 @@ export class PhotoService {
   }
 
   getFIO(emails: any): Observable<any> {
-    return this.http.post(`${environment.CABINET_API}/fio`, { emails });
+    return this.http.post(`${environment.CABINET_API}/fio`, {emails});
   }
 
   updatePhotoInfo(photoInfo: any): Observable<any> {
-    return this.http.patch(environment.PHOTO_API + "/" + photoInfo.userEmail, { ...photoInfo })
+    return this.http.patch(environment.PHOTO_API + "/" + photoInfo.userEmail, {...photoInfo})
   }
 
   getComments(imageId: string): Observable<any> {
@@ -78,11 +81,11 @@ export class PhotoService {
   }
 
   setComment(photoId: string, commentValue: string, userEmail: string): Observable<any> {
-    return this.http.post(environment.COMMENTS_API, { photoId, commentValue, userEmail })
+    return this.http.post(environment.COMMENTS_API, {photoId, commentValue, userEmail})
   }
 
   updateLikes(imageId: string, likesCount: number): Observable<any> {
-    return this.http.patch(environment.PHOTO_API + "/updateLikes", { imageId, likesCount })
+    return this.http.patch(environment.PHOTO_API + "/updateLikes", {imageId, likesCount})
   }
 }
 

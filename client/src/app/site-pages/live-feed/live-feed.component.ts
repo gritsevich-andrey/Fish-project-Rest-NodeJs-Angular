@@ -1,8 +1,8 @@
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from "@angular/forms";
-import { UserService } from "../../shared/services/user.service";
-import { PhotoService } from "../../shared/services/fotos.service";
-import { MaterialService } from "../../shared/classes/material.service";
+import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
+import {FormControl, FormGroup} from "@angular/forms";
+import {UserService} from "../../shared/services/user.service";
+import {PhotoService} from "../../shared/services/fotos.service";
+import {MaterialService} from "../../shared/classes/material.service";
 
 interface Photos {
   imageSrc: string
@@ -28,7 +28,9 @@ export class LiveFeedComponent implements OnInit, OnDestroy {
   userEmail!: string;
   file!: File;
   form!: FormGroup;
-  imagePreview = 'uploads/file.jpg';
+  imagesOnPage = 2;
+  imagesPage = 1;
+  showSpinner = false
 
   constructor(
     private userService: UserService,
@@ -69,7 +71,7 @@ export class LiveFeedComponent implements OnInit, OnDestroy {
   }
 
   getPhotos() {
-    this.photoService.getFeedPhotos().subscribe(
+    this.photoService.getFeedPhotos(this.imagesOnPage, 1).subscribe(
       data => this.photos = data,
       error => console.log(error)
     )
@@ -101,7 +103,7 @@ export class LiveFeedComponent implements OnInit, OnDestroy {
   onImageLoad(event: Event) {
     // @ts-ignore
     const file = (event.target as HTMLInputElement).files[0];
-    this.form.patchValue({ file });
+    this.form.patchValue({file});
   }
 
   getComments(imageId: string, showComments: boolean) {
@@ -110,7 +112,7 @@ export class LiveFeedComponent implements OnInit, OnDestroy {
         data => {
           this.photos.forEach(el => {
             if (el.imageId === imageId) {
-              if (data.length === 0) el.comments = [{ commentValue: 'Комментрариев нет' }]
+              if (data.length === 0) el.comments = [{commentValue: 'Комментрариев нет'}]
               else el.comments = data
             }
           })
@@ -130,5 +132,19 @@ export class LiveFeedComponent implements OnInit, OnDestroy {
         console.log(error)
       }
     )
+  }
+
+  onScrollDown() {
+    if (!this.showSpinner) {
+      this.showSpinner = true
+      this.imagesPage += 1;
+      this.photoService.getFeedPhotos(this.imagesOnPage, this.imagesPage).subscribe(
+        data => {
+          this.photos.push(...data)
+          this.showSpinner = false
+        },
+        error => console.log(error)
+      )
+    }
   }
 }

@@ -30,6 +30,7 @@
     "materialize-css": "^1.0.0-rc.2",
     "ng-image-slider": "^2.8.0",
     "ng-readmore": "^1.0.0",
+    "ngx-infinite-scroll": "^10.0.1",
     "ngx-pagination": "^5.1.1",
     "ngx-star-rating": "^2.0.3",
     "rxjs": "~6.6.0",

@@ -32,6 +32,7 @@ import { QuestionsComponent } from './site-pages/chat/questions/questions.compon
 import { RestorePasswordComponent } from './restore-password/restore-password.component';
 import { LiveFeedComponent } from './site-pages/live-feed/live-feed.component';
 import { ChatComponent } from './site-pages/chat/chat.component';
+import {InfiniteScrollModule} from "ngx-infinite-scroll";
 
 @NgModule({
   declarations: [
@@ -68,7 +69,9 @@ import { ChatComponent } from './site-pages/chat/chat.component';
     NgxStarRatingModule,
     MatSortModule,
     MatTabsModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+
+    InfiniteScrollModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
