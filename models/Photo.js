@@ -32,6 +32,10 @@ const photoSchema = new Schema({
     banDescription: {
         type: String,
         default: ''
+    },
+    likesCount: {
+        type: Number,
+        default: 0
     }
 });
 module.exports= mongoose.model('photos', photoSchema);

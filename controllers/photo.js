@@ -73,3 +73,10 @@ module.exports.update = function (req, res) {
         .then(photo => res.status(200).json(photo))
         .catch(e => errorHandler(res, e))
 }
+
+module.exports.setLikes = function (req, res) {
+    Photo.findOne({_id: req.body.imageId})
+        .then(data => Photo.updateOne({_id: req.body.imageId}, {likesCount: data.likesCount+1}))
+        .then(() => res.status(200).json({message: `Success set like at image ${req.body.imageId}`}))
+        .catch(e => errorHandler(res, e))
+}

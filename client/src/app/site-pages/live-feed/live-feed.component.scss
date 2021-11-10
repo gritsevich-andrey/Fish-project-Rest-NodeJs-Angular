@@ -10,6 +10,7 @@ div.chat-content {
 
 .card {
   height: 100%;
+  padding: 0 20px;
   overflow: auto;
 }
 
@@ -19,13 +20,19 @@ div.chat-content {
   justify-content: space-between;
 }
 
-.image {
- max-width: 300px;
+.imageContainer {
+  margin: 0 auto;
+  width: 300px;
+  
+  img {
+    width: 100%;
+  }
 }
 
 .list-group-item {
   display: flex;
   flex-direction: column;
+  margin-bottom: 30px;
 }
 
 .container {
@@ -34,4 +41,32 @@ div.chat-content {
 
 .likeBlock {
   display: flex;
+  align-items: center;
+}
+
+.photoDataBlock {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.photoDescription {
+  font-size: 20px;
+}
+
+.descriptionBlock {
+  margin-top: 10px;
+}
+
+.comment-icon {
+  margin-left: 10px;
+}
+
+.writeCommentBlock {
+  display: flex;
+  align-items: center;
+
+  .input-field  {
+    margin-right: 15px;
+  }
 }
