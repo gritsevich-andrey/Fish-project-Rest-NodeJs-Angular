@@ -1,0 +1,56 @@
+<div class="chat">
+  <div class="container">
+    <div class="chat-content">
+      <div class="card">
+        <div *ngFor="let item of photos" class="list-group-item">
+          <div class="photoDataBlock">
+            <strong>{{item.userEmail}}</strong>
+            <strong class="teal-text">{{item.date | date:'dd/MM/yyyy'}}</strong>
+          </div>
+          <div class="imageContainer">
+            <img class="image" src="{{item.imageSrc}}" alt="{{item.description}}">
+          </div>
+          <div class="descriptionBlock">
+            <span class="photoDescription">{{item.description}}</span>
+            <div class="likeBlock">
+              <span>{{item.likeCount}}</span>
+              <i class="material-icons" (click)="setLike(item.imageId, item.likeCount+1, item.isLiked)">{{!item.isLiked
+                ?
+                'favorite_border' : 'favorite'}}</i>
+              <i class="material-icons comment-icon"
+                (click)="item.showComments = !item.showComments; getComments(item.imageId, item.showComments)">mode_comment</i>
+            </div>
+          </div>
+          <div *ngIf="item.showComments">
+            <div *ngFor="let comment of item.comments">
+              <span><strong>{{comment.userEmail}}</strong> {{comment.commentValue}}</span>
+            </div>
+            <div class="row writeCommentBlock">
+              <div class="input-field s6">
+                <input [(ngModel)]="item.comment" placeholder="Ваш комментарий" type="text">
+              </div>
+              <a class="waves-effect waves-light btn"
+                (click)="sendComment(item.imageId, item.comment); item.comment = ''">Отправить</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <form [formGroup]="form" (ngSubmit)="sendMessage()">
+        <div class="chat-send row">
+          <div class="col-2">
+            <input disabled type="text" class="form-control" name="user" id="input-user" [value]="userEmail">
+          </div>
+          <div class="col-8">
+            <textarea id="input-message" class="materialize-textarea" type="text" formControlName="description"
+              name="message"></textarea>
+          </div>
+          <div class="col-2 buttonsBlock">
+            <button type="submit" class="btn btn-primary">Отправить</button>
+            <i class="material-icons" (click)="file.click()" matTooltip="Добавить фото">add_a_photo</i>
+            <input [hidden]="true" type="file" (change)="onImageLoad($event)" #file />
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,7 @@
+.idea
+package-lock.json
+node_modules
+client/node_modules
+client/package-lock.json
+.idea
+client/tsconfig.spec.json
