@@ -6,6 +6,7 @@ import {SocketService} from "./socket.service";
 import {WarningService} from "../../shared/services/warning.service";
 import {UserService} from "../../shared/services/user.service";
 import jwt_decode from "jwt-decode";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-chat',
@@ -21,6 +22,8 @@ export class ChatComponent implements OnInit, OnDestroy {
   receiverEmail: string;
   // @ts-ignore
   role: string;
+  // @ts-ignore
+  private chatSub: Subscription;
 
   constructor(private chatService: ChatService,
               private socketService: SocketService,
@@ -31,19 +34,15 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   @HostListener('window:beforeunload')
   ngOnDestroy(): void {
-    this.chatService.saveMessage(this.chatInfoDto).subscribe(data => {
-      console.log(data);
-    });
-    // @ts-ignore
-      this.chatInfoDto['userEmail'] = this.chatInfoDto['receiverEmail'];
-      this.chatService.saveMessage(this.chatInfoDto).subscribe(data => {
-        console.log(data);
-      })
+    this.saveInDb();
+    if (this.chatSub){
+      this.chatSub.unsubscribe();
+    }
   }
 
   ngOnInit(): void {
     this.socketService.openSocket();
-    this.chatService.getDriverSubscriber()
+  this.chatSub =  this.chatService.getDriverSubscriber()
       .subscribe(data => {
         this.socketService.chatInfo.push(data);
       });
@@ -54,6 +53,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     }
     this.userEmail = this.chatService.getUserEmail();
     this.getInfoWithChatDto();
+    this.createConnection();
   }
 
   sendMessage(sendForm: NgForm) {
@@ -77,6 +77,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     } else {
       this.warningService.sendWarning('Вы не выбрали получателя');
     }
+    this.saveInDb();
     sendForm.controls.message.reset();
   }
 
@@ -87,7 +88,7 @@ export class ChatComponent implements OnInit, OnDestroy {
         infoUsers.push(value);
       })
     });
-    const sortedArray =  infoUsers.sort((item1: any, item2: any) => {
+    const sortedArray = infoUsers.sort((item1: any, item2: any) => {
       return item1.date - item2.date;
     });
     return sortedArray;
@@ -96,8 +97,11 @@ export class ChatComponent implements OnInit, OnDestroy {
   getUniqueReceiver() {
     const uniqueEmail: string[] = [];
     this.socketService.chatInfo.map(data => {
+      // @ts-ignore
       data.passenger.forEach(value => {
-        uniqueEmail.push(value.email);
+        if (value.email !== this.userEmail) {
+          uniqueEmail.push(value.email);
+        }
       })
     });
     return [...new Set(uniqueEmail)];
@@ -105,6 +109,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   addReceiverEmail(receiverEmail: string) {
     this.receiverEmail = receiverEmail;
+    // this.createConnection(receiverEmail);
   }
 
   getUserEmail(): string {
@@ -115,4 +120,29 @@ export class ChatComponent implements OnInit, OnDestroy {
     const {email} = jwt_decode(tokenSplit[1]);
     return email;
   }
+
+  createConnection() {
+    const connectData = {userEmail: "", receiverEmail: ''};
+        if (this.role === 'DRIVER') {
+          connectData.userEmail = this.userEmail;
+          connectData.receiverEmail = this.receiverEmail;
+        }
+        else {
+          connectData.userEmail = this.receiverEmail;
+          connectData.receiverEmail = this.userEmail;
+    }
+
+    // @ts-ignore
+    // this.socketService.sendMessage(connectData);
+  }
+saveInDb(){
+  this.chatService.saveMessage(this.chatInfoDto).subscribe(data => {
+    console.log(data);
+  });
+  // @ts-ignore
+  this.chatInfoDto['userEmail'] = this.chatInfoDto['receiverEmail'];
+  this.chatService.saveMessage(this.chatInfoDto).subscribe(data => {
+    console.log(data);
+  })
+}
 }

@@ -35,10 +35,10 @@
   <form (ngSubmit)="sendMessage(sendForm)" #sendForm="ngForm">
     <div class="row">
       <div>
-        <textarea placeholder="Напишите сюда сообщение" type="text" class="mat-form-field-autofill-control" name="message" id="input-message" ngModel></textarea>
+        <textarea placeholder="Вначале нужно выбрать с кем хотите поговорить" type="text" class="mat-form-field-autofill-control" name="message" id="input-message" ngModel></textarea>
       </div>
       <div>
-        <button type="submit" class="btn">Отправить</button>
+        <button [disabled]="!receiverEmail" type="submit" class="btn">Отправить</button>
       </div>
     </div>
   </form>
