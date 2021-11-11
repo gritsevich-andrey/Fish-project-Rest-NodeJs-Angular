@@ -24,6 +24,8 @@ export class ChatComponent implements OnInit, OnDestroy {
   role: string;
   // @ts-ignore
   private chatSub: Subscription;
+  // @ts-ignore
+  private messSub: Subscription;
 
   constructor(private chatService: ChatService,
               private socketService: SocketService,
@@ -32,11 +34,14 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.userEmail = this.getUserEmail();
   }
 
-  @HostListener('window:beforeunload')
+  // @HostListener('window:beforeunload')
   ngOnDestroy(): void {
-    this.saveInDb();
+    // this.saveInDb();
     if (this.chatSub){
       this.chatSub.unsubscribe();
+    }
+    if (this.messSub) {
+      this.messSub.unsubscribe();
     }
   }
 
@@ -88,7 +93,8 @@ export class ChatComponent implements OnInit, OnDestroy {
         infoUsers.push(value);
       })
     });
-    const sortedArray = infoUsers.sort((item1: any, item2: any) => {
+    const sortedArray = infoUsers.sort(
+      (item1: any, item2: any) => {
       return item1.date - item2.date;
     });
     return sortedArray;
@@ -136,9 +142,10 @@ export class ChatComponent implements OnInit, OnDestroy {
     // this.socketService.sendMessage(connectData);
   }
 saveInDb(){
-  this.chatService.saveMessage(this.chatInfoDto).subscribe(data => {
-    console.log(data);
-  });
+ this.messSub = this.chatService.saveMessage(this.chatInfoDto).subscribe(data => {
+    this.warningService.sendWarning(`Сообщение ${this.receiverEmail} отравлено`);
+  },
+    error => this.warningService.sendWarning(`Ошибка отправки сообщения ${this.receiverEmail}`));
   // @ts-ignore
   this.chatInfoDto['userEmail'] = this.chatInfoDto['receiverEmail'];
   this.chatService.saveMessage(this.chatInfoDto).subscribe(data => {

@@ -17,8 +17,7 @@ import {NgImageSliderModule} from "ng-image-slider";
   declarations: [
     AdminLayoutsComponent,
     UsersComponent,
-    PhotosComponent,
-    SearchFilterPipe
+    PhotosComponent
   ],
     imports: [
         CommonModule,

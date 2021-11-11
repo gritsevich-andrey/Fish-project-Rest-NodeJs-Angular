@@ -5,6 +5,7 @@
         <div  class="card">
           <ul >
             <li class="user-container">
+              <span><button class="btn" (click)="receiverEmail=''">Показать все</button></span>
               <span *ngFor="let email of getUniqueReceiver()" class="user-left" (click)="addReceiverEmail(email)">{{email}}</span>
             </li>
           </ul>
@@ -16,9 +17,9 @@
     <div class="chat">
       <div class="chat-content">
         <div class="card">
-          <ul *ngFor="let info of getInfoWithChatDto()">
+          <ul *ngFor="let info of getInfoWithChatDto() | searchFilter: receiverEmail">
             <li class="chat-container">
-              <span class="user-left">{{info.email}} </span>
+              <span class="user-left" (click)="addReceiverEmail(info.email)">{{info.email}} </span>
               <span class="p10">{{info.message}} </span>
               <span class="time-right">{{info.date | date: 'd.MM.YY HH:mm'}} </span>
             </li>
@@ -30,7 +31,9 @@
 </div>
 <div class="flex-col">
   <div>
-    <input [disabled]="true" type="text" class="mat-form-field-autofill-control" [value]="getUserEmail()">
+    <label>Кому</label>
+    <input [disabled]="true" type="text" *ngIf="receiverEmail" [value]="receiverEmail">
+    <input [disabled]="true" type="text" *ngIf="!receiverEmail" value="Нужно выбрать получателя">
   </div>
   <form (ngSubmit)="sendMessage(sendForm)" #sendForm="ngForm">
     <div class="row">
