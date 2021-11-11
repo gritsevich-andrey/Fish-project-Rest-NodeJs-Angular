@@ -15,8 +15,15 @@
   </div>
   <div class="flex-col-chats">
     <div class="chat">
-      <div class="chat-content">
-        <div class="card">
+      <div class="chat-content" #scrollContainer>
+        <div class="card"
+             infiniteScroll
+             [scrollWindow]="false"
+             [infiniteScrollContainer]="scrollContainer"
+             [infiniteScrollDistance]="1"
+             [infiniteScrollThrottle]="10"
+             (scrolled)="onScrollDown()"
+             [alwaysCallback]="true">
           <ul *ngFor="let info of getInfoWithChatDto() | searchFilter: receiverEmail">
             <li class="chat-container">
               <span class="user-left" (click)="addReceiverEmail(info.email)">{{info.email}} </span>

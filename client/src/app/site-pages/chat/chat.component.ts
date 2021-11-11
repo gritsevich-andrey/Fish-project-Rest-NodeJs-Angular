@@ -26,6 +26,9 @@ export class ChatComponent implements OnInit, OnDestroy {
   private chatSub: Subscription;
   // @ts-ignore
   private messSub: Subscription;
+  imagesOnPage = 2;
+  imagesPage = 1;
+  showSpinner = false
 
   constructor(private chatService: ChatService,
               private socketService: SocketService,
@@ -152,4 +155,14 @@ saveInDb(){
     console.log(data);
   })
 }
+  onScrollDown() {
+    if (!this.showSpinner) {
+      this.showSpinner = true
+      this.imagesPage += 1;
+      this.chatSub =  this.chatService.getDriverSubscriber()
+        .subscribe(data => {
+          this.socketService.chatInfo.push(data);
+        });
+    }
+  }
 }
