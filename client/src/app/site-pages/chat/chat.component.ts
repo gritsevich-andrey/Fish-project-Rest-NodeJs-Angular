@@ -1,4 +1,4 @@
-import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NgForm} from "@angular/forms";
 import {SocketMessageDto} from "../../shared/interfaces";
 import {ChatService} from "./chat.service";
@@ -29,6 +29,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   imagesOnPage = 2;
   imagesPage = 1;
   showSpinner = false
+  arrEmail = [];
 
   constructor(private chatService: ChatService,
               private socketService: SocketService,
@@ -37,10 +38,9 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.userEmail = this.getUserEmail();
   }
 
-  // @HostListener('window:beforeunload')
   ngOnDestroy(): void {
     // this.saveInDb();
-    if (this.chatSub){
+    if (this.chatSub) {
       this.chatSub.unsubscribe();
     }
     if (this.messSub) {
@@ -50,9 +50,12 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.socketService.openSocket();
-  this.chatSub =  this.chatService.getDriverSubscriber()
+    this.chatSub = this.chatService.getDriverSubscriber()
       .subscribe(data => {
         this.socketService.chatInfo.push(data);
+        data.passenger.forEach((value: any) => {
+          this.createConnection(value.email);
+        })
       });
     const role = this.userService.getUserRole();
 
@@ -61,7 +64,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     }
     this.userEmail = this.chatService.getUserEmail();
     this.getInfoWithChatDto();
-    this.createConnection();
+    // this.createConnection();
   }
 
   sendMessage(sendForm: NgForm) {
@@ -98,8 +101,8 @@ export class ChatComponent implements OnInit, OnDestroy {
     });
     const sortedArray = infoUsers.sort(
       (item1: any, item2: any) => {
-      return item1.date - item2.date;
-    });
+        return item1.date - item2.date;
+      });
     return sortedArray;
   }
 
@@ -130,36 +133,55 @@ export class ChatComponent implements OnInit, OnDestroy {
     return email;
   }
 
-  createConnection() {
-    const connectData = {userEmail: "", receiverEmail: ''};
-        if (this.role === 'DRIVER') {
-          connectData.userEmail = this.userEmail;
-          connectData.receiverEmail = this.receiverEmail;
-        }
-        else {
-          connectData.userEmail = this.receiverEmail;
-          connectData.receiverEmail = this.userEmail;
+  createConnection(receiverEmail: string) {
+
+   if(this.userEmail !== receiverEmail)
+   {
+     // @ts-ignore
+     this.arrEmail.push(receiverEmail);
+   }
+
+    const connEmail = [...new Set(this.arrEmail)];
+
+    for (let i = 0; i < connEmail.length; i++) {
+      const connectData: SocketMessageDto = {
+        passenger: [
+          {
+            // @ts-ignore
+            date: Date.now(), email: "", message: ` ${this.userEmail} присоединился`}],
+        userEmail: "",
+        receiverEmail: ""
+      };
+      if (this.role === 'DRIVER') {
+        connectData.userEmail = this.userEmail;
+        connectData.receiverEmail = receiverEmail;
+      } else {
+        connectData.userEmail = receiverEmail;
+        connectData.receiverEmail = this.userEmail;
+      }
+      // @ts-ignore
+      this.socketService.sendMessage(connectData);
     }
 
-    // @ts-ignore
-    // this.socketService.sendMessage(connectData);
   }
-saveInDb(){
- this.messSub = this.chatService.saveMessage(this.chatInfoDto).subscribe(data => {
-    this.warningService.sendWarning(`Сообщение ${this.receiverEmail} отравлено`);
-  },
-    error => this.warningService.sendWarning(`Ошибка отправки сообщения ${this.receiverEmail}`));
-  // @ts-ignore
-  this.chatInfoDto['userEmail'] = this.chatInfoDto['receiverEmail'];
-  this.chatService.saveMessage(this.chatInfoDto).subscribe(data => {
-    console.log(data);
-  })
-}
+
+  saveInDb() {
+    this.messSub = this.chatService.saveMessage(this.chatInfoDto).subscribe(data => {
+        this.warningService.sendWarning(`Сообщение ${this.receiverEmail} отравлено`);
+      },
+      error => this.warningService.sendWarning(`Ошибка отправки сообщения ${this.receiverEmail}`));
+    // @ts-ignore
+    this.chatInfoDto['userEmail'] = this.chatInfoDto['receiverEmail'];
+    this.chatService.saveMessage(this.chatInfoDto).subscribe(data => {
+      console.log(data);
+    })
+  }
+
   onScrollDown() {
     if (!this.showSpinner) {
       this.showSpinner = true
       this.imagesPage += 1;
-      this.chatSub =  this.chatService.getDriverSubscriber()
+      this.chatSub = this.chatService.getDriverSubscriber()
         .subscribe(data => {
           this.socketService.chatInfo.push(data);
         });
