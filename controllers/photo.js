@@ -2,8 +2,16 @@ const Photo = require('../models/Photo')
 const errorHandler = require('../utils/errorHandler')
 const Comments = require("../models/Comments");
 
-module.exports.getPhotoByUserId = (req, res) => {
-    Photo.find({userId: req.params.userId})
+module.exports.getPhotoByUserEmail = (req, res) => {
+    const pageSize = +req.query.pagesize;
+    const currentPage = +req.query.page;
+    const userPhotos = Photo.find({userEmail: req.params.userEmail})
+    if (pageSize && currentPage) {
+        userPhotos
+            .skip(pageSize * (currentPage - 1))
+            .limit(pageSize)
+    }
+    userPhotos
         .then(photos => res.status(200).json(photos))
         .catch(e => errorHandler(res, e))
 }
@@ -76,7 +84,7 @@ module.exports.update = function (req, res) {
 
 module.exports.setLikes = function (req, res) {
     Photo.findOne({_id: req.body.imageId})
-        .then(data => Photo.updateOne({_id: req.body.imageId}, {likesCount: data.likesCount+1}))
+        .then(data => Photo.updateOne({_id: req.body.imageId}, {likesCount: data.likesCount + 1}))
         .then(() => res.status(200).json({message: `Success set like at image ${req.body.imageId}`}))
         .catch(e => errorHandler(res, e))
 }

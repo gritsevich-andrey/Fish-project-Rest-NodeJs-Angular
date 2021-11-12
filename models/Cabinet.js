@@ -9,14 +9,13 @@ const cabinetSchema = new Schema({
     },
     fio: {
         type: String,
-        required: true
     },
     gender: {
         type: String,
         default: ''
     },
     age: {
-        type: Number
+        type: String,
     },
     technique: {
         type: [],

@@ -41,8 +41,9 @@ export class CabinetComponent implements OnInit, OnDestroy {
   private photoSub!: Subscription;
   page: number = 1;
   itemsPerPage = 6;
-  totalItems : any;
+  totalItems: any;
   pageSizes = [10, 20, 50, 100];
+  email = this.userService.getUserDataFromLocal();
 
   constructor(private warningService: WarningService,
               private cabinetService: CabinetService,
@@ -67,8 +68,7 @@ export class CabinetComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.techList = this.form.get('technique') as FormArray;
-    const email = this.userService.getUserDataFromLocal();
-    this.photoSub = this.cabinetService.getCabinetData(email).subscribe(data => {
+    this.photoSub = this.cabinetService.getCabinetData(this.email).subscribe(data => {
       this.addDataOnForm(data);
       this.isNew = false;
     });
@@ -143,7 +143,7 @@ export class CabinetComponent implements OnInit, OnDestroy {
     }
 // @ts-ignore
     this.form.get('technique').setValue(JSON.parse(data.technique));
-    this.imagePreview = data.avatar;
+    this.imagePreview = data.avatar || 'uploads/avatar.jpg';
     // @ts-ignore
     this.form.get('juridicalPerson').setValue(data.juridicalPerson);
   }
@@ -164,8 +164,8 @@ export class CabinetComponent implements OnInit, OnDestroy {
   }
 
   private getMyPhoto() {
-    this.cabinetService.getPhotoByUserEmail(this.itemsPerPage, this.page).subscribe(data => {
-      this.page =  0;
+    this.cabinetService.getPhotoByUserEmail(this.email, this.itemsPerPage, this.page).subscribe(data => {
+      this.page = 0;
       this.totalItems = 10;
       data.map((value: any) => {
         this.userPhotos.push(

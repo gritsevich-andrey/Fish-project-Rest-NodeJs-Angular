@@ -33,6 +33,7 @@ import { RestorePasswordComponent } from './restore-password/restore-password.co
 import { LiveFeedComponent } from './site-pages/live-feed/live-feed.component';
 import { ChatComponent } from './site-pages/chat/chat.component';
 import {InfiniteScrollModule} from "ngx-infinite-scroll";
+import {PhotoInterceptor} from "./shared/classes/photo.interceptor";
 
 @NgModule({
   declarations: [
@@ -78,7 +79,12 @@ import {InfiniteScrollModule} from "ngx-infinite-scroll";
     multi: true,
     useClass: TokenInterceptor
   },
-    AuthGuard
+    AuthGuard,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: PhotoInterceptor,
+      multi: true,
+    }
   ],
   bootstrap: [AppComponent]
 })
