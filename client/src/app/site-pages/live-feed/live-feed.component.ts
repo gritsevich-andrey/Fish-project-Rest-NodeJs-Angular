@@ -30,7 +30,8 @@ export class LiveFeedComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   imagesOnPage = 2;
   imagesPage = 1;
-  showSpinner = false
+  showSpinner = false;
+  isAllPictures = false;
 
   constructor(
     private userService: UserService,
@@ -135,13 +136,16 @@ export class LiveFeedComponent implements OnInit, OnDestroy {
   }
 
   onScrollDown() {
-    if (!this.showSpinner) {
+    if (!this.showSpinner && !this.isAllPictures) {
       this.showSpinner = true
       this.imagesPage += 1;
       this.photoService.getFeedPhotos(this.imagesOnPage, this.imagesPage).subscribe(
         data => {
           this.photos.push(...data)
           this.showSpinner = false
+          if(data.length === 0) {
+            this.isAllPictures = true
+          }
         },
         error => console.log(error)
       )

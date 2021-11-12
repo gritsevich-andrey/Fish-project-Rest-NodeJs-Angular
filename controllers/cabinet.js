@@ -48,6 +48,7 @@ module.exports.create = async function (req, res) {
     try {
         const isCabinet = await Cabinet.findOne({email: req.body.email});
         if (!isCabinet) {
+            console.log( req.body)
             const cabinet = new Cabinet(
                 {
                     email: req.body.email,
@@ -80,10 +81,10 @@ module.exports.update = async function (req, res) {
         updated.avatar = req.file.path
     }
     try {
-        const cabinet = await Cabinet.findOneAndUpdate(
+        const cabinet = await Cabinet.updateOne(
             {email: req.body.email},
             {$set: updated},
-            {new: true}
+            {upsert: true},
         )
         res.status(200).json(cabinet);
     } catch (e) {
