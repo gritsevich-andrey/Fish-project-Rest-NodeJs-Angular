@@ -135,11 +135,9 @@
           </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let photo of userPhotos | paginate
-          : {
-              itemsPerPage: itemsPerPage,
-              currentPage: page,
-              totalItems: totalItems
+          <tr *ngFor="let photo of userPhotos | paginate: {
+              itemsPerPage: pageSize,
+              currentPage: page
             }; let i = index;">
             <td>{{i + 1}}</td>
             <td class="image-preview"><img [src]="photo.imageSrc"></td>
@@ -149,21 +147,12 @@
           </tr>
           </tbody>
         </table>
-      </div>
-      <div class="select-dropdown">
-        <select (change)="handlePageSizeChange($event)">
-          <option *ngFor="let size of pageSizes" [ngValue]="size">
-            {{ size }}
-          </option>
-        </select>
+        <span class="mt10"><button class="btn btn-dark" (click)="handlePageChange()">Загрузить еще</button></span>
       </div>
       <pagination-controls
-        (pageChange)="handlePageChange($event)"
         previousLabel="Назад"
         nextLabel="Вперед"
-        [responsive]="true"
-        [autoHide]="true"
-        screenReaderPaginationLabel="Pagination"
+        (pageChange)="page = $event"
       ></pagination-controls>
     </mat-tab>
   </mat-tab-group>

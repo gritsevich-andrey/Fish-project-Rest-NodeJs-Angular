@@ -19,9 +19,10 @@ module.exports.getPhotoByUserEmail = (req, res) => {
 module.exports.getAllPhoto = (req, res) => {
     const pageSize = +req.query.pagesize;
     const currentPage = +req.query.page;
-    const photoQuery = Photo.find();
+    const photoQuery = Photo.find()
     if (pageSize && currentPage) {
-        photoQuery.skip(pageSize * (currentPage - 1))
+        photoQuery
+            .skip(pageSize * (currentPage - 1))
             .limit(pageSize)
     }
     photoQuery
