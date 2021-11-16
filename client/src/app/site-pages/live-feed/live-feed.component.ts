@@ -61,7 +61,7 @@ export class LiveFeedComponent implements OnInit, OnDestroy {
   @HostListener('window:beforeunload')
   ngOnDestroy() {
     this.photoService.likeCount.forEach((el: any) => {
-      this.photoService.updateLikes(el.imageId, el.likeCount).subscribe()
+      this.photoService.updateLikes(el.imageId, el.likeCount)
     })
     this.photoService.likeCount = [];
     this.destroy$.next();
@@ -89,7 +89,7 @@ export class LiveFeedComponent implements OnInit, OnDestroy {
     )
   }
 
-  sendMessage() {
+  sendFile() {
     const photoData = {
       image: this.form.controls.file.value,
       email: this.userEmail,
@@ -112,7 +112,7 @@ export class LiveFeedComponent implements OnInit, OnDestroy {
     }
   }
 
-  onImageLoad(event: Event) {
+  onFileLoad(event: Event) {
     // @ts-ignore
     const file = (event.target as HTMLInputElement).files[0];
     this.form.patchValue({file});
