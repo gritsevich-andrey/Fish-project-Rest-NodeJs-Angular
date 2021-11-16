@@ -39,11 +39,10 @@ export class CabinetComponent implements OnInit, OnDestroy {
   rating3: number;
   public formRating: FormGroup;
   private photoSub!: Subscription;
-  page: number = 1;
-  itemsPerPage = 6;
-  totalItems: any;
-  pageSizes = [10, 20, 50, 100];
+  page = 0;
+  pageSize: number=5;
   email = this.userService.getUserDataFromLocal();
+  countPage = 1;
 
   constructor(private warningService: WarningService,
               private cabinetService: CabinetService,
@@ -72,7 +71,7 @@ export class CabinetComponent implements OnInit, OnDestroy {
       this.addDataOnForm(data);
       this.isNew = false;
     });
-    this.getMyPhoto();
+    this.handlePageChange();
   }
 
   onSubmit() {
@@ -164,9 +163,7 @@ export class CabinetComponent implements OnInit, OnDestroy {
   }
 
   private getMyPhoto() {
-    this.cabinetService.getPhotoByUserEmail(this.email, this.itemsPerPage, this.page).subscribe(data => {
-      this.page = 0;
-      this.totalItems = 10;
+    this.cabinetService.getPhotoByUserEmail(this.email, this.pageSize, this.countPage).subscribe(data => {
       data.map((value: any) => {
         this.userPhotos.push(
           {
@@ -185,15 +182,17 @@ export class CabinetComponent implements OnInit, OnDestroy {
     this.photoSub.unsubscribe();
   }
 
-  handlePageChange(eventPage: number) {
-    this.page = eventPage;
+  handlePageChange() {
     this.getMyPhoto();
+    this.countPage +=1;
+    console.log('Объект юсер фото', this.userPhotos);
+    console.log('Количество страниц', this.countPage);
   }
 
-  handlePageSizeChange(event: Event) {
-    // @ts-ignore
-    this.itemsPerPage = event.target.value;
-    this.page = 1;
-    this.getMyPhoto();
-  }
+  // handlePageSizeChange(event: Event) {
+  //   // @ts-ignore
+  //   this.itemsPerPage = event.target.value;
+  //   this.page = 1;
+  //   this.getMyPhoto();
+  // }
 }
