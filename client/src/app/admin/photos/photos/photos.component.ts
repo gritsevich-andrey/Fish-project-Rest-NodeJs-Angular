@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import { MaterialService } from 'src/app/shared/classes/material.service';
 import {PhotoService} from "../../../shared/services/fotos.service";
+import {EmitterService} from "../../../shared/services/emitter.service";
 
 
 declare var M: { FormSelect: { init: (arg0: NodeListOf<Element>) => any; }; }
@@ -19,7 +20,8 @@ export class PhotosComponent implements OnInit {
   emailsArray: string[] = []
 
 
-  constructor(private photoService: PhotoService) {
+  constructor(private photoService: PhotoService,
+              private emitterService: EmitterService) {
   }
 
   ngOnInit(): void {
@@ -77,7 +79,10 @@ export class PhotosComponent implements OnInit {
   updatePhotoInfo(photoInfo: any) {
     this.photoService.updatePhotoInfo(photoInfo).subscribe(
       data => {
-        //console.log(data)
+        if(data) {
+         this.emitterService.onHide$.emit('emit moderation');
+        }
+
         MaterialService.toast('Изменения сохранены')
       },
       error => console.log(error)
