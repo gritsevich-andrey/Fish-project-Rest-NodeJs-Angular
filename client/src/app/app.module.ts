@@ -35,6 +35,7 @@ import { ChatComponent } from './site-pages/chat/chat.component';
 import {InfiniteScrollModule} from "ngx-infinite-scroll";
 import {PhotoInterceptor} from "./shared/classes/photo.interceptor";
 import {ReadMoreModule} from "ng-readmore";
+import {EmitterService} from "./shared/services/emitter.service";
 
 @NgModule({
   declarations: [
@@ -72,7 +73,6 @@ import {ReadMoreModule} from "ng-readmore";
         MatSortModule,
         MatTabsModule,
         MatPaginatorModule,
-
         InfiniteScrollModule,
         ReadMoreModule
     ],
@@ -81,6 +81,7 @@ import {ReadMoreModule} from "ng-readmore";
     multi: true,
     useClass: TokenInterceptor
   },
+    EmitterService,
     AuthGuard,
     {
       provide: HTTP_INTERCEPTORS,

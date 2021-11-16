@@ -7,7 +7,6 @@ import {RegisterComponent} from "./register/register.component";
 import {AuthGuard} from "./shared/classes/auth.guard";
 import {CabinetComponent} from "./site-pages/cabinet/cabinet.component";
 import {TravelComponent} from "./site-pages/travel/travel.component";
-import {QuestionsComponent} from "./site-pages/chat/questions/questions.component";
 import {RestorePasswordComponent} from "./restore-password/restore-password.component";
 import {LiveFeedComponent} from "./site-pages/live-feed/live-feed.component";
 import {ChatComponent} from "./site-pages/chat/chat.component";

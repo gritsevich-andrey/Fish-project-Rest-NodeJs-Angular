@@ -21,12 +21,19 @@ export class PhotosComponent implements OnInit {
 
 
   constructor(private photoService: PhotoService,
-              private emitterService: EmitterService) {
+              public emitterService: EmitterService) {
   }
 
   ngOnInit(): void {
     this.initFormSelect()
-    this.getPhotos()
+    this.getPhotos();
+    this.emitterService.change$.subscribe(state => console.log('подписка в фото', state));
+    this.emitterService.isAuthenticated$.subscribe(authenticated => {
+      if (authenticated) {
+        console.log('Аутентификация')
+      }
+    });
+
   }
 
   initFormSelect() {
@@ -80,9 +87,11 @@ export class PhotosComponent implements OnInit {
     this.photoService.updatePhotoInfo(photoInfo).subscribe(
       data => {
         if(data) {
-         this.emitterService.eventEmitterSubject$.next({action: 'CREATE', payload: data});
-         this.emitterService.changeCount({action: 'CREATE', payload: data});
-        console.log('Генерация события', data);
+         // this.emitterService.eventEmitterSubject$.next({action: 'CREATE', payload: data});
+         this.emitterService.setState(22);
+          this.emitterService.changeAuthenticated();
+        //  this.emitterService.changeCount({action: 'CREATE', payload: data});
+        // console.log('Генерация события', data);
         }
         MaterialService.toast('Изменения сохранены')
       },

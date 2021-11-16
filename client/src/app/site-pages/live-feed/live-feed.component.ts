@@ -39,22 +39,23 @@ export class LiveFeedComponent implements OnInit, OnDestroy {
   constructor(
     private userService: UserService,
     private photoService: PhotoService,
-    private emitterService: EmitterService
+    public emitterService: EmitterService
   ) {
     this.form = new FormGroup({
       //Нужно добавить валидатор
       description: new FormControl(''),
       file: new FormControl('')
     });
-
   }
 
   ngOnInit(): void {
     this.userEmail = this.userService.getUserDataFromLocal();
     this.getPhotos();
-    this.emitterService.eventEmitterSubject$.subscribe((payload) => {
-      this.getPhotos();
-      console.log('Сработка события в ленте', payload);
+    this.emitterService.change$.subscribe(state => console.log('подписка в ленте', state));
+    this.emitterService.isAuthenticated$.subscribe(authenticated => {
+      if (authenticated) {
+        console.log('Аутентификация')
+      }
     });
   }
 
@@ -64,8 +65,8 @@ export class LiveFeedComponent implements OnInit, OnDestroy {
       this.photoService.updateLikes(el.imageId, el.likeCount)
     })
     this.photoService.likeCount = [];
-    this.destroy$.next();
-    this.destroy$.complete();
+    // this.destroy$.next();
+    // this.destroy$.complete();
   }
 
   setLike(imageId: string, likeCount: number, isLiked: boolean) {

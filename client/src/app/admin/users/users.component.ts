@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from "../../shared/services/user.service";
 import {Sort} from "@angular/material/sort";
+import {EmitterService} from "../../shared/services/emitter.service";
 
 declare var M: { FormSelect: { init: (arg0: NodeListOf<Element>) => any; }; }
 
@@ -25,12 +26,19 @@ export class UsersComponent implements OnInit {
   defaultUsersOnPage: number = 10;
   searchValue!: string;
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService, public emitterService: EmitterService ) {
   }
 
   ngOnInit(): void {
     this.initFormSelect()
-    this.getListUsers()
+    this.getListUsers();
+
+    this.emitterService.change$.subscribe(state => console.log('подписка в поездках', state));
+    this.emitterService.isAuthenticated$.subscribe(authenticated => {
+      if (authenticated) {
+        console.log('Аутентификация')
+      }
+    });
   }
 
   //Может сделать приватными методами?
