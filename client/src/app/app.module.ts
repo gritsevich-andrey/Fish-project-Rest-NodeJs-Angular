@@ -5,7 +5,6 @@ import {LoginComponent} from './login/login.component';
 import {AuthLayoutComponent} from './shared/layouts/auth-layout/auth-layout.component';
 import {SiteLayoutComponent} from './shared/layouts/site-layout/site-layout.component';
 import {RegisterComponent} from './register/register.component';
-import {SharedModule} from "./shared/shared.module";
 import {CabinetComponent} from "./site-pages/cabinet/cabinet.component";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {TokenInterceptor} from "./shared/classes/token.interceptor";
@@ -27,15 +26,18 @@ import {TravelComponent} from './site-pages/travel/travel.component';
 import {MatSortModule} from "@angular/material/sort";
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatPaginatorModule} from '@angular/material/paginator';
-import { NgImageSliderModule } from 'ng-image-slider';
-import { QuestionsComponent } from './site-pages/chat/questions/questions.component';
-import { RestorePasswordComponent } from './restore-password/restore-password.component';
-import { LiveFeedComponent } from './site-pages/live-feed/live-feed.component';
-import { ChatComponent } from './site-pages/chat/chat.component';
+import {NgImageSliderModule} from 'ng-image-slider';
+import {QuestionsComponent} from './site-pages/chat/questions/questions.component';
+import {RestorePasswordComponent} from './restore-password/restore-password.component';
+import {LiveFeedComponent} from './site-pages/live-feed/live-feed.component';
+import {ChatComponent} from './site-pages/chat/chat.component';
 import {InfiniteScrollModule} from "ngx-infinite-scroll";
 import {PhotoInterceptor} from "./shared/classes/photo.interceptor";
 import {ReadMoreModule} from "ng-readmore";
-import {EmitterService} from "./shared/services/emitter.service";
+import {AdminLayoutsComponent} from "./admin/shared/layouts/admin-layouts/admin-layouts.component";
+import {UsersComponent} from "./admin/users/users.component";
+import {PhotosComponent} from "./admin/photos/photos/photos.component";
+import {SharedModule} from "./shared/shared.module";
 
 @NgModule({
   declarations: [
@@ -51,6 +53,10 @@ import {EmitterService} from "./shared/services/emitter.service";
     RestorePasswordComponent,
     LiveFeedComponent,
     ChatComponent,
+    AdminLayoutsComponent,
+    ComplaintsComponent,
+    UsersComponent,
+    PhotosComponent
   ],
     imports: [
         NgImageSliderModule,
@@ -81,7 +87,6 @@ import {EmitterService} from "./shared/services/emitter.service";
     multi: true,
     useClass: TokenInterceptor
   },
-    EmitterService,
     AuthGuard,
     {
       provide: HTTP_INTERCEPTORS,

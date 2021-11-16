@@ -18,7 +18,7 @@ export class TravelComponent implements OnInit {
     this.emitterService.change$.subscribe(state => console.log('подписка в поездках', state));
     this.emitterService.isAuthenticated$.subscribe(authenticated => {
       if (authenticated) {
-        console.log('Аутентификация')
+        console.log('Аутентификация в поездках')
       }
     });
   }

@@ -1,8 +1,11 @@
 import {BehaviorSubject, Observable, Subject} from "rxjs";
-import {Injectable} from "@angular/core";
 
 export type Actions = 'CREATE' | 'DELETE' | 'UPDATE';
-@Injectable()
+// @Injectable(
+//   {
+//     providedIn: 'root'
+//   }
+// )
 export class EmitterService {
   eventEmitterSubject$ = new Subject<{ action: Actions, payload?: any }>();
   private change: Subject<number> = new Subject<number>();

@@ -33,10 +33,10 @@ export class UsersComponent implements OnInit {
     this.initFormSelect()
     this.getListUsers();
 
-    this.emitterService.change$.subscribe(state => console.log('подписка в поездках', state));
+    this.emitterService.change$.subscribe(state => console.log('подписка во всех пользователях', state));
     this.emitterService.isAuthenticated$.subscribe(authenticated => {
       if (authenticated) {
-        console.log('Аутентификация')
+        console.log('Аутентификация во всех пользователях')
       }
     });
   }
