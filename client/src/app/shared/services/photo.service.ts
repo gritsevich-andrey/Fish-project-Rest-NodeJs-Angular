@@ -32,9 +32,8 @@ export class PhotoService {
   }
 
   getFeedPhotos(pageSize?: number, page?: number): Observable<any> {
-    let url = ''
+    let url = environment.PHOTO_API
     if (pageSize && page) url = `${environment.PHOTO_API}?pagesize=${pageSize}&page=${page}`
-    else url = environment.PHOTO_API
     return this.http.get(url).pipe(
       map((data: any) =>
         data.filter((el: any) => el.public && el.moderation).map((data: any) => {
@@ -61,10 +60,6 @@ export class PhotoService {
     formData.append('email', data.email)
     formData.append('description', data.description)
     formData.append('public', data.public)
-    /*for (let item in data) {
-      if ((item === 'image') && data[item]) formData.append(item, data[item], data[item].name)
-      formData.append(item, data[item])
-    }*/
     return this.http.post(environment.PHOTO_API, formData)
   }
 
@@ -84,8 +79,8 @@ export class PhotoService {
     return this.http.post(environment.COMMENTS_API, {photoId, commentValue, userEmail})
   }
 
-  updateLikes(imageId: string, likesCount: number): Observable<any> {
-    return this.http.patch(environment.PHOTO_API + "/updateLikes", {imageId, likesCount})
+  updateLikes(imageId: string, likesCount: number) {
+    return this.http.patch(environment.PHOTO_API + "/updateLikes", {imageId, likesCount}).subscribe()
   }
 }
 

@@ -34,6 +34,7 @@ import { LiveFeedComponent } from './site-pages/live-feed/live-feed.component';
 import { ChatComponent } from './site-pages/chat/chat.component';
 import {InfiniteScrollModule} from "ngx-infinite-scroll";
 import {PhotoInterceptor} from "./shared/classes/photo.interceptor";
+import {ReadMoreModule} from "ng-readmore";
 
 @NgModule({
   declarations: [
@@ -50,30 +51,31 @@ import {PhotoInterceptor} from "./shared/classes/photo.interceptor";
     LiveFeedComponent,
     ChatComponent,
   ],
-  imports: [
-    NgImageSliderModule,
-    AppRoutingModule,
-    ReactiveFormsModule,
-    FormsModule,
-    HttpClientModule,
-    BrowserModule,
-    CommonModule,
-    SharedModule,
-    BrowserAnimationsModule,
-    MatIconModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatTooltipModule,
-    MatSnackBarModule,
-    NgxPaginationModule,
-    NgxStarRatingModule,
-    MatSortModule,
-    MatTabsModule,
-    MatPaginatorModule,
+    imports: [
+        NgImageSliderModule,
+        AppRoutingModule,
+        ReactiveFormsModule,
+        FormsModule,
+        HttpClientModule,
+        BrowserModule,
+        CommonModule,
+        SharedModule,
+        BrowserAnimationsModule,
+        MatIconModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatTooltipModule,
+        MatSnackBarModule,
+        NgxPaginationModule,
+        NgxStarRatingModule,
+        MatSortModule,
+        MatTabsModule,
+        MatPaginatorModule,
 
-    InfiniteScrollModule
-  ],
+        InfiniteScrollModule,
+        ReadMoreModule
+    ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
     multi: true,

@@ -21,7 +21,9 @@
               <img class="image" src="{{item.imageSrc}}" alt="{{item.description}}">
             </div>
             <div class="descriptionBlock">
-              <span class="photoDescription">{{item.description}}</span>
+              <span class="photoDescription">
+                <app-read-more [text]="item.description" [maxLength]="20"></app-read-more>
+              </span>
               <div class="likeBlock">
                 <span>{{item.likeCount}}</span>
                 <i class="material-icons"
