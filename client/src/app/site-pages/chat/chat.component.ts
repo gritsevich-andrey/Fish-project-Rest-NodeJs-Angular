@@ -14,6 +14,8 @@ import {Subscription} from "rxjs";
   styleUrls: ['./chat.component.scss']
 })
 export class ChatComponent implements OnInit, OnDestroy {
+
+  // https://stackoverflow.com/questions/44857780/how-to-call-header-component-function-to-another-component-in-angular-2/44858648#44858648
   // public data: any;
   // @ts-ignore
   chatInfoDto: SocketMessageDto;

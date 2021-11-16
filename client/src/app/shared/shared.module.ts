@@ -7,6 +7,7 @@ import {FooterComponent} from "./layouts/site-layout/footer/footer.component";
 import {RouterModule} from "@angular/router";
 import {DuplicatePipe} from './pipes/duplicate.pipe';
 import {SearchFilterPipe} from "../pipe/search-filter.pipe";
+import {EmitterService} from "./services/emitter.service";
 
 @NgModule({
   declarations: [
@@ -28,6 +29,9 @@ import {SearchFilterPipe} from "../pipe/search-filter.pipe";
     FormsModule,
     DuplicatePipe,
     SearchFilterPipe
+  ],
+  providers: [
+    EmitterService
   ]
 })
 export class SharedModule {
