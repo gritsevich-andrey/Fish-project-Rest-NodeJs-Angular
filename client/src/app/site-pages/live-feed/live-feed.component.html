@@ -53,7 +53,7 @@
         </div>
 
       </div>
-      <form [formGroup]="form" (ngSubmit)="sendMessage()">
+      <form [formGroup]="form" (ngSubmit)="sendFile()">
         <div class="chat-send row">
           <div class="col-2">
             <input disabled type="text" class="form-control" name="user" id="input-user" [value]="userEmail">
@@ -65,7 +65,7 @@
           <div class="col-2 buttonsBlock">
             <button type="submit" class="btn btn-primary">Отправить</button>
             <i class="material-icons" (click)="file.click()" matTooltip="Добавить фото">add_a_photo</i>
-            <input [hidden]="true" type="file" (change)="onImageLoad($event)" #file/>
+            <input [hidden]="true" type="file" (change)="onFileLoad($event)" #file/>
           </div>
         </div>
       </form>

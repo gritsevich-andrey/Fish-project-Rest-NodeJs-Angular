@@ -74,16 +74,16 @@ export class LiveFeedComponent implements OnInit, OnDestroy {
     )
   }
 
-  sendMessage() {
+  sendFile() {
     const photoData = {
-      image: this.form.controls.file.value,
+      file: this.form.controls.file.value,
       email: this.userEmail,
       description: this.form.controls.description.value,
       public: true
       //coordinates: 'где-то нужно взять'
     }
-    if (!photoData.image && !photoData.description) MaterialService.toast('Ваш пост не должен быть пустым')
-    else if (!photoData.image) MaterialService.toast('Ваш пост должен содержать изображение')
+    if (!photoData.file && !photoData.description) MaterialService.toast('Ваш пост не должен быть пустым')
+    else if (!photoData.file) MaterialService.toast('Ваш пост должен содержать изображение')
     else {
       this.photoService.createPhoto(photoData).subscribe(
         () => MaterialService.toast('Ваш пост был отправлен на модерацию'),
@@ -101,10 +101,17 @@ export class LiveFeedComponent implements OnInit, OnDestroy {
     this.form.controls.file.reset();
   }
 
-  onImageLoad(event: Event) {
+  onFileLoad(event: Event) {
     // @ts-ignore
     const file = (event.target as HTMLInputElement).files[0];
-    this.form.patchValue({file});
+    debugger
+    // const reader = new FileReader();
+    // reader.onload = () => {
+    //   this.form.patchValue({file: reader.result});
+    // }
+    // reader.readAsDataURL(file);
+    this.form.patchValue({file: new Blob([file], { type: file.type})});
+
   }
 
   getComments(imageId: string, showComments: boolean) {
