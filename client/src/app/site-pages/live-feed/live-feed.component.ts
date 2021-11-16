@@ -3,6 +3,9 @@ import {FormControl, FormGroup} from "@angular/forms";
 import {UserService} from "../../shared/services/user.service";
 import {PhotoService} from "../../shared/services/fotos.service";
 import {MaterialService} from "../../shared/classes/material.service";
+import {EmitterService} from "../../shared/services/emitter.service";
+import {Subject} from "rxjs";
+import {filter, takeUntil} from "rxjs/operators";
 
 interface Photos {
   imageSrc: string
@@ -32,21 +35,28 @@ export class LiveFeedComponent implements OnInit, OnDestroy {
   imagesPage = 1;
   showSpinner = false;
   isAllPictures = false;
+  destroy$ = new Subject();
 
   constructor(
     private userService: UserService,
-    private photoService: PhotoService
+    private photoService: PhotoService,
+    private emitterService: EmitterService
   ) {
     this.form = new FormGroup({
       //Нужно добавить валидатор
       description: new FormControl(''),
       file: new FormControl('')
     });
+
   }
 
   ngOnInit(): void {
     this.userEmail = this.userService.getUserDataFromLocal();
-    this.getPhotos()
+    this.getPhotos();
+    this.emitterService.eventEmitterSubject$.subscribe((payload) => {
+      this.getPhotos();
+      console.log('Сработка события в ленте', payload);
+    });
   }
 
   @HostListener('window:beforeunload')
@@ -54,7 +64,9 @@ export class LiveFeedComponent implements OnInit, OnDestroy {
     this.photoService.likeCount.forEach((el: any) => {
       this.photoService.updateLikes(el.imageId, el.likeCount).subscribe()
     })
-    this.photoService.likeCount = []
+    this.photoService.likeCount = [];
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   setLike(imageId: string, likeCount: number, isLiked: boolean) {

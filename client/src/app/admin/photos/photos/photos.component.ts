@@ -80,9 +80,10 @@ export class PhotosComponent implements OnInit {
     this.photoService.updatePhotoInfo(photoInfo).subscribe(
       data => {
         if(data) {
-         this.emitterService.onHide$.emit('emit moderation');
+         this.emitterService.eventEmitterSubject$.next({action: 'CREATE', payload: data});
+         this.emitterService.changeCount({action: 'CREATE', payload: data});
+        console.log('Генерация события', data);
         }
-
         MaterialService.toast('Изменения сохранены')
       },
       error => console.log(error)
