@@ -15,7 +15,8 @@ export class SiteLayoutComponent implements OnInit {
     },
     {
       title: 'Отправиться на отдых',
-      href: '#'
+      href: '#',
+      icon: 'beach_access'
     },
     {
       title: 'Мои поездки',
