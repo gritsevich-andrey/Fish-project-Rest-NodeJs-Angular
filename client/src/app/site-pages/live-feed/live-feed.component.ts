@@ -92,8 +92,8 @@ export class LiveFeedComponent implements OnInit, OnDestroy {
           console.log(error)
         }
       );
+      this.resetForm()
     }
-    this.resetForm()
   }
 
   resetForm() {
@@ -104,7 +104,14 @@ export class LiveFeedComponent implements OnInit, OnDestroy {
   onFileLoad(event: Event) {
     // @ts-ignore
     const file = (event.target as HTMLInputElement).files[0];
-    this.form.patchValue({file});
+    debugger
+    // const reader = new FileReader();
+    // reader.onload = () => {
+    //   this.form.patchValue({file: reader.result});
+    // }
+    // reader.readAsDataURL(file);
+    this.form.patchValue({file: new Blob([file], { type: file.type})});
+
   }
 
   getComments(imageId: string, showComments: boolean) {

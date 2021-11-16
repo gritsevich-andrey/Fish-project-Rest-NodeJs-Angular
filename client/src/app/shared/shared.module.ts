@@ -29,9 +29,6 @@ import {EmitterService} from "./services/emitter.service";
     FormsModule,
     DuplicatePipe,
     SearchFilterPipe
-  ],
-  providers: [
-    EmitterService
   ]
 })
 export class SharedModule {

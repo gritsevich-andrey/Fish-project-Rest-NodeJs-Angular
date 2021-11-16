@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import { MaterialService } from 'src/app/shared/classes/material.service';
+import {EmitterService} from "../../../shared/services/emitter.service";
 import {PhotoService} from "../../../shared/services/photo.service";
 
 
@@ -19,7 +20,8 @@ export class PhotosComponent implements OnInit {
   emailsArray: string[] = []
 
 
-  constructor(private photoService: PhotoService) {
+  constructor(private photoService: PhotoService,
+              private emitterService: EmitterService) {
   }
 
   ngOnInit(): void {
@@ -77,7 +79,11 @@ export class PhotosComponent implements OnInit {
   updatePhotoInfo(photoInfo: any) {
     this.photoService.updatePhotoInfo(photoInfo).subscribe(
       data => {
-        //console.log(data)
+        if(data) {
+         this.emitterService.eventEmitterSubject$.next({action: 'CREATE', payload: data});
+         this.emitterService.changeCount({action: 'CREATE', payload: data});
+        console.log('Генерация события', data);
+        }
         MaterialService.toast('Изменения сохранены')
       },
       error => console.log(error)
