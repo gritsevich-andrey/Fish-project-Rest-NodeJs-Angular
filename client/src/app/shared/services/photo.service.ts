@@ -56,9 +56,7 @@ export class PhotoService {
 
   createPhoto(data: any): Observable<any> {
     const formData = new FormData();
-    //formData.append('image', data.file, data.file.name)
-    formData.append('image', data.file)
-    debugger
+    formData.append('image', data.file, data.file.name)
     formData.append('email', data.email)
     formData.append('description', data.description)
     formData.append('public', data.public)
