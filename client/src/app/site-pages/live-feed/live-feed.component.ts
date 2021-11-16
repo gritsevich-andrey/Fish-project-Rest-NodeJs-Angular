@@ -1,11 +1,10 @@
 import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from "@angular/forms";
 import {UserService} from "../../shared/services/user.service";
-import {PhotoService} from "../../shared/services/fotos.service";
 import {MaterialService} from "../../shared/classes/material.service";
 import {EmitterService} from "../../shared/services/emitter.service";
 import {Subject} from "rxjs";
-import {filter, takeUntil} from "rxjs/operators";
+import {PhotoService} from "../../shared/services/photo.service";
 
 interface Photos {
   imageSrc: string
