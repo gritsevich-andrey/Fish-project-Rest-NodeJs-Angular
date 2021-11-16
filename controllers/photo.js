@@ -40,7 +40,6 @@ module.exports.getPhotoById = function (req, res) {
 
 module.exports.create = async function (req, res) {
     try {
-        /*
         const photo = await new Photo({
             imageSrc: req.file ? req.file.path : '',
             userEmail: req.body.email,
@@ -52,10 +51,9 @@ module.exports.create = async function (req, res) {
         await new Comments({
             photoId: photo._id,
             comments: []
-        }).save()*/
+        }).save()
 
-        //res.status(201).json(photo);
-        res.status(201).json({});
+        res.status(201).json(photo);
     } catch (e) {
         errorHandler(res, e);
     }

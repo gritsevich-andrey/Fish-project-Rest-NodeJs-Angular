@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import { MaterialService } from 'src/app/shared/classes/material.service';
-import {PhotoService} from "../../../shared/services/fotos.service";
+import {PhotoService} from "../../../shared/services/photo.service";
 
 
 declare var M: { FormSelect: { init: (arg0: NodeListOf<Element>) => any; }; }
