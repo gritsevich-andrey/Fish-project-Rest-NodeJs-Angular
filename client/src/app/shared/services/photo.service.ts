@@ -33,6 +33,7 @@ export class PhotoService {
 
   getFeedPhotos(pageSize?: number, page?: number): Observable<any> {
     let url = environment.PHOTO_API
+    debugger
     if (pageSize && page) url = `${environment.PHOTO_API}?pagesize=${pageSize}&page=${page}`
     return this.http.get(url).pipe(
       map((data: any) =>
@@ -56,9 +57,7 @@ export class PhotoService {
 
   createPhoto(data: any): Observable<any> {
     const formData = new FormData();
-    //formData.append('image', data.file, data.file.name)
-    formData.append('image', data.file)
-    debugger
+    formData.append('image', data.file, data.file.name)
     formData.append('email', data.email)
     formData.append('description', data.description)
     formData.append('public', data.public)

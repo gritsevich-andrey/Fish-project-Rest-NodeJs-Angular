@@ -6,6 +6,10 @@ a {
   color: #FFFFFF;
 }
 
+.image-slider {
+  width: 210px;
+}
+
 .sorting {
   display: none;
 }
@@ -80,13 +84,13 @@ input {
   @media screen and (max-width: 420px) {
     width: 100%;
   }
-  width: 60%;
+  width: 500px;
   min-width: 300px;
 }
 
 table {
   .input-field {
-    width: auto;
+    max-width: 200px !important;
     min-width: auto;
   }
 }

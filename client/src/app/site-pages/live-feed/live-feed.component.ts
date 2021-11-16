@@ -1,10 +1,8 @@
 import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from "@angular/forms";
 import {UserService} from "../../shared/services/user.service";
-import {MaterialService} from "../../shared/classes/material.service";
-import {EmitterService} from "../../shared/services/emitter.service";
-import {Subject} from "rxjs";
 import {PhotoService} from "../../shared/services/photo.service";
+import {MaterialService} from "../../shared/classes/material.service";
 
 interface Photos {
   imageSrc: string
@@ -30,16 +28,14 @@ export class LiveFeedComponent implements OnInit, OnDestroy {
   userEmail!: string;
   file!: File;
   form!: FormGroup;
-  imagesOnPage = 2;
+  imagesOnPage = 10;
   imagesPage = 1;
   showSpinner = false;
   isAllPictures = false;
-  destroy$ = new Subject();
 
   constructor(
     private userService: UserService,
-    private photoService: PhotoService,
-    public emitterService: EmitterService
+    private photoService: PhotoService
   ) {
     this.form = new FormGroup({
       //Нужно добавить валидатор
@@ -50,30 +46,19 @@ export class LiveFeedComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.userEmail = this.userService.getUserDataFromLocal();
-    this.getPhotos();
-    this.emitterService.change$.subscribe(state => console.log('подписка в ленте', state));
-    this.emitterService.isAuthenticated$.subscribe(authenticated => {
-      if (authenticated) {
-        console.log('Аутентификация')
-      }
-    });
+    this.getPhotos()
   }
 
   @HostListener('window:beforeunload')
   ngOnDestroy() {
-    this.photoService.likeCount.forEach((el: any) => {
-      this.photoService.updateLikes(el.imageId, el.likeCount)
-    })
-    this.photoService.likeCount = [];
-    // this.destroy$.next();
-    // this.destroy$.complete();
+    this.photoService.likeCount.forEach((el: any) => this.photoService.updateLikes(el.imageId, el.likeCount))
+    this.photoService.likeCount = []
+    this.imagesPage = 1
   }
 
   setLike(imageId: string, likeCount: number, isLiked: boolean) {
     if (!isLiked) {
-      this.photoService.likeCount.push({
-        imageId
-      })
+      this.photoService.likeCount.push({imageId})
       this.photos.forEach(el => {
         if (el.imageId === imageId) {
           el.isLiked = true
@@ -92,14 +77,14 @@ export class LiveFeedComponent implements OnInit, OnDestroy {
 
   sendFile() {
     const photoData = {
-      image: this.form.controls.file.value,
+      file: this.form.controls.file.value,
       email: this.userEmail,
       description: this.form.controls.description.value,
       public: true
       //coordinates: 'где-то нужно взять'
     }
-    if (!photoData.image && !photoData.description) MaterialService.toast('Ваш пост не должен быть пустым')
-    else if (!photoData.image) MaterialService.toast('Ваш пост должен содержать изображение')
+    if (!photoData.file && !photoData.description) MaterialService.toast('Ваш пост не должен быть пустым')
+    else if (!photoData.file) MaterialService.toast('Ваш пост должен содержать изображение')
     else {
       this.photoService.createPhoto(photoData).subscribe(
         () => MaterialService.toast('Ваш пост был отправлен на модерацию'),
@@ -108,15 +93,19 @@ export class LiveFeedComponent implements OnInit, OnDestroy {
           console.log(error)
         }
       );
-      this.form.controls.description.reset();
-      this.form.controls.file.reset();
     }
+    this.resetForm()
+  }
+
+  resetForm() {
+    this.form.controls.description.reset();
+    this.form.controls.file.reset();
   }
 
   onFileLoad(event: Event) {
     // @ts-ignore
     const file = (event.target as HTMLInputElement).files[0];
-    this.form.patchValue({file});
+    this.form.patchValue({file})
   }
 
   getComments(imageId: string, showComments: boolean) {
@@ -155,7 +144,7 @@ export class LiveFeedComponent implements OnInit, OnDestroy {
         data => {
           this.photos.push(...data)
           this.showSpinner = false
-          if(data.length === 0) {
+          if (data.length === 0) {
             this.isAllPictures = true
           }
         },
