@@ -27,12 +27,12 @@ server.listen(3001, () => {
 
 
 io.on('connection', socket => {
-    console.log('Клиент присоединился');
-
+    console.log('Клиент присоединился, id:', socket.id);
     socket.on('chat', (data) => {
         const room = data.userEmail + '-' + data.receiverEmail;
         socket.join(room);
-        console.log('Название комнаты', room);
+        // console.log('Название комнаты', room);
         io.sockets.in(room).emit('newMessage', data);
+        // socket.to(room).emit('newMessage', data);
     })
 });
