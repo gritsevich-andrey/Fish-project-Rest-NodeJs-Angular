@@ -21,7 +21,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   chatInfoDto: SocketMessageDto;
   userEmail: string;
   // @ts-ignore
-  receiverEmail: string;
+  receiverEmail = '';
   // @ts-ignore
   role: string;
   // @ts-ignore

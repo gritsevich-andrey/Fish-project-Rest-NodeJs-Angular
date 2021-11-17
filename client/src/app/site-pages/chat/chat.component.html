@@ -24,7 +24,7 @@
              [infiniteScrollThrottle]="10"
              (scrolled)="onScrollDown()"
              [alwaysCallback]="true">
-          <ul *ngFor="let info of getInfoWithChatDto() | searchFilter: receiverEmail">
+          <ul *ngFor="let info of getInfoWithChatDto() | search: receiverEmail">
             <li class="chat-container">
               <span class="user-left" (click)="addReceiverEmail(info.email)">{{info.email}} </span>
               <span class="p10">{{info.message}} </span>
