@@ -14,8 +14,8 @@ export class SiteLayoutComponent implements OnInit {
       icon: 'feed'
     },
     {
-      title: 'Отправиться на отдых',
-      href: '#',
+      title: 'Карта путешествий',
+      href: 'map-travel',
       icon: 'beach_access'
     },
     {
