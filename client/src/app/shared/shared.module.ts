@@ -26,7 +26,7 @@ import {EmitterService} from "./services/emitter.service";
     HeaderComponent,
     TopMenuComponent,
     FooterComponent,
-    // FormsModule,
+    FormsModule,
     DuplicatePipe,
     SearchFilterPipe
   ],
