@@ -12,7 +12,8 @@ export const environment: Constants = {
   PHOTO_API: '/api/photo',
   BACK_URL: 'localhost:5000',
   CHAT_API: '/chat',
-  COMMENTS_API: '/api/comments'
+  COMMENTS_API: '/api/comments',
+  TRAVEL_API: '/api/travels'
 }
 
 /*

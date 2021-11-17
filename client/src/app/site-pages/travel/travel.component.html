@@ -1,37 +1,60 @@
-<!--<div class="sorting" matSort (matSortChange)="sortService.sortData($event)">-->
-<!--<span>Сортировка: </span>-->
-<!--<span mat-sort-header="number">Номер</span>-->
-<!--<span mat-sort-header="role">Роль</span>-->
-<!--<span mat-sort-header="date">Дата</span>-->
-<!--</div>-->
-<div class="cab-container">
-<table matSort (matSortChange)="sortService.sortData($event)">
-  <thead>
-  <tr>
-    <th mat-sort-header="number">№</th>
-    <th mat-sort-header="role">Роль</th>
-    <th mat-sort-header="date">Дата</th>
-    <th mat-sort-header="status">Статус</th>
-    <th mat-sort-header="carrier">Перевозчик</th>
-    <th mat-sort-header="place">Место</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td>
-    </td>
-    <td>
-
-    </td>
-    <td>
-    </td>
-  </tr>
-  </tbody>
-</table>
-<pagination-controls previousLabel="Предыдущая"
-                     nextLabel="Следующая" (pageChange)="page = $event"></pagination-controls>
+<h1>Список предложенных мест</h1>
+<div>
+  <div *ngFor="let item of userTravels, let i">
+    <span>{{item.title}}</span>
+    <a *ngIf="item.isPublic" class="waves-effect waves-light btn" (click)="hideTravel(item._id)">Скрыть</a>
+    <a *ngIf="!item.isPublic" class="waves-effect waves-light btn" (click)="showTravel(item._id)">Повторить</a>
+  </div>
 </div>
+<div class="makeOffer">
+  <button data-target="modal1" class="waves-effect waves-light btn-large modal-trigger">Предложить поездку</button>
+</div>
+<div id="modal1" class="modal">
+  <form [formGroup]="form" (ngSubmit)="createTravel()">
+    <div class="modal-content">
+      <h1>Предложить поездку</h1>
+      <div class="input-field col s6">
+        <input id="travelTitle" formControlName="travelTitle" type="text" class="validate"/>
+        <label for="travelTitle">Название поездки</label>
+      </div>
+      <div class="input-field col s12 m6">
+        <select formControlName="travelType" class="icons">
+          <option value="" disabled selected>На чем хотите ехать</option>
+          <option value="onFoot" class="left">пешком</option>
+          <option value="technique" class="left">на технике</option>
+        </select>
+      </div>
+      <div>
+        <span>Куда вы хотите поехать?</span>
+        <a class="waves-effect waves-light btn">Указать на карте</a>
+      </div>
+      <div class="input-field col s12 m6">
+        <select class="icons" formControlName="travelTarget">
+          <option value="" disabled selected>Для чего вы хотите отправиться</option>
+          <option value="hunting" class="left">Охота</option>
+          <option value="fishing" class="left">Рыбалка</option>
+          <option value="tourism" class="left">Туризм</option>
+        </select>
+      </div>
+      <div class="input-field col s6">
+        <input id="peoplesCount" formControlName="peoplesCount" type="number" min="1" class="validate"/>
+        <label for="peoplesCount">Сколько человек вы с собой возьмете</label>
+      </div>
+      <div class="input-field col s6">
+        <input id="costPerPeople" formControlName="costPerPeople" type="number" min="0" class="validate"/>
+        <label for="costPerPeople">Сколько стоит поездка на 1 человека</label>
+      </div>
+      <div class="input-field col s12">
+        <textarea id="textarea1" class="materialize-textarea" formControlName="description"></textarea>
+        <label for="textarea1">Что нужно взять человеку с собой (описание)</label>
+      </div>
+      <div>
+        <a class="waves-effect waves-light btn">Отметить точку на карте</a>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="modal-close waves-effect waves-green btn-flat">Создать</button>
+    </div>
+  </form>
+</div>
+

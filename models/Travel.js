@@ -2,29 +2,41 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const travelSchema = new Schema({
-    UserEmail: {
+    userEmail: {
         type: String,
         required: true,
     },
-    role: {
+    travelType: {
         type: String,
         required: true,
     },
-    date: {
+    travelTarget: {
         type: String,
-        default: Date.now
+        required: true,
     },
-    status: {
+    peoplesCount: {
+        type: String,
+        required: true,
+    },
+    costPerPeople: {
+        type: String,
+        required: true,
+    },
+    description: {
+        type: String,
+        required: true,
+    },
+    title: {
+        type: String,
+        required: true,
+    },
+    coordinates: {
+        type: String,
+        required: true,
+    },
+    isPublic: {
         type: Boolean,
-        default: false
-    },
-    carrier: {
-        type: String,
-        default: 'Неизвестно'
-    },
-    place: {
-        type: String,
-        default: 'Неизвестно'
+        required: true,
     }
 })
 module.exports = mongoose.model('travels', travelSchema)

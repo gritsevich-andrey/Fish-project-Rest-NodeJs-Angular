@@ -1,3 +1,12 @@
-.sorting {
-  display: none;
+form {
+  div {
+    margin-bottom: 40px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.makeOffer {
+  margin-top: 50px;
 }

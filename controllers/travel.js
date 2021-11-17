@@ -22,14 +22,17 @@ module.exports.getTravelById = function (req, res) {
 
 module.exports.create = function (req, res) {
     try {
+        console.log( req.body)
         const travel = new Travel({
             userEmail: req.body.userEmail,
-            role: req.body. role,
-            date: req.body.date,
-            status: req.body.status,
-            carrier: req.body.carrier,
-            place: req.body.place
-
+            travelType: req.body.travelType,
+            travelTarget: req.body.travelTarget,
+            peoplesCount: req.body.peoplesCount,
+            costPerPeople: req.body.costPerPeople,
+            description: req.body.description,
+            title: req.body.title,
+            coordinates: req.body.coordinates,
+            isPublic: true
         }).save();
         res.status(201).json(travel);
     } catch (e) {
@@ -45,11 +48,14 @@ module.exports.remove = function (req, res) {
 module.exports.update = function (req, res) {
     const updated = {
         userEmail: req.body.userEmail,
-        role: req.body. role,
-        date: req.body.date,
-        status: req.body.status,
-        carrier: req.body.carrier,
-        place: req.body.place
+        travelType: req.body.travelType,
+        travelTarget: req.body.travelTarget,
+        peoplesCount: req.body.peoplesCount,
+        costPerPeople: req.body.costPerPeople,
+        description: req.body.description,
+        title: req.body.title,
+        coordinates: req.body.coordinates,
+        isPublic: req.body.isPublic
     }
     Travel.findOneAndUpdate({
         _id: req.params.id,
