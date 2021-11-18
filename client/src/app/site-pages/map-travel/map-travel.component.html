@@ -1,19 +1,33 @@
-<div class="container">
-  <ya-map [center]="[55.751952, 37.600739]" [zoom]="10"
-          (ready)="onMapReady($event)"
-  >
-    <ya-clusterer [options]="{ minClusterSize: 5 }">
-      <ya-placemark [geometry]="[55.74, 37.5]"></ya-placemark>
-      <ya-placemark [geometry]="[55.64, 37.46]"></ya-placemark>
-      <ya-placemark [geometry]="[55.75, 37.38]"></ya-placemark>
+<div class="map-container">
+  <div class="list-container">
+    <mat-radio-group
+      aria-labelledby="radio-group-label"
+      class="radio-group"
+      [(ngModel)]="favoriteSeason">
+      <label id="radio-group-label">Список объектов</label>
+      <mat-radio-button class="radio-button" *ngFor="let place of places" [value]="place">
+        {{place}}
+      </mat-radio-button>
+    </mat-radio-group>
+  </div>
 
-      <ya-geoobject
-        [feature]="{ geometry: { type: 'Point', coordinates: [55.81, 37.4] } }"
-      ></ya-geoobject>
+  <div class="yandex-container">
+    <ya-map [center]="[55.751952, 37.600739]" [zoom]="10"
+            (ready)="onMapReady($event)"
+    >
+      <ya-clusterer [options]="{ minClusterSize: 5 }">
+        <ya-placemark [geometry]="[55.74, 37.5]"></ya-placemark>
+        <ya-placemark [geometry]="[55.64, 37.46]"></ya-placemark>
+        <ya-placemark [geometry]="[55.75, 37.38]"></ya-placemark>
 
-      <ya-geoobject
-        [feature]="{ geometry: { type: 'Point', coordinates: [55.7, 37.39] } }"
-      ></ya-geoobject>
-    </ya-clusterer>
-  </ya-map>
+        <ya-geoobject
+          [feature]="{ geometry: { type: 'Point', coordinates: [55.81, 37.4] } }"
+        ></ya-geoobject>
+
+        <ya-geoobject
+          [feature]="{ geometry: { type: 'Point', coordinates: [55.7, 37.39] } }"
+        ></ya-geoobject>
+      </ya-clusterer>
+    </ya-map>
+    </div>
 </div>

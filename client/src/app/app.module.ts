@@ -39,6 +39,7 @@ import {SearchPipe} from "./shared/pipes/search.pipe";
 import {MapTravelComponent} from './site-pages/map-travel/map-travel.component';
 import {AngularYandexMapsModule, YaConfig} from "angular8-yandex-maps";
 import {AngularLibYandexMapsModule} from "angular-lib-yandex-maps";
+import {MatRadioModule} from "@angular/material/radio";
 
 const mapConfig: YaConfig = {
   apikey: 'null',
@@ -86,6 +87,7 @@ const mapConfig: YaConfig = {
     InfiniteScrollModule,
     ReadMoreModule,
     AngularYandexMapsModule.forRoot(mapConfig),
+    MatRadioModule,
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

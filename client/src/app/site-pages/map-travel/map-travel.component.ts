@@ -12,7 +12,8 @@ export class MapTravelComponent implements OnInit {
 //   https://openbase.com/js/angular8-yandex-maps
 //   https://ddubrava.github.io/angular8-yandex-maps/additional-documentation/examples.html
   map: ymaps.Map;
-
+  favoriteSeason: string| undefined;
+  places: string[] = ['р. Обь. На щуку', 'Окунь. район Салехарда', 'Охота на оленя. Красное'];
   constructor() { }
 
   ngOnInit(): void {
