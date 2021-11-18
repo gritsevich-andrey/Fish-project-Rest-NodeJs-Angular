@@ -14,6 +14,10 @@ const travelSchema = new Schema({
         type: String,
         required: true,
     },
+    travelTechnique: [{
+        type: String,
+        default: ''
+    }],
     peoplesCount: {
         type: String,
         required: true,
@@ -33,6 +37,32 @@ const travelSchema = new Schema({
     coordinates: {
         type: String,
         required: true,
+    },
+    coordinates: {
+        startPoint: {
+            //Широта
+            latitude: {
+                type: String,
+                required: true,
+            },
+            //Долгота
+            longitude: {
+                type: String,
+                required: true,
+            }
+        },
+        endPoint: {
+            //Широта
+            latitude: {
+                type: String,
+                required: true,
+            },
+            //Долгота
+            longitude: {
+                type: String,
+                required: true,
+            }
+        }
     },
     isPublic: {
         type: Boolean,

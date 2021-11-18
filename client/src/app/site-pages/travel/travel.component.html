@@ -1,15 +1,16 @@
 <h1>Список предложенных мест</h1>
 <div>
-  <div *ngFor="let item of userTravels, let i">
+  <div *ngFor="let item of userTravels, let i = index">
+    <span>{{i + 1}} - </span>
     <span>{{item.title}}</span>
     <a *ngIf="item.isPublic" class="waves-effect waves-light btn" (click)="hideTravel(item._id)">Скрыть</a>
     <a *ngIf="!item.isPublic" class="waves-effect waves-light btn" (click)="showTravel(item._id)">Повторить</a>
   </div>
 </div>
 <div class="makeOffer">
-  <button data-target="modal1" class="waves-effect waves-light btn-large modal-trigger">Предложить поездку</button>
+  <button data-target="makeOffer" class="waves-effect waves-light btn-large modal-trigger">Предложить поездку</button>
 </div>
-<div id="modal1" class="modal">
+<div id="makeOffer" class="modal">
   <form [formGroup]="form" (ngSubmit)="createTravel()">
     <div class="modal-content">
       <h1>Предложить поездку</h1>
@@ -18,15 +19,25 @@
         <label for="travelTitle">Название поездки</label>
       </div>
       <div class="input-field col s12 m6">
-        <select formControlName="travelType" class="icons">
+        <select formControlName="travelType" class="icons" (change)="travelTypeChange()">
           <option value="" disabled selected>На чем хотите ехать</option>
           <option value="onFoot" class="left">пешком</option>
           <option value="technique" class="left">на технике</option>
         </select>
       </div>
+      <div *ngIf="isTechnique" class="input-field col s12 m6">
+        <select class="browser-default" formControlName="travelTechnique" multiple>
+          <option value="" disabled selected>Выберите технику</option>
+          <option *ngFor="let transport of transports" value="{{transport.name }}">{{transport.name}}</option>
+        </select>
+      </div>
       <div>
         <span>Куда вы хотите поехать?</span>
-        <a class="waves-effect waves-light btn">Указать на карте</a>
+        <button data-target="map" class="waves-effect waves-light btn modal-trigger">Указать на карте</button>
+      </div>
+      <div>
+        <span>Откуда вы хотите поехать?</span>
+        <button data-target="map" class="waves-effect waves-light btn modal-trigger">Указать на карте</button>
       </div>
       <div class="input-field col s12 m6">
         <select class="icons" formControlName="travelTarget">
@@ -48,9 +59,6 @@
         <textarea id="textarea1" class="materialize-textarea" formControlName="description"></textarea>
         <label for="textarea1">Что нужно взять человеку с собой (описание)</label>
       </div>
-      <div>
-        <a class="waves-effect waves-light btn">Отметить точку на карте</a>
-      </div>
     </div>
     <div class="modal-footer">
       <button type="submit" class="modal-close waves-effect waves-green btn-flat">Создать</button>
@@ -58,3 +66,27 @@
   </form>
 </div>
 
+<div id="map" class="modal">
+  <div class="modal-content">
+    <div class="mapContainer">
+      <ya-map [center]="[55.751952, 37.600739]" [zoom]="10"
+              (ready)="onMapReady($event)"
+      ></ya-map>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="modal-close waves-effect waves-green btn-flat">Подтвердить</button>
+  </div>
+</div>
+
+
+<h1 style="margin-top: 100px">Тест вывода точек</h1>
+<div class="container">
+  <ya-map [center]="[55.751952, 37.600739]" [zoom]="10"
+          (ready)="onMapReady($event)"
+  >
+    <ya-clusterer [options]="{ minClusterSize: 5 }">
+      <ya-placemark *ngFor="let point of points" [geometry]="[point.latitude, point.longitude]"></ya-placemark>
+    </ya-clusterer>
+  </ya-map>
+</div>

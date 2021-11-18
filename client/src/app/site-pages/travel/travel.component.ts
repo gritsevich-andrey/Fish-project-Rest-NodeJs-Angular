@@ -2,6 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from "@angular/forms";
 import {UserService} from "../../shared/services/user.service";
 import {TravelService} from "../../shared/services/travel.service";
+import {YaReadyEvent} from "angular8-yandex-maps";
+import {CabinetService} from "../cabinet/cabinet.service";
+import {MaterialService} from "../../shared/classes/material.service";
 
 declare var M: {
   FormSelect: { init: (arg0: NodeListOf<Element>) => any; },
@@ -27,13 +30,21 @@ interface Travel {
   styleUrls: ['./travel.component.scss']
 })
 export class TravelComponent implements OnInit {
+  //@ts-ignore
+  map: ymaps.Map;
   form!: FormGroup;
   userEmail!: string
   userTravels: Travel[] = []
+  isTechnique = false
+  transports: any = []
+
+  //Test
+  points: any = []
 
   constructor(
     private userService: UserService,
-    private travelService: TravelService
+    private travelService: TravelService,
+    private cabinetService: CabinetService,
   ) {
     this.form = new FormGroup({
       travelType: new FormControl(''),
@@ -42,7 +53,11 @@ export class TravelComponent implements OnInit {
       costPerPeople: new FormControl(''),
       description: new FormControl(''),
       travelTitle: new FormControl(''),
-      coordinates: new FormControl('123.123.123 321.321.321'),
+      startPointLatitude: new FormControl('55.74'),
+      startPointLongitude: new FormControl('37.5'),
+      endPointLatitude: new FormControl('55.64'),
+      endPointLongitude: new FormControl('37.46'),
+      travelTechnique: new FormControl('')
     });
   }
 
@@ -54,14 +69,28 @@ export class TravelComponent implements OnInit {
 
   initMaterialize() {
     const modals = document.querySelectorAll('.modal');
-    M.Modal.init(modals);
     const selects = document.querySelectorAll('select');
+    M.Modal.init(modals);
     M.FormSelect.init(selects);
   }
 
   getUserTravels(userEmail: string) {
     this.travelService.getUserTravels(userEmail).subscribe(
-      data => this.userTravels = data,
+      data => {
+        this.userTravels = data
+        //Test
+        data.forEach((el: any) => {
+          this.points.push({
+            latitude: el.coordinates.startPoint.latitude,
+            longitude: el.coordinates.startPoint.longitude
+          })
+          this.points.push({
+            latitude: el.coordinates.endPoint.latitude,
+            longitude: el.coordinates.endPoint.longitude
+          })
+        })
+        //
+      },
       error => console.log(error)
     )
   }
@@ -95,14 +124,62 @@ export class TravelComponent implements OnInit {
       costPerPeople: this.form.controls.costPerPeople.value,
       description: this.form.controls.description.value,
       title: this.form.controls.travelTitle.value,
-      coordinates: this.form.controls.coordinates.value,
+      coordinates: {
+        startPoint: {
+          latitude: this.form.controls.startPointLatitude.value,
+          longitude: this.form.controls.startPointLongitude.value
+        },
+        endPoint: {
+          latitude: this.form.controls.endPointLatitude.value,
+          longitude: this.form.controls.endPointLongitude.value
+        }
+      },
+      travelTechnique: this.form.controls.travelTechnique.value
     }
     this.travelService.createTravel(travelData).subscribe(
-      () => {
+      data => {
         this.form.reset();
         this.getUserTravels(this.userEmail);
+
+        //Test
+        this.points = []
+        data.forEach((el: any) => {
+          this.points.push({
+            latitude: el.coordinates.startPoint.latitude,
+            longitude: el.coordinates.startPoint.longitude
+          })
+          this.points.push({
+            latitude: el.coordinates.endPoint.latitude,
+            longitude: el.coordinates.endPoint.longitude
+          })
+        })
+        //
+
+        MaterialService.toast('Ваша поездка сохранена')
       },
       error => console.log(error)
     )
+  }
+
+  onMapReady(event: YaReadyEvent<ymaps.Map>) {
+    this.map = event.target;
+  }
+
+  getMapPointCoordinates() {
+    //
+  }
+
+  loadTransport() {
+    this.cabinetService.getTransportByEmail(this.userEmail).subscribe(
+      data => this.transports = data
+    )
+  }
+
+  travelTypeChange() {
+    if (this.form.controls.travelType.value === "technique") {
+      this.isTechnique = true
+      this.loadTransport()
+    }
+    else this.isTechnique = false
   }
 }

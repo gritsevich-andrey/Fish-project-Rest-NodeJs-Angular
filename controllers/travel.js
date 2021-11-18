@@ -22,7 +22,6 @@ module.exports.getTravelById = function (req, res) {
 
 module.exports.create = function (req, res) {
     try {
-        console.log( req.body)
         const travel = new Travel({
             userEmail: req.body.userEmail,
             travelType: req.body.travelType,
@@ -31,8 +30,18 @@ module.exports.create = function (req, res) {
             costPerPeople: req.body.costPerPeople,
             description: req.body.description,
             title: req.body.title,
-            coordinates: req.body.coordinates,
-            isPublic: true
+            coordinates: {
+                startPoint: {
+                    latitude: req.body.coordinates.startPoint.latitude,
+                    longitude: req.body.coordinates.startPoint.longitude
+                },
+                endPoint: {
+                    latitude: req.body.coordinates.endPoint.latitude,
+                    longitude: req.body.coordinates.endPoint.longitude
+                }
+            },
+            isPublic: true,
+            travelTechnique: req.body.travelTechnique
         }).save();
         res.status(201).json(travel);
     } catch (e) {
@@ -54,8 +63,18 @@ module.exports.update = function (req, res) {
         costPerPeople: req.body.costPerPeople,
         description: req.body.description,
         title: req.body.title,
-        coordinates: req.body.coordinates,
-        isPublic: req.body.isPublic
+        coordinates: {
+            startPoint: {
+                latitude: req.body.coordinates.startPoint.latitude,
+                longitude: req.body.coordinates.startPoint.longitude
+            },
+            endPoint: {
+                latitude: req.body.coordinates.endPoint.latitude,
+                longitude: req.body.coordinates.endPoint.longitude
+            }
+        },
+        isPublic: req.body.isPublic,
+        travelTechnique: req.body.travelTechnique
     }
     Travel.findOneAndUpdate({
         _id: req.params.id,

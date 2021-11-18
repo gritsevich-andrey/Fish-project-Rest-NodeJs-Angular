@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
+import {map} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -55,5 +56,9 @@ export class CabinetService {
   getPhotoByUserEmail(email: string, photosPerPage: number, currentPage: number): Observable<any> {
     const queryParams = `?pagesize=${photosPerPage}&page=${currentPage}`
     return this.http.get<{ message: string, photos: any, maxPhotos: number }>(environment.PHOTO_API + '/' + email + queryParams);
+  }
+
+  getTransportByEmail(userEmail: string) {
+    return this.http.get(environment.CABINET_API + '/' + userEmail).pipe(map((data: any) => JSON.parse(data.technique)))
   }
 }
