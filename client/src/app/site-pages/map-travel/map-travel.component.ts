@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {YaReadyEvent} from "angular8-yandex-maps";
+import {TravelService} from "../../shared/services/travel.service";
+import {Travel} from "../../shared/interfaces";
 
 
 @Component({
@@ -13,13 +15,23 @@ export class MapTravelComponent implements OnInit {
 //   https://ddubrava.github.io/angular8-yandex-maps/additional-documentation/examples.html
   map: ymaps.Map;
   favoriteSeason: string| undefined;
-  places: string[] = ['р. Обь. На щуку', 'Окунь. район Салехарда', 'Охота на оленя. Красное'];
-  constructor() { }
+  searchPlace: string | undefined;
+  travels: Travel[]=[];
+
+  constructor(private travelService: TravelService) { }
 
   ngOnInit(): void {
+    this.getData();
   }
 
   onMapReady(event: YaReadyEvent<ymaps.Map>) {
     this.map = event.target;
+  }
+
+  private getData() {
+    this.travelService.getAllTravels().subscribe(data => {
+      this.travels = data;
+      console.log('Получаем объекты', this.travels)
+    });
   }
 }

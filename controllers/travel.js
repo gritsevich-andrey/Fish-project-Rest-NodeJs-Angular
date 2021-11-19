@@ -30,16 +30,8 @@ module.exports.create = function (req, res) {
             costPerPeople: req.body.costPerPeople,
             description: req.body.description,
             title: req.body.title,
-            coordinates: {
-                startPoint: {
-                    latitude: req.body.coordinates.startPoint.latitude,
-                    longitude: req.body.coordinates.startPoint.longitude
-                },
-                endPoint: {
-                    latitude: req.body.coordinates.endPoint.latitude,
-                    longitude: req.body.coordinates.endPoint.longitude
-                }
-            },
+            startPoint: req.body.startPoint,
+            endPoint: req.body.endPoint,
             isPublic: true,
             travelTechnique: req.body.travelTechnique
         }).save();
@@ -63,16 +55,8 @@ module.exports.update = function (req, res) {
         costPerPeople: req.body.costPerPeople,
         description: req.body.description,
         title: req.body.title,
-        coordinates: {
-            startPoint: {
-                latitude: req.body.coordinates.startPoint.latitude,
-                longitude: req.body.coordinates.startPoint.longitude
-            },
-            endPoint: {
-                latitude: req.body.coordinates.endPoint.latitude,
-                longitude: req.body.coordinates.endPoint.longitude
-            }
-        },
+        startPoint: req.body.startPoint,
+        endPoint: req.body.endPoint,
         isPublic: req.body.isPublic,
         travelTechnique: req.body.travelTechnique
     }

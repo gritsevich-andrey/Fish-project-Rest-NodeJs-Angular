@@ -1,12 +1,12 @@
-<div class="map-container">
+<div class="map-container" >
   <div class="list-container">
     <mat-radio-group
       aria-labelledby="radio-group-label"
       class="radio-group"
       [(ngModel)]="favoriteSeason">
       <label id="radio-group-label">Список объектов</label>
-      <mat-radio-button class="radio-button" *ngFor="let place of places" [value]="place">
-        {{place}}
+      <mat-radio-button class="radio-button" *ngFor="let place of travels">
+        {{place.title}}
       </mat-radio-button>
     </mat-radio-group>
   </div>
@@ -14,19 +14,21 @@
   <div class="yandex-container">
     <ya-map [center]="[55.751952, 37.600739]" [zoom]="10"
             (ready)="onMapReady($event)"
+
     >
-      <ya-clusterer [options]="{ minClusterSize: 5 }">
-        <ya-placemark [geometry]="[55.74, 37.5]"></ya-placemark>
-        <ya-placemark [geometry]="[55.64, 37.46]"></ya-placemark>
-        <ya-placemark [geometry]="[55.75, 37.38]"></ya-placemark>
+      <ya-clusterer >
+        <div *ngFor="let coordinate of travels">
+        <ya-placemark *ngFor="let endPoint of coordinate.endPoint" [geometry]="[endPoint.latitude, endPoint.longitude]"></ya-placemark>
+<!--        <ya-placemark [geometry]="[55.75, 37.38]"></ya-placemark>-->
 
-        <ya-geoobject
-          [feature]="{ geometry: { type: 'Point', coordinates: [55.81, 37.4] } }"
-        ></ya-geoobject>
+<!--        <ya-geoobject *ngFor="let end of coordinate.endPoint"-->
+<!--          [feature]="{ geometry: { type: 'Point', coordinates: [55.7, 37.69] } }"-->
+<!--        ></ya-geoobject>-->
 
-        <ya-geoobject
-          [feature]="{ geometry: { type: 'Point', coordinates: [55.7, 37.39] } }"
-        ></ya-geoobject>
+<!--        <ya-geoobject-->
+<!--          [feature]="{ geometry: { type: 'Point', coordinates: [55.7, 37.39] } }"-->
+<!--        ></ya-geoobject>-->
+        </div>
       </ya-clusterer>
     </ya-map>
     </div>
