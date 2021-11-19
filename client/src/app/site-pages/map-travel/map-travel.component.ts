@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {YaReadyEvent} from "angular8-yandex-maps";
 import {TravelService} from "../../shared/services/travel.service";
 import {Travel} from "../../shared/interfaces";
+import {FormControl, FormGroup} from "@angular/forms";
 
 
 @Component({
@@ -14,7 +15,7 @@ export class MapTravelComponent implements OnInit {
 //   https://openbase.com/js/angular8-yandex-maps
 //   https://ddubrava.github.io/angular8-yandex-maps/additional-documentation/examples.html
   map: ymaps.Map;
-  favoriteSeason: string| undefined;
+  valueRadio: string| undefined;
   searchPlace: string | undefined;
   travels: Travel[]=[];
 
@@ -31,7 +32,10 @@ export class MapTravelComponent implements OnInit {
   private getData() {
     this.travelService.getAllTravels().subscribe(data => {
       this.travels = data;
-      console.log('Получаем объекты', this.travels)
     });
+  }
+
+  changeRadioValue() {
+    console.log('радиозначение', this.valueRadio);
   }
 }

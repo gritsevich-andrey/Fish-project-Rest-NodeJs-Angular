@@ -3,21 +3,22 @@
     <mat-radio-group
       aria-labelledby="radio-group-label"
       class="radio-group"
-      [(ngModel)]="favoriteSeason">
+      [(ngModel)]="valueRadio"
+      (change)="changeRadioValue()"
+    >
       <label id="radio-group-label">Список объектов</label>
-      <mat-radio-button class="radio-button" *ngFor="let place of travels">
+      <mat-radio-button class="radio-button" *ngFor="let place of travels" [value]="place.title">
         {{place.title}}
       </mat-radio-button>
     </mat-radio-group>
   </div>
-
   <div class="yandex-container">
     <ya-map [center]="[55.751952, 37.600739]" [zoom]="10"
             (ready)="onMapReady($event)"
 
     >
       <ya-clusterer >
-        <div *ngFor="let coordinate of travels">
+        <div *ngFor="let coordinate of travels | search: valueRadio">
         <ya-placemark *ngFor="let endPoint of coordinate.endPoint" [geometry]="[endPoint.latitude, endPoint.longitude]"></ya-placemark>
 <!--        <ya-placemark [geometry]="[55.75, 37.38]"></ya-placemark>-->
 
