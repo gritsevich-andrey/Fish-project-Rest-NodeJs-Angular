@@ -5,6 +5,7 @@ import {TravelService} from "../../shared/services/travel.service";
 import {YaReadyEvent} from "angular8-yandex-maps";
 import {CabinetService} from "../cabinet/cabinet.service";
 import {MaterialService} from "../../shared/classes/material.service";
+import {EmitterService} from "../../shared/services/emitter.service";
 
 declare var M: {
   FormSelect: { init: (arg0: NodeListOf<Element>) => any; },
@@ -45,6 +46,7 @@ export class TravelComponent implements OnInit {
     private userService: UserService,
     private travelService: TravelService,
     private cabinetService: CabinetService,
+    private emitterService: EmitterService
   ) {
     this.form = new FormGroup({
       travelType: new FormControl(''),
@@ -154,7 +156,8 @@ export class TravelComponent implements OnInit {
           })
         })
         //
-
+        this.emitterService.setState(22);
+        this.emitterService.changeAuthenticated();
         MaterialService.toast('Ваша поездка сохранена')
       },
       error => console.log(error)

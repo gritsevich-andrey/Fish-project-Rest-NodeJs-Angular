@@ -2,8 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {YaReadyEvent} from "angular8-yandex-maps";
 import {TravelService} from "../../shared/services/travel.service";
 import {Travel} from "../../shared/interfaces";
-import {FormControl, FormGroup} from "@angular/forms";
-
+import {EmitterService} from "../../shared/services/emitter.service";
 
 @Component({
   selector: 'app-map-travel',
@@ -19,10 +18,15 @@ export class MapTravelComponent implements OnInit {
   searchPlace: string | undefined;
   travels: Travel[]=[];
 
-  constructor(private travelService: TravelService) { }
+  constructor(private travelService: TravelService, private emitterService: EmitterService) { }
 
   ngOnInit(): void {
     this.getData();
+    this.emitterService.isAuthenticated$.subscribe(authenticated => {
+      if (authenticated) {
+        this.getData();
+      }
+    });
   }
 
   onMapReady(event: YaReadyEvent<ymaps.Map>) {
