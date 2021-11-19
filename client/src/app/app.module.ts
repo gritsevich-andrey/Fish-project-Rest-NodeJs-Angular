@@ -38,11 +38,10 @@ import {SharedModule} from "./shared/shared.module";
 import {SearchPipe} from "./shared/pipes/search.pipe";
 import {MapTravelComponent} from './site-pages/map-travel/map-travel.component';
 import {AngularYandexMapsModule, YaConfig} from "angular8-yandex-maps";
-import {AngularLibYandexMapsModule} from "angular-lib-yandex-maps";
 import {MatRadioModule} from "@angular/material/radio";
 
 const mapConfig: YaConfig = {
-  apikey: 'null',
+  apikey: '6c5c5f61-fa87-4efd-8ad9-f652f1fd0727',
   lang: 'en_US',
 };
 
