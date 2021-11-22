@@ -11,12 +11,15 @@
   <button data-target="makeOffer" class="waves-effect waves-light btn-large modal-trigger">Предложить поездку</button>
 </div>
 <div id="makeOffer" class="modal">
-  <form [formGroup]="form" (ngSubmit)="createTravel()">
+  <form [formGroup]="form" (ngSubmit)="createTravel(form, formDirective)" #formDirective="ngForm">
     <div class="modal-content">
       <h1>Предложить поездку</h1>
       <div class="input-field col s6">
         <input id="travelTitle" formControlName="travelTitle" type="text" class="validate"/>
         <label for="travelTitle">Название поездки</label>
+        <span class="helper-text red-text" *ngIf="f.travelTitle.touched && f.travelTitle.invalid">
+            <small *ngIf="f.travelTitle.hasError('required')">Поле не должно быть пустым</small>
+        </span>
       </div>
       <div class="input-field col s12 m6">
         <select formControlName="travelType" class="icons" (change)="travelTypeChange()">
@@ -31,11 +34,11 @@
           <option *ngFor="let transport of transports" value="{{transport.name }}">{{transport.name}}</option>
         </select>
       </div>
-      <div>
+      <div class="buttonBlock">
         <span>Куда вы хотите поехать?</span>
         <button data-target="startPointMap" class="waves-effect waves-light btn modal-trigger">Указать на карте</button>
       </div>
-      <div>
+      <div class="buttonBlock">
         <span>Откуда вы хотите поехать?</span>
         <button data-target="endPointMap" class="waves-effect waves-light btn modal-trigger">Указать на карте</button>
       </div>
@@ -50,14 +53,23 @@
       <div class="input-field col s6">
         <input id="peoplesCount" formControlName="peoplesCount" type="number" min="1" class="validate"/>
         <label for="peoplesCount">Сколько человек вы с собой возьмете</label>
+        <span class="helper-text red-text" *ngIf="f.peoplesCount.touched && f.peoplesCount.invalid">
+            <small *ngIf="f.peoplesCount.hasError('required')">Поле не должно быть пустым</small>
+        </span>
       </div>
       <div class="input-field col s6">
         <input id="costPerPeople" formControlName="costPerPeople" type="number" min="0" class="validate"/>
         <label for="costPerPeople">Сколько стоит поездка на 1 человека</label>
+        <span class="helper-text red-text" *ngIf="f.costPerPeople.touched && f.costPerPeople.invalid">
+            <small *ngIf="f.costPerPeople.hasError('required')">Поле не должно быть пустым</small>
+        </span>
       </div>
       <div class="input-field col s12">
-        <textarea id="textarea1" class="materialize-textarea" formControlName="description"></textarea>
-        <label for="textarea1">Что нужно взять человеку с собой (описание)</label>
+        <textarea id="description" class="materialize-textarea" formControlName="description"></textarea>
+        <label for="description">Что нужно взять человеку с собой (описание)</label>
+        <span class="helper-text red-text" *ngIf="f.description.touched && f.description.invalid">
+            <small *ngIf="f.description.hasError('required')">Поле не должно быть пустым</small>
+        </span>
       </div>
     </div>
     <div class="modal-footer">
@@ -69,11 +81,7 @@
 <div id="startPointMap" class="modal">
   <div class="modal-content">
     <div class="mapContainer">
-      <ya-map [center]="[55.751952, 37.600739]" [zoom]="10"
-              (ready)="onStartPointMapReady($event)"
-      >
-        <ya-placemark [geometry]="[startPointLatitude, startPointLongitude]"></ya-placemark>
-      </ya-map>
+      <ya-map [center]="[55.751952, 37.600739]" [zoom]="10" (ready)="onStartPointMapReady($event)"></ya-map>
     </div>
   </div>
   <div class="modal-footer">
@@ -84,11 +92,7 @@
 <div id="endPointMap" class="modal">
   <div class="modal-content">
     <div class="mapContainer">
-      <ya-map [center]="[55.751952, 37.600739]" [zoom]="10"
-              (ready)="onControlReady($event)"
-              [options]="searchControl"
-      >
-      </ya-map>
+      <ya-map [center]="[55.751952, 37.600739]" [zoom]="10" (ready)="onEndPointMapReady($event)"></ya-map>
     </div>
   </div>
   <div class="modal-footer">
