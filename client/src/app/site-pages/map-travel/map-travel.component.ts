@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {YaReadyEvent} from "angular8-yandex-maps";
-
+import {TravelService} from "../../shared/services/travel.service";
+import {Travel} from "../../shared/interfaces";
+import {EmitterService} from "../../shared/services/emitter.service";
 
 @Component({
   selector: 'app-map-travel',
@@ -12,14 +14,32 @@ export class MapTravelComponent implements OnInit {
 //   https://openbase.com/js/angular8-yandex-maps
 //   https://ddubrava.github.io/angular8-yandex-maps/additional-documentation/examples.html
   map: ymaps.Map;
-  favoriteSeason: string| undefined;
-  places: string[] = ['р. Обь. На щуку', 'Окунь. район Салехарда', 'Охота на оленя. Красное'];
-  constructor() { }
+  valueRadio: string| undefined;
+  searchPlace: string | undefined;
+  travels: Travel[]=[];
+
+  constructor(private travelService: TravelService, private emitterService: EmitterService) { }
 
   ngOnInit(): void {
+    this.getData();
+    this.emitterService.isAuthenticated$.subscribe(authenticated => {
+      if (authenticated) {
+        this.getData();
+      }
+    });
   }
 
   onMapReady(event: YaReadyEvent<ymaps.Map>) {
     this.map = event.target;
+  }
+
+  private getData() {
+    this.travelService.getAllTravels().subscribe(data => {
+      this.travels = data;
+    });
+  }
+
+  changeRadioValue() {
+    console.log('радиозначение', this.valueRadio);
   }
 }

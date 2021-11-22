@@ -34,36 +34,14 @@ const travelSchema = new Schema({
         type: String,
         required: true,
     },
-    coordinates: {
-        type: String,
-        required: true,
-    },
-    coordinates: {
-        startPoint: {
-            //Широта
-            latitude: {
-                type: String,
-                required: true,
-            },
-            //Долгота
-            longitude: {
-                type: String,
-                required: true,
-            }
-        },
-        endPoint: {
-            //Широта
-            latitude: {
-                type: String,
-                required: true,
-            },
-            //Долгота
-            longitude: {
-                type: String,
-                required: true,
-            }
-        }
-    },
+    startPoint: [{
+        latitude: {type: Number},
+        longitude: {type: Number}
+    }],
+    endPoint: [{
+        latitude: {type: Number},
+        longitude: {type: Number}
+    }],
     isPublic: {
         type: Boolean,
         required: true,

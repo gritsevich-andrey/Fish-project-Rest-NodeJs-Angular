@@ -21,4 +21,7 @@ export class TravelService {
   createTravel(data: any): Observable<any> {
     return this.http.post(environment.TRAVEL_API, {...data})
   }
+  getAllTravels(): Observable<any> {
+    return this.http.get(environment.TRAVEL_API)
+  }
 }
