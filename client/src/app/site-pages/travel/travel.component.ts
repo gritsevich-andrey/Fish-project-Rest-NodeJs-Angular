@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from "@angular/forms";
 import {UserService} from "../../shared/services/user.service";
 import {TravelService} from "../../shared/services/travel.service";
-import {YaReadyEvent} from "angular8-yandex-maps";
+import {YaGeocoderService, YaReadyEvent} from "angular8-yandex-maps";
 import {CabinetService} from "../cabinet/cabinet.service";
 import {MaterialService} from "../../shared/classes/material.service";
 
@@ -31,20 +31,25 @@ interface Travel {
 })
 export class TravelComponent implements OnInit {
   //@ts-ignore
-  map: ymaps.Map;
+  startPointMap: ymaps.Map;
+  startPointLatitude!: number
+  startPointLongitude!: number
+  //@ts-ignore
+  endPointMap: ymaps.Map;
+  endPointLatitude!: number;
+  endPointLongitude!: number
+
   form!: FormGroup;
   userEmail!: string
   userTravels: Travel[] = []
   isTechnique = false
   transports: any = []
 
-  //Test
-  points: any = []
-
   constructor(
     private userService: UserService,
     private travelService: TravelService,
     private cabinetService: CabinetService,
+    private yaGeocoderService: YaGeocoderService
   ) {
     this.form = new FormGroup({
       travelType: new FormControl(''),
@@ -53,10 +58,6 @@ export class TravelComponent implements OnInit {
       costPerPeople: new FormControl(''),
       description: new FormControl(''),
       travelTitle: new FormControl(''),
-      startPointLatitude: new FormControl('55.74'),
-      startPointLongitude: new FormControl('37.5'),
-      endPointLatitude: new FormControl('55.64'),
-      endPointLongitude: new FormControl('37.46'),
       travelTechnique: new FormControl('')
     });
   }
@@ -67,6 +68,7 @@ export class TravelComponent implements OnInit {
     this.getUserTravels(this.userEmail)
   }
 
+
   initMaterialize() {
     const modals = document.querySelectorAll('.modal');
     const selects = document.querySelectorAll('select');
@@ -76,21 +78,7 @@ export class TravelComponent implements OnInit {
 
   getUserTravels(userEmail: string) {
     this.travelService.getUserTravels(userEmail).subscribe(
-      data => {
-        this.userTravels = data
-        //Test
-        data.forEach((el: any) => {
-          this.points.push({
-            latitude: el.coordinates.startPoint.latitude,
-            longitude: el.coordinates.startPoint.longitude
-          })
-          this.points.push({
-            latitude: el.coordinates.endPoint.latitude,
-            longitude: el.coordinates.endPoint.longitude
-          })
-        })
-        //
-      },
+      data => this.userTravels = data,
       error => console.log(error)
     )
   }
@@ -126,47 +114,79 @@ export class TravelComponent implements OnInit {
       title: this.form.controls.travelTitle.value,
       coordinates: {
         startPoint: {
-          latitude: this.form.controls.startPointLatitude.value,
-          longitude: this.form.controls.startPointLongitude.value
+          latitude: this.startPointLatitude,
+          longitude: this.startPointLongitude
         },
         endPoint: {
-          latitude: this.form.controls.endPointLatitude.value,
-          longitude: this.form.controls.endPointLongitude.value
+          latitude: this.endPointLatitude,
+          longitude: this.endPointLongitude
         }
       },
       travelTechnique: this.form.controls.travelTechnique.value
     }
-    this.travelService.createTravel(travelData).subscribe(
-      data => {
-        this.form.reset();
-        this.getUserTravels(this.userEmail);
-
-        //Test
-        this.points = []
-        data.forEach((el: any) => {
-          this.points.push({
-            latitude: el.coordinates.startPoint.latitude,
-            longitude: el.coordinates.startPoint.longitude
-          })
-          this.points.push({
-            latitude: el.coordinates.endPoint.latitude,
-            longitude: el.coordinates.endPoint.longitude
-          })
-        })
-        //
-
-        MaterialService.toast('Ваша поездка сохранена')
-      },
-      error => console.log(error)
-    )
+    if (this.checkIsFormEmpty()) {
+      this.travelService.createTravel(travelData).subscribe(
+        () => {
+          this.form.reset();
+          this.getUserTravels(this.userEmail);
+          MaterialService.toast('Ваша поездка сохранена')
+        },
+        error => console.log(error)
+      )
+    }
   }
 
-  onMapReady(event: YaReadyEvent<ymaps.Map>) {
-    this.map = event.target;
+  checkIsFormEmpty() {
+    //Костыльная проверка заполненности формы
+    let count = 0
+    let count1 = 0
+    const button = document.getElementById('button-modal-close')
+
+    for (let item in this.form.controls) {
+      count++
+    }
+    for (let item in this.form.controls) {
+      //@ts-ignore
+      if (this.form.controls[item].value) count1++
+    }
+    if (count1 === count && this.startPointLatitude && this.startPointLongitude && this.endPointLatitude && this.endPointLongitude) {
+      //@ts-ignore
+      button.classList.add('modal-close')
+      //@ts-ignore
+      button.click()
+      return false
+    } else if (count1 + 1 === count && this.startPointLatitude && this.startPointLongitude && this.endPointLatitude && this.endPointLongitude && this.form.controls.travelType.value === "onFoot") {
+      //@ts-ignore
+      button.classList.add('modal-close')
+      //@ts-ignore
+      button.click()
+      return false
+    } else {
+      //@ts-ignore
+      button.classList.remove('modal-close')
+      MaterialService.toast('Заполните все поля')
+      return true
+    }
   }
 
-  getMapPointCoordinates() {
-    //
+  onStartPointMapReady(event: YaReadyEvent<ymaps.Map>) {
+    this.startPointMap = event.target;
+
+    this.startPointMap.events.add('click', (e) => {
+      let coords = e.get("coords")
+      this.startPointLatitude = coords[0]
+      this.startPointLongitude = coords[1]
+    })
+  }
+
+  onEndPointMapReady(event: YaReadyEvent<ymaps.Map>) {
+    this.endPointMap = event.target;
+
+    this.endPointMap.events.add('click', (e) => {
+      let coords = e.get("coords")
+      this.endPointLatitude = coords[0]
+      this.endPointLongitude = coords[1]
+    })
   }
 
   loadTransport() {
@@ -179,7 +199,39 @@ export class TravelComponent implements OnInit {
     if (this.form.controls.travelType.value === "technique") {
       this.isTechnique = true
       this.loadTransport()
-    }
-    else this.isTechnique = false
+    } else this.isTechnique = false
   }
+
+
+  onMapReady(event: any): void {
+    this.endPointMap = event.target;
+
+
+    this.endPointMap.events.add('', () => {
+      debugger
+    })
+    debugger
+  }
+  searchControl: any
+
+  onControlReady(event: any): void {
+    /*this.searchControl = new ymaps.control.SearchControl({
+      options: {
+        // Будет производиться поиск только по топонимам.
+        provider: 'yandex#map'
+      }
+    });*/
+    this.searchControl = event.target
+
+    this.searchControl.events.add('resultselect', function (e: any) {
+      // Получает массив результатов.
+     debugger
+      // Индекс выбранного объекта.
+      var selected = e.get('index');
+      // Получает координаты выбранного объекта.
+      //var point = results[selected].geometry.getCoordinates();
+    })
+    debugger
+  }
+
 }
