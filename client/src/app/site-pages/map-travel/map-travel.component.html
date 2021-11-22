@@ -1,4 +1,4 @@
-<div class="map-container" >
+<div class="map-container card-panel">
   <div class="list-container">
     <mat-radio-group
       aria-labelledby="radio-group-label"
@@ -17,20 +17,22 @@
             (ready)="onMapReady($event)"
 
     >
-      <ya-clusterer >
+      <ya-clusterer>
         <div *ngFor="let coordinate of travels | search: valueRadio">
-        <ya-placemark *ngFor="let endPoint of coordinate.endPoint" [geometry]="[endPoint.latitude, endPoint.longitude]"></ya-placemark>
-<!--        <ya-placemark [geometry]="[55.75, 37.38]"></ya-placemark>-->
+          <ya-placemark *ngFor="let endPoint of coordinate.endPoint"
+                        [geometry]="[endPoint.latitude, endPoint.longitude]"></ya-placemark>
+          <!--        <ya-placemark [geometry]="[55.75, 37.38]"></ya-placemark>-->
 
-<!--        <ya-geoobject *ngFor="let end of coordinate.endPoint"-->
-<!--          [feature]="{ geometry: { type: 'Point', coordinates: [55.7, 37.69] } }"-->
-<!--        ></ya-geoobject>-->
-
-<!--        <ya-geoobject-->
-<!--          [feature]="{ geometry: { type: 'Point', coordinates: [55.7, 37.39] } }"-->
-<!--        ></ya-geoobject>-->
+          <!--        <ya-geoobject *ngFor="let end of coordinate.endPoint"-->
+          <!--          [feature]="{ geometry: { type: 'Point', coordinates: [55.7, 37.69] } }"-->
+          <!--        ></ya-geoobject>-->
         </div>
       </ya-clusterer>
     </ya-map>
-    </div>
+  </div>
+</div>
+<div class="map-container card-panel">
+<div class="mat-list-base p10" *ngFor="let travel of travels | search: valueRadio">
+  <app-list-descriptions [travels]="travel"></app-list-descriptions>
+</div>
 </div>
