@@ -20,3 +20,13 @@ form {
   width: 1000px;
   height: 500px;
 }
+
+.buttonBlock {
+  display: flex;
+  justify-content: space-between;
+}
+
+
+.ymaps-2-1-79-controls__control_toolbar {
+  display: none;
+}

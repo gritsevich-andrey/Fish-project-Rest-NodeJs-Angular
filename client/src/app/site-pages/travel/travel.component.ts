@@ -1,16 +1,17 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup} from "@angular/forms";
+import {FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
 import {UserService} from "../../shared/services/user.service";
 import {TravelService} from "../../shared/services/travel.service";
-import {YaReadyEvent} from "angular8-yandex-maps";
 import {CabinetService} from "../cabinet/cabinet.service";
 import {MaterialService} from "../../shared/classes/material.service";
-import {EmitterService} from "../../shared/services/emitter.service";
+import {YaReadyEvent} from "angular8-yandex-maps";
 
 declare var M: {
   FormSelect: { init: (arg0: NodeListOf<Element>) => any; },
   Modal: { init: (arg0: NodeListOf<Element>) => any; }
 }
+
+declare var ymaps: any;
 
 interface Travel {
   userEmail: string
@@ -32,34 +33,33 @@ interface Travel {
 })
 export class TravelComponent implements OnInit {
   //@ts-ignore
-  map: ymaps.Map;
+  startPointMap: ymaps.Map;
+  //@ts-ignore
+  endPointMap: ymaps.Map;
+
   form!: FormGroup;
   userEmail!: string
   userTravels: Travel[] = []
   isTechnique = false
   transports: any = []
 
-  //Test
-  points: any = []
-
   constructor(
     private userService: UserService,
     private travelService: TravelService,
     private cabinetService: CabinetService,
-    private emitterService: EmitterService
   ) {
     this.form = new FormGroup({
-      travelType: new FormControl(''),
-      travelTarget: new FormControl(''),
-      peoplesCount: new FormControl(''),
-      costPerPeople: new FormControl(''),
-      description: new FormControl(''),
-      travelTitle: new FormControl(''),
-      startPointLatitude: new FormControl('55.74'),
-      startPointLongitude: new FormControl('37.5'),
-      endPointLatitude: new FormControl('55.64'),
-      endPointLongitude: new FormControl('37.46'),
-      travelTechnique: new FormControl('')
+      travelType: new FormControl('', Validators.required),
+      travelTarget: new FormControl('', Validators.required),
+      peoplesCount: new FormControl('', Validators.required),
+      costPerPeople: new FormControl('', Validators.required),
+      description: new FormControl('', Validators.required),
+      travelTitle: new FormControl('', Validators.required),
+      travelTechnique: new FormControl(''),
+      startPointLatitude: new FormControl('', Validators.required),
+      startPointLongitude: new FormControl('', Validators.required),
+      endPointLatitude: new FormControl('', Validators.required),
+      endPointLongitude: new FormControl('', Validators.required),
     });
   }
 
@@ -68,6 +68,7 @@ export class TravelComponent implements OnInit {
     this.initMaterialize()
     this.getUserTravels(this.userEmail)
   }
+
 
   initMaterialize() {
     const modals = document.querySelectorAll('.modal');
@@ -78,21 +79,7 @@ export class TravelComponent implements OnInit {
 
   getUserTravels(userEmail: string) {
     this.travelService.getUserTravels(userEmail).subscribe(
-      data => {
-        this.userTravels = data
-        //Test
-        data.forEach((el: any) => {
-          this.points.push({
-            latitude: el.coordinates.startPoint.latitude,
-            longitude: el.coordinates.startPoint.longitude
-          })
-          this.points.push({
-            latitude: el.coordinates.endPoint.latitude,
-            longitude: el.coordinates.endPoint.longitude
-          })
-        })
-        //
-      },
+      data => this.userTravels = data,
       error => console.log(error)
     )
   }
@@ -117,7 +104,7 @@ export class TravelComponent implements OnInit {
     )
   }
 
-  createTravel() {
+  createTravel(formData: any, formDirective: FormGroupDirective) {
     let travelData = {
       userEmail: this.userEmail,
       travelType: this.form.controls.travelType.value,
@@ -126,50 +113,74 @@ export class TravelComponent implements OnInit {
       costPerPeople: this.form.controls.costPerPeople.value,
       description: this.form.controls.description.value,
       title: this.form.controls.travelTitle.value,
-      coordinates: {
-        startPoint: {
-          latitude: this.form.controls.startPointLatitude.value,
-          longitude: this.form.controls.startPointLongitude.value
-        },
-        endPoint: {
-          latitude: this.form.controls.endPointLatitude.value,
-          longitude: this.form.controls.endPointLongitude.value
-        }
-      },
+      startPoint: [{
+        latitude:  this.form.controls.startPointLatitude.value,
+        longitude: this.form.controls.startPointLongitude.value
+      }],
+      endPoint: [{
+        latitude: this.form.controls.endPointLatitude.value,
+        longitude: this.form.controls.endPointLongitude.value
+      }],
       travelTechnique: this.form.controls.travelTechnique.value
     }
-    this.travelService.createTravel(travelData).subscribe(
-      data => {
-        this.form.reset();
-        this.getUserTravels(this.userEmail);
 
-        //Test
-        this.points = []
-        data.forEach((el: any) => {
-          this.points.push({
-            latitude: el.coordinates.startPoint.latitude,
-            longitude: el.coordinates.startPoint.longitude
-          })
-          this.points.push({
-            latitude: el.coordinates.endPoint.latitude,
-            longitude: el.coordinates.endPoint.longitude
-          })
-        })
-        //
-        this.emitterService.setState(22);
-        this.emitterService.changeAuthenticated();
-        MaterialService.toast('Ваша поездка сохранена')
-      },
-      error => console.log(error)
-    )
+    if(this.form.valid) {
+      this.travelService.createTravel(travelData).subscribe(
+          () => {
+            this.closeModal();
+            this.form.reset()
+            this.getUserTravels(this.userEmail);
+            MaterialService.toast('Ваша поездка сохранена')
+          },
+          error => {
+            console.log(error)
+            MaterialService.toast('Ошибка сохранения')
+          }
+        )
+    } else MaterialService.toast('Заполните все поля')
   }
 
-  onMapReady(event: YaReadyEvent<ymaps.Map>) {
-    this.map = event.target;
+  closeModal() {
+    const button: any = document.getElementById('button-modal-close')
+    button.classList.add('modal-close')
+    button.type = 'button'
+    button.click()
+    button.type = 'submit'
+    button.classList.remove('modal-close')
   }
 
-  getMapPointCoordinates() {
-    //
+  onStartPointMapReady(event: YaReadyEvent<ymaps.Map>) {
+    this.startPointMap = event.target;
+
+    const searchControl = new ymaps.control.SearchControl({options: {provider: 'yandex#map'}});
+
+    searchControl.events.add('resultselect', (e: any) => {
+      let results = searchControl.getResultsArray();
+      let selected = e.get('index');
+      let point = results[selected].geometry.getCoordinates();
+      this.form.controls.startPointLatitude.setValue(point[0])
+      this.form.controls.startPointLongitude.setValue(point[1])
+    })
+
+    this.startPointMap.controls.remove('searchControl');
+    this.startPointMap.controls.add(searchControl);
+  }
+
+  onEndPointMapReady(event: YaReadyEvent<ymaps.Map>) {
+    this.endPointMap = event.target;
+
+    const searchControl = new ymaps.control.SearchControl({options: {provider: 'yandex#map'}});
+
+    searchControl.events.add('resultselect', (e: any) => {
+      let results = searchControl.getResultsArray();
+      let selected = e.get('index');
+      let point = results[selected].geometry.getCoordinates();
+      this.form.controls.endPointLatitude.setValue(point[0])
+      this.form.controls.endPointLongitude.setValue(point[1])
+    })
+
+    this.endPointMap.controls.remove('searchControl');
+    this.endPointMap.controls.add(searchControl);
   }
 
   loadTransport() {
@@ -182,7 +193,10 @@ export class TravelComponent implements OnInit {
     if (this.form.controls.travelType.value === "technique") {
       this.isTechnique = true
       this.loadTransport()
-    }
-    else this.isTechnique = false
+    } else this.isTechnique = false
+  }
+
+  get f() {
+    return this.form.controls;
   }
 }
