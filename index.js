@@ -1,5 +1,6 @@
 const app = require('./app')
 const port = process.env.PORT || 5000
+const portSocket = process.env.PORT || 3001
 const cors = require('cors');
 const server = require('http', {
     cors: {
@@ -21,7 +22,7 @@ app.use(cors());
 
 app.listen(port, () => console.log(`Server has been started on port: ${port}`))
 
-server.listen(3001, () => {
+server.listen(portSocket, () => {
     console.log('Сервер для socket.io работает на порту 3001');
 });
 
