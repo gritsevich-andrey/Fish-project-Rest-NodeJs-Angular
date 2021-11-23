@@ -1,14 +1,15 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {UserService} from "../../shared/services/user.service";
 import {TravelService} from "../../shared/services/travel.service";
 import {CabinetService} from "../cabinet/cabinet.service";
 import {MaterialService} from "../../shared/classes/material.service";
-import {YaReadyEvent} from "angular8-yandex-maps";
+import {YaGeocoderService, YaReadyEvent} from "angular8-yandex-maps";
 
 declare var M: {
   FormSelect: { init: (arg0: NodeListOf<Element>) => any; },
   Modal: { init: (arg0: NodeListOf<Element>) => any; }
+  Datepicker: { init: (arg0: NodeListOf<Element>, arg1: any) => any; }
 }
 
 declare var ymaps: any;
@@ -47,6 +48,7 @@ export class TravelComponent implements OnInit {
     private userService: UserService,
     private travelService: TravelService,
     private cabinetService: CabinetService,
+    private yaGeocoderService: YaGeocoderService
   ) {
     this.form = new FormGroup({
       travelType: new FormControl('', Validators.required),
@@ -54,12 +56,13 @@ export class TravelComponent implements OnInit {
       peoplesCount: new FormControl('', Validators.required),
       costPerPeople: new FormControl('', Validators.required),
       description: new FormControl('', Validators.required),
-      travelTitle: new FormControl('', Validators.required),
       travelTechnique: new FormControl(''),
       startPointLatitude: new FormControl('', Validators.required),
       startPointLongitude: new FormControl('', Validators.required),
       endPointLatitude: new FormControl('', Validators.required),
       endPointLongitude: new FormControl('', Validators.required),
+      travelDate: new FormControl('', Validators.required),
+      endPointAddress: new FormControl('', Validators.required),
     });
   }
 
@@ -71,10 +74,24 @@ export class TravelComponent implements OnInit {
 
 
   initMaterialize() {
+    const options = {
+      i18n: {
+        months: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+        monthsShort: ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'],
+        weekdays: ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'],
+        weekdaysShort: ['Вск', 'Пнд', 'Втр', 'Сре', 'Чтв', 'Птн', 'Суб'],
+        weekdaysAbbrev: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб']
+      },
+      firstDay: 1,
+      format: 'dd.mm.yyyy'
+    }
+
     const modals = document.querySelectorAll('.modal');
     const selects = document.querySelectorAll('select');
+    const datepickers = document.querySelectorAll('.datepicker');
     M.Modal.init(modals);
     M.FormSelect.init(selects);
+    M.Datepicker.init(datepickers, options)
   }
 
   getUserTravels(userEmail: string) {
@@ -104,7 +121,7 @@ export class TravelComponent implements OnInit {
     )
   }
 
-  createTravel(formData: any, formDirective: FormGroupDirective) {
+  createTravel() {
     let travelData = {
       userEmail: this.userEmail,
       travelType: this.form.controls.travelType.value,
@@ -112,32 +129,45 @@ export class TravelComponent implements OnInit {
       peoplesCount: this.form.controls.peoplesCount.value,
       costPerPeople: this.form.controls.costPerPeople.value,
       description: this.form.controls.description.value,
-      title: this.form.controls.travelTitle.value,
+      title: this.getTravelTitle(),
       startPoint: [{
-        latitude:  this.form.controls.startPointLatitude.value,
+        latitude: this.form.controls.startPointLatitude.value,
         longitude: this.form.controls.startPointLongitude.value
       }],
       endPoint: [{
         latitude: this.form.controls.endPointLatitude.value,
         longitude: this.form.controls.endPointLongitude.value
       }],
-      travelTechnique: this.form.controls.travelTechnique.value
+      travelTechnique: this.form.controls.travelTechnique.value,
+      date: this.form.controls.travelDate.value,
+      address: this.form.controls.endPointAddress.value
     }
-
-    if(this.form.valid) {
+    if (this.form.valid) {
       this.travelService.createTravel(travelData).subscribe(
-          () => {
-            this.closeModal();
-            this.form.reset()
-            this.getUserTravels(this.userEmail);
-            MaterialService.toast('Ваша поездка сохранена')
-          },
-          error => {
-            console.log(error)
-            MaterialService.toast('Ошибка сохранения')
-          }
-        )
+        () => {
+          this.closeModal();
+          this.form.reset()
+          this.getUserTravels(this.userEmail);
+          MaterialService.toast('Ваша поездка сохранена')
+        },
+        error => {
+          console.log(error)
+          MaterialService.toast('Ошибка сохранения')
+        }
+      )
     } else MaterialService.toast('Заполните все поля')
+  }
+
+  getTravelTitle() {
+    return (
+      this.form.controls.travelTarget.value === 'tourism' ? 'Туризм' :
+        this.form.controls.travelTarget.value === 'fishing' ? 'Рыбалка' :
+          this.form.controls.travelTarget.value === 'hunting' ? 'Охота' : ''
+    )
+  }
+
+  getPointAddress(latitude: number, longitude: number) {
+    return this.yaGeocoderService.geocode([latitude, longitude])
   }
 
   closeModal() {
@@ -147,6 +177,10 @@ export class TravelComponent implements OnInit {
     button.click()
     button.type = 'submit'
     button.classList.remove('modal-close')
+  }
+
+  setTravelDate(event: any) {
+    this.form.controls.travelDate.setValue(event.target.value)
   }
 
   onStartPointMapReady(event: YaReadyEvent<ymaps.Map>) {
@@ -175,6 +209,11 @@ export class TravelComponent implements OnInit {
       let results = searchControl.getResultsArray();
       let selected = e.get('index');
       let point = results[selected].geometry.getCoordinates();
+
+      this.getPointAddress(point[0], point[1]).subscribe((result: any) => {
+        const firstGeoObject = result.geoObjects.get(0);
+        this.form.controls.endPointAddress.setValue(firstGeoObject.properties._data.text)
+      })
       this.form.controls.endPointLatitude.setValue(point[0])
       this.form.controls.endPointLongitude.setValue(point[1])
     })

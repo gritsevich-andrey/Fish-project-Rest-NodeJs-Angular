@@ -33,7 +33,9 @@ module.exports.create = function (req, res) {
             startPoint: req.body.startPoint,
             endPoint: req.body.endPoint,
             isPublic: true,
-            travelTechnique: req.body.travelTechnique
+            travelTechnique: req.body.travelTechnique,
+            date: req.body.date,
+            address: req.body.address
         }).save();
         res.status(201).json(travel);
     } catch (e) {
@@ -58,7 +60,9 @@ module.exports.update = function (req, res) {
         startPoint: req.body.startPoint,
         endPoint: req.body.endPoint,
         isPublic: req.body.isPublic,
-        travelTechnique: req.body.travelTechnique
+        travelTechnique: req.body.travelTechnique,
+        date: req.body.date,
+        address: req.body.address
     }
     Travel.findOneAndUpdate({
         _id: req.params.id,

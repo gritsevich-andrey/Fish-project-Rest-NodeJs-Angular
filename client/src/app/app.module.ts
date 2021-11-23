@@ -39,7 +39,7 @@ import {SearchPipe} from "./shared/pipes/search.pipe";
 import {MapTravelComponent} from './site-pages/map-travel/map-travel.component';
 import {AngularYandexMapsModule, YaConfig} from "angular8-yandex-maps";
 import {MatRadioModule} from "@angular/material/radio";
-import { ListDescriptionsComponent } from './site-pages/map-travel/list-descriptions/list-descriptions.component';
+import {ListDescriptionsComponent} from "./site-pages/map-travel/list-descriptions/list-descriptions.component";
 import {MatCardModule} from "@angular/material/card";
 
 const mapConfig: YaConfig = {
@@ -65,33 +65,33 @@ const mapConfig: YaConfig = {
     MapTravelComponent,
     ListDescriptionsComponent
   ],
-    imports: [
-        NgImageSliderModule,
-        AppRoutingModule,
-        ReactiveFormsModule,
-        FormsModule,
-        HttpClientModule,
-        BrowserModule,
-        CommonModule,
-        SharedModule,
-        BrowserAnimationsModule,
-        MatIconModule,
-        MatButtonModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatTooltipModule,
-        MatSnackBarModule,
-        NgxPaginationModule,
-        NgxStarRatingModule,
-        MatSortModule,
-        MatTabsModule,
-        MatPaginatorModule,
-        InfiniteScrollModule,
-        ReadMoreModule,
-        AngularYandexMapsModule.forRoot(mapConfig),
-        MatRadioModule,
-        MatCardModule,
-    ],
+  imports: [
+    NgImageSliderModule,
+    AppRoutingModule,
+    ReactiveFormsModule,
+    FormsModule,
+    HttpClientModule,
+    BrowserModule,
+    CommonModule,
+    SharedModule,
+    BrowserAnimationsModule,
+    MatIconModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatTooltipModule,
+    MatSnackBarModule,
+    NgxPaginationModule,
+    NgxStarRatingModule,
+    MatSortModule,
+    MatTabsModule,
+    MatPaginatorModule,
+    InfiniteScrollModule,
+    ReadMoreModule,
+    AngularYandexMapsModule.forRoot(mapConfig),
+    MatRadioModule,
+    MatCardModule,
+  ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
     multi: true,

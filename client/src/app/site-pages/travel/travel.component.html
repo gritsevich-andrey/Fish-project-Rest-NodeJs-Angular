@@ -10,16 +10,21 @@
 <div class="makeOffer">
   <button data-target="makeOffer" class="waves-effect waves-light btn-large modal-trigger">Предложить поездку</button>
 </div>
+<input  (change)="setTravelDate($event)" [hidden]="true" type="text" class="datepicker" #datepicker>
 <div id="makeOffer" class="modal">
-  <form [formGroup]="form" (ngSubmit)="createTravel(form, formDirective)" #formDirective="ngForm">
+  <form [formGroup]="form" (ngSubmit)="createTravel()">
     <div class="modal-content">
       <h1>Предложить поездку</h1>
       <div class="input-field col s6">
-        <input id="travelTitle" formControlName="travelTitle" type="text" class="validate"/>
-        <label for="travelTitle">Название поездки</label>
-        <span class="helper-text red-text" *ngIf="f.travelTitle.touched && f.travelTitle.invalid">
-            <small *ngIf="f.travelTitle.hasError('required')">Поле не должно быть пустым</small>
-        </span>
+        <input id="travelTitle" disabled [value]="
+          form.controls.travelTarget.value === 'tourism' ? 'Туризм' :
+          form.controls.travelTarget.value === 'fishing' ? 'Рыбалка' :
+          form.controls.travelTarget.value === 'hunting' ? 'Охота' : ''
+        " type="text" class="validate" placeholder="Выберите для чего вы хотите отправиться"/>
+      </div>
+      <div>
+        <span>{{form.controls.travelDate.value}}</span>
+        <button (click)="datepicker.click()" class="waves-effect waves-light btn" type="button">Указать дату</button>
       </div>
       <div class="input-field col s12 m6">
         <select formControlName="travelType" class="icons" (change)="travelTypeChange()">
