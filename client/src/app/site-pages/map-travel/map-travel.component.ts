@@ -13,16 +13,9 @@ export class MapTravelComponent implements OnInit {
 // @ts-ignore
 //   https://openbase.com/js/angular8-yandex-maps
 //   https://ddubrava.github.io/angular8-yandex-maps/additional-documentation/examples.html
-  map: ymaps.Map;
+   map: ymaps.Map;
   valueRadio: string| undefined;
   travels: Travel[]=[];
-
-  placemarkProperies: ymaps.IPlacemarkProperties = {
-    balloonContentHeader: 'The placemark balloon',
-    balloonContentBody: 'Content of the <em>placemark</em> balloon',
-    balloonContentFooter: 'Basement',
-    hintContent: 'The placemark hint',
-  };
 
   constructor(private travelService: TravelService, private emitterService: EmitterService) { }
 
@@ -36,18 +29,7 @@ export class MapTravelComponent implements OnInit {
   }
 
   onMapReady(event: YaReadyEvent<ymaps.Map>) {
-    const map = event.target;
-    this.map = map;
-    // map.balloon.open([51.85, 38.37], 'Balloon content', {
-    //   // Option: do not show the close button.
-    //   closeButton: false,
-    // });
-
-    // Showing the hint on the map (without binding to the geo object).
-    // map.hint.open(map.getCenter(), 'Lone hint without a placemark', {
-    //   // Option: delay before opening.
-    //   openTimeout: 1500,
-    // });
+    this.map = event.target;
   }
 
   private getData() {

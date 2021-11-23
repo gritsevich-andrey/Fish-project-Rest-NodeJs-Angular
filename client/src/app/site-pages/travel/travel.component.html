@@ -8,79 +8,85 @@
   </div>
 </div>
 <div class="makeOffer">
-  <button data-target="makeOffer" class="waves-effect waves-light btn-large modal-trigger">Предложить поездку</button>
+  <button data-target="makeOffer"
+          matTooltip="Сформировать условия для поездки, дату отправления, стоимость и подробное описание. "
+          class="btn modal-trigger">Предложить поездку</button>
 </div>
-<input  (change)="setTravelDate($event)" [hidden]="true" type="text" class="datepicker" #datepicker>
+<input (change)="setTravelDate($event)" [hidden]="true" type="text" class="datepicker" #datepicker>
 <div id="makeOffer" class="modal">
-  <form [formGroup]="form" (ngSubmit)="createTravel()">
-    <div class="modal-content">
-      <h1>Предложить поездку</h1>
-      <div class="input-field col s6">
-        <input id="travelTitle" disabled [value]="
-          form.controls.travelTarget.value === 'tourism' ? 'Туризм' :
-          form.controls.travelTarget.value === 'fishing' ? 'Рыбалка' :
-          form.controls.travelTarget.value === 'hunting' ? 'Охота' : ''
-        " type="text" class="validate" placeholder="Выберите для чего вы хотите отправиться"/>
-      </div>
-      <div>
-        <span>{{form.controls.travelDate.value}}</span>
-        <button (click)="datepicker.click()" class="waves-effect waves-light btn" type="button">Указать дату</button>
-      </div>
-      <div class="input-field col s12 m6">
-        <select formControlName="travelType" class="icons" (change)="travelTypeChange()">
-          <option value="" disabled selected>На чем хотите ехать</option>
-          <option value="onFoot" class="left">пешком</option>
-          <option value="technique" class="left">на технике</option>
-        </select>
-      </div>
-      <div *ngIf="isTechnique" class="input-field col s12 m6">
-        <select class="browser-default" formControlName="travelTechnique" multiple>
-          <option value="" disabled selected>Выберите технику</option>
-          <option *ngFor="let transport of transports" value="{{transport.name }}">{{transport.name}}</option>
-        </select>
-      </div>
-      <div class="buttonBlock">
-        <span>Куда вы хотите поехать?</span>
-        <button data-target="startPointMap" class="waves-effect waves-light btn modal-trigger">Указать на карте</button>
-      </div>
-      <div class="buttonBlock">
-        <span>Откуда вы хотите поехать?</span>
-        <button data-target="endPointMap" class="waves-effect waves-light btn modal-trigger">Указать на карте</button>
-      </div>
-      <div class="input-field col s12 m6">
-        <select class="icons" formControlName="travelTarget">
-          <option value="" disabled selected>Для чего вы хотите отправиться</option>
-          <option value="hunting" class="left">Охота</option>
-          <option value="fishing" class="left">Рыбалка</option>
-          <option value="tourism" class="left">Туризм</option>
-        </select>
-      </div>
-      <div class="input-field col s6">
-        <input id="peoplesCount" formControlName="peoplesCount" type="number" min="1" class="validate"/>
-        <label for="peoplesCount">Сколько человек вы с собой возьмете</label>
-        <span class="helper-text red-text" *ngIf="f.peoplesCount.touched && f.peoplesCount.invalid">
+  <div class="mat-form-field-flex">
+    <form [formGroup]="form" (ngSubmit)="createTravel()">
+      <div class="modal-content">
+<!--        <div class="input-field col s6">-->
+<!--          <input id="travelTitle" disabled [value]="-->
+<!--          form.controls.travelTarget.value === 'tourism' ? 'Туризм' :-->
+<!--          form.controls.travelTarget.value === 'fishing' ? 'Рыбалка' :-->
+<!--          form.controls.travelTarget.value === 'hunting' ? 'Охота' : ''-->
+<!--        " type="text" class="validate" placeholder="Выберите для чего вы хотите отправиться"/>-->
+<!--        </div>-->
+        <div>
+          <span>{{form.controls.travelDate.value}}</span>
+          <button (click)="datepicker.click()" class="waves-effect waves-light btn" type="button">Дата поездки</button>
+        </div>
+        <div class="input-field">
+          <select formControlName="travelType" class="icons" (change)="travelTypeChange()">
+            <option value="" disabled selected>Выбрать технику</option>
+            <option value="onFoot" class="left">Нет</option>
+            <option value="technique" class="left">Выбрать</option>
+          </select>
+        </div>
+        <div *ngIf="isTechnique" class="input-field col s12 m6">
+          <select class="browser-default" formControlName="travelTechnique" multiple>
+<!--            <option value="" disabled selected>Выберите технику</option>-->
+            <option *ngFor="let transport of transports" value="{{transport.name }}">{{transport.name}}</option>
+          </select>
+        </div>
+        <div class="buttonBlock">
+          <span>Куда поехать?</span>
+          <button data-target="startPointMap" class="waves-effect waves-light btn modal-trigger">Указать на карте
+          </button>
+        </div>
+        <div class="buttonBlock">
+          <span>Откуда выезд?</span>
+          <button data-target="endPointMap" class="waves-effect waves-light btn modal-trigger">Указать на карте</button>
+        </div>
+        <div class="input-field">
+          <select class="icons" formControlName="travelTarget">
+            <option value="" disabled selected>Цель поездки</option>
+            <option value="Охота" class="left">Охота</option>
+            <option value="Рыбалка" class="left">Рыбалка</option>
+            <option value="Туризм" class="left">Туризм</option>
+          </select>
+        </div>
+        <div class="input-field col s6">
+          <input id="peoplesCount" formControlName="peoplesCount" type="number" min="1" class="validate"/>
+          <label for="peoplesCount">Количество человек</label>
+          <span class="helper-text red-text" *ngIf="f.peoplesCount.touched && f.peoplesCount.invalid">
             <small *ngIf="f.peoplesCount.hasError('required')">Поле не должно быть пустым</small>
         </span>
-      </div>
-      <div class="input-field col s6">
-        <input id="costPerPeople" formControlName="costPerPeople" type="number" min="0" class="validate"/>
-        <label for="costPerPeople">Сколько стоит поездка на 1 человека</label>
-        <span class="helper-text red-text" *ngIf="f.costPerPeople.touched && f.costPerPeople.invalid">
+        </div>
+        <div class="input-field col s6">
+          <input id="costPerPeople" formControlName="costPerPeople" type="number" min="0" class="validate"/>
+          <label for="costPerPeople">Цена за 1 чел.</label>
+          <span class="helper-text red-text" *ngIf="f.costPerPeople.touched && f.costPerPeople.invalid">
             <small *ngIf="f.costPerPeople.hasError('required')">Поле не должно быть пустым</small>
         </span>
-      </div>
-      <div class="input-field col s12">
-        <textarea id="description" class="materialize-textarea" formControlName="description"></textarea>
-        <label for="description">Что нужно взять человеку с собой (описание)</label>
-        <span class="helper-text red-text" *ngIf="f.description.touched && f.description.invalid">
+        </div>
+        <div class="input-field col s12">
+          <textarea id="description" cols="30" rows="10" formControlName="description"></textarea>
+          <label for="description">Подробное описание</label>
+          <span class="helper-text red-text" *ngIf="f.description.touched && f.description.invalid">
             <small *ngIf="f.description.hasError('required')">Поле не должно быть пустым</small>
         </span>
+        </div>
       </div>
-    </div>
-    <div class="modal-footer">
-      <button type="submit" id="button-modal-close" class="waves-effect waves-green btn-flat">Создать</button>
-    </div>
-  </form>
+      <div class="modal-footer">
+        <button type="submit" id="button-modal-close" class="btn">Создать</button>
+        <button class="btn ml10" (click)="closeModal()">Отмена</button>
+
+      </div>
+    </form>
+  </div>
 </div>
 
 <div id="startPointMap" class="modal">

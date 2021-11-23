@@ -1,7 +1,6 @@
 form {
   div {
-    margin-bottom: 40px;
-
+    margin-bottom: 10px;
     &:last-child {
       margin-bottom: 0;
     }
@@ -27,7 +26,20 @@ form {
   justify-content: space-between;
 }
 
-
 .ymaps-2-1-79-controls__control_toolbar {
   display: none;
+}
+
+:host ::ng-deep .select-wrapper input.select-dropdown {
+  width: 200px!important;
+}
+
+input[type=number] {
+  max-width: 200px;
+}
+textarea {
+  height: 100%;
+}
+.ml10 {
+  margin-left: 10px!important;
 }

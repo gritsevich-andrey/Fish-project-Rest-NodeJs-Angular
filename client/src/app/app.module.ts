@@ -41,6 +41,8 @@ import {AngularYandexMapsModule, YaConfig} from "angular8-yandex-maps";
 import {MatRadioModule} from "@angular/material/radio";
 import {ListDescriptionsComponent} from "./site-pages/map-travel/list-descriptions/list-descriptions.component";
 import {MatCardModule} from "@angular/material/card";
+import {MatListModule} from "@angular/material/list";
+import {MatSelectModule} from "@angular/material/select";
 
 const mapConfig: YaConfig = {
   apikey: '6c5c5f61-fa87-4efd-8ad9-f652f1fd0727',
@@ -91,6 +93,8 @@ const mapConfig: YaConfig = {
     AngularYandexMapsModule.forRoot(mapConfig),
     MatRadioModule,
     MatCardModule,
+    MatListModule,
+    MatSelectModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

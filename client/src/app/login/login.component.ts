@@ -13,7 +13,7 @@ import jwt_decode from "jwt-decode";
 })
 export class LoginComponent implements OnInit, OnDestroy {
 
-  form!: FormGroup;
+ form!: FormGroup;
   aSub!: Subscription;
   hide = true;
 
@@ -42,15 +42,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   onSubmit() {
     this.aSub = this.auth.login(this.form.value).subscribe(
       () => {
-       const token = localStorage.getItem('auth-token');
-       // @ts-ignore
-        const tokenSplit = token.split(' ');
-        const decoded = jwt_decode(tokenSplit[1]);
-        // @ts-ignore
-        console.log(decoded.email);
-        // @ts-ignore
-        const userRoles = decoded.role;
-        userRoles.forEach( (item: any) => {
+        this.extractedUserRoles()
+          .forEach( (item: any) => {
           if (item === 'ADMIN') {
             this.router.navigate(['/administrator']);
           } else {
@@ -77,5 +70,14 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   showPassword(): void {
     this.hide = !this.hide;
+  }
+ private extractedUserRoles(): string[] {
+    const token = localStorage.getItem('auth-token');
+    // @ts-ignore
+    const tokenSplit = token.split(' ');
+    const decoded = jwt_decode(tokenSplit[1]);
+    // @ts-ignore
+    const userRoles = decoded.role;
+    return userRoles;
   }
 }

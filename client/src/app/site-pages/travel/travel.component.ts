@@ -27,6 +27,11 @@ interface Travel {
   _id: string
 }
 
+interface Food {
+  value: string;
+  viewValue: string;
+}
+
 @Component({
   selector: 'app-travel',
   templateUrl: './travel.component.html',
@@ -44,6 +49,13 @@ export class TravelComponent implements OnInit {
   isTechnique = false
   transports: any = []
 
+  foods: Food[] = [
+    {value: 'steak-0', viewValue: 'Steak'},
+    {value: 'pizza-1', viewValue: 'Pizza'},
+    {value: 'tacos-2', viewValue: 'Tacos'},
+  ];
+  //@ts-ignore
+  selectedValue: string;
   constructor(
     private userService: UserService,
     private travelService: TravelService,
