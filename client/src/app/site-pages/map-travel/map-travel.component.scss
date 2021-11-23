@@ -1,8 +1,22 @@
 .yandex-container {
-  padding: 10px;
-  width: 1000px;
-  height: 500px;
+  display: block;
+  position: relative;
+  width: 70rem;
+  height: 40rem;
 }
+
+@media only screen and (max-width: 993px) {
+  .yandex-container  {
+    width: 50rem!important;
+  }
+}
+
+@media only screen and (max-width: 601px) {
+  .yandex-container  {
+    width: 30rem!important;
+  }
+}
+
 .map-container {
   display: flex;
   flex-direction: row;
@@ -44,5 +58,7 @@
 margin: 1.8px!important;
 }
 :host ::ng-deep .container {
-  width: 100%;
+  width: 100%!important;
 }
+
+
