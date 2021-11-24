@@ -112,6 +112,10 @@ export class TravelComponent implements OnInit {
     )
   }
 
+  setTravelDate(event: any) {
+    this.form.controls.travelDate.setValue(event.target.value)
+  }
+
   hideTravel(travelId: string) {
     let travelData = this.userTravels.filter((el: any) => el._id === travelId)
     //@ts-ignore
@@ -277,7 +281,7 @@ export class TravelComponent implements OnInit {
   openEditTravel(travel: any) {
     for (let item in travel) {
       this.form.controls[item]?.setValue(travel[item])
-      if(item === 'date') this.form.controls.travelDate.setValue(travel[item])
+      if (item === 'date') this.form.controls.travelDate.setValue(travel[item])
       if (item === 'address') this.form.controls.endPointAddress.setValue(travel[item])
     }
     this.form.controls.startPointLatitude.setValue(travel.startPoint[0].latitude)
@@ -305,11 +309,11 @@ export class TravelComponent implements OnInit {
 
   rescheduleForTwoWeeks() {
     let date = new Date(this.form.controls.travelDate.value).getTime()
-    date += 14*24*60*60*1000
+    date += 14 * 24 * 60 * 60 * 1000
     //@ts-ignore
     date = new Date(date)
     //@ts-ignore
-    this.form.controls.travelDate.setValue(`${date.getMonth()+1}.${date.getDate()}.${date.getFullYear()}`)
+    this.form.controls.travelDate.setValue(`${date.getMonth() + 1}.${date.getDate()}.${date.getFullYear()}`)
   }
 
   rescheduleMonth() {
@@ -317,7 +321,7 @@ export class TravelComponent implements OnInit {
     let month = new Date(this.form.controls.travelDate.value).getMonth()
     let day = new Date(this.form.controls.travelDate.value).getDate()
 
-    let date = new Date(year, month+1, day)
-    this.form.controls.travelDate.setValue(`${date.getMonth()+1}.${date.getDate()}.${date.getFullYear()}`)
+    let date = new Date(year, month + 1, day)
+    this.form.controls.travelDate.setValue(`${date.getMonth() + 1}.${date.getDate()}.${date.getFullYear()}`)
   }
 }
