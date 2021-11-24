@@ -2,3 +2,13 @@
   max-width: 250px;
   padding: 5px;
 }
+:host ::ng-deep .mat-button-wrapper{
+  color: var(--complaint-color);
+}
+.mat-card-title {
+  font-size: 16px;
+  font-weight: 500;
+}
+.mat-card-subtitle {
+  margin-bottom: 0px!important;
+}

@@ -43,6 +43,8 @@ import {ListDescriptionsComponent} from "./site-pages/map-travel/list-descriptio
 import {MatCardModule} from "@angular/material/card";
 import {MatListModule} from "@angular/material/list";
 import {MatSelectModule} from "@angular/material/select";
+import {DialogComponent} from './site-pages/map-travel/list-descriptions/dialog/dialog.component';
+import {MatDialogModule} from "@angular/material/dialog";
 
 const mapConfig: YaConfig = {
   apikey: '6c5c5f61-fa87-4efd-8ad9-f652f1fd0727',
@@ -65,7 +67,8 @@ const mapConfig: YaConfig = {
     ChatComponent,
     SearchPipe,
     MapTravelComponent,
-    ListDescriptionsComponent
+    ListDescriptionsComponent,
+    DialogComponent
   ],
   imports: [
     NgImageSliderModule,
@@ -83,6 +86,7 @@ const mapConfig: YaConfig = {
     MatInputModule,
     MatTooltipModule,
     MatSnackBarModule,
+    MatDialogModule,
     NgxPaginationModule,
     NgxStarRatingModule,
     MatSortModule,

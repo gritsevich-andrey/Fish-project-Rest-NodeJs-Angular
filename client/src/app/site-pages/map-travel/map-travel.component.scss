@@ -1,19 +1,19 @@
 .yandex-container {
   display: block;
   position: relative;
-  width: 70rem;
+  width: 80rem;
   height: 40rem;
 }
 
 @media only screen and (max-width: 993px) {
   .yandex-container  {
-    width: 50rem!important;
+    width: 60rem!important;
   }
 }
 
 @media only screen and (max-width: 601px) {
   .yandex-container  {
-    width: 30rem!important;
+    width: 40rem!important;
   }
 }
 
@@ -23,7 +23,7 @@
 }
 .list-container{
   display: flex;
-  width: 20rem;
+  //width: 20rem;
 }
 .radio-group {
   display: flex;
@@ -60,5 +60,8 @@ margin: 1.8px!important;
 :host ::ng-deep .container {
   width: 100%!important;
 }
-
+:host ::ng-deep input[type=text] {
+  padding-left: 30px!important;
+  height: 2rem;
+}
 

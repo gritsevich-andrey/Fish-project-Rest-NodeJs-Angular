@@ -3,6 +3,7 @@ import {YaReadyEvent} from "angular8-yandex-maps";
 import {TravelService} from "../../shared/services/travel.service";
 import {Travel} from "../../shared/interfaces";
 import {EmitterService} from "../../shared/services/emitter.service";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-map-travel',
@@ -16,8 +17,11 @@ export class MapTravelComponent implements OnInit {
    map: ymaps.Map;
   valueRadio: string| undefined;
   travels: Travel[]=[];
-
+  page = 0;
+  pageSize =4;
   constructor(private travelService: TravelService, private emitterService: EmitterService) { }
+
+
 
   ngOnInit(): void {
     this.getData();
@@ -41,3 +45,5 @@ export class MapTravelComponent implements OnInit {
     console.log('радиозначение', this.valueRadio);
   }
 }
+
+
