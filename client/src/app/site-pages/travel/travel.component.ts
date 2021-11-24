@@ -49,13 +49,12 @@ export class TravelComponent implements OnInit {
   isTechnique = false
   transports: any = []
 
-  foods: Food[] = [
-    {value: 'steak-0', viewValue: 'Steak'},
-    {value: 'pizza-1', viewValue: 'Pizza'},
-    {value: 'tacos-2', viewValue: 'Tacos'},
-  ];
-  //@ts-ignore
-  selectedValue: string;
+  //Для отображения начальных точек
+  placemarksStart: any = []
+  placemarkEnd: any = []
+
+  travelId!: string;
+
   constructor(
     private userService: UserService,
     private travelService: TravelService,
@@ -75,6 +74,7 @@ export class TravelComponent implements OnInit {
       endPointLongitude: new FormControl('', Validators.required),
       travelDate: new FormControl('', Validators.required),
       endPointAddress: new FormControl('', Validators.required),
+      file: new FormControl('')
     });
   }
 
@@ -83,7 +83,6 @@ export class TravelComponent implements OnInit {
     this.initMaterialize()
     this.getUserTravels(this.userEmail)
   }
-
 
   initMaterialize() {
     const options = {
@@ -95,7 +94,7 @@ export class TravelComponent implements OnInit {
         weekdaysAbbrev: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб']
       },
       firstDay: 1,
-      format: 'dd.mm.yyyy'
+      format: 'mm.dd.yyyy'
     }
 
     const modals = document.querySelectorAll('.modal');
@@ -117,7 +116,7 @@ export class TravelComponent implements OnInit {
     let travelData = this.userTravels.filter((el: any) => el._id === travelId)
     //@ts-ignore
     travelData[0].isPublic = false;
-    this.travelService.updateTravel(travelId, travelData[0]).subscribe(
+    this.travelService.updateTravel(travelData[0], travelId).subscribe(
       () => this.getUserTravels(this.userEmail),
       error => console.log(error)
     )
@@ -127,13 +126,13 @@ export class TravelComponent implements OnInit {
     let travelData = this.userTravels.filter((el: any) => el._id === travelId)
     //@ts-ignore
     travelData[0].isPublic = true;
-    this.travelService.updateTravel(travelId, travelData[0]).subscribe(
+    this.travelService.updateTravel(travelData[0], travelId).subscribe(
       () => this.getUserTravels(this.userEmail),
       error => console.log(error)
     )
   }
 
-  createTravel() {
+  onSubmit(type: string) {
     let travelData = {
       userEmail: this.userEmail,
       travelType: this.form.controls.travelType.value,
@@ -141,7 +140,7 @@ export class TravelComponent implements OnInit {
       peoplesCount: this.form.controls.peoplesCount.value,
       costPerPeople: this.form.controls.costPerPeople.value,
       description: this.form.controls.description.value,
-      title: this.getTravelTitle(),
+      title: this.form.controls.travelTarget.value,
       startPoint: [{
         latitude: this.form.controls.startPointLatitude.value,
         longitude: this.form.controls.startPointLongitude.value
@@ -152,30 +151,39 @@ export class TravelComponent implements OnInit {
       }],
       travelTechnique: this.form.controls.travelTechnique.value,
       date: this.form.controls.travelDate.value,
-      address: this.form.controls.endPointAddress.value
+      address: this.form.controls.endPointAddress.value,
+      file: this.form.controls.file.value,
     }
     if (this.form.valid) {
-      this.travelService.createTravel(travelData).subscribe(
-        () => {
-          this.closeModal();
-          this.form.reset()
-          this.getUserTravels(this.userEmail);
-          MaterialService.toast('Ваша поездка сохранена')
-        },
-        error => {
-          console.log(error)
-          MaterialService.toast('Ошибка сохранения')
-        }
-      )
+      if (type === 'create') {
+        this.travelService.createTravel(travelData).subscribe(
+          () => {
+            this.closeModal();
+            this.form.reset()
+            this.getUserTravels(this.userEmail);
+            MaterialService.toast('Ваша поездка сохранена')
+          },
+          error => {
+            console.log(error)
+            MaterialService.toast('Ошибка сохранения')
+          }
+        )
+      } else if (type === 'update') {
+        this.travelService.updateTravel(travelData, this.travelId).subscribe(
+          () => {
+            this.closeEditModal();
+            this.form.reset()
+            this.getUserTravels(this.userEmail);
+            this.travelId = ''
+            MaterialService.toast('Ваша поездка сохранена')
+          },
+          error => {
+            console.log(error)
+            MaterialService.toast('Ошибка сохранения')
+          }
+        )
+      }
     } else MaterialService.toast('Заполните все поля')
-  }
-
-  getTravelTitle() {
-    return (
-      this.form.controls.travelTarget.value === 'tourism' ? 'Туризм' :
-        this.form.controls.travelTarget.value === 'fishing' ? 'Рыбалка' :
-          this.form.controls.travelTarget.value === 'hunting' ? 'Охота' : ''
-    )
   }
 
   getPointAddress(latitude: number, longitude: number) {
@@ -191,8 +199,15 @@ export class TravelComponent implements OnInit {
     button.classList.remove('modal-close')
   }
 
-  setTravelDate(event: any) {
-    this.form.controls.travelDate.setValue(event.target.value)
+  closeEditModal() {
+    const button: any = document.getElementById('button-edit-modal-close')
+    button.classList.add('modal-close')
+    button.type = 'button'
+    button.click()
+    button.type = 'submit'
+    button.classList.remove('modal-close')
+    this.form.reset()
+    this.travelId = ''
   }
 
   onStartPointMapReady(event: YaReadyEvent<ymaps.Map>) {
@@ -201,6 +216,7 @@ export class TravelComponent implements OnInit {
     const searchControl = new ymaps.control.SearchControl({options: {provider: 'yandex#map'}});
 
     searchControl.events.add('resultselect', (e: any) => {
+      this.placemarksStart = []
       let results = searchControl.getResultsArray();
       let selected = e.get('index');
       let point = results[selected].geometry.getCoordinates();
@@ -218,6 +234,7 @@ export class TravelComponent implements OnInit {
     const searchControl = new ymaps.control.SearchControl({options: {provider: 'yandex#map'}});
 
     searchControl.events.add('resultselect', (e: any) => {
+      this.placemarkEnd = []
       let results = searchControl.getResultsArray();
       let selected = e.get('index');
       let point = results[selected].geometry.getCoordinates();
@@ -249,5 +266,58 @@ export class TravelComponent implements OnInit {
 
   get f() {
     return this.form.controls;
+  }
+
+  onFileLoad(event: Event) {
+    // @ts-ignore
+    const file = (event.target as HTMLInputElement).files[0];
+    this.form.patchValue({file})
+  }
+
+  openEditTravel(travel: any) {
+    for (let item in travel) {
+      this.form.controls[item]?.setValue(travel[item])
+      if(item === 'date') this.form.controls.travelDate.setValue(travel[item])
+      if (item === 'address') this.form.controls.endPointAddress.setValue(travel[item])
+    }
+    this.form.controls.startPointLatitude.setValue(travel.startPoint[0].latitude)
+    this.form.controls.startPointLongitude.setValue(travel.startPoint[0].longitude)
+    this.form.controls.endPointLatitude.setValue(travel.endPoint[0].latitude)
+    this.form.controls.endPointLongitude.setValue(travel.endPoint[0].longitude)
+    this.placemarksStart.push({
+      geometry: [travel.startPoint[0].latitude, travel.startPoint[0].longitude],
+      options: {
+        preset: 'islands#icon',
+        iconCaptionMaxWidth: '50',
+      },
+    })
+
+    this.placemarkEnd.push({
+      geometry: [travel.endPoint[0].latitude, travel.endPoint[0].longitude],
+      options: {
+        preset: 'islands#icon',
+        iconCaptionMaxWidth: '50',
+      },
+    })
+
+    this.travelId = travel._id
+  }
+
+  rescheduleForTwoWeeks() {
+    let date = new Date(this.form.controls.travelDate.value).getTime()
+    date += 14*24*60*60*1000
+    //@ts-ignore
+    date = new Date(date)
+    //@ts-ignore
+    this.form.controls.travelDate.setValue(`${date.getMonth()+1}.${date.getDate()}.${date.getFullYear()}`)
+  }
+
+  rescheduleMonth() {
+    let year = new Date(this.form.controls.travelDate.value).getFullYear()
+    let month = new Date(this.form.controls.travelDate.value).getMonth()
+    let day = new Date(this.form.controls.travelDate.value).getDate()
+
+    let date = new Date(year, month+1, day)
+    this.form.controls.travelDate.setValue(`${date.getMonth()+1}.${date.getDate()}.${date.getFullYear()}`)
   }
 }

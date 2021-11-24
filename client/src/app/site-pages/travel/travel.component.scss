@@ -43,3 +43,30 @@ textarea {
 .ml10 {
   margin-left: 10px!important;
 }
+
+.addPhoto {
+  margin-right: 20px;
+}
+
+.placesList {
+  width: 50%;
+
+  div {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+
+    button {
+      margin-left: 20px;
+    }
+  }
+}
+
+.rescheduleBlock {
+  margin-top: 15px;
+  margin-bottom: 30px !important;
+
+  button {
+    margin-right: 15px;
+  }
+}

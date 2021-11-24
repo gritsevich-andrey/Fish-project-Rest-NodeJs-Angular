@@ -25,13 +25,14 @@ const photoSchema = new Schema({
         type: Boolean,
         default: false
     },
-    date: {
-        type: Date,
-        default: Date.now
-    },
+
     banDescription: {
         type: String,
         default: ''
+    },
+    date: {
+        type: Date,
+        default: Date.now
     },
     likesCount: {
         type: Number,

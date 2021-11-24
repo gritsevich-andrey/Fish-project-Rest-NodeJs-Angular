@@ -22,7 +22,9 @@ module.exports.getTravelById = function (req, res) {
 
 module.exports.create = function (req, res) {
     try {
+        console.log(req.body)
         const travel = new Travel({
+            imageSrc: req.file ? req.file.path : '',
             userEmail: req.body.userEmail,
             travelType: req.body.travelType,
             travelTarget: req.body.travelTarget,
@@ -30,8 +32,8 @@ module.exports.create = function (req, res) {
             costPerPeople: req.body.costPerPeople,
             description: req.body.description,
             title: req.body.title,
-            startPoint: req.body.startPoint,
-            endPoint: req.body.endPoint,
+            startPoint: JSON.parse(req.body.startPoint),
+            endPoint: JSON.parse(req.body.endPoint),
             isPublic: true,
             travelTechnique: req.body.travelTechnique,
             date: req.body.date,
@@ -57,17 +59,17 @@ module.exports.update = function (req, res) {
         costPerPeople: req.body.costPerPeople,
         description: req.body.description,
         title: req.body.title,
-        startPoint: req.body.startPoint,
-        endPoint: req.body.endPoint,
+        startPoint: JSON.parse(req.body.startPoint),
+        endPoint: JSON.parse(req.body.endPoint),
         isPublic: req.body.isPublic,
         travelTechnique: req.body.travelTechnique,
         date: req.body.date,
-        address: req.body.address
+        address: req.body.address,
     }
-    Travel.findOneAndUpdate({
-        _id: req.params.id,
-        $set: updated,
-        new: true
-    }).then(travel => res.status(200).json(travel))
+    if (req.file) {
+        updated.imageSrc = req.file.path;
+    }
+    console.log(updated)
+    Travel.findOneAndUpdate({_id: req.params.id}, updated).then(travel => res.status(200).json(travel))
         .catch(e => errorHandler(res, e))
 }
