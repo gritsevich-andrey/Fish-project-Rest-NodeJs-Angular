@@ -5,6 +5,8 @@ import {TravelService} from "../../shared/services/travel.service";
 import {CabinetService} from "../cabinet/cabinet.service";
 import {MaterialService} from "../../shared/classes/material.service";
 import {YaGeocoderService, YaReadyEvent} from "angular8-yandex-maps";
+import {TravelDto} from "../../shared/models/travelDto";
+import {Sort} from "@angular/material/sort";
 
 declare var M: {
   FormSelect: { init: (arg0: NodeListOf<Element>) => any; },
@@ -13,24 +15,6 @@ declare var M: {
 }
 
 declare var ymaps: any;
-
-interface Travel {
-  userEmail: string
-  travelType: string
-  travelTarget: string
-  peoplesCount: string
-  costPerPeople: string
-  description: string
-  title: string
-  coordinates: string
-  isPublic: boolean
-  _id: string
-}
-
-interface Food {
-  value: string;
-  viewValue: string;
-}
 
 @Component({
   selector: 'app-travel',
@@ -45,7 +29,7 @@ export class TravelComponent implements OnInit {
 
   form!: FormGroup;
   userEmail!: string
-  userTravels: Travel[] = []
+  userTravels: any[] = []
   isTechnique = false
   transports: any = []
 
@@ -54,12 +38,15 @@ export class TravelComponent implements OnInit {
   placemarkEnd: any = []
 
   travelId!: string;
+  // @ts-ignore
+  travelData: TravelDto;
+  isDriver = false
 
   constructor(
     private userService: UserService,
     private travelService: TravelService,
     private cabinetService: CabinetService,
-    private yaGeocoderService: YaGeocoderService
+    private yaGeocoderService: YaGeocoderService,
   ) {
     this.form = new FormGroup({
       travelType: new FormControl('', Validators.required),
@@ -79,6 +66,10 @@ export class TravelComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.isDriver = this.userService.getUserRole().includes('DRIVER')
+    if (!this.isDriver) {
+      //this.form.controls.peoplesCount.setValue(что-то)
+    }
     this.userEmail = this.userService.getUserDataFromLocal()
     this.initMaterialize()
     this.getUserTravels(this.userEmail)
@@ -116,28 +107,21 @@ export class TravelComponent implements OnInit {
     this.form.controls.travelDate.setValue(event.target.value)
   }
 
-  hideTravel(travelId: string) {
+  setTravelPublic(travelId: string) {
     let travelData = this.userTravels.filter((el: any) => el._id === travelId)
     //@ts-ignore
-    travelData[0].isPublic = false;
+    travelData[0].isPublic = !travelData[0].isPublic;
     this.travelService.updateTravel(travelData[0], travelId).subscribe(
-      () => this.getUserTravels(this.userEmail),
-      error => console.log(error)
-    )
-  }
-
-  showTravel(travelId: string) {
-    let travelData = this.userTravels.filter((el: any) => el._id === travelId)
-    //@ts-ignore
-    travelData[0].isPublic = true;
-    this.travelService.updateTravel(travelData[0], travelId).subscribe(
-      () => this.getUserTravels(this.userEmail),
-      error => console.log(error)
+      () => MaterialService.toast('Успешно обновленно'),
+      error => {
+        MaterialService.toast('Ошибка обновления')
+        console.log(error)
+      }
     )
   }
 
   onSubmit(type: string) {
-    let travelData = {
+    this.travelData = {
       userEmail: this.userEmail,
       travelType: this.form.controls.travelType.value,
       travelTarget: this.form.controls.travelTarget.value,
@@ -157,13 +141,13 @@ export class TravelComponent implements OnInit {
       date: this.form.controls.travelDate.value,
       address: this.form.controls.endPointAddress.value,
       file: this.form.controls.file.value,
+      isPublic: true
     }
     if (this.form.valid) {
       if (type === 'create') {
-        this.travelService.createTravel(travelData).subscribe(
+        this.travelService.createTravel(this.travelData).subscribe(
           () => {
-            this.closeModal();
-            this.form.reset()
+            this.closeModal('create');
             this.getUserTravels(this.userEmail);
             MaterialService.toast('Ваша поездка сохранена')
           },
@@ -173,17 +157,16 @@ export class TravelComponent implements OnInit {
           }
         )
       } else if (type === 'update') {
-        this.travelService.updateTravel(travelData, this.travelId).subscribe(
+        this.travelService.updateTravel(this.travelData, this.travelId).subscribe(
           () => {
-            this.closeEditModal();
-            this.form.reset()
+            this.closeModal('update');
             this.getUserTravels(this.userEmail);
             this.travelId = ''
-            MaterialService.toast('Ваша поездка сохранена')
+            MaterialService.toast('Ваша поездка обновлена')
           },
           error => {
             console.log(error)
-            MaterialService.toast('Ошибка сохранения')
+            MaterialService.toast('Ошибка обновления')
           }
         )
       }
@@ -194,24 +177,14 @@ export class TravelComponent implements OnInit {
     return this.yaGeocoderService.geocode([latitude, longitude])
   }
 
-  closeModal() {
-    const button: any = document.getElementById('button-modal-close')
-    button.classList.add('modal-close')
-    button.type = 'button'
-    button.click()
-    button.type = 'submit'
-    button.classList.remove('modal-close')
-  }
-
-  closeEditModal() {
-    const button: any = document.getElementById('button-edit-modal-close')
+  closeModal(type: string) {
+    const button: any = document.getElementById(type === 'create' ? 'button-modal-close' : 'button-edit-modal-close')
     button.classList.add('modal-close')
     button.type = 'button'
     button.click()
     button.type = 'submit'
     button.classList.remove('modal-close')
     this.form.reset()
-    this.travelId = ''
   }
 
   onStartPointMapReady(event: YaReadyEvent<ymaps.Map>) {
@@ -257,7 +230,8 @@ export class TravelComponent implements OnInit {
 
   loadTransport() {
     this.cabinetService.getTransportByEmail(this.userEmail).subscribe(
-      data => this.transports = data
+      data => this.transports = data,
+      error => console.log(error)
     )
   }
 
@@ -323,5 +297,34 @@ export class TravelComponent implements OnInit {
 
     let date = new Date(year, month + 1, day)
     this.form.controls.travelDate.setValue(`${date.getMonth() + 1}.${date.getDate()}.${date.getFullYear()}`)
+  }
+
+  sortData(sort: Sort) {
+    const data = this.userTravels.slice();
+    if (!sort.active || sort.direction === '') {
+      this.userTravels = data;
+      return;
+    }
+
+    //@ts-ignore
+    this.userTravels = data.sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+      switch (sort.active) {
+        case 'date': {
+          //@ts-ignore
+          return this.compare(a.date, b.date, isAsc);
+        }
+        case 'title': {
+          //@ts-ignore
+          return this.compare(a.title, b.title, isAsc);
+        }
+        default:
+          return 0;
+      }
+    });
+  }
+
+  compare(a: string | number, b: string | number, isAsc: boolean) {
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
 }

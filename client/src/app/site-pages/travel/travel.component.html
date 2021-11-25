@@ -1,21 +1,55 @@
 <h1>Список предложенных мест</h1>
-<div class="placesList">
-  <div *ngFor="let item of userTravels, let i = index">
-    <div>
-      <span>{{i + 1}} - </span>
-      <span>{{item.title}}</span>
-    </div>
-    <div>
-      <a *ngIf="item.isPublic" class="waves-effect waves-light btn" (click)="hideTravel(item._id)">Скрыть</a>
-      <a *ngIf="!item.isPublic" class="waves-effect waves-light btn" (click)="showTravel(item._id)">Повторить</a>
-      <button class="waves-effect waves-light btn modal-trigger" data-target="editTravel" (click)="openEditTravel(item)" >Редактировать</button>
-    </div>
-  </div>
-</div>
+<table matSort (matSortChange)="sortData($event)">
+  <thead>
+  <tr>
+    <th>№</th>
+    <th mat-sort-header="title">Название</th>
+    <th mat-sort-header="date">Дата</th>
+    <th>Описание</th>
+    <th>Повторить/скрыть</th>
+    <th>Редактировать</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let item of userTravels, let i = index">
+    <td>{{i + 1}}</td>
+    <td>{{item.title}}</td>
+    <td>{{item.date | date:'dd/MM/yyyy'}}</td>
+    <td>{{item.description}}</td>
+    <td>
+      <a
+        *ngIf="item.isPublic"
+        class="waves-effect waves-light btn"
+        matTooltip="Скрыть поездку на карте"
+        (click)="setTravelPublic(item._id)"
+      >Скрыть</a>
+      <a
+        *ngIf="!item.isPublic"
+        class="waves-effect waves-light btn"
+        (click)="setTravelPublic(item._id)"
+        matTooltip="Повторить поездку"
+      >Повторить</a>
+    </td>
+    <td>
+      <button
+        class="waves-effect waves-light btn modal-trigger"
+        data-target="editTravel"
+        (click)="openEditTravel(item)"
+        matTooltip="Редактировать поездку"
+      >Редактировать</button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
 <div class="makeOffer">
-  <button data-target="makeOffer"
-          matTooltip="Сформировать условия для поездки, дату отправления, стоимость и подробное описание. "
-          class="btn modal-trigger">Предложить поездку
+  <button
+    data-target="makeOffer"
+    matTooltip="Сформировать условия для поездки, дату отправления, стоимость и подробное описание. "
+    class="btn modal-trigger"
+    (click)="form.reset()"
+  >
+    Предложить поездку
   </button>
 </div>
 <input (change)="setTravelDate($event)" [hidden]="true" type="text" class="datepicker" #datepicker>
@@ -64,13 +98,13 @@
         </div>
         <div class="input-field">
           <select class="icons" formControlName="travelTarget">
-            <option value="" disabled selected>Цель поездки</option>
-            <option class="left">Охота</option>
-            <option class="left">Рыбалка</option>
-            <option class="left">Туризм</option>
+            <option value="" selected disabled>Цель поездки</option>
+            <option value="Охота" class="left">Охота</option>
+            <option value="Рыбалка" class="left">Рыбалка</option>
+            <option value="Туризм" class="left">Туризм</option>
           </select>
         </div>
-        <div class="input-field col s6">
+        <div *ngIf="isDriver" class="input-field col s6">
           <input id="peoplesCount" formControlName="peoplesCount" type="number" min="1" class="validate"/>
           <label for="peoplesCount">Количество человек</label>
           <span class="helper-text red-text" *ngIf="f.peoplesCount.touched && f.peoplesCount.invalid">
@@ -94,7 +128,7 @@
       </div>
       <div class="modal-footer">
         <button type="submit" id="button-modal-close" class="btn">Создать</button>
-        <button type="button" class="btn ml10" (click)="closeModal()">Отмена</button>
+        <button type="button" class="btn ml10" (click)="closeModal('create')">Отмена</button>
 
       </div>
     </form>
@@ -130,7 +164,6 @@
 </div>
 
 
-
 <div id="editTravel" class="modal">
   <div class="mat-form-field-flex">
     <form [formGroup]="form" (ngSubmit)="onSubmit('update')">
@@ -146,8 +179,11 @@
           <strong>{{form.controls.travelDate.value | date:'dd.MM.yyyy'}}</strong>
           <button (click)="datepicker.click()" class="waves-effect waves-light btn" type="button">Дата поездки</button>
           <div class="rescheduleBlock">
-            <button class="waves-effect waves-light btn" type="button" (click)="rescheduleForTwoWeeks()">Перенести на 2 недели</button>
-            <button class="waves-effect waves-light btn" type="button" (click)="rescheduleMonth()">Перенести на месяц</button>
+            <button class="waves-effect waves-light btn" type="button" (click)="rescheduleForTwoWeeks()">Перенести на 2
+              недели
+            </button>
+            <button class="waves-effect waves-light btn" type="button" (click)="rescheduleMonth()">Перенести на месяц
+            </button>
           </div>
         </div>
         <div>
@@ -180,29 +216,30 @@
         </div>
         <div class="input-field">
           <select class="icons" formControlName="travelTarget">
-            <option value="" disabled selected>Цель поездки</option>
-            <option class="left">Охота</option>
-            <option class="left">Рыбалка</option>
-            <option class="left">Туризм</option>
+            <option value="" selected disabled>Цель поездки</option>
+            <option value="Охота" class="left">Охота</option>
+            <option value="Рыбалка" class="left">Рыбалка</option>
+            <option value="Туризм" class="left">Туризм</option>
           </select>
         </div>
-        <div class="input-field col s6">
-          <input formControlName="peoplesCount" type="number" placeholder="Количество человек"  min="1" class="validate"/>
-<!--          <label for="peoplesCount">Количество человек</label>-->
+        <div *ngIf="isDriver" class="input-field col s6">
+          <input formControlName="peoplesCount" type="number" placeholder="Количество человек" min="1"
+                 class="validate"/>
+          <!--          <label for="peoplesCount">Количество человек</label>-->
           <span class="helper-text red-text" *ngIf="f.peoplesCount.touched && f.peoplesCount.invalid">
             <small *ngIf="f.peoplesCount.hasError('required')">Поле не должно быть пустым</small>
         </span>
         </div>
         <div class="input-field col s6">
           <input formControlName="costPerPeople" type="number" placeholder="Цена за 1 чел." min="0" class="validate"/>
-<!--          <label for="costPerPeople">Цена за 1 чел.</label>-->
+          <!--          <label for="costPerPeople">Цена за 1 чел.</label>-->
           <span class="helper-text red-text" *ngIf="f.costPerPeople.touched && f.costPerPeople.invalid">
             <small *ngIf="f.costPerPeople.hasError('required')">Поле не должно быть пустым</small>
         </span>
         </div>
         <div class="input-field col s12">
           <textarea cols="30" rows="10" placeholder="Подробное описание" formControlName="description"></textarea>
-<!--          <label for="description">Подробное описание</label>-->
+          <!--          <label for="description">Подробное описание</label>-->
           <span class="helper-text red-text" *ngIf="f.description.touched && f.description.invalid">
             <small *ngIf="f.description.hasError('required')">Поле не должно быть пустым</small>
         </span>
@@ -210,7 +247,7 @@
       </div>
       <div class="modal-footer">
         <button type="submit" id="button-edit-modal-close" class="btn">Обновить</button>
-        <button type="button" class="btn ml10" (click)="closeEditModal()">Отмена</button>
+        <button type="button" class="btn ml10" (click)="closeModal('update')">Отмена</button>
       </div>
     </form>
   </div>

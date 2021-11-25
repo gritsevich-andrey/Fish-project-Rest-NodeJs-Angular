@@ -26,8 +26,7 @@ export class UsersComponent implements OnInit {
   defaultUsersOnPage: number = 10;
   searchValue!: string;
 
-  constructor(private userService: UserService, public emitterService: EmitterService ) {
-  }
+  constructor(private userService: UserService, public emitterService: EmitterService ) {}
 
   ngOnInit(): void {
     this.initFormSelect()
@@ -41,7 +40,6 @@ export class UsersComponent implements OnInit {
     });
   }
 
-  //Может сделать приватными методами?
   getListUsers() {
     this.userService.getListUsers().subscribe(
       data => {

@@ -69,7 +69,6 @@ module.exports.update = function (req, res) {
     if (req.file) {
         updated.imageSrc = req.file.path;
     }
-    console.log(updated)
     Travel.findOneAndUpdate({_id: req.params.id}, updated).then(travel => res.status(200).json(travel))
         .catch(e => errorHandler(res, e))
 }

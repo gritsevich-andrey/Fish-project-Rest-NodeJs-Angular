@@ -15,11 +15,7 @@ export class TravelService {
     return this.http.get(environment.TRAVEL_API + '/' + userEmail)
   }
 
-  // updateTravel(travelId: string, data: any): Observable<any> {
-  //   return this.http.patch(environment.TRAVEL_API + '/' + travelId, {...data})
-  // }
-
-  createTravel(data: any): Observable<any> {
+  private generateFormData(data: any) {
     const formData = new FormData();
     if (data.file) formData.append('image', data.file, data.file.name)
     for (let item in data) {
@@ -30,20 +26,16 @@ export class TravelService {
         formData.append(item, data[item])
       }
     }
+    return formData
+  }
+
+  createTravel(data: any): Observable<any> {
+    const formData = this.generateFormData(data)
     return this.http.post(environment.TRAVEL_API, formData)
   }
 
   updateTravel(data: any, travelId: string): Observable<any> {
-    const formData = new FormData();
-    if (data.file) formData.append('image', data.file, data.file.name)
-    for (let item in data) {
-      if (item === 'file') continue
-      if (item === 'startPoint' || item === 'endPoint') {
-        formData.append(item, JSON.stringify(data[item]))
-      } else {
-        formData.append(item, data[item])
-      }
-    }
+    const formData = this.generateFormData(data)
     return this.http.patch(environment.TRAVEL_API + '/' + travelId, formData)
   }
 
