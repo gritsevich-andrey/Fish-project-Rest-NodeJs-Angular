@@ -9,31 +9,35 @@ import {environment} from "../../../environments/environment";
 })
 export class UserService {
 
-constructor(private http: HttpClient) {
+  constructor(private http: HttpClient) {
   }
 
   getListUsers(): Observable<any> {
     return this.http.get(environment.ADMIN_API);
   }
 
+  createComplaint(data: any): Observable<any> {
+    return this.http.post(environment.COMPLAINT_API, {...data} );
+  }
+
   getComplaintByEmail(email: string): Observable<any> {
-    return this.http.get(environment.COMPLAINT_API +`/${email}`);
+    return this.http.get(environment.COMPLAINT_API + `/${email}`);
   }
 
   deleteComplaintById(email: string, id: string): Observable<any> {
-    return this.http.delete(environment.COMPLAINT_API +`/${email}/${id}`)
+    return this.http.delete(environment.COMPLAINT_API + `/${email}/${id}`)
   }
 
   banUserByEmail(email: string): Observable<any> {
-    return this.http.patch(environment.ADMIN_API +'/ban', {email})
+    return this.http.patch(environment.ADMIN_API + '/ban', {email})
   }
 
   unBanUserByEmail(email: string): Observable<any> {
-    return this.http.patch(environment.ADMIN_API+'/unban', {email})
+    return this.http.patch(environment.ADMIN_API + '/unban', {email})
   }
 
   getCabinetData(email: string): Observable<any> {
-    return this.http.get(environment.CABINET_API+ `/${email}`);
+    return this.http.get(environment.CABINET_API + `/${email}`);
   }
 
   createCabinetData(data: any) {

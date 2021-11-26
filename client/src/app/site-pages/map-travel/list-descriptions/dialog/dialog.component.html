@@ -1,8 +1,17 @@
 <mat-dialog-actions align="end">
   <mat-form-field class="full-width" appearance="fill">
-    <mat-label>Текст жалобы</mat-label>
-    <textarea matInput placeholder="Суть жалобы..."></textarea>
+<!--    <mat-label>Текст жалобы</mat-label>-->
+    <!--    <textarea matInput placeholder="Суть жалобы..."></textarea>-->
+    <h3>Укажите причину жалобы</h3>
+    <p *ngFor="let complaintType of complaintTypes">
+      <label (click)="onChange(complaintType)">
+        <input class="with-gap" type="radio" [checked]="complaintType === complaintDescription"  />
+        <span>{{complaintType}}</span>
+      </label>
+    </p>
+    <textarea [(ngModel)]="inputValue" matInput placeholder="Ваш вариант" *ngIf="complaintDescription === 'другое'"></textarea>
+
   </mat-form-field>
   <button mat-button mat-dialog-close>Отмена</button>
-  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Сохранить</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial (click)="save()">Сохранить</button>
 </mat-dialog-actions>

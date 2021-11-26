@@ -18,11 +18,7 @@ export class ListDescriptionsComponent implements OnInit {
   }
 
   openDialog() {
-    const dialogRef = this.dialog.open(DialogComponent,
-    //   {
-    //   width: '250px'
-    // }
-    );
+    const dialogRef = this.dialog.open(DialogComponent, { data: {userEmail: this.travels.userEmail}});
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
     });

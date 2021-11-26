@@ -10,23 +10,6 @@ module.exports.getByEmail = async function (req, res) {
     }
 }
 
-module.exports.createComplaint = async function (req, res) {
-    try {
-        const complaint = new Complaint({
-            complaints: [
-                {
-                    complaintDescription: req.body.description
-                }
-            ],
-            email: req.body.email
-        })
-        await complaint.save();
-        res.status(201).json(complaint);
-    } catch (e) {
-        errorHandler(res, e);
-    }
-}
-
 module.exports.updateComplaint = async function (req, res) {
     try {
         const complaintCandidate = await Complaint.findOne({email: req.body.email});
@@ -38,6 +21,35 @@ module.exports.updateComplaint = async function (req, res) {
             }
         })
         res.status(201).json(complaint);
+    } catch (e) {
+        errorHandler(res, e);
+    }
+}
+
+
+module.exports.createComplaint = function (req, res) {
+    try {
+        Complaint.findOne({email: req.body.email}).then(data => {
+            if (data) {
+                data.updateOne({
+                    $push: {
+                        complaints: {
+                            complaintDescription: req.body.description
+                        }
+                    }
+                }).then(updatedData => res.status(201).json(updatedData))
+            } else {
+                const complaint = new Complaint({
+                    complaints: [
+                        {
+                            complaintDescription: req.body.description
+                        }
+                    ],
+                    email: req.body.email
+                })
+                complaint.save().then(data => res.status(201).json(data))
+            }
+        })
     } catch (e) {
         errorHandler(res, e);
     }

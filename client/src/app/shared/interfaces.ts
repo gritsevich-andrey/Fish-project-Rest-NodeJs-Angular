@@ -30,4 +30,5 @@ export interface Travel{
   travelTarget: string,
   travelTechnique: [string],
   travelType: string
+  userEmail: string;
 }

@@ -12,7 +12,7 @@ const travelSchema = new Schema({
     },
     travelTarget: {
         type: String,
-        required: true,
+        default: '0'
     },
     travelTechnique: [{
         type: String,
