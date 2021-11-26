@@ -3,7 +3,6 @@ import {YaReadyEvent} from "angular8-yandex-maps";
 import {TravelService} from "../../shared/services/travel.service";
 import {Travel} from "../../shared/interfaces";
 import {EmitterService} from "../../shared/services/emitter.service";
-import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-map-travel',

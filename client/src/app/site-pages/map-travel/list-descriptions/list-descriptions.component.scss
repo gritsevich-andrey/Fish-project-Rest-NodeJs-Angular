@@ -10,5 +10,14 @@
   font-weight: 500;
 }
 .mat-card-subtitle {
-  margin-bottom: 0px!important;
+  margin-bottom: 0 !important;
+}
+.img-width{
+  max-width: 100%;
+}
+img{
+  display: block;
+  height: 10rem;
+  margin-left: auto;
+  margin-right: auto
 }

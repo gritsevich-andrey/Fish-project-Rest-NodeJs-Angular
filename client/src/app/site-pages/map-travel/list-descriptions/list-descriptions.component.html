@@ -1,15 +1,18 @@
 <mat-card class="list-card-width">
-  <mat-card-title>{{travels.title}}</mat-card-title>
+  <mat-card-title><img class="img-width" [src]="travels.imageSrc || imageNull"></mat-card-title>
   <mat-card-subtitle><b>Цена за чел.</b> {{travels.costPerPeople}}</mat-card-subtitle>
   <mat-card-subtitle><b>Кол-во чел.</b> {{travels.peoplesCount}}</mat-card-subtitle>
   <mat-card-content>
+    <p><b>Куда:</b> {{travels.address}}</p>
+    <p><b>Когда:</b> {{travels.date | date: 'dd.MM.yyyy'}}</p>
     <p>{{travels.description}}</p>
     <p><b>Техника:</b> {{travels.travelTechnique}}</p>
   </mat-card-content>
   <mat-card-actions>
-    <a mat-button (click)="openDialog()">Пожаловаться</a>
-    <button matTooltip="Написать организатору" mat-button><mat-icon> message</mat-icon></button>
-    <button mat-button>SHARE</button>
+    <a matTooltip="Написать организатору" mat-button (click)="openChatDialog(travels.userEmail)">
+      <mat-icon>message</mat-icon>
+    </a>
+    <a matTooltip="Жалоба на организатора или поездку" mat-button (click)="openDialog()">Пожаловаться</a>
   </mat-card-actions>
 </mat-card>
 

@@ -1,8 +1,9 @@
 export interface User {
   email: string,
   password: string,
-  role:[string]
+  role: [string]
 }
+
 export interface Photo {
   imageSrc: string,
   userEmail: string,
@@ -10,6 +11,7 @@ export interface Photo {
   moderation: boolean,
   public: boolean
 }
+
 export interface SocketMessageDto {
   userEmail: string;
   receiverEmail?: string;
@@ -19,9 +21,11 @@ export interface SocketMessageDto {
     date: Date
   }]
 }
-export interface Travel{
-    endPoint: [{latitude: string, longitude: string}],
-    startPoint: [{latitude: string, longitude: string}],
+
+export interface Travel {
+  userEmail: string;
+  endPoint: [{ latitude: string, longitude: string }],
+  startPoint: [{ latitude: string, longitude: string }],
   costPerPeople: string,
   description: string,
   isPublic: true,
@@ -30,4 +34,7 @@ export interface Travel{
   travelTarget: string,
   travelTechnique: [string],
   travelType: string
+  imageSrc: string
+  address: string;
+  date: string;
 }
