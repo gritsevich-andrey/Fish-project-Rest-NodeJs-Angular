@@ -6,7 +6,6 @@
       [(ngModel)]="valueRadio"
       (change)="changeRadioValue()"
     >
-      <label id="radio-group-label">Список объектов</label>
       <mat-radio-button class="radio-button" (click)="valueRadio=''"><b>Все поездки</b></mat-radio-button>
       <mat-radio-button class="radio-button" *ngFor="let place of travels" [value]="place.title">
         {{place.title}}
@@ -25,9 +24,9 @@
         <ya-placemark *ngFor="let endPoint of coordinate.endPoint"
                       [geometry]="[endPoint.latitude, endPoint.longitude]" [properties]="{
     balloonContentHeader: coordinate.title,
-    balloonContentBody: coordinate.description,
-    balloonContentFooter:  coordinate.costPerPeople,
-    hintContent: coordinate.peoplesCount}"></ya-placemark>
+    balloonContentBody: coordinate.description + '<br>Когда:' + coordinate.date + '<br>Кол-во людей: ' + coordinate.peoplesCount,
+    balloonContentFooter: 'Цена за чел: ' + coordinate.costPerPeople,
+    hintContent: 'Место: ' + coordinate.address}"></ya-placemark>
       </div>
 
     </ya-map>

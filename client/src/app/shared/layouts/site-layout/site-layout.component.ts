@@ -36,21 +36,25 @@ export class SiteLayoutComponent implements OnInit {
   ]
   footer_links: any[] = [
     {
-      title: 'Ссылка 1',
-      href: '#'
+      title: 'Карта путешествий',
+      href: 'map-travel',
+      icon: 'beach_access'
     },
     {
-      title: 'Ссылка 2',
-      href: '#'
+      title: 'Мои поездки',
+      href: 'travel',
+      icon: 'flight'
     },
     {
-      title: 'Ссылка 3',
-      href: '#'
+      title: 'Личный кабинет',
+      href: 'cabinet',
+      icon: 'contacts'
     },
     {
-      title: 'Ссылка 4',
-      href: '#'
-    },
+      title: 'Чат',
+      href: 'chat',
+      icon: 'chat'
+    }
   ]
   constructor() { }
 
