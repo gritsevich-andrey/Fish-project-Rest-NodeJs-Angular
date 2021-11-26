@@ -8,6 +8,7 @@ import {RouterModule} from "@angular/router";
 import {DuplicatePipe} from './pipes/duplicate.pipe';
 import {SearchFilterPipe} from "../pipe/search-filter.pipe";
 import {EmitterService} from "./services/emitter.service";
+import {MatIconModule} from "@angular/material/icon";
 
 @NgModule({
   declarations: [
@@ -17,11 +18,12 @@ import {EmitterService} from "./services/emitter.service";
     DuplicatePipe,
     SearchFilterPipe
   ],
-  imports: [
-    CommonModule,
-    RouterModule,
-    FormsModule
-  ],
+    imports: [
+        CommonModule,
+        RouterModule,
+        FormsModule,
+        MatIconModule
+    ],
   exports: [
     HeaderComponent,
     TopMenuComponent,
