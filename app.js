@@ -39,7 +39,7 @@ app.use('/api/administrator', administratorRoutes);
 app.use('/api/photo', photoRoutes);
 app.use('/api/comments', commentsRoutes);
 app.use('/api/travels', travelsRoutes);
-app.use('/chat', chatRoutes);
+app.use('/api/chat', chatRoutes);
 
 if (process.env.NODE_ENV === 'production') {
 app.use(express.static('client/dist/fish'))

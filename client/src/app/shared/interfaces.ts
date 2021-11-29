@@ -20,6 +20,8 @@ export interface SocketMessageDto {
   }]
 }
 export interface Travel{
+  date: Date;
+  address: string;
     endPoint: [{latitude: string, longitude: string}],
     startPoint: [{latitude: string, longitude: string}],
   costPerPeople: string,
@@ -29,5 +31,6 @@ export interface Travel{
   title: string,
   travelTarget: string,
   travelTechnique: [string],
-  travelType: string
+  travelType: string;
+  imageSrc: string;
 }
