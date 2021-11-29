@@ -2,6 +2,10 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Travel} from "../../../shared/interfaces";
 import {MatDialog} from "@angular/material/dialog";
 import {DialogComponent} from "./dialog/dialog.component";
+import {ChatDialogComponent} from "./chat-dialog/chat-dialog.component";
+import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
+import {mimeType} from "../../cabinet/mime-type.validator";
+import {ReviewComponent} from "./review/review.component";
 
 @Component({
   selector: 'app-list-descriptions',
@@ -10,8 +14,16 @@ import {DialogComponent} from "./dialog/dialog.component";
 })
 export class ListDescriptionsComponent implements OnInit {
   //@ts-ignore
-@Input() travels: Travel;
-  constructor(public dialog: MatDialog) { }
+  @Input() travels: Travel;
+  imageNull = 'uploads/avatar.jpg';
+  //@ts-ignore
+  form: FormGroup;
+  constructor(public dialog: MatDialog) {
+    this.form = new FormGroup({
+      rating: new FormControl('', Validators.required)
+    });
+
+  }
 
   ngOnInit(): void {
     console.log(this.travels);
@@ -19,12 +31,27 @@ export class ListDescriptionsComponent implements OnInit {
 
   openDialog() {
     const dialogRef = this.dialog.open(DialogComponent,
-    //   {
-    //   width: '250px'
-    // }
+      //   {
+      //   width: '250px'
+      // }
     );
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
+    dialogRef.afterClosed().subscribe();
+  }
+  openChatDialog(receiverEmail: string) {
+    const dialogRef = this.dialog.open(ChatDialogComponent,
+      {
+        data: receiverEmail
+      }
+    );
+    dialogRef.afterClosed().subscribe();
+  }
+
+  openReviewDialog(receiverEmail: string) {
+    const dialogRef = this.dialog.open(ReviewComponent,
+      {
+        data: receiverEmail
+      }
+    );
+    dialogRef.afterClosed().subscribe();
   }
 }

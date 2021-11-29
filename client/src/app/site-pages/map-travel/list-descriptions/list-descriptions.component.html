@@ -7,10 +7,17 @@
     <p><b>Когда:</b> {{travels.date | date: 'dd.MM.yyyy'}}</p>
     <p>{{travels.description}}</p>
     <p><b>Техника:</b> {{travels.travelTechnique}}</p>
+    <form [formGroup]="form">
+      <div><ngx-star-rating formControlName="rating" [id]="'rating'"></ngx-star-rating></div>
+      <div>Рейтинг: {{form.value.rating}}</div>
+    </form>
   </mat-card-content>
   <mat-card-actions>
-    <a matTooltip="Написать организатору" mat-button (click)="openChatDialog(travels.userEmail)">
+    <a matTooltip="Написать в чат организатору поездки" mat-button (click)="openChatDialog(travels.userEmail)">
       <mat-icon>message</mat-icon>
+    </a>
+    <a matTooltip="Написать отзыв" mat-button (click)="openReviewDialog(travels.userEmail)">
+      <mat-icon>rate_review</mat-icon>
     </a>
     <a matTooltip="Жалоба на организатора или поездку" mat-button (click)="openDialog()">Пожаловаться</a>
   </mat-card-actions>
