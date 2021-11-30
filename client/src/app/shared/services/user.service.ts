@@ -17,7 +17,7 @@ export class UserService {
   }
 
   createComplaint(data: any): Observable<any> {
-    return this.http.post(environment.COMPLAINT_API, {...data} );
+    return this.http.post(environment.COMPLAINT_API, {...data});
   }
 
   getComplaintByEmail(email: string): Observable<any> {
@@ -75,4 +75,7 @@ export class UserService {
     return decoded;
   }
 
+  updateReview(email: string, review: any) {
+    return this.http.patch(environment.AUTH_API + `/update/${email}`, {review});
+  }
 }

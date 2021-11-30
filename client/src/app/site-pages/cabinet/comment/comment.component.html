@@ -1,7 +1,7 @@
-<div class="flex-column2">
+<div class="flex-column2" *ngFor="let review of reviews">
   <div>
     <mat-icon>rate_review</mat-icon>
-    <em>Время</em></div>
-  <div>От кого</div>
-  <div>Сообщение</div>
+    <em>Время</em>{{review.date}}</div>
+  <div>{{review.senderEmail}}</div>
+  <div>{{review.reviewMessage}}</div>
 </div>

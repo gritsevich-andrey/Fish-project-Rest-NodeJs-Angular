@@ -35,7 +35,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    const user: User = {
+    const user: { password: any; role: [string]; email: any } = {
       email: this.form.value.email,
       password: this.form.value.password,
       role: ['DRIVER']
