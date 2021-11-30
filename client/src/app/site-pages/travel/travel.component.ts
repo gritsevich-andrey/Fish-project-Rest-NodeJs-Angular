@@ -28,6 +28,7 @@ export class TravelComponent implements OnInit {
   endPointMap: ymaps.Map;
 
   form!: FormGroup;
+  techniqueForm!: FormGroup;
   userEmail!: string
   userTravels: any[] = []
   isTechnique = false
@@ -51,7 +52,7 @@ export class TravelComponent implements OnInit {
     this.form = new FormGroup({
       travelType: new FormControl('', Validators.required),
       travelTarget: new FormControl('', Validators.required),
-      peoplesCount: new FormControl('', Validators.required),
+      peoplesCount: new FormControl(''),
       costPerPeople: new FormControl('', Validators.required),
       description: new FormControl('', Validators.required),
       travelTechnique: new FormControl(''),
@@ -63,6 +64,11 @@ export class TravelComponent implements OnInit {
       endPointAddress: new FormControl('', Validators.required),
       file: new FormControl('')
     });
+
+    this.techniqueForm = new FormGroup({
+      title: new FormControl('', Validators.required),
+      license: new FormControl('', Validators.required),
+    })
   }
 
   ngOnInit(): void {
@@ -143,6 +149,7 @@ export class TravelComponent implements OnInit {
       file: this.form.controls.file.value,
       isPublic: true
     }
+
     if (this.form.valid) {
       if (type === 'create') {
         this.travelService.createTravel(this.travelData).subscribe(
@@ -326,5 +333,34 @@ export class TravelComponent implements OnInit {
 
   compare(a: string | number, b: string | number, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+
+  setTechnique(cabinet: any) {
+    this.cabinetService.updateCabinetData(cabinet).subscribe(
+      () => {
+        const closeButton: any = document.getElementById('close-tech-modal')
+        closeButton.click()
+        this.techniqueForm.reset()
+        this.loadTransport()
+        MaterialService.toast('Вы успешно загрузили технику')
+      },
+      error => console.log(error)
+    )
+  }
+
+  techniqueFormSubmit() {
+    if (this.techniqueForm.valid) {
+      this.cabinetService.getCabinetData(this.userEmail).subscribe(
+        data => {
+          let tech = [{
+            name: this.techniqueForm.controls.title.value,
+            license: this.techniqueForm.controls.license.value
+          }]
+          data.technique = tech
+          this.setTechnique(data)
+        },
+        error => console.log(error)
+      )
+    } else MaterialService.toast('Заполните все поля')
   }
 }
