@@ -44,7 +44,8 @@ module.exports.register = async function (req, res) {
             email: req.body.email,
             password: bcrypt.hashSync(password, salt),
             role: req.body.role,
-            banned: req.body.banned
+            banned: req.body.banned,
+            review: req.review
         });
         try {
             await user.save()
@@ -105,4 +106,17 @@ module.exports.restorePassword = async function (req, res) {
     } catch (e) {
         errorHandler(res, e);
     }
+}
+module.exports.update = function (req, res) {
+    const update = {
+        review: req.body.review,
+        rating: req.body.rating
+    }
+        User.findOneAndUpdate(
+            {email: req.body.email},
+            {$set: update},
+            {new: true}
+        )
+            .then(user => res.status(200).json(user))
+            .catch(err => errorHandler(res, err))
 }

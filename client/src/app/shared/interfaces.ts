@@ -20,6 +20,7 @@ export interface SocketMessageDto {
   }]
 }
 export interface Travel{
+  userEmail: string;
   date: Date;
   address: string;
     endPoint: [{latitude: string, longitude: string}],
