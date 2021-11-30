@@ -43,6 +43,7 @@ export class CabinetComponent implements OnInit, OnDestroy {
   pageSize: number=5;
   email = this.userService.getUserDataFromLocal();
   countPage = 1;
+reviews: any[] = [];
 
   constructor(private warningService: WarningService,
               private cabinetService: CabinetService,
@@ -68,6 +69,8 @@ export class CabinetComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.techList = this.form.get('technique') as FormArray;
     this.photoSub = this.cabinetService.getCabinetData(this.email).subscribe(data => {
+      this.reviews.push(data.reviews);
+      console.log('Отзывы', data.reviews);
       this.addDataOnForm(data);
       this.isNew = false;
     });

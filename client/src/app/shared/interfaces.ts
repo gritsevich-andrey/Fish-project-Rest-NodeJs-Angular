@@ -1,7 +1,9 @@
 export interface User {
   email: string,
   password: string,
-  role:[string]
+  role:[string],
+  reviews:[any],
+  rating: number
 }
 export interface Photo {
   imageSrc: string,
@@ -20,6 +22,7 @@ export interface SocketMessageDto {
   }]
 }
 export interface Travel{
+  userEmail: string;
   date: Date;
   address: string;
     endPoint: [{latitude: string, longitude: string}],

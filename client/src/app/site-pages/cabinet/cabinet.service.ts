@@ -3,6 +3,7 @@ import {Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
 import {map} from "rxjs/operators";
+import {User} from "../../shared/interfaces";
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +12,8 @@ export class CabinetService {
   constructor(private http: HttpClient) {
   }
 
-  getCabinetData(email: string): Observable<any> {
-    return this.http.get(environment.CABINET_API + `/${email}`);
+  getCabinetData(email: string): Observable<User> {
+    return this.http.get<User>(environment.CABINET_API + `/${email}`);
   }
 
   createCabinetData(data: any, image?: File): Observable<any> {

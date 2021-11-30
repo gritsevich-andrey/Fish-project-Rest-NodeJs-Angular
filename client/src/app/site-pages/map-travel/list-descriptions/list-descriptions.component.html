@@ -8,7 +8,7 @@
     <p>{{travels.description}}</p>
     <p><b>Техника:</b> {{travels.travelTechnique}}</p>
     <form [formGroup]="form">
-      <div><ngx-star-rating formControlName="rating" [id]="'rating'"></ngx-star-rating></div>
+      <div><ngx-star-rating formControlName="rating" [id]="travels.imageSrc"></ngx-star-rating></div>
       <div>Рейтинг: {{form.value.rating}}</div>
     </form>
   </mat-card-content>

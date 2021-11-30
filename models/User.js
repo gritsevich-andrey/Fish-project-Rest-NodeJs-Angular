@@ -16,6 +16,15 @@ const userSchema = new Schema({
         enum: ['USER', 'ADMIN', 'MODERATOR', 'SUPER-ADMIN', 'DRIVER'],
         default: ['USER']
     },
+    reviews:[{
+        senderEmail: {type: String, default: ''},
+        reviewMessage: {type: String, default: ''},
+        date: Date.now()
+    }],
+    rating: {
+        type: Number,
+        default: 0
+    },
     banned: {
         type: Boolean,
         default: false
