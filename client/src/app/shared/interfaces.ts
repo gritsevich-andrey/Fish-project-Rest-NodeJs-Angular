@@ -1,4 +1,5 @@
 export interface User {
+  technique: { license: any; name: any }[];
   email: string,
   password: string,
   role:[string],
@@ -36,5 +37,4 @@ export interface Travel{
   travelTechnique: [string],
   travelType: string;
   imageSrc: string;
-  userEmail: string
 }

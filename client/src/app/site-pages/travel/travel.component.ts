@@ -356,7 +356,7 @@ export class TravelComponent implements OnInit {
             name: this.techniqueForm.controls.title.value,
             license: this.techniqueForm.controls.license.value
           }]
-          data.technique = tech
+          data.technique = tech;
           this.setTechnique(data)
         },
         error => console.log(error)
