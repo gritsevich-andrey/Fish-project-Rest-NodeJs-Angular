@@ -22,7 +22,6 @@ module.exports.getTravelById = function (req, res) {
 
 module.exports.create = function (req, res) {
     try {
-        console.log(req.body)
         const travel = new Travel({
             imageSrc: req.file ? req.file.path : '',
             userEmail: req.body.userEmail,
@@ -37,7 +36,8 @@ module.exports.create = function (req, res) {
             isPublic: true,
             travelTechnique: req.body.travelTechnique,
             date: req.body.date,
-            address: req.body.address
+            address: req.body.address,
+            isOrganizer: req.body.isOrganizer
         }).save();
         res.status(201).json(travel);
     } catch (e) {
@@ -65,6 +65,7 @@ module.exports.update = function (req, res) {
         travelTechnique: req.body.travelTechnique,
         date: req.body.date,
         address: req.body.address,
+        isOrganizer: req.body.isOrganizer
     }
     if (req.file) {
         updated.imageSrc = req.file.path;

@@ -36,6 +36,7 @@ export class TravelDto {
   address: string
   file: File
   isPublic: boolean
+  isOrganizer: boolean
 
   constructor(
     userEmail: string,
@@ -52,7 +53,8 @@ export class TravelDto {
     address: string,
     endPointAddress: string,
     file: File,
-    isPublic: boolean
+    isPublic: boolean,
+    isOrganizer: boolean
   ) {
     this.userEmail = userEmail
     this.travelType = travelType
@@ -68,5 +70,6 @@ export class TravelDto {
     this.address = endPointAddress
     this.file = file
     this.isPublic = isPublic
+    this.isOrganizer = isOrganizer
   }
 }

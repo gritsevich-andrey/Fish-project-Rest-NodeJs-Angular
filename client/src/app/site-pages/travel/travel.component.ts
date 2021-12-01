@@ -149,7 +149,8 @@ export class TravelComponent implements OnInit {
       date: this.form.controls.travelDate.value,
       address: this.form.controls.endPointAddress.value,
       file: this.form.controls.file.value,
-      isPublic: true
+      isPublic: true,
+      isOrganizer: true
     }
     if (this.form.valid) {
       if (type === 'create') {
