@@ -36,7 +36,8 @@
         data-target="editTravel"
         (click)="openEditTravel(item)"
         matTooltip="Редактировать поездку"
-      >Редактировать</button>
+      >Редактировать
+      </button>
     </td>
   </tr>
   </tbody>
@@ -52,6 +53,29 @@
     Предложить поездку
   </button>
 </div>
+
+<div id="addTransport" class="modal">
+  <form [formGroup]="techniqueForm" (ngSubmit)="techniqueFormSubmit()">
+    <div class="modal-content">
+      <h1>Добавьте технику</h1>
+      <div class="input-field col s6">
+        <input placeholder="Название техники" type="text" class="validate"
+               matTooltip="Указать технику, на которой оказываются услуги"
+               formControlName="title">
+      </div>
+      <div class="input-field col s6">
+        <input placeholder="Права на управление" type="text" class="validate"
+               matTooltip="Указать категорию прав на управление"
+               formControlName="license">
+      </div>
+      <div>
+        <button id="close-tech-modal" class="waves-effect waves-light btn modal-close" type="button">Отмена</button>
+        <button class="waves-effect waves-light btn" type="submit">Сохранить</button>
+      </div>
+    </div>
+  </form>
+</div>
+
 <input (change)="setTravelDate($event)" [hidden]="true" type="text" class="datepicker" #datepicker>
 <div id="makeOffer" class="modal">
   <div class="mat-form-field-flex">
@@ -74,18 +98,25 @@
           <button class="waves-effect waves-light btn" type="button" (click)="inputFile.click()">Выбрать изображение
           </button>
         </div>
-        <div class="input-field">
+        <div class="input-field select-field-item">
           <select formControlName="travelType" class="icons" (change)="travelTypeChange()">
             <option value="" disabled selected>Выбрать технику</option>
             <option value="onFoot" class="left">Нет</option>
             <option value="technique" class="left">Выбрать</option>
           </select>
         </div>
-        <div *ngIf="isTechnique" class="input-field col s12 m6">
-          <select class="browser-default" formControlName="travelTechnique" multiple>
-            <!--            <option value="" disabled selected>Выберите технику</option>-->
-            <option *ngFor="let transport of transports" value="{{transport.name }}">{{transport.name}}</option>
-          </select>
+        <div *ngIf="isTechnique" class="input-field select-field-item col s12 m6">
+          <div *ngIf="transports.length !== 0">
+            <select class="browser-default" formControlName="travelTechnique" multiple>
+              <!--            <option value="" disabled selected>Выберите технику</option>-->
+              <option *ngFor="let transport of transports" value="{{transport.name }}">{{transport.name}}</option>
+            </select>
+          </div>
+          <div *ngIf="transports.length === 0">
+            <strong>У вас нет техники</strong>
+            <button data-target="addTransport" class="waves-effect waves-light btn modal-trigger">Добавить технику
+            </button>
+          </div>
         </div>
         <div class="buttonBlock">
           <span>Куда поехать?</span>
@@ -96,7 +127,7 @@
           <span>Откуда выезд?</span>
           <button data-target="endPointMap" class="waves-effect waves-light btn modal-trigger">Указать на карте</button>
         </div>
-        <div class="input-field">
+        <div class="input-field select-field-item">
           <select class="icons" formControlName="travelTarget">
             <option value="" selected disabled>Цель поездки</option>
             <option value="Охота" class="left">Охота</option>
@@ -192,7 +223,7 @@
           <button class="waves-effect waves-light btn" type="button" (click)="inputFile.click()">Выбрать изображение
           </button>
         </div>
-        <div class="input-field">
+        <div class="input-field select-field-item">
           <select formControlName="travelType" class="icons" (change)="travelTypeChange()">
             <option value="" disabled selected>Выбрать технику</option>
             <option value="onFoot" class="left">Нет</option>
@@ -214,7 +245,7 @@
           <span>Откуда выезд?</span>
           <button data-target="endPointMap" class="waves-effect waves-light btn modal-trigger">Указать на карте</button>
         </div>
-        <div class="input-field">
+        <div class="input-field select-field-item">
           <select class="icons" formControlName="travelTarget">
             <option value="" selected disabled>Цель поездки</option>
             <option value="Охота" class="left">Охота</option>

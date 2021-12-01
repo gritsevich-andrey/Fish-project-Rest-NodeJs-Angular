@@ -1,6 +1,7 @@
 form {
   div {
     margin-bottom: 10px;
+
     &:last-child {
       margin-bottom: 0;
     }
@@ -30,18 +31,20 @@ form {
   display: none;
 }
 
-:host ::ng-deep .select-wrapper input.select-dropdown {
+.select-field-item {
   width: 200px!important;
 }
 
 input[type=number] {
   max-width: 200px;
 }
+
 textarea {
   height: 100%;
 }
+
 .ml10 {
-  margin-left: 10px!important;
+  margin-left: 10px !important;
 }
 
 .addPhoto {
