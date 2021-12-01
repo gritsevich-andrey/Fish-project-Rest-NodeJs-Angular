@@ -1,4 +1,5 @@
 export interface User {
+  technique: { license: any; name: any }[];
   email: string,
   password: string,
   role:[string],
