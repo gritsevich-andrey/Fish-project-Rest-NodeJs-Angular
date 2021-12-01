@@ -36,5 +36,4 @@ export interface Travel{
   travelTechnique: [string],
   travelType: string;
   imageSrc: string;
-  userEmail: string
 }

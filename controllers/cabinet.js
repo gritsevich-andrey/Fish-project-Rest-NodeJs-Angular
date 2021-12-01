@@ -48,7 +48,6 @@ module.exports.create = async function (req, res) {
     try {
         const isCabinet = await Cabinet.findOne({email: req.body.email});
         if (!isCabinet) {
-            console.log( req.body)
             const cabinet = new Cabinet(
                 {
                     email: req.body.email,

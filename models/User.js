@@ -19,7 +19,10 @@ const userSchema = new Schema({
     reviews:[{
         senderEmail: {type: String, default: ''},
         reviewMessage: {type: String, default: ''},
-        date: Date.now()
+        date: {
+            type: Date,
+            default: Date.now()
+        }
     }],
     rating: {
         type: Number,

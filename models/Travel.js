@@ -56,6 +56,10 @@ const travelSchema = new Schema({
     },
     imageSrc: {
         type: String,
+    },
+    isOrganizer: {
+        type: Boolean,
+        default: false
     }
 })
 module.exports = mongoose.model('travels', travelSchema)

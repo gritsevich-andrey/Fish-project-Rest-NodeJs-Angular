@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 import {UserService} from "../../shared/services/user.service";
 import {TravelService} from "../../shared/services/travel.service";
 import {CabinetService} from "../cabinet/cabinet.service";
@@ -42,6 +42,8 @@ export class TravelComponent implements OnInit {
   // @ts-ignore
   travelData: TravelDto;
   isDriver = false
+  //@ts-ignore
+  public techList: FormArray;
 
   constructor(
     private userService: UserService,
@@ -55,7 +57,7 @@ export class TravelComponent implements OnInit {
       peoplesCount: new FormControl(''),
       costPerPeople: new FormControl('', Validators.required),
       description: new FormControl('', Validators.required),
-      travelTechnique: new FormControl(''),
+      travelTechnique: new FormControl(),
       startPointLatitude: new FormControl('', Validators.required),
       startPointLongitude: new FormControl('', Validators.required),
       endPointLatitude: new FormControl('', Validators.required),
@@ -66,12 +68,12 @@ export class TravelComponent implements OnInit {
     });
 
     this.techniqueForm = new FormGroup({
-      title: new FormControl('', Validators.required),
-      license: new FormControl('', Validators.required),
+      technique: new FormArray([]),
     })
   }
 
   ngOnInit(): void {
+    this.techList = this.techniqueForm.get('technique') as FormArray;
     this.isDriver = this.userService.getUserRole().includes('DRIVER')
     if (!this.isDriver) {
       //this.form.controls.peoplesCount.setValue(что-то)
@@ -149,13 +151,13 @@ export class TravelComponent implements OnInit {
       file: this.form.controls.file.value,
       isPublic: true
     }
-
     if (this.form.valid) {
       if (type === 'create') {
         this.travelService.createTravel(this.travelData).subscribe(
           () => {
             this.closeModal('create');
             this.getUserTravels(this.userEmail);
+            this.techniqueForm.reset()
             MaterialService.toast('Ваша поездка сохранена')
           },
           error => {
@@ -169,6 +171,7 @@ export class TravelComponent implements OnInit {
             this.closeModal('update');
             this.getUserTravels(this.userEmail);
             this.travelId = ''
+            this.techniqueForm.reset()
             MaterialService.toast('Ваша поездка обновлена')
           },
           error => {
@@ -237,7 +240,16 @@ export class TravelComponent implements OnInit {
 
   loadTransport() {
     this.cabinetService.getTransportByEmail(this.userEmail).subscribe(
-      data => this.transports = data,
+      data => {
+        this.techList.controls = []
+        data.forEach((el: any) => {
+          //@ts-ignore
+          let techArr = this.form.controls.travelTechnique.value?.[0]?.split(',');
+          if(techArr?.includes(el.name))
+            el.selected = true
+          this.addTechnique(el)
+        })
+      },
       error => console.log(error)
     )
   }
@@ -245,7 +257,6 @@ export class TravelComponent implements OnInit {
   travelTypeChange() {
     if (this.form.controls.travelType.value === "technique") {
       this.isTechnique = true
-      this.loadTransport()
     } else this.isTechnique = false
   }
 
@@ -340,8 +351,13 @@ export class TravelComponent implements OnInit {
       () => {
         const closeButton: any = document.getElementById('close-tech-modal')
         closeButton.click()
-        this.techniqueForm.reset()
-        this.loadTransport()
+        //@ts-ignore
+        let tech = []
+        this.techList.value.forEach((el: any) => {
+          if (el.selected) tech.push(el.name)
+        })
+        //@ts-ignore
+        this.form.controls.travelTechnique.setValue(tech)
         MaterialService.toast('Вы успешно загрузили технику')
       },
       error => console.log(error)
@@ -349,18 +365,40 @@ export class TravelComponent implements OnInit {
   }
 
   techniqueFormSubmit() {
-    if (this.techniqueForm.valid) {
-      this.cabinetService.getCabinetData(this.userEmail).subscribe(
-        data => {
-          let tech = [{
-            name: this.techniqueForm.controls.title.value,
-            license: this.techniqueForm.controls.license.value
-          }]
-          data.technique = tech
-          this.setTechnique(data)
-        },
-        error => console.log(error)
-      )
-    } else MaterialService.toast('Заполните все поля')
+    this.cabinetService.getCabinetData(this.userEmail).subscribe(
+      data => {
+        let tech: any = []
+        this.techList.value.forEach((el: any) => {
+          tech.push({
+            name: el.name,
+            license: el.license
+          })
+        })
+        //@ts-ignore
+        data.technique = tech
+        this.setTechnique(data)
+      },
+      error => console.log(error)
+    )
+  }
+
+  createTechForm(data?: any): FormGroup {
+    return new FormGroup({
+      name: new FormControl(data?.name),
+      license: new FormControl(data?.license),
+      selected: new FormControl(data?.selected ?? false)
+    });
+  }
+
+  addTechnique(data?: any) {
+    this.techList.push(this.createTechForm(data));
+  }
+
+  removeTechnique(index: any) {
+    this.techList.removeAt(index);
+  }
+
+  selectTransport(index: number, status: boolean) {
+    this.techList.value[index].selected = !status
   }
 }
