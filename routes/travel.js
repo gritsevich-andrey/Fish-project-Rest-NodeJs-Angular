@@ -6,11 +6,12 @@ const router = express.Router();
 
 // http://localhost:5000/api/travels
 const authenticate = passport.authenticate('jwt', {session: false});
-router.get('/:userEmail', authenticate, controller.getTravelByUserEmail);
-router.get('/', authenticate, controller.getAllTravels);
+router.get('/:userEmail',/* authenticate,*/ controller.getTravelByUserEmail);
+router.get('/'/*, authenticate*/, controller.getAllTravels);
 router.get('/:id', authenticate, controller.getTravelById);
 router.post('/', authenticate, upload.single('image'), controller.create);
 router.patch('/:id', authenticate, upload.single('image'), controller.update);
 router.delete('/:id', authenticate, controller.remove);
+router.patch('/:id/:email' /*, authenticate*/, controller.join)
 
 module.exports = router;

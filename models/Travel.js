@@ -60,6 +60,14 @@ const travelSchema = new Schema({
     isOrganizer: {
         type: Boolean,
         default: false
-    }
+    },
+    joinedUsers: [
+        {
+            userEmail: {type: String},
+            status: {type: String, default: 'Ожидает подтверждение от водителя'},
+            payment: {type: String},
+            comment: {type: String}
+        }
+    ]
 })
 module.exports = mongoose.model('travels', travelSchema)

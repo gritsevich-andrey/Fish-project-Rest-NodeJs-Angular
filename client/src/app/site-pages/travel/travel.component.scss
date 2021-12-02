@@ -73,3 +73,16 @@ textarea {
     margin-right: 15px;
   }
 }
+
+.travelsList {
+  display: flex;
+  width: 100%;
+
+  div{
+    width: 25%;
+    margin-top: 20px;
+    button:first-child {
+      margin-right: 10px;
+    }
+  }
+}

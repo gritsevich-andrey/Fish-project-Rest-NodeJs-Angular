@@ -50,7 +50,7 @@ import {CommentComponent} from "./site-pages/cabinet/comment/comment.component";
 
 const mapConfig: YaConfig = {
   apikey: '6c5c5f61-fa87-4efd-8ad9-f652f1fd0727',
-  lang: 'en_US',
+  lang: 'ru_RU',
 };
 
 @NgModule({
