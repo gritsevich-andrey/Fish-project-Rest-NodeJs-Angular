@@ -2,7 +2,16 @@ const Travel = require('../models/Travel')
 const errorHandler = require('../utils/errorHandler')
 
 module.exports.getTravelByUserEmail = (req, res) => {
-    Travel.find({userEmail: req.params.userEmail})
+    Travel.find({
+        $or: [
+            {
+                userEmail: req.params.userEmail
+            },
+            {
+                joinedUsers: {$elemMatch: {userEmail: req.params.userEmail}}
+            }
+        ]
+    })
         .then(photos => res.status(200).json(photos))
         .catch(e => errorHandler(res, e))
 }
@@ -72,4 +81,16 @@ module.exports.update = function (req, res) {
     }
     Travel.findOneAndUpdate({_id: req.params.id}, updated).then(travel => res.status(200).json(travel))
         .catch(e => errorHandler(res, e))
+}
+
+module.exports.join = function (req, res) {
+    Travel.findById(req.params.id).then(data => {
+        data.updateOne({
+            $push: {
+                joinedUsers: {
+                    userEmail: req.params.email
+                }
+            }
+        }).then(() => res.status(200).json({message: 'пользователь успешно присоединился'}))
+    })
 }
