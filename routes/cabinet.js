@@ -13,6 +13,6 @@ router.post('/fio',authenticate,controller.getFIO)
 router.delete('/:id', authenticate, controller.remove);
 router.post('/', authenticate, upload.single('image'), controller.create);
 router.patch('/', authenticate, upload.single('image'), controller.update);
-
+router.patch('/update/:email', authenticate, controller.updateReview);
 
 module.exports = router

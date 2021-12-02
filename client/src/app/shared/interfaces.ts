@@ -3,7 +3,7 @@ export interface User {
   email: string,
   password: string,
   role:[string],
-  reviews:[any],
+  reviews:[{userEmail: string, commentText: string}],
   rating: number
 }
 export interface Photo {

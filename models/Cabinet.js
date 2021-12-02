@@ -29,6 +29,20 @@ const cabinetSchema = new Schema({
         type: String,
         default: ''
     },
+    ratings: [{
+        userEmail: {type: String, default: ''},
+        travelId: {type: String, default: ''},
+        value: {type: Number, default: 0}
+    }],
+    countRating: {
+        type: Number,
+        default: 0
+    },
+    reviews: [{
+        userEmail: {type: String, default: ''},
+        reviewText: {type: String, default: ''},
+        date: {type: Date, default: Date.now}
+    }],
     date: {
         type: Date,
         default: Date.now

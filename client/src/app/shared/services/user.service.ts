@@ -76,6 +76,6 @@ export class UserService {
   }
 
   updateReview(email: string, review: any) {
-    return this.http.patch(environment.AUTH_API + `/update/${email}`, {review});
+    return this.http.patch(environment.AUTH_API + `/${email}`, {review});
   }
 }

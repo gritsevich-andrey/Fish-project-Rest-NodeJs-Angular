@@ -56,7 +56,10 @@ module.exports.create = async function (req, res) {
                     gender: req.body.gender,
                     age: req.body.age,
                     technique: req.body.technique,
-                    juridicalPerson: req.body.juridicalPerson
+                    juridicalPerson: req.body.juridicalPerson,
+                    reviews: req.body.reviews,
+                    ratings: req.body.ratings,
+                    countRating: req.body.countRating
                 }).save();
             res.status(201).json(cabinet);
         } else {
@@ -73,7 +76,10 @@ module.exports.update = async function (req, res) {
         avatar: req.file ? req.file.path : '',
         gender: req.body.gender,
         technique: req.body.technique,
-        juridicalPerson: req.body.juridicalPerson
+        juridicalPerson: req.body.juridicalPerson,
+        reviews: req.body.reviews,
+        ratings: req.body.ratings,
+        countRating: req.body.countRating
     }
 
     if (req.file) {
@@ -86,6 +92,28 @@ module.exports.update = async function (req, res) {
             {upsert: true},
         )
         res.status(200).json(cabinet);
+    } catch (e) {
+        errorHandler(res, e);
+    }
+}
+module.exports.updateReview = async function (req, res) {
+    const updated = {
+       userEmail: req.body.userEmail,
+        reviewText: req.body.reviewText
+    }
+    console.log('Принимаем данные', updated);
+    try {
+        const cabinetFind = await Cabinet.findOne({email: req.params.email});
+        const cabinet = await cabinetFind.updateOne({
+            $push: {
+                reviews: {
+                    userEmail: req.body.userEmail,
+                    reviewText: req.body.reviewText
+                }
+            }
+        })
+        console.log('Возвращаемый объект', cabinet);
+        res.status(201).json(cabinet);
     } catch (e) {
         errorHandler(res, e);
     }

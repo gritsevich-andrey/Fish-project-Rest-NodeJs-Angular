@@ -26,6 +26,14 @@ export class CabinetService {
     return this.http.patch(environment.CABINET_API, fd);
   }
 
+  updateCabinetReview(email: string, review: { userEmail: string; reviewText: string }): Observable<any> {
+    console.log('Получаем объект для передачи', review);
+    return this.http.patch(environment.CABINET_API + `/update/${email}`, {
+      userEmail: review.userEmail,
+      reviewText: review.reviewText
+    });
+  }
+
   createFormData(data: any, image?: File) {
     const fd = new FormData();
     if (image) {
