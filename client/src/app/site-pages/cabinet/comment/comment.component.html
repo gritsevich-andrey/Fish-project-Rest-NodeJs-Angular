@@ -1,7 +1,6 @@
-<div class="flex-column2" *ngFor="let review of reviews">
-  <div>
-    <mat-icon>rate_review</mat-icon>
-    <em>Время</em>{{review.date}}</div>
-  <div>{{review.senderEmail}}</div>
-  <div>{{review.reviewMessage}}</div>
+<div class="review-container" *ngFor="let review of reviews">
+  <div class="date">
+    <mat-icon>rate_review</mat-icon>{{review.date | date: 'dd.MM.yyyy hh:mm'}}
+    <span class="sender">От кого: {{review.userEmail}}</span></div>
+  <div class="reviewText">{{review.reviewText}}</div>
 </div>

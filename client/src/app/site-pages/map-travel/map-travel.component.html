@@ -24,7 +24,7 @@
         <ya-placemark *ngFor="let endPoint of coordinate.endPoint"
                       [geometry]="[endPoint.latitude, endPoint.longitude]" [properties]="{
     balloonContentHeader: coordinate.title,
-    balloonContentBody: coordinate.description + '<br>Когда:' + coordinate.date + '<br>Кол-во людей: ' + coordinate.peoplesCount,
+    balloonContentBody: coordinate.description + '<p><img></p>' + '<br>Когда:' + coordinate.date + '<br>Кол-во людей: ' + coordinate.peoplesCount,
     balloonContentFooter: 'Цена за чел: ' + coordinate.costPerPeople,
     hintContent: 'Место: ' + coordinate.address}"></ya-placemark>
       </div>

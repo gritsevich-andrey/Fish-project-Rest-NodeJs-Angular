@@ -98,10 +98,9 @@ module.exports.update = async function (req, res) {
 }
 module.exports.updateReview = async function (req, res) {
     const updated = {
-       userEmail: req.body.userEmail,
+        userEmail: req.body.userEmail,
         reviewText: req.body.reviewText
     }
-    console.log('Принимаем данные', updated);
     try {
         const cabinetFind = await Cabinet.findOne({email: req.params.email});
         const cabinet = await cabinetFind.updateOne({
@@ -112,12 +111,34 @@ module.exports.updateReview = async function (req, res) {
                 }
             }
         })
-        console.log('Возвращаемый объект', cabinet);
         res.status(201).json(cabinet);
     } catch (e) {
         errorHandler(res, e);
     }
 }
+module.exports.updateRating = function (req, res) {
+    const updated = {
+        travelTitle: req.body.travelTitle,
+        travelId: req.body.travelId,
+        sumValue: req.body.sumValue
+    }
+    Cabinet.findOne({email: req.params.email})
+        .then(cabinet => {
+            cabinet.updateOne({
+                $push: {
+                    ratings: {
+                        travelTitle: req.body.travelTitle,
+                        travelId: req.body.travelId,
+                        sumValue: req.body.sumValue
+                    }
+                }
+            })
+                .then(value => res.status(201).json(value))
+                .catch(e => errorHandler(res, e));
+        })
+        .catch(e => errorHandler(res, e));
+}
+
 module.exports.getFIO = async function (req, res) {
     try {
         let data = []
