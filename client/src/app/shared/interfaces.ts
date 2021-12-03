@@ -4,7 +4,7 @@ export interface User {
   password: string,
   role:[string],
   reviews:[{userEmail: string, commentText: string}],
-  rating: number
+  ratings:[{travelTitle: string, travelId: string, sumValue: number}]
 }
 export interface Photo {
   imageSrc: string,
@@ -22,7 +22,8 @@ export interface SocketMessageDto {
     date: Date
   }]
 }
-export interface Travel{
+export interface Travel {
+travelId: string;
   userEmail: string;
   date: Date;
   address: string;

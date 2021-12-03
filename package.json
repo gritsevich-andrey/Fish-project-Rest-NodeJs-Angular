@@ -23,6 +23,7 @@
   "author": "Andrey Hrytsevich",
   "license": "ISC",
   "dependencies": {
+    "@types/es6-shim": "^0.31.42",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",

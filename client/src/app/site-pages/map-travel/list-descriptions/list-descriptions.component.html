@@ -20,6 +20,9 @@
       <mat-icon>rate_review</mat-icon>
     </a>
     <a matTooltip="Жалоба на организатора или поездку" mat-button (click)="openDialog()">Пожаловаться</a>
+    <a matTooltip="Сохранить рейтинг" mat-button (click)="saveRating(travels.userEmail, travels.travelId, travels.title)">
+      <mat-icon>rate_review</mat-icon>
+    </a>
   </mat-card-actions>
 </mat-card>
 

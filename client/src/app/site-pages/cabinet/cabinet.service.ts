@@ -34,6 +34,15 @@ export class CabinetService {
     });
   }
 
+  updateCabinetRating(email: string, rating: any): Observable<any> {
+    console.log('Получаем объект для передачи', rating);
+    return this.http.patch(environment.CABINET_API + `/rating/${email}`, {
+      travelTitle: rating.travelTitle,
+      travelId: rating.travelId,
+      sumValue: rating.sumValue
+    });
+  }
+
   createFormData(data: any, image?: File) {
     const fd = new FormData();
     if (image) {

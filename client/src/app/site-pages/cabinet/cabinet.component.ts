@@ -40,10 +40,13 @@ export class CabinetComponent implements OnInit, OnDestroy {
   public formRating: FormGroup;
   private photoSub!: Subscription;
   page = 0;
-  pageSize: number=5;
+  pageSize: number = 5;
   email = this.userService.getUserDataFromLocal();
   countPage = 1;
-reviews: any[] = [];
+  reviews: any[] = [];
+  ratings: any[] = [];
+  //@ts-ignore
+  sumRating: number;
 
   constructor(private warningService: WarningService,
               private cabinetService: CabinetService,
@@ -60,17 +63,24 @@ reviews: any[] = [];
       juridicalPerson: new FormControl('', Validators.required)
     });
     this.rating3 = 0;
+
     this.formRating = this.fb.group({
       rating1: ['', Validators.required],
-      rating2: [4]
+      // @ts-ignore
+      rating2: [this.sumRating]
     });
   }
 
   ngOnInit(): void {
     this.techList = this.form.get('technique') as FormArray;
     this.photoSub = this.cabinetService.getCabinetData(this.email).subscribe(data => {
-      this.reviews.push(data.reviews);
-      console.log('Отзывы', data.reviews);
+      this.reviews = data.reviews;
+      this.ratings = data.ratings;
+      this.ratings.forEach(value => {
+        this.sumRating = value.sumRating;
+        this.form.value.rating2 = value.sumRating;
+      })
+      console.log('Рейтинг', this.ratings);
       this.addDataOnForm(data);
       this.isNew = false;
     });
@@ -187,7 +197,7 @@ reviews: any[] = [];
 
   handlePageChange() {
     this.getMyPhoto();
-    this.countPage +=1;
+    this.countPage += 1;
     console.log('Объект юсер фото', this.userPhotos);
     console.log('Количество страниц', this.countPage);
   }

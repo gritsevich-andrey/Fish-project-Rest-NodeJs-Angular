@@ -95,30 +95,13 @@
       <div class="card-cabinet">
         <form [formGroup]="formRating">
           <div class="cont">
-            <span>Рейтинг в группах</span>
-            <div class="stars">
-              <ngx-star-rating formControlName="rating1" [id]="'rating'"></ngx-star-rating>
-            </div>
-            <div>Рейтинг: {{formRating.value.rating1}}</div>
-          </div>
-
-          <div class="cont">
             <span>Рейтинг в услугах</span>
-            <div class="stars">
-              <ngx-star-rating formControlName="rating2" [id]="'rating2'" [disabled]="true"></ngx-star-rating>
+            <div class="stars" *ngFor="let rating of ratings;">
+              <ngx-star-rating  formControlName="rating2" [id]="'rating2'" [disabled]="true"></ngx-star-rating>
             </div>
             <div>Рейтинг с блокировкой: {{formRating.value.rating2}}</div>
           </div>
         </form>
-
-
-        <div class="cont">
-          <span>Общий рейтинг</span>
-          <div class="stars">
-            <ngx-star-rating [(ngModel)]="rating3" [id]="'rating3'"></ngx-star-rating>
-          </div>
-          <div>Рейтинг: {{ rating3 }}</div>
-        </div>
         <app-comment [reviews]="reviews"></app-comment>
       </div>
     </mat-tab>

@@ -3,9 +3,10 @@ import {Travel} from "../../../shared/interfaces";
 import {MatDialog} from "@angular/material/dialog";
 import {DialogComponent} from "./dialog/dialog.component";
 import {ChatDialogComponent} from "./chat-dialog/chat-dialog.component";
-import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
-import {mimeType} from "../../cabinet/mime-type.validator";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ReviewComponent} from "./review/review.component";
+import {CabinetService} from "../../cabinet/cabinet.service";
+import {UserService} from "../../../shared/services/user.service";
 
 @Component({
   selector: 'app-list-descriptions',
@@ -18,11 +19,14 @@ export class ListDescriptionsComponent implements OnInit {
   imageNull = 'uploads/avatar.jpg';
   //@ts-ignore
   form: FormGroup;
-  constructor(public dialog: MatDialog) {
+  constructor(public dialog: MatDialog,
+              private cabinetService: CabinetService,
+              private userService: UserService,
+
+              ) {
     this.form = new FormGroup({
       rating: new FormControl('', Validators.required)
     });
-
   }
 
   ngOnInit(): void {
@@ -53,5 +57,13 @@ export class ListDescriptionsComponent implements OnInit {
       }
     );
     dialogRef.afterClosed().subscribe();
+  }
+
+  saveRating(receiverEmail: string, travelId: string, travelTitle: string) {
+    const rating = {travelId,
+      travelTitle,
+      sumValue: this.form.value.rating
+    };
+    this.cabinetService.updateCabinetRating(receiverEmail, rating).subscribe();
   }
 }
