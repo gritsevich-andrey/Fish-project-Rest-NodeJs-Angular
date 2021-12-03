@@ -84,13 +84,27 @@ module.exports.update = function (req, res) {
 }
 
 module.exports.join = function (req, res) {
-    Travel.findById(req.params.id).then(data => {
+    Travel.findById(req.body.id).then(data => {
         data.updateOne({
             $push: {
                 joinedUsers: {
-                    userEmail: req.params.email
+                    userEmail: req.body.email
                 }
             }
         }).then(() => res.status(200).json({message: 'пользователь успешно присоединился'}))
     })
+}
+
+module.exports.changeUserStatus = function (req, res) {
+    Travel.findById(req.body.travelId)
+        .then(data => {
+            let userIndex = data.joinedUsers.findIndex(el => el.userEmail === req.body.userEmail)
+            data.update({
+                '$set': {
+                    [`joinedUsers.${userIndex}.status`]: req.body.status
+                }
+            }).then(() => {
+                res.status(200).json({message: 'статус обновлен'})
+            })
+        })
 }

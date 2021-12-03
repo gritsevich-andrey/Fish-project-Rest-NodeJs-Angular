@@ -1,0 +1,31 @@
+<div>
+  Свободные места - {{travel.peoplesCount - getJoinedUsers(travel.joinedUsers).length}} / {{travel.peoplesCount }}
+</div>
+Статус - {{getUserStatus(userEmail, travel)}}
+<div *ngIf="getUserStatus(userEmail, travel) === 'Ожидает оплаты'">
+  <button
+    data-target="makeOffer"
+    matTooltip="Оплатить поездку"
+    class="btn"
+  >
+    Оплатить
+  </button>
+</div>
+<div *ngIf="getUserStatus(userEmail, travel) === 'Оплачено'">
+  <h3>Присоединившиеся пользователи</h3>
+  <table>
+    <thead>
+    <tr>
+      <th>№</th>
+      <th>ФИО</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let user of getPayedUsers(travel), let j = index">
+      <td>{{j + 1}}</td>
+      <td>{{user.fio}}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<hr/>

@@ -31,10 +31,17 @@ export interface Travel{
   costPerPeople: string,
   description: string,
   isPublic: true,
-  peoplesCount: string,
+  peoplesCount: number,
   title: string,
   travelTarget: string,
   travelTechnique: [string],
   travelType: string;
   imageSrc: string;
+  joinedUsers: [{
+    userEmail: string
+    fio: string
+    status: string
+    comment: string
+  }]
+  _id: string
 }

@@ -1,47 +1,4 @@
 <h1>Список предложенных мест</h1>
-<!--<table matSort (matSortChange)="sortData($event)">-->
-<!--  <thead>-->
-<!--  <tr>-->
-<!--    <th>№</th>-->
-<!--    <th mat-sort-header="title">Название</th>-->
-<!--    <th mat-sort-header="date">Дата</th>-->
-<!--    <th>Описание</th>-->
-<!--    <th>Повторить/скрыть</th>-->
-<!--    <th>Редактировать</th>-->
-<!--  </tr>-->
-<!--  </thead>-->
-<!--  <tbody>-->
-<!--  <tr *ngFor="let item of userTravels, let i = index">-->
-<!--    <td>{{i + 1}}</td>-->
-<!--    <td>{{item.title}}</td>-->
-<!--    <td>{{item.date | date:'dd/MM/yyyy'}}</td>-->
-<!--    <td>{{item.description}}</td>-->
-<!--    <td>-->
-<!--      <a-->
-<!--        *ngIf="item.isPublic"-->
-<!--        class="waves-effect waves-light btn"-->
-<!--        matTooltip="Скрыть поездку на карте"-->
-<!--        (click)="setTravelPublic(item._id)"-->
-<!--      >Скрыть</a>-->
-<!--      <a-->
-<!--        *ngIf="!item.isPublic"-->
-<!--        class="waves-effect waves-light btn"-->
-<!--        (click)="setTravelPublic(item._id)"-->
-<!--        matTooltip="Повторить поездку"-->
-<!--      >Повторить</a>-->
-<!--    </td>-->
-<!--    <td>-->
-<!--      <button-->
-<!--        class="waves-effect waves-light btn modal-trigger"-->
-<!--        data-target="editTravel"-->
-<!--        (click)="openEditTravel(item)"-->
-<!--        matTooltip="Редактировать поездку"-->
-<!--      >Редактировать-->
-<!--      </button>-->
-<!--    </td>-->
-<!--  </tr>-->
-<!--  </tbody>-->
-<!--</table>-->
 
 <div matSort (matSortChange)="sortData($event)">
   <div class="travelsList">
@@ -55,50 +12,8 @@
       <strong>Описание</strong>
     </div>
   </div>
-  <hr/>
   <div *ngFor="let item of userTravels, let i = index">
-    <div class="travelsList">
-      <div>
-        {{item.title}}
-      </div>
-      <div>
-        {{item.date | date:'dd/MM/yyyy'}}
-      </div>
-      <div>
-        {{item.description}}
-      </div>
-    </div>
-    Этот пользователь создатель поездки? <strong>{{userEmail === item.userEmail}}</strong>
-    <div *ngIf="userEmail === item.userEmail">
-      <a
-        *ngIf="item.isPublic"
-        class="waves-effect waves-light btn"
-        matTooltip="Скрыть поездку на карте"
-        (click)="setTravelPublic(item._id)"
-      >Скрыть
-      </a>
-      <a
-        *ngIf="!item.isPublic"
-        class="waves-effect waves-light btn"
-        (click)="setTravelPublic(item._id)"
-        matTooltip="Повторить поездку"
-      >Повторить</a>
-      <button
-        class="waves-effect waves-light btn modal-trigger"
-        data-target="editTravel"
-        matTooltip="Редактировать поездку"
-        (click)="openEditTravel(item)"
-      >Редактировать
-      </button>
-      <br/>
-      Тут будет еще другой функционал
-    </div>
-    <div *ngIf="userEmail !== item.userEmail">
-      Статус - {{getUserStatus(userEmail, item)}}
-      <br/>
-      Тут будет еще другая информация
-    </div>
-    <hr/>
+    <app-travel-item [travel]="item" [userEmail]="userEmail" [openEditTravel]="openEditTravel.bind(this)" [setTravelPublic]="setTravelPublic.bind(this)"></app-travel-item>
   </div>
 </div>
 
@@ -185,7 +100,7 @@
             <option value="Туризм" class="left">Туризм</option>
           </select>
         </div>
-        <div *ngIf="isDriver" class="input-field col s6">
+        <div class="input-field col s6">
           <input id="peoplesCount" formControlName="peoplesCount" type="number" min="1" class="validate"/>
           <label for="peoplesCount">Количество человек</label>
           <span class="helper-text red-text" *ngIf="f.peoplesCount.touched && f.peoplesCount.invalid">
@@ -248,13 +163,6 @@
   <div class="mat-form-field-flex">
     <form [formGroup]="form" (ngSubmit)="onSubmit('update')">
       <div class="modal-content">
-        <!--        <div class="input-field col s6">-->
-        <!--          <input id="travelTitle" disabled [value]="-->
-        <!--          form.controls.travelTarget.value === 'tourism' ? 'Туризм' :-->
-        <!--          form.controls.travelTarget.value === 'fishing' ? 'Рыбалка' :-->
-        <!--          form.controls.travelTarget.value === 'hunting' ? 'Охота' : ''-->
-        <!--        " type="text" class="validate" placeholder="Выберите для чего вы хотите отправиться"/>-->
-        <!--        </div>-->
         <div>
           <strong>{{form.controls.travelDate.value | date:'dd.MM.yyyy'}}</strong>
           <button (click)="datepicker.click()" class="waves-effect waves-light btn" type="button">Дата поездки</button>
@@ -304,7 +212,7 @@
             <option value="Туризм" class="left">Туризм</option>
           </select>
         </div>
-        <div *ngIf="isDriver" class="input-field col s6">
+        <div class="input-field col s6">
           <input formControlName="peoplesCount" type="number" placeholder="Количество человек" min="1"
                  class="validate"/>
           <!--          <label for="peoplesCount">Количество человек</label>-->
