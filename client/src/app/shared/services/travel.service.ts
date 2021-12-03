@@ -36,10 +36,14 @@ export class TravelService {
 
   updateTravel(data: any, travelId: string): Observable<any> {
     const formData = this.generateFormData(data)
-    return this.http.patch(environment.TRAVEL_API + '/' + travelId, formData)
+    return this.http.patch(environment.TRAVEL_API + '/update/' + travelId, formData)
   }
 
   getAllTravels(): Observable<any> {
     return this.http.get(environment.TRAVEL_API)
+  }
+
+  updateJoinedUserStatus(travelId: string, userEmail: string, status: string): Observable<any> {
+    return this.http.patch(environment.TRAVEL_API + '/change-user-status', {travelId, userEmail, status})
   }
 }

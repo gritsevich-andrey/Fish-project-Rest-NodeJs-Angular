@@ -1,0 +1,19 @@
+.travelsList {
+  display: flex;
+  width: 100%;
+
+  div{
+    width: 25%;
+    button:first-child {
+      margin-right: 10px;
+    }
+  }
+}
+
+.travel-item {
+  margin-bottom: 50px;
+}
+
+.travelItem {
+  background: #bdbdbd;
+}

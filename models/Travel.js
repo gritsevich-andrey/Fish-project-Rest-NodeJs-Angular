@@ -65,8 +65,8 @@ const travelSchema = new Schema({
         {
             userEmail: {type: String},
             status: {type: String, default: 'Ожидает подтверждение от водителя'},
-            payment: {type: String},
-            comment: {type: String}
+            comment: {type: String},
+            fio: {type: String}
         }
     ]
 })

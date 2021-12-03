@@ -1,0 +1,20 @@
+<hr/>
+<div class="travelItem">
+  <div class="travelsList">
+    <div>
+      <strong>{{travel.title}}</strong>
+    </div>
+    <div>
+      <strong>{{travel.date | date:'dd/MM/yyyy'}}</strong>
+    </div>
+    <div>
+      <strong>{{travel.description}}</strong>
+    </div>
+  </div>
+  <div *ngIf="userEmail === travel.userEmail" class="travel-item">
+    <app-created-travel [travel]="travel" [setTravelPublic]="setTravelPublic" [openEditTravel]="openEditTravel"></app-created-travel>
+  </div>
+  <div *ngIf="userEmail !== travel.userEmail" class="travel-item">
+    <app-joined-travel [travel]="travel" [userEmail]="userEmail"></app-joined-travel>
+  </div>
+</div>
