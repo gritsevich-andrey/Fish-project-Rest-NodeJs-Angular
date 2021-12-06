@@ -1,24 +1,3 @@
-// userEmail: this.userEmail,
-//   travelType: this.form.controls.travelType.value,
-//   travelTarget: this.form.controls.travelTarget.value,
-//   peoplesCount: this.form.controls.peoplesCount.value,
-//   costPerPeople: this.form.controls.costPerPeople.value,
-//   description: this.form.controls.description.value,
-//   title: this.form.controls.travelTarget.value,
-//   startPoint: [{
-//   latitude: this.form.controls.startPointLatitude.value,
-//   longitude: this.form.controls.startPointLongitude.value
-// }],
-//   endPoint: [{
-//   latitude: this.form.controls.endPointLatitude.value,
-//   longitude: this.form.controls.endPointLongitude.value
-// }],
-//   travelTechnique: this.form.controls.travelTechnique.value,
-//   date: this.form.controls.travelDate.value,
-//   address: this.form.controls.endPointAddress.value,
-//   file: this.form.controls.file.value,
-//   isPublic: true
-
 import {File} from "@angular/compiler-cli/src/ngtsc/file_system/testing/src/mock_file_system";
 
 export class TravelDto {
@@ -54,7 +33,7 @@ export class TravelDto {
     endPointAddress: string,
     file: File,
     isPublic: boolean,
-    isOrganizer: boolean
+    isOrganizer: boolean,
   ) {
     this.userEmail = userEmail
     this.travelType = travelType

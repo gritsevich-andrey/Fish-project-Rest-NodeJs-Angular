@@ -68,6 +68,10 @@ const travelSchema = new Schema({
             comment: {type: String},
             fio: {type: String}
         }
-    ]
+    ],
+    status: {
+        type: String,
+        default: ''
+    }
 })
 module.exports = mongoose.model('travels', travelSchema)

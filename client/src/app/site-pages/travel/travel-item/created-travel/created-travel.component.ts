@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Travel} from "../../../../shared/interfaces";
 import {TravelService} from "../../../../shared/services/travel.service";
+import {MaterialService} from "../../../../shared/classes/material.service";
 
 @Component({
   selector: 'app-created-travel',
@@ -14,6 +15,10 @@ export class CreatedTravelComponent implements OnInit {
   @Input() setTravelPublic;
   //@ts-ignore
   @Input() openEditTravel;
+  //@ts-ignore
+  @Input() getUserTravels;
+  //@ts-ignore
+  @Input() userEmail: string;
 
   acceptedUsers: any = [];
   notAcceptedUsers: any = [];
@@ -29,6 +34,25 @@ export class CreatedTravelComponent implements OnInit {
   }
 
   updateJoinedUserStatus(userEmail: string, status: string) {
-    this.travelService.updateJoinedUserStatus(this.travel._id, userEmail, status).subscribe()
+    if(status === 'Ожидает оплаты' && this.travel.peoplesCount == this.getJoinedUsers(this.travel.joinedUsers).length) {
+      MaterialService.toast('Уже добавлено максимальное количество пользователей')
+    } else {
+      this.travelService.updateJoinedUserStatus(this.travel._id, userEmail, status).subscribe()
+      this.getUserTravels(this.userEmail)
+    }
+  }
+
+  getJoinedUsers(users: any) {
+    return users.filter((el: any) => el.status !== 'Отказано' && el.status !== 'Ожидает подтверждение от водителя')
+  }
+
+  updateTravelStatus(travelId: string, status: string) {
+    this.travelService.updateTravelStatus(travelId, status).subscribe()
+    this.getUserTravels(this.userEmail)
+  }
+
+  checkAllUsersPayed() {
+    const PayedUsersCount = this.travel.joinedUsers.filter((el: any) => el.status === 'Оплачено').length
+    return PayedUsersCount == this.travel.peoplesCount ? true : false
   }
 }

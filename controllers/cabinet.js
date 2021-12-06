@@ -126,11 +126,7 @@ module.exports.updateRating = function (req, res) {
         .then(cabinet => {
             cabinet.updateOne({
                 $push: {
-                    ratings: {
-                        travelTitle: req.body.travelTitle,
-                        travelId: req.body.travelId,
-                        sumValue: req.body.sumValue
-                    }
+                    ratings: updated
                 }
             })
                 .then(value => res.status(201).json(value))

@@ -108,3 +108,8 @@ module.exports.changeUserStatus = function (req, res) {
             })
         })
 }
+
+module.exports.changeTravelStatus = function (req, res) {
+    Travel.findOneAndUpdate({_id: req.body.travelId}, {status: req.body.status})
+        .then((data) => res.status(200).json({message: 'статус обновлен'}))
+}

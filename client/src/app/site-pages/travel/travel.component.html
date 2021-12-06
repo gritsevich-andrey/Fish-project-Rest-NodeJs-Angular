@@ -13,7 +13,7 @@
     </div>
   </div>
   <div *ngFor="let item of userTravels, let i = index">
-    <app-travel-item [travel]="item" [userEmail]="userEmail" [openEditTravel]="openEditTravel.bind(this)" [setTravelPublic]="setTravelPublic.bind(this)"></app-travel-item>
+    <app-travel-item [getUserTravels]="getUserTravels.bind(this)" [travel]="item" [userEmail]="userEmail" [openEditTravel]="openEditTravel.bind(this)" [setTravelPublic]="setTravelPublic.bind(this)"></app-travel-item>
   </div>
 </div>
 
