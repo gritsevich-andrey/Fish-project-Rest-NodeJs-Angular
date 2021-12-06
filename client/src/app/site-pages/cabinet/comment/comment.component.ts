@@ -7,6 +7,8 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class CommentComponent implements OnInit {
 @Input() reviews: any[]=[];
+  @Input() ratings: any[]=[];
+  valueRadio = '';
   constructor() { }
 
   ngOnInit(): void {

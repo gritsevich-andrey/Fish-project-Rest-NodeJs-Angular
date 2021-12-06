@@ -92,25 +92,17 @@
       </div>
     </mat-tab>
     <mat-tab label="Рейтинг и отзывы">
+      <h2>Рейтинг и отзывы</h2>
       <div class="card-cabinet">
-<!--        <form [formGroup]="formRating">-->
-<!--          <div class="cont">-->
-<!--            <span>Рейтинг в услугах</span>-->
-<!--            <div class="stars" *ngFor="let rating of ratings;">-->
-<!--              <ngx-star-rating  formControlName="rating2"  [id]="'rating2'" [disabled]="true"></ngx-star-rating>-->
-<!--            </div>-->
-<!--            <div>Рейтинг с блокировкой: {{formRating.value.rating2}}</div>-->
+<!--        <div class="cont">-->
+<!--          <div class="stars" *ngFor="let item of ratings">-->
+<!--            <p><b>Поездка: </b>{{item.travelTitle}}</p>-->
+<!--            <ngx-star-rating [(ngModel)]="item.sumValue" [id]="item.sumValue" [disabled]="true">-->
+<!--            </ngx-star-rating>-->
+<!--            <p><b>Средний рейтинг: </b>{{item.sumValue}}</p>-->
 <!--          </div>-->
-<!--        </form>-->
-        <div class="cont">
-          <div class="stars" *ngFor="let item of ratings">
-            <p><b>Поездка: </b>{{item.travelTitle}}</p>
-            <ngx-star-rating [(ngModel)]="item.sumValue" [id]="item.sumValue" [disabled]="true">
-            </ngx-star-rating>
-            <p><b>Средний рейтинг: </b>{{item.sumValue}}</p>
-          </div>
-        </div>
-        <app-comment [reviews]="reviews"></app-comment>
+<!--        </div>-->
+        <app-comment [reviews]="reviews" [ratings]="ratings"></app-comment>
       </div>
     </mat-tab>
     <mat-tab label="Мои фото">
@@ -147,5 +139,4 @@
       ></pagination-controls>
     </mat-tab>
   </mat-tab-group>
-
 </div>

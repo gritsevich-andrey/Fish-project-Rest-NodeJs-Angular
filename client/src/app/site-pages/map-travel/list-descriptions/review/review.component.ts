@@ -24,9 +24,11 @@ export class ReviewComponent implements OnInit {
 
   saveReview() {
     const email = this.userService.getUserDataFromLocal();
-    const receiverEmail = this.data;
+    const receiverEmail = this.data.receiverEmail;
+    const travelId = this.data.travelId;
     const review = {userEmail: email,
-      reviewText: this.message
+      reviewText: this.message,
+      travelId: travelId
     };
 this.cabinetService.updateCabinetReview(receiverEmail, review).subscribe(data => {
   console.log('Ответ после сохранение отзыва в базе', data);
