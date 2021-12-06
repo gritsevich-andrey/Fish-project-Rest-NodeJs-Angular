@@ -37,6 +37,7 @@ const cabinetSchema = new Schema({
     reviews: [{
         userEmail: {type: String, default: ''},
         reviewText: {type: String, default: ''},
+        travelId: {type: String, default: ''},
         date: {type: Date, default: Date.now}
     }],
     date: {

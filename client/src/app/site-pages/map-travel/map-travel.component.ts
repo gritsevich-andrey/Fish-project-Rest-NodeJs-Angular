@@ -41,6 +41,7 @@ export class MapTravelComponent implements OnInit {
     let newArrays: any[] = [];
     this.travelService.getAllTravels().subscribe(data => {
       this.travels = data;
+      console.log('Тревел', data);
       this.travels.forEach(value => {
         titles.push(value.title);
         newArrays = removeDuplicates(titles,'objectKey');

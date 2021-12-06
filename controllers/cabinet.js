@@ -96,32 +96,25 @@ module.exports.update = async function (req, res) {
         errorHandler(res, e);
     }
 }
-module.exports.updateReview = async function (req, res) {
-    const updated = {
-        userEmail: req.body.userEmail,
-        reviewText: req.body.reviewText
-    }
-    try {
-        const cabinetFind = await Cabinet.findOne({email: req.params.email});
-        const cabinet = await cabinetFind.updateOne({
-            $push: {
-                reviews: {
-                    userEmail: req.body.userEmail,
-                    reviewText: req.body.reviewText
+module.exports.updateReview = function (req, res) {
+    Cabinet.findOne({email: req.params.email})
+        .then(cabinetFind => {
+            cabinetFind.updateOne({
+                $push: {
+                    reviews: {
+                        userEmail: req.body.userEmail,
+                        travelId: req.body.travelId,
+                        reviewText: req.body.reviewText
+                    }
                 }
-            }
+            })
+                .then(cabinet => res.status(201).json(cabinet))
+                .catch(e => errorHandler(res, e))
         })
-        res.status(201).json(cabinet);
-    } catch (e) {
-        errorHandler(res, e);
-    }
+        .catch(e => errorHandler(res, e))
 }
+
 module.exports.updateRating = function (req, res) {
-    const updated = {
-        travelTitle: req.body.travelTitle,
-        travelId: req.body.travelId,
-        sumValue: req.body.sumValue
-    }
     Cabinet.findOne({email: req.params.email})
         .then(cabinet => {
             cabinet.updateOne({

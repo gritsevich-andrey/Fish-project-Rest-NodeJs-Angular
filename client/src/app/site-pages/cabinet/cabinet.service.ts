@@ -26,16 +26,15 @@ export class CabinetService {
     return this.http.patch(environment.CABINET_API, fd);
   }
 
-  updateCabinetReview(email: string, review: { userEmail: string; reviewText: string }): Observable<any> {
-    console.log('Получаем объект для передачи', review);
+  updateCabinetReview(email: string, review: { userEmail: string; reviewText: string; travelId: string }): Observable<any> {
     return this.http.patch(environment.CABINET_API + `/update/${email}`, {
       userEmail: review.userEmail,
-      reviewText: review.reviewText
+      reviewText: review.reviewText,
+      travelId: review.travelId
     });
   }
 
   updateCabinetRating(email: string, rating: any): Observable<any> {
-    console.log('Получаем объект для передачи', rating);
     return this.http.patch(environment.CABINET_API + `/rating/${email}`, {
       travelTitle: rating.travelTitle,
       travelId: rating.travelId,

@@ -30,7 +30,6 @@ export class ListDescriptionsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.travels);
   }
 
   openDialog() {
@@ -51,9 +50,13 @@ export class ListDescriptionsComponent implements OnInit {
   }
 
   openReviewDialog(receiverEmail: string) {
+  const transferData = {
+    travelId: this.travels._id,
+    receiverEmail: receiverEmail
+  }
     const dialogRef = this.dialog.open(ReviewComponent,
       {
-        data: receiverEmail
+        data: transferData
       }
     );
     dialogRef.afterClosed().subscribe();
