@@ -7,9 +7,11 @@
       (change)="changeRadioValue()"
     >
       <mat-radio-button class="radio-button" (click)="valueRadio=''"><b>Все поездки</b></mat-radio-button>
-      <mat-radio-button class="radio-button" *ngFor="let place of travels" [value]="place.title">
-        {{place.title}}
+      <div *ngFor="let place of travels | duplicate: 'place'">
+      <mat-radio-button class="radio-button" [value]="place">
+        {{place}}
       </mat-radio-button>
+      </div>
     </mat-radio-group>
   </div>
   <div class="yandex-container">
