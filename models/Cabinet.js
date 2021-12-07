@@ -32,13 +32,15 @@ const cabinetSchema = new Schema({
     ratings: [{
         travelTitle: {type: String, default: ''},
         travelId: {type: String, default: ''},
-        sumValue: {type: Number, default: 0}
+        sumValue: {type: Number, default: 0},
+        travelName: {type: String, default: ''}
     }],
     reviews: [{
         userEmail: {type: String, default: ''},
         reviewText: {type: String, default: ''},
         travelId: {type: String, default: ''},
-        date: {type: Date, default: Date.now}
+        date: {type: Date, default: Date.now},
+        travelName: {type: String, default: ''}
     }],
     date: {
         type: Date,

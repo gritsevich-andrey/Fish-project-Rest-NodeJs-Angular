@@ -34,6 +34,10 @@ const travelSchema = new Schema({
         type: String,
         required: true,
     },
+    name: {
+        type: String,
+        default: ''
+    },
     startPoint: [{
         latitude: {type: Number},
         longitude: {type: Number}

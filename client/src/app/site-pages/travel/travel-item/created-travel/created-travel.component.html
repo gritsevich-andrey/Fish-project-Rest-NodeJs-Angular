@@ -7,11 +7,12 @@
     <th>ФИО</th>
     <th>Статус</th>
     <th>Страница пользователя</th>
-    <th *ngIf="travel.status === 'ended'">Оставить отзыв и рейтинг</th>
+    <th *ngIf="travel.status === 'ended'">Оставить отзыв</th>
+    <th *ngIf="travel.status === 'ended'">Оставить рейтинг</th>
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let user of acceptedUsers, let j = index">
+  <tr *ngFor="let user of getAcceptedUsers(), let j = index">
     <td>{{j + 1}}</td>
     <td>{{user.userEmail}}</td>
     <td>{{user.status}}</td>
@@ -19,7 +20,16 @@
       <a class="waves-effect waves-light btn" [routerLink]="'/user-profile/'+user.userEmail">Открыть профиль</a>
     </td>
     <td *ngIf="travel.status === 'ended'">
-      review and rating
+      <button class="waves-effect waves-light btn" (click)="openReviewDialog(user.userEmail)">Отзыв</button>
+    </td>
+    <td *ngIf="travel.status === 'ended'">
+      <div class="ratingContainer">
+        <form [formGroup]="form">
+          <ngx-star-rating [id]="travel._id" formControlName="rating"></ngx-star-rating>
+        </form>
+        <button class="waves-effect waves-light btn" (click)="saveRating(user.userEmail)">Сохранить рейтинг
+        </button>
+      </div>
     </td>
   </tr>
   </tbody>
@@ -38,24 +48,39 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let user of notAcceptedUsers, let j = index">
+  <tr *ngFor="let user of getNotAcceptedUsers(), let j = index">
     <td>{{j + 1}}</td>
     <td>{{user.userEmail}}</td>
     <td>{{user.status}}</td>
     <td>
+      <form [formGroup]="rejectUserForm" (ngSubmit)="rejectFormSubmit(user.userEmail)">
+        <div class="modal" id="rejectUser">
+          <div class="modal-content">
+            <h4>Напишите причину отказа</h4>
+            <div class="input-field">
+              <textarea formControlName="comment" id="rejectReason" class="materialize-textarea"></textarea>
+              <label for="rejectReason">Причина отказа</label>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn">
+              Отказать
+            </button>
+          </div>
+        </div>
+      </form>
+
       <button
-        data-target="makeOffer"
-        class="btn"
-        (click)="updateJoinedUserStatus(user.userEmail, 'Отказано')"
+        data-target="rejectUser"
+        class="btn modal-trigger"
       >
         Отказать
       </button>
     </td>
     <td>
       <button
-        data-target="makeOffer"
         class="btn"
-        (click)="updateJoinedUserStatus(user.userEmail, 'Ожидает оплаты')"
+        (click)="updateUserStatus(user.userEmail, 'Ожидает оплаты')"
       >
         Разрешить
       </button>
@@ -90,11 +115,11 @@
 </button>
 <br/>
 <button
-  *ngIf="checkAllUsersPayed() && travel.status !== 'started'"
+  *ngIf="checkAllUsersPayed() && !travel.status "
   class="waves-effect waves-light btn"
   data-target="editTravel"
   matTooltip="Начать поездку"
-  (click)="updateTravelStatus(travel._id, 'started')"
+  (click)="updateTravelStatus('started')"
 >Начать
 </button>
 <button
@@ -102,7 +127,7 @@
   class="waves-effect waves-light btn"
   data-target="editTravel"
   matTooltip="Начать поездку"
-  (click)="updateTravelStatus(travel._id, 'ended')"
+  (click)="updateTravelStatus('ended')"
 >Закончить
 </button>
 <hr/>

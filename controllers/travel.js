@@ -109,6 +109,20 @@ module.exports.changeUserStatus = function (req, res) {
         })
 }
 
+module.exports.updateUserComment = function (req, res) {
+    Travel.findById(req.body.travelId)
+        .then(data => {
+            let userIndex = data.joinedUsers.findIndex(el => el.userEmail === req.body.userEmail)
+            data.update({
+                '$set': {
+                    [`joinedUsers.${userIndex}.comment`]: req.body.comment
+                }
+            }).then(() => {
+                res.status(200).json({message: 'комментарий обновлен'})
+            })
+        })
+}
+
 module.exports.changeTravelStatus = function (req, res) {
     Travel.findOneAndUpdate({_id: req.body.travelId}, {status: req.body.status})
         .then((data) => res.status(200).json({message: 'статус обновлен'}))

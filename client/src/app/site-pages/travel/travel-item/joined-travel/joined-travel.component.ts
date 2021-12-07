@@ -14,7 +14,6 @@ export class JoinedTravelComponent implements OnInit {
   @Input() userEmail: string;
   //@ts-ignore
   @Input() getUserTravels;
-  acceptedUsers: any = [];
 
   constructor(
     public travelService: TravelService
@@ -22,21 +21,27 @@ export class JoinedTravelComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.acceptedUsers = this.travel.joinedUsers.filter(el => el.status !== 'Ожидает подтверждение от водителя' && el.status !== 'Отказано')
   }
 
-  getJoinedUsers(users: any) {
-    return users.filter((el: any) => el.status !== 'Отказано' && el.status !== 'Ожидает подтверждение от водителя')
+  getAcceptedUsers() {
+    return this.travel.joinedUsers.filter(el => el.status !== 'Ожидает подтверждение от водителя' && el.status !== 'Отказано')
   }
 
-  getUserStatus(email: string, travel: any) {
-    const {status} = travel.joinedUsers.find((el: any) => el.userEmail === email)
+  getJoinedUsers() {
+    return this.travel.joinedUsers.filter((el: any) => el.status !== 'Отказано' && el.status !== 'Ожидает подтверждение от водителя')
+  }
+
+  getUserStatus() {
+    // @ts-ignore
+    const {status} = this.travel.joinedUsers.find((el: any) => el.userEmail === this.userEmail)
     return status
   }
 
-  fakePay(userEmail: string) {
-    this.travelService.updateJoinedUserStatus(this.travel._id, userEmail, 'Оплачено').subscribe()
-    this.getUserTravels(this.userEmail)
+  fakePay() {
+    this.travelService.updateUserStatus(this.travel._id, this.userEmail, 'Оплачено').subscribe(
+      () => this.getUserTravels(this.userEmail),
+      error => console.log(error)
+    )
   }
 
   checkAllUsersPayed() {
@@ -45,7 +50,7 @@ export class JoinedTravelComponent implements OnInit {
   }
 
   getTravelStatus() {
-    const userStatus = this.getUserStatus(this.userEmail, this.travel)
+    const userStatus = this.getUserStatus()
 
     if (userStatus === 'Ожидает подтверждение от водителя') {
       return 'Ожидает подтверждение от водителя'
@@ -67,4 +72,9 @@ export class JoinedTravelComponent implements OnInit {
     }
   }
 
+  getRejectReason() {
+    //@ts-ignore
+    const {comment} = this.travel.joinedUsers.find((el: any) => el.userEmail === this.userEmail)
+    return comment
+  }
 }

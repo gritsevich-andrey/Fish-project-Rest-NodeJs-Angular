@@ -76,14 +76,16 @@ module.exports.restorePassword = async function (req, res) {
         const user = await User.findOneAndUpdate({email: req.body.email}, {password: hashPassword})
         if (user) {
             let transporter = nodemailer.createTransport({
-                service: 'gmail',
+                host: 'onloc.ru',//?
+                port: 465,//?
+                secure: true,//?
                 auth: {
-                    user: 'some-mail',
-                    pass: 'some-password'
+                    user: 'robot@onloc.ru',
+                    pass: 'robot89354' //robot89354!
                 }
             })
             let mailOptions = {
-                from: 'some-mail',
+                from: 'robot@onloc.ru',
                 to: req.body.email,
                 subject: 'Восстановление пароля',
                 html: `Новый пароль для вашего аккаунта - <b>${password}</b>, перейлите по ссылке и войдите в свой аккаунт с

@@ -43,8 +43,12 @@ export class TravelService {
     return this.http.get(environment.TRAVEL_API)
   }
 
-  updateJoinedUserStatus(travelId: string, userEmail: string, status: string): Observable<any> {
+  updateUserStatus(travelId: string, userEmail: string, status: string): Observable<any> {
     return this.http.patch(environment.TRAVEL_API + '/change-user-status', {travelId, userEmail, status})
+  }
+
+  updateUserRejectComment(travelId: string, userEmail: string, comment: string): Observable<any> {
+    return this.http.patch(environment.TRAVEL_API + '/update-user-comment', {travelId, userEmail, comment})
   }
 
   updateTravelStatus(travelId: string, status: string) {

@@ -101,10 +101,7 @@ export class TravelComponent implements OnInit {
 
   getUserTravels(userEmail: string) {
     this.travelService.getUserTravels(userEmail).subscribe(
-      data => {
-        this.userTravels = data
-        //debugger
-      },
+      data => this.userTravels = data,
       error => console.log(error)
     )
   }
@@ -400,18 +397,4 @@ export class TravelComponent implements OnInit {
   selectTransport(index: number, status: boolean) {
     this.techList.value[index].selected = !status
   }
-
-  getUserStatus(email: string, travel: any) {
-    const {status} = travel.joinedUsers.find((el: any) => el.userEmail === email)
-    return status
-  }
-
-  getJoinedUsers(users: any) {
-    return users.filter((el: any) => el.status !== 'Отказано' && el.status !== 'Ожидает подтверждение от водителя')
-  }
-
-  getPayedUsers(users: any) {
-    return users.filter((el: any) => el.status === 'Оплачено')
-  }
-
 }

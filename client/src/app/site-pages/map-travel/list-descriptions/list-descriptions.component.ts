@@ -19,11 +19,11 @@ export class ListDescriptionsComponent implements OnInit {
   imageNull = 'uploads/avatar.jpg';
   //@ts-ignore
   form: FormGroup;
+
   constructor(public dialog: MatDialog,
               private cabinetService: CabinetService,
               private userService: UserService,
-
-              ) {
+  ) {
     this.form = new FormGroup({
       rating: new FormControl('', Validators.required)
     });
@@ -40,6 +40,7 @@ export class ListDescriptionsComponent implements OnInit {
     );
     dialogRef.afterClosed().subscribe();
   }
+
   openChatDialog(receiverEmail: string) {
     const dialogRef = this.dialog.open(ChatDialogComponent,
       {
@@ -50,10 +51,10 @@ export class ListDescriptionsComponent implements OnInit {
   }
 
   openReviewDialog(receiverEmail: string) {
-  const transferData = {
-    travelId: this.travels._id,
-    receiverEmail: receiverEmail
-  }
+    const transferData = {
+      travelId: this.travels._id,
+      receiverEmail: receiverEmail
+    }
     const dialogRef = this.dialog.open(ReviewComponent,
       {
         data: transferData
@@ -63,7 +64,8 @@ export class ListDescriptionsComponent implements OnInit {
   }
 
   saveRating(receiverEmail: string, travelId: string, travelTitle: string) {
-    const rating = {travelId,
+    const rating = {
+      travelId,
       travelTitle,
       sumValue: this.form.value.rating
     };
