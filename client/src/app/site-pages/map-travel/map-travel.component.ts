@@ -38,31 +38,12 @@ export class MapTravelComponent implements OnInit {
 
   private getData() {
     const titles: any[] = [];
-    let newArrays: any[] = [];
     this.travelService.getAllTravels().subscribe(data => {
       this.travels = data;
-      console.log('Тревел', data);
       this.travels.forEach(value => {
         titles.push(value.title);
-        newArrays = removeDuplicates(titles,'objectKey');
       });
     });
-//@ts-ignore
-    function removeDuplicates(array, key) {
-      let lookup = {};
-      console.log(array, 'Внутри функции');
-      array.forEach((element: { [x: string]: string | number; }) => {
-        console.log(element, 'Внутри функции елемент');
-        // @ts-ignore
-        lookup[element[key]] = element
-      });
-      // @ts-ignore
-      return Object.keys(lookup).map(key => lookup[key]);
-    }
-
-  // removeDuplicates(titles,'objectKey')
-    console.log(titles, 'массив');
-    console.log(newArrays, 'массив 2');
   }
 
   changeRadioValue() {
