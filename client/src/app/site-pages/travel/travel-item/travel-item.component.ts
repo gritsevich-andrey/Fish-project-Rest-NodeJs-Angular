@@ -15,8 +15,11 @@ export class TravelItemComponent implements OnInit {
   @Input() setTravelPublic;
   //@ts-ignore
   @Input() openEditTravel;
+  //@ts-ignore
+  @Input() getUserTravels;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
   }

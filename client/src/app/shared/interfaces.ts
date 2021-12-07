@@ -45,4 +45,5 @@ travelId: string;
     comment: string
   }]
   _id: string
+  status: string
 }

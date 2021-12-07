@@ -101,7 +101,10 @@ export class TravelComponent implements OnInit {
 
   getUserTravels(userEmail: string) {
     this.travelService.getUserTravels(userEmail).subscribe(
-      data => this.userTravels = data,
+      data => {
+        this.userTravels = data
+        //debugger
+      },
       error => console.log(error)
     )
   }
@@ -145,7 +148,7 @@ export class TravelComponent implements OnInit {
       address: this.form.controls.endPointAddress.value,
       file: this.form.controls.file.value,
       isPublic: true,
-      isOrganizer: true
+      isOrganizer: true,
     }
     if (this.form.valid) {
       if (type === 'create') {
@@ -394,21 +397,21 @@ export class TravelComponent implements OnInit {
     this.techList.removeAt(index);
   }
 
-    selectTransport(index: number, status: boolean) {
-        this.techList.value[index].selected = !status
-    }
+  selectTransport(index: number, status: boolean) {
+    this.techList.value[index].selected = !status
+  }
 
-    getUserStatus(email: string, travel: any) {
-        const {status} = travel.joinedUsers.find((el: any) => el.userEmail === email)
-        return status
-    }
+  getUserStatus(email: string, travel: any) {
+    const {status} = travel.joinedUsers.find((el: any) => el.userEmail === email)
+    return status
+  }
 
   getJoinedUsers(users: any) {
     return users.filter((el: any) => el.status !== 'Отказано' && el.status !== 'Ожидает подтверждение от водителя')
   }
 
   getPayedUsers(users: any) {
-    return users.filter((el: any) => el.status === 'Оплачено' )
+    return users.filter((el: any) => el.status === 'Оплачено')
   }
 
 }

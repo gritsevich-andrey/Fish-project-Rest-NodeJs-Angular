@@ -1,3 +1,4 @@
+Свободные места - {{travel.peoplesCount - getJoinedUsers(travel.joinedUsers).length}} / {{travel.peoplesCount }}
 <h3>Учасники поездки</h3>
 <table>
   <thead>
@@ -5,6 +6,8 @@
     <th>№</th>
     <th>ФИО</th>
     <th>Статус</th>
+    <th>Страница пользователя</th>
+    <th *ngIf="travel.status === 'ended'">Оставить отзыв и рейтинг</th>
   </tr>
   </thead>
   <tbody>
@@ -12,6 +15,12 @@
     <td>{{j + 1}}</td>
     <td>{{user.userEmail}}</td>
     <td>{{user.status}}</td>
+    <td>
+      <a class="waves-effect waves-light btn" [routerLink]="'/user-profile/'+user.userEmail">Открыть профиль</a>
+    </td>
+    <td *ngIf="travel.status === 'ended'">
+      review and rating
+    </td>
   </tr>
   </tbody>
 </table>
@@ -25,6 +34,7 @@
     <th>Статус</th>
     <th>Отказать</th>
     <th>Разрешить</th>
+    <th>Страница пользователя</th>
   </tr>
   </thead>
   <tbody>
@@ -45,10 +55,13 @@
       <button
         data-target="makeOffer"
         class="btn"
-        (click)="updateJoinedUserStatus(user.userEmail, 'Ожидается оплата')"
+        (click)="updateJoinedUserStatus(user.userEmail, 'Ожидает оплаты')"
       >
         Разрешить
       </button>
+    </td>
+    <td>
+      <a class="waves-effect waves-light btn" [routerLink]="'/user-profile/'+user.userEmail">Открыть профиль</a>
     </td>
   </tr>
   </tbody>
@@ -74,5 +87,22 @@
   matTooltip="Редактировать поездку"
   (click)="openEditTravel(travel)"
 >Редактировать
+</button>
+<br/>
+<button
+  *ngIf="checkAllUsersPayed() && travel.status !== 'started'"
+  class="waves-effect waves-light btn"
+  data-target="editTravel"
+  matTooltip="Начать поездку"
+  (click)="updateTravelStatus(travel._id, 'started')"
+>Начать
+</button>
+<button
+  *ngIf="travel.status === 'started'"
+  class="waves-effect waves-light btn"
+  data-target="editTravel"
+  matTooltip="Начать поездку"
+  (click)="updateTravelStatus(travel._id, 'ended')"
+>Закончить
 </button>
 <hr/>
