@@ -1,27 +1,25 @@
 <mat-card class="list-card-width">
   <mat-card-title><img class="img-width" [src]="travels.imageSrc || imageNull"></mat-card-title>
-  <mat-card-subtitle><b>Цена за чел.</b> {{travels.costPerPeople}}</mat-card-subtitle>
-  <mat-card-subtitle><b>Кол-во чел.</b> {{travels.peoplesCount}}</mat-card-subtitle>
+  <mat-card-title class="center-align">{{travels.name}}</mat-card-title>
+  <mat-card-subtitle class="right-align"><b>Цена за чел.</b> {{travels.costPerPeople}}</mat-card-subtitle>
+  <mat-card-subtitle class="right-align"><b>Кол-во чел.</b> {{travels.peoplesCount}}</mat-card-subtitle>
   <mat-card-content>
+    <input type="text" value="{{travels.userEmail}}" *ngIf="travels.userEmail ? getRating(travels.userEmail): false">
     <p><b>Куда:</b> {{travels.address}}</p>
     <p><b>Когда:</b> {{travels.date | date: 'dd.MM.yyyy'}}</p>
     <p>{{travels.description}}</p>
     <p><b>Техника:</b> {{travels.travelTechnique}}</p>
-    <form [formGroup]="form">
-      <div><ngx-star-rating formControlName="rating" [id]="travels.imageSrc"></ngx-star-rating></div>
-      <div>Рейтинг: {{form.value.rating}}</div>
-    </form>
+<!--    <div class="cont">-->
+<!--      <div class="stars">-->
+<!--        <ngx-star-rating [(ngModel)]="userEmail = travels.userEmail" [id]="item.sumValue" [disabled]="true">-->
+<!--        </ngx-star-rating>-->
+<!--        <p><b>Средний рейтинг: </b>{{item.sumValue}}</p>-->
+<!--      </div>-->
+<!--    </div>-->
   </mat-card-content>
   <mat-card-actions>
     <a matTooltip="Написать в чат организатору поездки" mat-button (click)="openChatDialog(travels.userEmail)">
       <mat-icon>message</mat-icon>
-    </a>
-    <a matTooltip="Написать отзыв" mat-button (click)="openReviewDialog(travels.userEmail)">
-      <mat-icon>rate_review</mat-icon>
-    </a>
-    <a matTooltip="Жалоба на организатора или поездку" mat-button (click)="openDialog()">Пожаловаться</a>
-    <a matTooltip="Сохранить рейтинг" mat-button (click)="saveRating(travels.userEmail, travels.travelId, travels.title)">
-      <mat-icon>rate_review</mat-icon>
     </a>
   </mat-card-actions>
 </mat-card>

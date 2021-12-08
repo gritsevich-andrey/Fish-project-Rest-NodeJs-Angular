@@ -33,7 +33,7 @@ export class MapTravelComponent implements OnInit {
   }
 
   onMapReady(event: YaReadyEvent<ymaps.Map>) {
-    this.map = event.target;
+    // this.map = event.target;
   }
 
   private getData() {

@@ -6,7 +6,6 @@ import {ChatDialogComponent} from "./chat-dialog/chat-dialog.component";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ReviewComponent} from "./review/review.component";
 import {CabinetService} from "../../cabinet/cabinet.service";
-import {UserService} from "../../../shared/services/user.service";
 
 @Component({
   selector: 'app-list-descriptions',
@@ -19,10 +18,10 @@ export class ListDescriptionsComponent implements OnInit {
   imageNull = 'uploads/avatar.jpg';
   //@ts-ignore
   form: FormGroup;
+  userEmail = '';
 
   constructor(public dialog: MatDialog,
-              private cabinetService: CabinetService,
-              private userService: UserService,
+              private cabinetService: CabinetService
   ) {
     this.form = new FormGroup({
       rating: new FormControl('', Validators.required)
@@ -70,5 +69,11 @@ export class ListDescriptionsComponent implements OnInit {
       sumValue: this.form.value.rating
     };
     this.cabinetService.updateCabinetRating(receiverEmail, rating).subscribe();
+  }
+  getRating(userEmail: string) {
+   // this.cabinetService.getCabinetData(userEmail).subscribe(data => {
+   //   console.log(data);
+   // })
+    console.log(userEmail);
   }
 }

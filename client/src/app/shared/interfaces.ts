@@ -23,6 +23,7 @@ export interface SocketMessageDto {
   }]
 }
 export interface Travel {
+  name: string;
 travelId: string;
   userEmail: string;
   date: Date;

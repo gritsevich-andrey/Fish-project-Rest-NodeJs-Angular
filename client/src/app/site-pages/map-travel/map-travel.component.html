@@ -26,9 +26,15 @@
         <ya-placemark *ngFor="let endPoint of coordinate.endPoint"
                       [geometry]="[endPoint.latitude, endPoint.longitude]" [properties]="{
     balloonContentHeader: coordinate.title,
-    balloonContentBody: coordinate.description + '<p><img></p>' + '<br>Когда:' + coordinate.date + '<br>Кол-во людей: ' + coordinate.peoplesCount,
+    balloonContentBody: '<p class=mat-card-title>'+ coordinate.name + '</p>' +
+    '<img src=' + coordinate.imageSrc + ' width=150px>' + '<br/>' +
+    coordinate.description + '<br>Когда:' + coordinate.date + '<br>Кол-во людей: ' + coordinate.peoplesCount,
     balloonContentFooter: 'Цена за чел: ' + coordinate.costPerPeople,
-    hintContent: 'Место: ' + coordinate.address}"></ya-placemark>
+    hintContent: 'Место: ' + coordinate.address}"
+                      [options] = "{
+                      preset: 'islands#orangeDotIcon'
+        }"
+        ></ya-placemark>
       </div>
 
     </ya-map>
