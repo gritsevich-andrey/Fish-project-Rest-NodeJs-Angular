@@ -1,0 +1,27 @@
+<div *ngIf="userCabinet" class="userPage">
+  <div class="image-preview">
+    <img src="{{imagePreview}}" alt="avatar">
+  </div>
+
+  <strong>{{userCabinet.fio || 'Не указано'}}</strong>
+  <span>Пол - {{userCabinet.gender || 'Не указан'}}</span>
+  <span>Дата регистрации {{userCabinet.date | date:'dd.MM.yyyy'}}</span>
+  <div>
+    <div>
+      Средний рейтинг:
+      <div class="stars">
+        <ngx-star-rating [(ngModel)]="averageRating" [id]="userCabinet.date" [disabled]="true"></ngx-star-rating>
+      </div>
+    </div>
+    <div>
+      Отзывы:
+      <div *ngFor="let review of userCabinet.reviews | paginate: { itemsPerPage: 5, currentPage: reviewsPage }" class="flex">
+        <strong>{{review.userEmail}} </strong>
+        <span> - {{review.reviewText}}</span>
+      </div>
+      <pagination-controls previousLabel="Предыдущая"
+                           nextLabel="Следующая" (pageChange)="reviewsPage = $event"
+      ></pagination-controls>
+    </div>
+  </div>
+</div>

@@ -85,3 +85,13 @@ textarea {
     }
   }
 }
+
+.userPage {
+  position: sticky;
+  top: 10px;
+}
+
+.userPageContainer {
+  margin-top: 80px;
+  min-height: calc(100vh - 220px);
+}

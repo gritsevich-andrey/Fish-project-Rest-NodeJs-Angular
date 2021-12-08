@@ -17,16 +17,12 @@ declare var M: {
   styleUrls: ['./created-travel.component.scss']
 })
 export class CreatedTravelComponent implements OnInit {
-  //@ts-ignore
-  @Input() travel: Travel;
-  //@ts-ignore
-  @Input() setTravelPublic;
-  //@ts-ignore
-  @Input() openEditTravel;
-  //@ts-ignore
-  @Input() getUserTravels;
-  //@ts-ignore
-  @Input() userEmail: string;
+  @Input() travel!: Travel;
+  @Input() setTravelPublic!: any;
+  @Input() openEditTravel!: any;
+  @Input() getUserTravels!: any;
+  @Input() userEmail!: string;
+  @Input() openUserProfile!: any;
 
   form: FormGroup;
   rejectUserForm: FormGroup;

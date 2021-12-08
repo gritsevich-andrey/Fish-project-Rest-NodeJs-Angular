@@ -16,6 +16,7 @@ export class TravelDto {
   file: File
   isPublic: boolean
   isOrganizer: boolean
+  name: string
 
   constructor(
     userEmail: string,
@@ -34,6 +35,7 @@ export class TravelDto {
     file: File,
     isPublic: boolean,
     isOrganizer: boolean,
+    name: string
   ) {
     this.userEmail = userEmail
     this.travelType = travelType
@@ -50,5 +52,6 @@ export class TravelDto {
     this.file = file
     this.isPublic = isPublic
     this.isOrganizer = isOrganizer
+    this.name = name
   }
 }

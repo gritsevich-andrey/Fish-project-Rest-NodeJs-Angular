@@ -8,12 +8,10 @@ import {TravelService} from "../../../../shared/services/travel.service";
   styleUrls: ['./joined-travel.component.scss']
 })
 export class JoinedTravelComponent implements OnInit {
-  //@ts-ignore
-  @Input() travel: Travel;
-  //@ts-ignore
-  @Input() userEmail: string;
-  //@ts-ignore
-  @Input() getUserTravels;
+  @Input() travel!: Travel;
+  @Input() userEmail!: string;
+  @Input() getUserTravels!: any;
+  @Input() openUserProfile!: any;
 
   constructor(
     public travelService: TravelService
