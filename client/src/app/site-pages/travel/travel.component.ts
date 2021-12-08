@@ -33,6 +33,7 @@ export class TravelComponent implements OnInit {
   userTravels: any[] = []
   isTechnique = false
   transports: any = []
+  openedUserPage!: any;
 
   //Для отображения начальных точек
   placemarksStart: any = []
@@ -63,7 +64,8 @@ export class TravelComponent implements OnInit {
       endPointLongitude: new FormControl('', Validators.required),
       travelDate: new FormControl('', Validators.required),
       endPointAddress: new FormControl('', Validators.required),
-      file: new FormControl('')
+      file: new FormControl(''),
+      name: new FormControl('', Validators.required),
     });
 
     this.techniqueForm = new FormGroup({
@@ -146,6 +148,7 @@ export class TravelComponent implements OnInit {
       file: this.form.controls.file.value,
       isPublic: true,
       isOrganizer: true,
+      name: this.form.controls.name.value
     }
     if (this.form.valid) {
       if (type === 'create') {
@@ -396,5 +399,11 @@ export class TravelComponent implements OnInit {
 
   selectTransport(index: number, status: boolean) {
     this.techList.value[index].selected = !status
+  }
+
+  openUserProfile(userEmail: string) {
+    this.cabinetService.getCabinetData(userEmail).subscribe(data => {
+      this.openedUserPage = data
+    })
   }
 }

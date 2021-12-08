@@ -6,7 +6,6 @@
     <th>№</th>
     <th>ФИО</th>
     <th>Статус</th>
-    <th>Страница пользователя</th>
     <th *ngIf="travel.status === 'ended'">Оставить отзыв</th>
     <th *ngIf="travel.status === 'ended'">Оставить рейтинг</th>
   </tr>
@@ -14,11 +13,8 @@
   <tbody>
   <tr *ngFor="let user of getAcceptedUsers(), let j = index">
     <td>{{j + 1}}</td>
-    <td>{{user.userEmail}}</td>
+    <td (click)="openUserProfile(user.userEmail)">{{user.userEmail}}</td>
     <td>{{user.status}}</td>
-    <td>
-      <a class="waves-effect waves-light btn" [routerLink]="'/user-profile/'+user.userEmail">Открыть профиль</a>
-    </td>
     <td *ngIf="travel.status === 'ended'">
       <button class="waves-effect waves-light btn" (click)="openReviewDialog(user.userEmail)">Отзыв</button>
     </td>
@@ -44,13 +40,12 @@
     <th>Статус</th>
     <th>Отказать</th>
     <th>Разрешить</th>
-    <th>Страница пользователя</th>
   </tr>
   </thead>
   <tbody>
   <tr *ngFor="let user of getNotAcceptedUsers(), let j = index">
     <td>{{j + 1}}</td>
-    <td>{{user.userEmail}}</td>
+    <td (click)="openUserProfile(user.userEmail)" >{{user.userEmail}}</td>
     <td>{{user.status}}</td>
     <td>
       <form [formGroup]="rejectUserForm" (ngSubmit)="rejectFormSubmit(user.userEmail)">
@@ -85,34 +80,33 @@
         Разрешить
       </button>
     </td>
-    <td>
-      <a class="waves-effect waves-light btn" [routerLink]="'/user-profile/'+user.userEmail">Открыть профиль</a>
-    </td>
   </tr>
   </tbody>
 </table>
 
 <br/>
-<a
-  *ngIf="travel.isPublic"
-  class="waves-effect waves-light btn"
-  matTooltip="Скрыть поездку на карте"
-  (click)="setTravelPublic(travel._id)"
->Скрыть
-</a>
-<a
-  *ngIf="!travel.isPublic"
-  class="waves-effect waves-light btn"
-  (click)="setTravelPublic(travel._id)"
-  matTooltip="Повторить поездку"
->Повторить</a>
-<button
-  class="waves-effect waves-light btn modal-trigger"
-  data-target="editTravel"
-  matTooltip="Редактировать поездку"
-  (click)="openEditTravel(travel)"
->Редактировать
-</button>
+<div *ngIf="travel.status !== 'ended'">
+  <a
+    *ngIf="travel.isPublic"
+    class="waves-effect waves-light btn"
+    matTooltip="Скрыть поездку на карте"
+    (click)="setTravelPublic(travel._id)"
+  >Скрыть
+  </a>
+  <a
+    *ngIf="!travel.isPublic"
+    class="waves-effect waves-light btn"
+    (click)="setTravelPublic(travel._id)"
+    matTooltip="Повторить поездку"
+  >Повторить</a>
+  <button
+    class="waves-effect waves-light btn modal-trigger"
+    data-target="editTravel"
+    matTooltip="Редактировать поездку"
+    (click)="openEditTravel(travel)"
+  >Редактировать
+  </button>
+</div>
 <br/>
 <button
   *ngIf="checkAllUsersPayed() && !travel.status "

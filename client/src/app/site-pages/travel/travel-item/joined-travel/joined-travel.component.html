@@ -22,17 +22,13 @@
     <tr>
       <th>№</th>
       <th>ФИО</th>
-      <th>Страница пользователя</th>
       <th *ngIf="travel.status === 'ended'">Оставить отзыв и рейтинг</th>
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let user of getAcceptedUsers(), let j = index">
       <td>{{j + 1}}</td>
-      <td>{{user.userEmail}}</td>
-      <td>
-        <a class="waves-effect waves-light btn" [routerLink]="'/user-profile/'+user.userEmail">Открыть профиль</a>
-      </td>
+      <td (click)="openUserProfile(user.userEmail)">{{user.userEmail}}</td>
       <td *ngIf="travel.status === 'ended'">
         review and rating
       </td>

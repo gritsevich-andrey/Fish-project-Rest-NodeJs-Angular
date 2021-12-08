@@ -1,5 +1,5 @@
-<hr/>
 <div class="travelItem">
+  <hr/>
   <div class="travelsList">
     <div>
       <strong>{{travel.title}}</strong>
@@ -12,9 +12,19 @@
     </div>
   </div>
   <div *ngIf="userEmail === travel.userEmail" class="travel-item">
-    <app-created-travel [getUserTravels]="getUserTravels" [travel]="travel" [userEmail]="userEmail" [setTravelPublic]="setTravelPublic" [openEditTravel]="openEditTravel"></app-created-travel>
+    <app-created-travel [getUserTravels]="getUserTravels"
+                        [travel]="travel"
+                        [userEmail]="userEmail"
+                        [setTravelPublic]="setTravelPublic"
+                        [openEditTravel]="openEditTravel"
+                        [openUserProfile]="openUserProfile"
+    ></app-created-travel>
   </div>
   <div *ngIf="userEmail !== travel.userEmail" class="travel-item">
-    <app-joined-travel [getUserTravels]="getUserTravels" [travel]="travel" [userEmail]="userEmail"></app-joined-travel>
+    <app-joined-travel [getUserTravels]="getUserTravels"
+                       [travel]="travel"
+                       [userEmail]="userEmail"
+                       [openUserProfile]="openUserProfile"
+    ></app-joined-travel>
   </div>
 </div>

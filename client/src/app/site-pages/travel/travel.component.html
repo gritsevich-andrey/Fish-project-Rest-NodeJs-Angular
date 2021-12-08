@@ -1,19 +1,32 @@
 <h1>Список предложенных мест</h1>
 
-<div matSort (matSortChange)="sortData($event)">
-  <div class="travelsList">
-    <div mat-sort-header="title">
-      <strong>Название</strong>
+<div class="row">
+  <div class="col s8" matSort (matSortChange)="sortData($event)">
+    <div class="travelsList">
+      <div mat-sort-header="title">
+        <strong>Название</strong>
+      </div>
+      <div mat-sort-header="date">
+        <strong>Дата</strong>
+      </div>
+      <div>
+        <strong>Описание</strong>
+      </div>
     </div>
-    <div mat-sort-header="date">
-      <strong>Дата</strong>
-    </div>
-    <div>
-      <strong>Описание</strong>
+    <div *ngFor="let item of userTravels, let i = index">
+      <app-travel-item [getUserTravels]="getUserTravels.bind(this)"
+                       [travel]="item"
+                       [userEmail]="userEmail"
+                       [openEditTravel]="openEditTravel.bind(this)"
+                       [setTravelPublic]="setTravelPublic.bind(this)"
+                       [openUserProfile]="openUserProfile.bind(this)"
+      ></app-travel-item>
     </div>
   </div>
-  <div *ngFor="let item of userTravels, let i = index">
-    <app-travel-item [getUserTravels]="getUserTravels.bind(this)" [travel]="item" [userEmail]="userEmail" [openEditTravel]="openEditTravel.bind(this)" [setTravelPublic]="setTravelPublic.bind(this)"></app-travel-item>
+  <div class="col s4 userPageContainer">
+    <div class="userPage">
+      <app-user-profile [userCabinet]="openedUserPage"></app-user-profile>
+    </div>
   </div>
 </div>
 
@@ -70,6 +83,13 @@
           <input (change)="onFileLoad($event)" type="file" [hidden]="true" #inputFile>
           <button class="waves-effect waves-light btn" type="button" (click)="inputFile.click()">Выбрать изображение
           </button>
+        </div>
+        <div class="input-field col s6">
+          <input id="travelName" formControlName="name" type="text" min="1" class="validate"/>
+          <label for="travelName">Название поездки</label>
+          <span class="helper-text red-text" *ngIf="f.name.touched && f.name.invalid">
+            <small *ngIf="f.name.hasError('required')">Поле не должно быть пустым</small>
+          </span>
         </div>
         <div class="input-field select-field-item">
           <select formControlName="travelType" class="icons" (change)="travelTypeChange()">
@@ -179,6 +199,13 @@
           <input (change)="onFileLoad($event)" type="file" [hidden]="true" #inputFile>
           <button class="waves-effect waves-light btn" type="button" (click)="inputFile.click()">Выбрать изображение
           </button>
+        </div>
+
+        <div class="input-field col s6">
+          <input placeholder="Название поездки" formControlName="name" type="text" min="1" class="validate"/>
+          <span class="helper-text red-text" *ngIf="f.name.touched && f.name.invalid">
+            <small *ngIf="f.name.hasError('required')">Поле не должно быть пустым</small>
+          </span>
         </div>
 
         <div class="input-field select-field-item">
