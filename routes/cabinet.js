@@ -15,4 +15,5 @@ router.post('/', authenticate, upload.single('image'), controller.create);
 router.patch('/', authenticate, upload.single('image'), controller.update);
 router.patch('/update/:email', authenticate, controller.updateReview);
 router.patch('/rating/:email', authenticate, controller.updateRating);
+router.get('/rating/:travelId/:email', authenticate, controller.getRating);
 module.exports = router

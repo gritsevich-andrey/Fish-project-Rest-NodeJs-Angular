@@ -12,7 +12,7 @@ export class CommentComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-  console.log('Что принимает компонент отзывы', this.reviews);
+  console.log('Что принимает компонент отзывы', this.reviews, this.ratings);
   }
 
 }

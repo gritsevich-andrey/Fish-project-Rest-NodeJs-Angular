@@ -53,6 +53,7 @@ import { JoinedTravelComponent } from './site-pages/travel/travel-item/joined-tr
 import { CreatedTravelComponent } from './site-pages/travel/travel-item/created-travel/created-travel.component';
 import { RatingComponent } from './site-pages/cabinet/rating/rating.component';
 import { UserProfileComponent } from './site-pages/travel/user-profile/user-profile.component';
+import { RatingListComponent } from './site-pages/map-travel/list-descriptions/rating-list/rating-list.component';
 
 const mapConfig: YaConfig = {
   apikey: '6c5c5f61-fa87-4efd-8ad9-f652f1fd0727',
@@ -84,7 +85,8 @@ const mapConfig: YaConfig = {
     CreatedTravelComponent,
     ReviewComponent,
     RatingComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    RatingListComponent
   ],
   imports: [
     NgImageSliderModule,

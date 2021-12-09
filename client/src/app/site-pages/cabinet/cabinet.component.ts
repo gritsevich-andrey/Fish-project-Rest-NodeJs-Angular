@@ -75,6 +75,7 @@ export class CabinetComponent implements OnInit, OnDestroy {
     this.techList = this.form.get('technique') as FormArray;
     this.photoSub = this.cabinetService.getCabinetData(this.email).subscribe(data => {
       this.reviews = data.reviews;
+      console.log('Отзывы из базы', data.reviews);
       this.ratings = data.ratings;
       this.ratings.forEach(value => {
         this.sumRating = value.sumRating;
