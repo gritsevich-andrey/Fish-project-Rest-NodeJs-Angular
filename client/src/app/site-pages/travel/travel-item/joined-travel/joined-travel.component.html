@@ -1,39 +1,52 @@
-<div>
-  Свободные места - {{travel.peoplesCount - getJoinedUsers().length}} / {{travel.peoplesCount }}
+<div class="content">
+  <div class="freeSeats">
+    Свободные места - {{travel.peoplesCount - getJoinedUsers().length}} / {{travel.peoplesCount }}
+  </div>
+  <div class="status">
+    Статус - {{getTravelStatus()}}
+  </div>
+  <div class="status" *ngIf="getTravelStatus() === 'Отказано'">
+    Описание отказа - {{getRejectReason()}}
+  </div>
+  <div *ngIf="getUserStatus() === 'Ожидает оплаты'">
+    <button
+      data-target="makeOffer"
+      matTooltip="Оплатить поездку"
+      class="btn payButton"
+      (click)="fakePay()"
+    >
+      Оплатить
+    </button>
+  </div>
+  <div *ngIf="getUserStatus() === 'Оплачено'">
+    <div *ngIf="travel.status !== 'ended'">
+      <h3 class="tableTitle">Присоединившиеся пользователи</h3>
+      <table>
+        <thead>
+        <tr>
+          <th>№</th>
+          <th>ФИО</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let user of getAcceptedUsers(), let j = index">
+          <td>{{j + 1}}</td>
+          <td (click)="openUserProfile(user.userEmail)">{{user.userEmail}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div *ngIf="travel.status === 'ended'" class="reviewRatingContainer">
+      <span>Оставить отзыв:</span> <button class="waves-effect waves-light btn" (click)="openReviewDialog(travel.userEmail)">Отзыв</button>
+      <div class="ratingContainer">
+        <span>Оценить поездку:</span>
+        <form [formGroup]="form">
+          <ngx-star-rating [id]="travel._id" formControlName="rating"></ngx-star-rating>
+        </form>
+        <button class="waves-effect waves-light btn" (click)="saveRating(travel.userEmail)">Сохранить
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
-Статус - {{getTravelStatus()}}
-<div *ngIf="getTravelStatus() === 'Отказано'">
-  Описание отказа - {{getRejectReason()}}
-</div>
-<div *ngIf="getUserStatus() === 'Ожидает оплаты'">
-  <button
-    data-target="makeOffer"
-    matTooltip="Оплатить поездку"
-    class="btn"
-    (click)="fakePay()"
-  >
-    Оплатить
-  </button>
-</div>
-<div *ngIf="getUserStatus() === 'Оплачено'">
-  <h3>Присоединившиеся пользователи</h3>
-  <table>
-    <thead>
-    <tr>
-      <th>№</th>
-      <th>ФИО</th>
-      <th *ngIf="travel.status === 'ended'">Оставить отзыв и рейтинг</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let user of getAcceptedUsers(), let j = index">
-      <td>{{j + 1}}</td>
-      <td (click)="openUserProfile(user.userEmail)">{{user.userEmail}}</td>
-      <td *ngIf="travel.status === 'ended'">
-        review and rating
-      </td>
-    </tr>
-    </tbody>
-  </table>
-</div>
-<hr/>

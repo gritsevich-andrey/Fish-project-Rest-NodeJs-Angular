@@ -1,127 +1,134 @@
-Свободные места - {{travel.peoplesCount - getJoinedUsers(travel.joinedUsers).length}} / {{travel.peoplesCount }}
-<h3>Учасники поездки</h3>
-<table>
-  <thead>
-  <tr>
-    <th>№</th>
-    <th>ФИО</th>
-    <th>Статус</th>
-    <th *ngIf="travel.status === 'ended'">Оставить отзыв</th>
-    <th *ngIf="travel.status === 'ended'">Оставить рейтинг</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let user of getAcceptedUsers(), let j = index">
-    <td>{{j + 1}}</td>
-    <td (click)="openUserProfile(user.userEmail)">{{user.userEmail}}</td>
-    <td>{{user.status}}</td>
-    <td *ngIf="travel.status === 'ended'">
-      <button class="waves-effect waves-light btn" (click)="openReviewDialog(user.userEmail)">Отзыв</button>
-    </td>
-    <td *ngIf="travel.status === 'ended'">
-      <div class="ratingContainer">
-        <form [formGroup]="form">
-          <ngx-star-rating [id]="travel._id" formControlName="rating"></ngx-star-rating>
-        </form>
-        <button class="waves-effect waves-light btn" (click)="saveRating(user.userEmail)">Сохранить рейтинг
-        </button>
-      </div>
-    </td>
-  </tr>
-  </tbody>
-</table>
+<div class="freeSeats">
+  Свободные места - {{travel.peoplesCount - getJoinedUsers(travel.joinedUsers).length}} / {{travel.peoplesCount }}
+</div>
 
-<h3>Запросы на поездку</h3>
-<table>
-  <thead>
-  <tr>
-    <th>№</th>
-    <th>ФИО</th>
-    <th>Статус</th>
-    <th>Отказать</th>
-    <th>Разрешить</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let user of getNotAcceptedUsers(), let j = index">
-    <td>{{j + 1}}</td>
-    <td (click)="openUserProfile(user.userEmail)" >{{user.userEmail}}</td>
-    <td>{{user.status}}</td>
-    <td>
-      <form [formGroup]="rejectUserForm" (ngSubmit)="rejectFormSubmit(user.userEmail)">
-        <div class="modal" id="rejectUser">
-          <div class="modal-content">
-            <h4>Напишите причину отказа</h4>
-            <div class="input-field">
-              <textarea formControlName="comment" id="rejectReason" class="materialize-textarea"></textarea>
-              <label for="rejectReason">Причина отказа</label>
+<div class="acceptedBlock">
+  <h3 class="tableTitle">Учасники поездки:</h3>
+  <table>
+    <thead>
+    <tr>
+      <th>№</th>
+      <th>ФИО</th>
+      <th>Статус</th>
+      <th *ngIf="travel.status === 'ended'">Оставить отзыв</th>
+      <th *ngIf="travel.status === 'ended'">Оставить рейтинг</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let user of getAcceptedUsers(), let j = index">
+      <td>{{j + 1}}</td>
+      <td (click)="openUserProfile(user.userEmail)">{{user.userEmail}}</td>
+      <td>{{user.status}}</td>
+      <td *ngIf="travel.status === 'ended'">
+        <button class="waves-effect waves-light btn" (click)="openReviewDialog(user.userEmail)">Отзыв</button>
+      </td>
+      <td *ngIf="travel.status === 'ended'">
+        <div class="ratingContainer">
+          <form [formGroup]="form">
+            <ngx-star-rating [id]="travel._id" formControlName="rating"></ngx-star-rating>
+          </form>
+          <button class="waves-effect waves-light btn" (click)="saveRating(user.userEmail)">Сохранить
+          </button>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="requestsBlock">
+  <h3 class="tableTitle">Запросы на поездку:</h3>
+  <table>
+    <thead>
+    <tr>
+      <th>№</th>
+      <th>ФИО</th>
+      <th>Статус</th>
+      <th>Отказать</th>
+      <th>Разрешить</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let user of getNotAcceptedUsers(), let j = index">
+      <td>{{j + 1}}</td>
+      <td (click)="openUserProfile(user.userEmail)">{{user.userEmail}}</td>
+      <td>{{user.status}}</td>
+      <td>
+        <form [formGroup]="rejectUserForm" (ngSubmit)="rejectFormSubmit(user.userEmail)">
+          <div class="modal" id="rejectUser">
+            <div class="modal-content">
+              <h4>Напишите причину отказа</h4>
+              <div class="input-field">
+                <textarea formControlName="comment" id="rejectReason" class="materialize-textarea"></textarea>
+                <label for="rejectReason">Причина отказа</label>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="btn">
+                Отказать
+              </button>
             </div>
           </div>
-          <div class="modal-footer">
-            <button class="btn">
-              Отказать
-            </button>
-          </div>
-        </div>
-      </form>
+        </form>
 
-      <button
-        data-target="rejectUser"
-        class="btn modal-trigger"
-      >
-        Отказать
-      </button>
-    </td>
-    <td>
-      <button
-        class="btn"
-        (click)="updateUserStatus(user.userEmail, 'Ожидает оплаты')"
-      >
-        Разрешить
-      </button>
-    </td>
-  </tr>
-  </tbody>
-</table>
+        <button
+          data-target="rejectUser"
+          class="btn modal-trigger"
+        >
+          Отказать
+        </button>
+      </td>
+      <td>
+        <button
+          class="btn"
+          (click)="updateUserStatus(user.userEmail, 'Ожидает оплаты')"
+        >
+          Разрешить
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
 
-<br/>
-<div *ngIf="travel.status !== 'ended'">
-  <a
-    *ngIf="travel.isPublic"
-    class="waves-effect waves-light btn"
-    matTooltip="Скрыть поездку на карте"
-    (click)="setTravelPublic(travel._id)"
-  >Скрыть
-  </a>
-  <a
-    *ngIf="!travel.isPublic"
-    class="waves-effect waves-light btn"
-    (click)="setTravelPublic(travel._id)"
-    matTooltip="Повторить поездку"
-  >Повторить</a>
+<div class="buttonsBlock">
+  <div *ngIf="travel.status !== 'ended'">
+    <button
+      *ngIf="travel.isPublic"
+      class="waves-effect waves-light btn"
+      matTooltip="Скрыть поездку на карте"
+      (click)="setTravelPublic(travel._id)"
+    >Скрыть
+    </button>
+    <button
+      *ngIf="!travel.isPublic"
+      class="waves-effect waves-light btn"
+      (click)="setTravelPublic(travel._id)"
+      matTooltip="Повторить поездку"
+    >Повторить</button>
+    <button
+      class="waves-effect waves-light btn modal-trigger"
+      data-target="editTravel"
+      matTooltip="Редактировать поездку"
+      (click)="openEditTravel(travel)"
+    >Редактировать
+    </button>
+  </div>
+  <br/>
   <button
-    class="waves-effect waves-light btn modal-trigger"
+    *ngIf="checkAllUsersPayed() && !travel.status "
+    class="waves-effect waves-light btn"
     data-target="editTravel"
-    matTooltip="Редактировать поездку"
-    (click)="openEditTravel(travel)"
-  >Редактировать
+    matTooltip="Начать поездку"
+    (click)="updateTravelStatus('started')"
+  >Начать
+  </button>
+  <button
+    *ngIf="travel.status === 'started'"
+    class="waves-effect waves-light btn"
+    data-target="editTravel"
+    matTooltip="Начать поездку"
+    (click)="updateTravelStatus('ended')"
+  >Закончить
   </button>
 </div>
-<br/>
-<button
-  *ngIf="checkAllUsersPayed() && !travel.status "
-  class="waves-effect waves-light btn"
-  data-target="editTravel"
-  matTooltip="Начать поездку"
-  (click)="updateTravelStatus('started')"
->Начать
-</button>
-<button
-  *ngIf="travel.status === 'started'"
-  class="waves-effect waves-light btn"
-  data-target="editTravel"
-  matTooltip="Начать поездку"
-  (click)="updateTravelStatus('ended')"
->Закончить
-</button>
-<hr/>

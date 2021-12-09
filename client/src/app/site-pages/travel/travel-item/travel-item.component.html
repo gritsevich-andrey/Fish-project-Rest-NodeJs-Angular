@@ -1,16 +1,16 @@
 <div class="travelItem">
-  <hr/>
   <div class="travelsList">
     <div>
-      <strong>{{travel.title}}</strong>
+      <strong matTooltip="Название поездки">{{travel.title}}</strong>
     </div>
     <div>
-      <strong>{{travel.date | date:'dd/MM/yyyy'}}</strong>
+      <strong matTooltip="Дата начала поездки">{{travel.date | date:'dd/MM/yyyy'}}</strong>
     </div>
     <div>
-      <strong>{{travel.description}}</strong>
+      <strong matTooltip="Описание поездки">{{travel.description}}</strong>
     </div>
   </div>
+  <hr/>
   <div *ngIf="userEmail === travel.userEmail" class="travel-item">
     <app-created-travel [getUserTravels]="getUserTravels"
                         [travel]="travel"

@@ -40,8 +40,7 @@ export class TravelComponent implements OnInit {
   placemarkEnd: any = []
 
   travelId!: string;
-  // @ts-ignore
-  travelData: TravelDto;
+  travelData!: TravelDto;
   //@ts-ignore
   public techList: FormArray;
 

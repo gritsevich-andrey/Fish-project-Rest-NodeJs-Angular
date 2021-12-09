@@ -1,13 +1,22 @@
 .userPage {
-  border: 1px solid #000;
+  //border: 1px solid #000;
   padding: 20px;
+  box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%), 0 1px 5px 0 rgb(0 0 0 / 20%);
+}
 
-  span {
-    display: block;
-  }
+.span-text {
+  display: block;
+  font-size: 15px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.fio {
+  font-size: 18px;
 }
 
 .image-preview{
+  text-align: center;
   height: 6rem;
   margin: 1rem 0;
 }
@@ -20,6 +29,20 @@ div.stars {
   display: inline-block;
 }
 
+.stars-container {
+  display: flex;
+  justify-content: center;
+}
+
 .flex {
   display: flex;
+}
+
+.reviewItem {
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
+
+.reviewTitle {
+  font-size: 16px;
 }

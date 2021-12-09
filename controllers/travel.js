@@ -75,7 +75,7 @@ module.exports.update = function (req, res) {
         date: req.body.date,
         address: req.body.address,
         isOrganizer: req.body.isOrganizer,
-        name: req.body.name
+        name: req.body.name,
     }
     if (req.file) {
         updated.imageSrc = req.file.path;

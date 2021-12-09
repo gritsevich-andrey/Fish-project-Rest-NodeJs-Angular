@@ -4,13 +4,13 @@
   <div class="col s8" matSort (matSortChange)="sortData($event)">
     <div class="travelsList">
       <div mat-sort-header="title">
-        <strong>Название</strong>
+        <strong>Название:</strong>
       </div>
       <div mat-sort-header="date">
-        <strong>Дата</strong>
+        <strong>Дата:</strong>
       </div>
       <div>
-        <strong>Описание</strong>
+        <strong>Описание:</strong>
       </div>
     </div>
     <div *ngFor="let item of userTravels, let i = index">
