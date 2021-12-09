@@ -3,19 +3,15 @@
   <mat-card-title class="center-align">{{travels.name}}</mat-card-title>
   <mat-card-subtitle class="right-align"><b>Цена за чел.</b> {{travels.costPerPeople}}</mat-card-subtitle>
   <mat-card-subtitle class="right-align"><b>Кол-во чел.</b> {{travels.peoplesCount}}</mat-card-subtitle>
+  <mat-card-subtitle>
+    <app-rating-list [travelId]="travels._id" [organizerEmail]="travels.userEmail"></app-rating-list>
+  </mat-card-subtitle>
   <mat-card-content>
-    <input type="text" value="{{travels.userEmail}}" *ngIf="travels.userEmail ? getRating(travels.userEmail): false">
+    <input type="text" value="{{travels.userEmail}}">
     <p><b>Куда:</b> {{travels.address}}</p>
     <p><b>Когда:</b> {{travels.date | date: 'dd.MM.yyyy'}}</p>
     <p>{{travels.description}}</p>
     <p><b>Техника:</b> {{travels.travelTechnique}}</p>
-<!--    <div class="cont">-->
-<!--      <div class="stars">-->
-<!--        <ngx-star-rating [(ngModel)]="userEmail = travels.userEmail" [id]="item.sumValue" [disabled]="true">-->
-<!--        </ngx-star-rating>-->
-<!--        <p><b>Средний рейтинг: </b>{{item.sumValue}}</p>-->
-<!--      </div>-->
-<!--    </div>-->
   </mat-card-content>
   <mat-card-actions>
     <a matTooltip="Написать в чат организатору поездки" mat-button (click)="openChatDialog(travels.userEmail)">

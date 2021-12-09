@@ -144,3 +144,29 @@ module.exports.getFIO = async function (req, res) {
         errorHandler(res, e);
     }
 }
+
+module.exports.getRating = function (req, res) {
+    console.log('ТревелID и емайл', req.params.travelId, req.params.email);
+    Cabinet.findOne({email: req.params.email})
+        .then(cabinet => {
+            let travelRating = [{travelId: '', ratingValue: 0}];
+           cabinet.ratings
+               .map(value => {
+                   let countRating = 0;
+                   const travelIdParam = req.params.travelId;
+                   if(value.travelId !== '') {
+                       if (value.travelId === req.params.travelId) {
+                           if (value.sumValue !== 0) {
+                               countRating = countRating + value.sumValue / 2;
+                           } else {
+                               countRating += value.sumValue;
+                           }
+                       }
+                       travelRating.push({travelId: travelIdParam, ratingValue: countRating});
+                   }
+                   res.status(200).json(travelRating);
+                   console.log('id', travelRating);
+               })
+        })
+        .catch(e => errorHandler(res, e))
+}
