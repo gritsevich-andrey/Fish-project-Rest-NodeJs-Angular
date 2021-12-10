@@ -11,11 +11,15 @@ export class RatingListComponent implements OnInit {
   @Input() travelId: string;
   //@ts-ignore;
   @Input() organizerEmail: string;
-  constructor(private cabinetService: CabinetService) { }
+  ratingValue: any[] = [];
+  constructor(private cabinetService: CabinetService) {
+  }
 
   ngOnInit(): void {
-    console.log('Идентификатор поездки', this.travelId, this.organizerEmail);
-    this.cabinetService.getCabinetRating(this.travelId, this.organizerEmail).subscribe();
+    this.cabinetService.getCabinetRating(this.travelId, this.organizerEmail).subscribe(data => {
+      //@ts-ignore
+      this.ratingValue = data;
+    });
   }
 
 }

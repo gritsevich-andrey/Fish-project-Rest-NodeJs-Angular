@@ -3,7 +3,7 @@ const errorHandler = require('../utils/errorHandler')
 
 module.exports.getAll = async function (req, res) {
     try {
-        const cabinets = await Cabinet.find(/*{user: req.user.id}*/);
+        const cabinets = await Cabinet.find({user: req.user.id});
         res.status(200).json(cabinets);
     } catch (e) {
         errorHandler(res, e);
@@ -117,16 +117,13 @@ module.exports.updateReview = function (req, res) {
 module.exports.updateRating = function (req, res) {
     Cabinet.findOne({email: req.params.email})
         .then(cabinet => {
-            const updated = {
-                travelTitle: req.body.travelTitle,
-                travelId: req.body.travelId,
-                sumValue: req.body.sumValue,
-                travelName: req.body.travelName
-            }
-
             cabinet.updateOne({
                 $push: {
-                    ratings: updated
+                    ratings: {
+                        travelId: req.body.travelId,
+                        travelName: req.body.travelName,
+                        sumValue: req.body.sumValue
+                    }
                 }
             })
                 .then(value => res.status(201).json(value))
@@ -156,23 +153,23 @@ module.exports.getRating = function (req, res) {
     console.log('ТревелID и емайл', req.params.travelId, req.params.email);
     Cabinet.findOne({email: req.params.email})
         .then(cabinet => {
-            let travelRating = [{travelId: '', ratingValue: 0}];
-            cabinet.ratings
-                .map(value => {
-                    let countRating = 0;
-                    const travelIdParam = req.params.travelId;
-                    if (value.travelId !== '') {
-                        if (value.travelId === req.params.travelId) {
-                            if (value.sumValue !== 0) {
-                                countRating = countRating + value.sumValue / 2;
-                            } else {
-                                countRating += value.sumValue;
-                            }
-                        }
-                        travelRating.push({travelId: travelIdParam, ratingValue: countRating});
-                    }
-                })
-            res.status(200).json(travelRating);
+            let travelRating = [];
+            console.log('Кабинет',cabinet);
+           cabinet.ratings
+               .map(value => {
+                   let countRating = 0;
+                   const travelIdParam = req.params.travelId;
+                   if(value.sumValue !== 0) {
+                       if (value.travelId !== "" && value.travelId === req.params.travelId) {
+                           if (value.sumValue !== 0) {
+                               countRating = countRating + value.sumValue;
+                               travelRating.push({travelId: travelIdParam, ratingValue: countRating});
+                           }
+                       }
+                   }
+                   res.status(200).json(travelRating);
+                   console.log('id', travelRating);
+               })
         })
         .catch(e => errorHandler(res, e))
 }

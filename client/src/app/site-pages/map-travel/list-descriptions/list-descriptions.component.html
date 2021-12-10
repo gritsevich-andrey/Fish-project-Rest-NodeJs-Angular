@@ -7,7 +7,6 @@
     <app-rating-list [travelId]="travels._id" [organizerEmail]="travels.userEmail"></app-rating-list>
   </mat-card-subtitle>
   <mat-card-content>
-    <input type="text" value="{{travels.userEmail}}">
     <p><b>Куда:</b> {{travels.address}}</p>
     <p><b>Когда:</b> {{travels.date | date: 'dd.MM.yyyy'}}</p>
     <p>{{travels.description}}</p>
