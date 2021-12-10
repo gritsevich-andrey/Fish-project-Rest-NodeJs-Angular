@@ -119,7 +119,11 @@ module.exports.updateRating = function (req, res) {
         .then(cabinet => {
             cabinet.updateOne({
                 $push: {
-                    ratings: updated
+                    ratings: {
+                        travelId: req.body.travelId,
+                        travelName: req.body.travelName,
+                        sumValue: req.body.sumValue
+                    }
                 }
             })
                 .then(value => res.status(201).json(value))
@@ -149,20 +153,19 @@ module.exports.getRating = function (req, res) {
     console.log('ТревелID и емайл', req.params.travelId, req.params.email);
     Cabinet.findOne({email: req.params.email})
         .then(cabinet => {
-            let travelRating = [{travelId: '', ratingValue: 0}];
+            let travelRating = [];
+            console.log('Кабинет',cabinet);
            cabinet.ratings
                .map(value => {
                    let countRating = 0;
                    const travelIdParam = req.params.travelId;
-                   if(value.travelId !== '') {
-                       if (value.travelId === req.params.travelId) {
+                   if(value.sumValue !== 0) {
+                       if (value.travelId !== "" && value.travelId === req.params.travelId) {
                            if (value.sumValue !== 0) {
-                               countRating = countRating + value.sumValue / 2;
-                           } else {
-                               countRating += value.sumValue;
+                               countRating = countRating + value.sumValue;
+                               travelRating.push({travelId: travelIdParam, ratingValue: countRating});
                            }
                        }
-                       travelRating.push({travelId: travelIdParam, ratingValue: countRating});
                    }
                    res.status(200).json(travelRating);
                    console.log('id', travelRating);

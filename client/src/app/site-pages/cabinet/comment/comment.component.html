@@ -14,7 +14,7 @@
 <div class="cont">
   <div class="stars" *ngFor="let item of ratings | search: valueRadio">
     <p><b>Поездка: </b>{{item.travelTitle}}</p>
-    <ngx-star-rating [(ngModel)]="item.sumValue" [id]="item.sumValue" [disabled]="true">
+    <ngx-star-rating [(ngModel)]="item.sumValue" [id]="item.travelId" [disabled]="true">
     </ngx-star-rating>
     <p><b>Средний рейтинг: </b>{{item.sumValue}}</p>
   </div>

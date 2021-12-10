@@ -14,6 +14,6 @@ router.delete('/:id', authenticate, controller.remove);
 router.post('/', authenticate, upload.single('image'), controller.create);
 router.patch('/', authenticate, upload.single('image'), controller.update);
 router.patch('/update/:email', authenticate, controller.updateReview);
-router.patch('/rating/:email', authenticate, controller.updateRating);
-router.get('/rating/:travelId/:email', authenticate, controller.getRating);
+router.patch('/rating/:email', controller.updateRating);
+router.get('/rating/:travelId/:email', controller.getRating);
 module.exports = router
