@@ -2,7 +2,6 @@
   <div class="image-preview">
     <img src="{{imagePreview}}" alt="avatar">
   </div>
-
   <strong class="span-text fio">{{userCabinet.fio || 'Не указано'}}</strong>
   <span class="span-text">Пол - {{userCabinet.gender || 'Не указан'}}</span>
   <span class="span-text">Дата регистрации {{userCabinet.date | date:'dd.MM.yyyy'}}</span>
@@ -11,7 +10,8 @@
       <span class="span-text">Средний рейтинг:</span>
       <div class="stars-container">
         <div class="stars">
-          <ngx-star-rating [(ngModel)]="averageRating" [id]="userCabinet.date" [disabled]="true"></ngx-star-rating>
+          {{getAverageRating()}}
+          <ngx-star-rating [(ngModel)]='averageRating' [id]="userCabinet.date" [disabled]="true"></ngx-star-rating>
         </div>
       </div>
     </div>

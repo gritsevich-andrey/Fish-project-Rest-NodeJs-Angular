@@ -9,18 +9,27 @@ export class UserProfileComponent implements OnInit {
   @Input()
   userCabinet!: any;
   imagePreview = 'uploads/avatar.jpg';
-  averageRating = 0;
+  averageRating = 0
   reviewsPage = 1;
 
   constructor() {
   }
 
   ngOnInit(): void {
-    if (this.userCabinet.avatar)
-      this.imagePreview = this.userCabinet.avatar
-    this.averageRating = this.userCabinet.reduce((prev: number, current: any) => {
+  }
+
+  getAverageRating() {
+    this.averageRating = Math.round(((this.userCabinet.ratings.reduce((prev: number, current: any) => {
       return current.sumValue + prev
-    }, 0)
+    }, 0)) / this.userCabinet.ratings.length))
+  }
+
+  getImage() {
+    if (this.userCabinet?.avatar) {
+      return this.imagePreview = this.userCabinet.avatar
+    } else {
+      return this.imagePreview
+    }
   }
 
 }
