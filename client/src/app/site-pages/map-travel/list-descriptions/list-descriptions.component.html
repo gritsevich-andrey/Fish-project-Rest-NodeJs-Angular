@@ -13,6 +13,10 @@
     <p><b>Техника:</b> {{travels.travelTechnique}}</p>
   </mat-card-content>
   <mat-card-actions>
+    <span class="p10">
+    <a class="waves-effect waves-light btn" matTooltip="Информация об организаторе" mat-button [routerLink]="['/join', travels.userEmail]"><i class="material-icons left">cloud</i>Присоединиться
+    </a>
+      </span>
     <a matTooltip="Написать в чат организатору поездки" mat-button (click)="openChatDialog(travels.userEmail)">
       <mat-icon>message</mat-icon>
     </a>

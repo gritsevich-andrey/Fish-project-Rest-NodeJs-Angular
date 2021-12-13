@@ -7,6 +7,7 @@ import {MaterialService} from "../../shared/classes/material.service";
 import {YaGeocoderService, YaReadyEvent} from "angular8-yandex-maps";
 import {TravelDto} from "../../shared/models/travelDto";
 import {Sort} from "@angular/material/sort";
+import {ActivatedRoute} from "@angular/router";
 
 declare var M: {
   FormSelect: { init: (arg0: NodeListOf<Element>) => any; },
@@ -26,7 +27,7 @@ export class TravelComponent implements OnInit {
   startPointMap: ymaps.Map;
   //@ts-ignore
   endPointMap: ymaps.Map;
-
+email = '';
   form!: FormGroup;
   techniqueForm!: FormGroup;
   userEmail!: string
@@ -48,7 +49,7 @@ export class TravelComponent implements OnInit {
     private userService: UserService,
     private travelService: TravelService,
     private cabinetService: CabinetService,
-    private yaGeocoderService: YaGeocoderService,
+    private yaGeocoderService: YaGeocoderService
   ) {
     this.form = new FormGroup({
       travelType: new FormControl('', Validators.required),

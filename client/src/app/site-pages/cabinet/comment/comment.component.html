@@ -4,9 +4,9 @@
   [(ngModel)]="valueRadio"
 >
   <mat-radio-button class="radio-button" (click)="valueRadio=''"><b>Все поездки</b></mat-radio-button>
-  <div *ngFor="let review of reviews">
-    <mat-radio-button *ngIf="review.travelId" class="radio-button" [value]="review.travelId">
-      <span>{{review.travelName}}</span>
+  <div *ngFor="let review of reviews | duplicateRating: 'review'">
+    <mat-radio-button class="radio-button" [value]="review">
+      <span>{{review}}</span>
     </mat-radio-button>
   </div>
 </mat-radio-group>

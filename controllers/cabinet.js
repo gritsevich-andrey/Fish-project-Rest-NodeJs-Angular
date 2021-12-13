@@ -167,9 +167,9 @@ module.exports.getRating = function (req, res) {
                            }
                        }
                    }
-                   res.status(200).json(travelRating);
                    console.log('id', travelRating);
                })
+            res.status(200).json(travelRating);
         })
         .catch(e => errorHandler(res, e))
 }
