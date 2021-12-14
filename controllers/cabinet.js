@@ -154,22 +154,22 @@ module.exports.getRating = function (req, res) {
     Cabinet.findOne({email: req.params.email})
         .then(cabinet => {
             let travelRating = [];
-            console.log('Кабинет',cabinet);
-           cabinet.ratings
-               .map(value => {
-                   let countRating = 0;
-                   const travelIdParam = req.params.travelId;
-                   if(value.sumValue !== 0) {
-                       if (value.travelId !== "" && value.travelId === req.params.travelId) {
-                           if (value.sumValue !== 0) {
-                               countRating = countRating + value.sumValue;
-                               travelRating.push({travelId: travelIdParam, ratingValue: countRating});
-                           }
-                       }
-                   }
-                   res.status(200).json(travelRating);
-                   console.log('id', travelRating);
-               })
+            console.log('Кабинет', cabinet);
+            cabinet.ratings
+                .map(value => {
+                    let countRating = 0;
+                    const travelIdParam = req.params.travelId;
+                    if (value.sumValue !== 0) {
+                        if (value.travelId !== "" && value.travelId === req.params.travelId) {
+                            if (value.sumValue !== 0) {
+                                countRating = countRating + value.sumValue;
+                                travelRating.push({travelId: travelIdParam, ratingValue: countRating});
+                            }
+                        }
+                    }
+                })
+            res.status(200).json(travelRating);
+            console.log('id', travelRating);
         })
         .catch(e => errorHandler(res, e))
 }

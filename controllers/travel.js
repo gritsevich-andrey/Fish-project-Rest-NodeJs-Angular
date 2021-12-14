@@ -1,4 +1,5 @@
 const Travel = require('../models/Travel')
+const Cabinet = require('../models/Cabinet')
 const errorHandler = require('../utils/errorHandler')
 
 module.exports.getTravelByUserEmail = (req, res) => {
@@ -85,14 +86,15 @@ module.exports.update = function (req, res) {
 }
 
 module.exports.join = function (req, res) {
-    Travel.findById(req.body.id).then(data => {
-        data.updateOne({
+    Cabinet.findOne({email: req.body.email}).then(({fio}) => {
+        Travel.findOneAndUpdate({_id: req.body.id}, {
             $push: {
                 joinedUsers: {
-                    userEmail: req.body.email
+                    userEmail: req.body.email,
+                    fio
                 }
             }
-        }).then(() => res.status(200).json({message: 'пользователь успешно присоединился'}))
+        })
     })
 }
 
