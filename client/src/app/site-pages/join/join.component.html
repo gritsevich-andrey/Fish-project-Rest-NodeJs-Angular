@@ -5,7 +5,7 @@
     <div mat-line><b>Техника:</b>
       <span *ngFor="let technika of technique"> {{technika.name}}</span>
     </div>
-    <div mat-line><a class="waves-effect waves-light btn red" matTooltip="Присоединиться к поездке" [routerLink]="['/travel', userData.email]"><i class="material-icons left">add</i>Присоединиться</a></div>
+    <div mat-line><a class="waves-effect waves-light btn red" matTooltip="Присоединиться к поездке" (click)="goTravel()"><i class="material-icons left">add</i>Присоединиться</a></div>
   </mat-list-item>
   <div>
     <app-comment [reviews]="reviews" [ratings]="ratings"></app-comment>
