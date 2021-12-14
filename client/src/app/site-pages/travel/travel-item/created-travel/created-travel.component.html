@@ -106,12 +106,18 @@
       (click)="setTravelPublic(travel._id)"
       matTooltip="Повторить поездку"
     >Повторить</button>
+<!--    <button-->
+<!--      class="waves-effect waves-light btn modal-trigger"-->
+<!--      data-target="editTravel"-->
+<!--      matTooltip="Редактировать поездку"-->
+<!--      (click)="openEditTravelModal(travel)"-->
+<!--    >Редактировать-->
+<!--    </button>-->
     <button
-      class="waves-effect waves-light btn modal-trigger"
-      data-target="editTravel"
-      matTooltip="Редактировать поездку"
-      (click)="openEditTravel(travel)"
-    >Редактировать
+      class="waves-effect waves-light btn"
+      (click)="openEditTravelModal(travel)"
+    >
+      Редактировать
     </button>
   </div>
   <br/>

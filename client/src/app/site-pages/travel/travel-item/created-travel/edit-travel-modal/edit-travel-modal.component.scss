@@ -1,0 +1,37 @@
+form {
+  div {
+    margin-bottom: 10px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+button {
+  margin-right: 10px;
+}
+
+.rescheduleBlock {
+  margin-top: 15px;
+  margin-bottom: 30px !important;
+
+  button {
+    margin-right: 15px;
+  }
+}
+
+.addPhoto {
+  margin-right: 20px;
+}
+
+.buttonBlock {
+  display: flex;
+  justify-content: space-between;
+}
+
+textarea {
+  width: 700px;
+  min-width: 600px;
+  height: 100%;
+}

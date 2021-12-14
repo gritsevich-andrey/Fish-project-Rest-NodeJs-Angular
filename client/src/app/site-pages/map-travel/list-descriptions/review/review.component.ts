@@ -12,12 +12,14 @@ import {CabinetService} from "../../../cabinet/cabinet.service";
 export class ReviewComponent implements OnInit {
 //@ts-ignore
   message: string;
+
   constructor(
     private warningService: WarningService,
     private userService: UserService,
     private cabinetService: CabinetService,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
   }
@@ -26,12 +28,13 @@ export class ReviewComponent implements OnInit {
     const email = this.userService.getUserDataFromLocal();
     const receiverEmail = this.data.receiverEmail;
     const travelId = this.data.travelId;
-    const review = {userEmail: email,
+    const review = {
+      userEmail: email,
       reviewText: this.message,
       travelId: travelId
     };
-this.cabinetService.updateCabinetReview(receiverEmail, review).subscribe(data => {
-  console.log('Ответ после сохранение отзыва в базе', data);
-})
+    this.cabinetService.updateCabinetReview(receiverEmail, review).subscribe(data => {
+      console.log('Ответ после сохранение отзыва в базе', data);
+    })
   }
 }

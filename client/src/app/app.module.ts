@@ -55,6 +55,11 @@ import { RatingComponent } from './site-pages/cabinet/rating/rating.component';
 import { UserProfileComponent } from './site-pages/travel/user-profile/user-profile.component';
 import { RatingListComponent } from './site-pages/map-travel/list-descriptions/rating-list/rating-list.component';
 import { JoinComponent } from './site-pages/join/join.component';
+import { EditTravelModalComponent } from './site-pages/travel/travel-item/created-travel/edit-travel-modal/edit-travel-modal.component';
+import { CreateTravelModalComponent } from './site-pages/travel/create-travel-modal/create-travel-modal.component';
+import { SelectStartPointComponent } from './site-pages/travel/select-points/select-start-point/select-start-point.component';
+import { SelectEndPointComponent } from './site-pages/travel/select-points/select-end-point/select-end-point.component';
+import { AddTransportModalComponent } from './site-pages/travel/add-transport-modal/add-transport-modal.component';
 
 const mapConfig: YaConfig = {
   apikey: '6c5c5f61-fa87-4efd-8ad9-f652f1fd0727',
@@ -88,7 +93,12 @@ const mapConfig: YaConfig = {
     RatingComponent,
     UserProfileComponent,
     RatingListComponent,
-    JoinComponent
+    JoinComponent,
+    EditTravelModalComponent,
+    CreateTravelModalComponent,
+    SelectStartPointComponent,
+    SelectEndPointComponent,
+    AddTransportModalComponent,
   ],
   imports: [
     NgImageSliderModule,

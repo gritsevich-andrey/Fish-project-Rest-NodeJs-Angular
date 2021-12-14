@@ -27,7 +27,7 @@ export class TravelComponent implements OnInit {
   startPointMap: ymaps.Map;
   //@ts-ignore
   endPointMap: ymaps.Map;
-email = '';
+  email = '';
   form!: FormGroup;
   techniqueForm!: FormGroup;
   userEmail!: string
@@ -49,7 +49,8 @@ email = '';
     private userService: UserService,
     private travelService: TravelService,
     private cabinetService: CabinetService,
-    private yaGeocoderService: YaGeocoderService
+    private yaGeocoderService: YaGeocoderService,
+    private route: ActivatedRoute
   ) {
     this.form = new FormGroup({
       travelType: new FormControl('', Validators.required),
@@ -74,6 +75,9 @@ email = '';
   }
 
   ngOnInit(): void {
+    let userEmail = this.route.snapshot.paramMap.get('userEmail');
+    let travelId = this.route.snapshot.paramMap.get('travelId');
+
     this.techList = this.techniqueForm.get('technique') as FormArray;
     this.userEmail = this.userService.getUserDataFromLocal()
     this.initMaterialize()

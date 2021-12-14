@@ -6,6 +6,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {ReviewComponent} from "../../../map-travel/list-descriptions/review/review.component";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {CabinetService} from "../../../cabinet/cabinet.service";
+import {EditTravelModalComponent} from "./edit-travel-modal/edit-travel-modal.component";
 
 declare var M: {
   Modal: { init: (arg0: NodeListOf<Element>) => any; }
@@ -91,6 +92,18 @@ export class CreatedTravelComponent implements OnInit {
     const dialogRef = this.dialog.open(ReviewComponent,
       {
         data: transferData
+      }
+    );
+    dialogRef.afterClosed().subscribe();
+  }
+
+  openEditTravelModal(travel: any) {
+    const dialogRef = this.dialog.open(EditTravelModalComponent,
+      {
+        data: {
+          travel,
+          userEmail: this.userEmail
+        }
       }
     );
     dialogRef.afterClosed().subscribe();

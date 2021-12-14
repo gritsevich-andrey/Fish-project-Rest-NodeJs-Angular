@@ -1,0 +1,89 @@
+<input (change)="setTravelDate($event)" [hidden]="true" type="text" class="datepicker" #datepicker>
+<mat-dialog-actions>
+  <div class="mat-form-field-flex">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div>
+        <div>
+          <strong>{{form.controls.travelDate.value | date:'dd.MM.yyyy'}}</strong>
+          <button (click)="datepicker.click()" class="waves-effect waves-light btn" type="button">Дата поездки</button>
+          <div class="rescheduleBlock">
+            <button class="waves-effect waves-light btn" type="button" (click)="rescheduleForTwoWeeks()">Перенести на 2
+              недели
+            </button>
+            <button class="waves-effect waves-light btn" type="button" (click)="rescheduleMonth()">Перенести на месяц
+            </button>
+          </div>
+        </div>
+        <div>
+          <span class="addPhoto">Добавить обложку поездки</span>
+          <input (change)="onFileLoad($event)" type="file" [hidden]="true" #inputFile>
+          <button class="waves-effect waves-light btn" type="button" (click)="inputFile.click()">Выбрать изображение
+          </button>
+        </div>
+
+        <div class="input-field col s6">
+          <input placeholder="Название поездки" formControlName="name" type="text" min="1" class="validate"/>
+          <span class="helper-text red-text" *ngIf="f.name.touched && f.name.invalid">
+            <small *ngIf="f.name.hasError('required')">Поле не должно быть пустым</small>
+          </span>
+        </div>
+
+        <div class="input-field select-field-item">
+          <select formControlName="travelType" class="icons" (change)="travelTypeChange()">
+            <option value="" disabled>Выбрать технику</option>
+            <option value="onFoot" class="left">Нет</option>
+            <option value="technique" class="left">Выбрать</option>
+          </select>
+        </div>
+
+        <div *ngIf="this.form.controls.travelType.value === 'technique'">
+          <button type="button" class="waves-effect waves-light btn" (click)="loadTransport()">Выбрать технику</button>
+        </div>
+
+        <div class="buttonBlock">
+          <span>Куда поехать?</span>
+          <button type="button" class="waves-effect waves-light btn" (click)="openEndPointMapDialog()">Указать на
+            карте
+          </button>
+        </div>
+        <div class="buttonBlock">
+          <span>Откуда выезд?</span>
+          <button type="button" class="waves-effect waves-light btn" (click)="openStartPointMapDialog()">Указать на
+            карте
+          </button>
+        </div>
+        <div class="input-field select-field-item">
+          <select class="icons" formControlName="travelTarget">
+            <option value="" selected disabled>Цель поездки</option>
+            <option value="Охота" class="left">Охота</option>
+            <option value="Рыбалка" class="left">Рыбалка</option>
+            <option value="Туризм" class="left">Туризм</option>
+          </select>
+        </div>
+        <div class="input-field col s6">
+          <input formControlName="peoplesCount" type="number" placeholder="Количество человек" min="1"
+                 class="validate"/>
+          <span class="helper-text red-text" *ngIf="f.peoplesCount.touched && f.peoplesCount.invalid">
+            <small *ngIf="f.peoplesCount.hasError('required')">Поле не должно быть пустым</small>
+        </span>
+        </div>
+        <div class="input-field col s6">
+          <input formControlName="costPerPeople" type="number" placeholder="Цена за 1 чел." min="0" class="validate"/>
+          <span class="helper-text red-text" *ngIf="f.costPerPeople.touched && f.costPerPeople.invalid">
+            <small *ngIf="f.costPerPeople.hasError('required')">Поле не должно быть пустым</small>
+        </span>
+        </div>
+        <div class="input-field col s12">
+          <textarea cols="30" rows="10" placeholder="Подробное описание" formControlName="description"></textarea>
+          <span class="helper-text red-text" *ngIf="f.description.touched && f.description.invalid">
+            <small *ngIf="f.description.hasError('required')">Поле не должно быть пустым</small>
+        </span>
+        </div>
+      </div>
+      <div>
+        <button type="submit" class="btn">Обновить</button>
+        <button mat-dialog-close type="button" class="btn ml10">Отмена</button>
+      </div>
+    </form>
+  </div>
+</mat-dialog-actions>
