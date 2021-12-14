@@ -6,7 +6,10 @@ import {ChatDialogComponent} from "./chat-dialog/chat-dialog.component";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ReviewComponent} from "./review/review.component";
 import {CabinetService} from "../../cabinet/cabinet.service";
-
+import * as CryptoJS from 'crypto-js';
+import {UserService} from "../../../shared/services/user.service";
+import {AuthService} from "../../../shared/services/auth.service";
+import {Router} from "@angular/router";
 @Component({
   selector: 'app-list-descriptions',
   templateUrl: './list-descriptions.component.html',
@@ -16,28 +19,16 @@ export class ListDescriptionsComponent implements OnInit {
   //@ts-ignore
   @Input() travels: Travel;
   imageNull = 'uploads/avatar.jpg';
-  //@ts-ignore
-  form: FormGroup;
-  userEmail = '';
 
   constructor(public dialog: MatDialog,
-              private cabinetService: CabinetService
+              private cabinetService: CabinetService,
+              private userService: UserService,
+              private authService: AuthService,
+              private router: Router
   ) {
-    this.form = new FormGroup({
-      rating: new FormControl('', Validators.required)
-    });
   }
 
   ngOnInit(): void {
-  }
-
-  openDialog() {
-    const dialogRef = this.dialog.open(DialogComponent,
-      //   {
-      //   width: '250px'
-      // }
-    );
-    dialogRef.afterClosed().subscribe();
   }
 
   openChatDialog(receiverEmail: string) {
@@ -49,31 +40,12 @@ export class ListDescriptionsComponent implements OnInit {
     dialogRef.afterClosed().subscribe();
   }
 
-  openReviewDialog(receiverEmail: string) {
-    const transferData = {
-      travelId: this.travels._id,
-      receiverEmail: receiverEmail
-    }
-    const dialogRef = this.dialog.open(ReviewComponent,
-      {
-        data: transferData
-      }
-    );
-    dialogRef.afterClosed().subscribe();
-  }
 
-  saveRating(receiverEmail: string, travelId: string, travelTitle: string) {
-    const rating = {
-      travelId,
-      travelTitle,
-      sumValue: this.form.value.rating
-    };
-    this.cabinetService.updateCabinetRating(receiverEmail, rating).subscribe();
-  }
-  getRating(userEmail: string) {
-   // this.cabinetService.getCabinetData(userEmail).subscribe(data => {
-   //   console.log(data);
-   // })
-    console.log(userEmail);
+  goJoin(userEmail: string, _id: string) {
+    const email = this.userService.getUserDataFromLocal();
+    const pass = this.authService.getToken();
+    const data = `${userEmail}/${_id}/${email}`
+    const dataCrypt = CryptoJS.AES.encrypt(data, pass).toString();
+    this.router.navigate(['/join', dataCrypt]);
   }
 }
