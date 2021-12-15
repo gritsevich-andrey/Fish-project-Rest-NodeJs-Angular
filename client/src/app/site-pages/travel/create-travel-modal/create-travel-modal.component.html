@@ -1,1 +1,80 @@
-<p>create-travel-modal works!</p>
+<input (change)="setTravelDate($event)" [hidden]="true" type="text" class="datepicker" #datepicker>
+<mat-dialog-actions>
+  <div class="mat-form-field-flex">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div>
+        <div>
+          <strong>{{form.controls.travelDate.value | date:'dd.MM.yyyy' }}</strong>
+          <button (click)="datepicker.click()" class="waves-effect waves-light btn" type="button">Дата поездки</button>
+        </div>
+        <div>
+          <span class="addPhoto">Добавить обложку поездки</span>
+          <input (change)="onFileLoad($event)" type="file" [hidden]="true" #inputFile>
+          <button class="waves-effect waves-light btn" type="button" (click)="inputFile.click()">Выбрать изображение
+          </button>
+        </div>
+        <div class="input-field col s6">
+          <input id="travelName" formControlName="name" type="text" min="1" class="validate"/>
+          <label for="travelName">Название поездки</label>
+          <span class="helper-text red-text" *ngIf="f.name.touched && f.name.invalid">
+            <small *ngIf="f.name.hasError('required')">Поле не должно быть пустым</small>
+          </span>
+        </div>
+        <div class="input-field select-field-item">
+          <select formControlName="travelType" class="icons" (change)="travelTypeChange()">
+            <option value="" disabled selected>Выбрать технику</option>
+            <option value="onFoot" class="left">Нет</option>
+            <option value="technique" class="left">Выбрать</option>
+          </select>
+        </div>
+        <div *ngIf="isTechnique">
+          <button data-target="addTransport" class="waves-effect waves-light btn modal-trigger"
+                  (click)="this.openAddTransport()">Выбрать технику
+          </button>
+        </div>
+        <div class="buttonBlock">
+          <span>Куда поехать?</span>
+          <button (click)="openEndPointMapDialog()" type='button' class="waves-effect waves-light btn ">Указать на карте
+          </button>
+        </div>
+        <div class="buttonBlock">
+          <span>Откуда выезд?</span>
+          <button (click)="openStartPointMapDialog()" type='button' class="waves-effect waves-light btn">Указать на карте</button>
+        </div>
+        <div class="input-field select-field-item">
+          <select class="icons" formControlName="travelTarget">
+            <option value="" selected disabled>Цель поездки</option>
+            <option value="Охота" class="left">Охота</option>
+            <option value="Рыбалка" class="left">Рыбалка</option>
+            <option value="Туризм" class="left">Туризм</option>
+          </select>
+        </div>
+        <div class="input-field col s6">
+          <input id="peoplesCount" formControlName="peoplesCount" type="number" min="1" class="validate"/>
+          <label for="peoplesCount">Количество человек</label>
+          <span class="helper-text red-text" *ngIf="f.peoplesCount.touched && f.peoplesCount.invalid">
+            <small *ngIf="f.peoplesCount.hasError('required')">Поле не должно быть пустым</small>
+        </span>
+        </div>
+        <div class="input-field col s6">
+          <input id="costPerPeople" formControlName="costPerPeople" type="number" min="0" class="validate"/>
+          <label for="costPerPeople">Цена за 1 чел.</label>
+          <span class="helper-text red-text" *ngIf="f.costPerPeople.touched && f.costPerPeople.invalid">
+            <small *ngIf="f.costPerPeople.hasError('required')">Поле не должно быть пустым</small>
+        </span>
+        </div>
+        <div class="input-field col s12">
+          <textarea id="description" cols="30" rows="10" formControlName="description"></textarea>
+          <label for="description">Подробное описание</label>
+          <span class="helper-text red-text" *ngIf="f.description.touched && f.description.invalid">
+            <small *ngIf="f.description.hasError('required')">Поле не должно быть пустым</small>
+        </span>
+        </div>
+      </div>
+      <div>
+        <button type="submit" class="btn">Создать</button>
+        <button mat-dialog-close type="button" class="btn ml10">Отмена</button>
+      </div>
+    </form>
+  </div>
+</mat-dialog-actions>

@@ -1,13 +1,17 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
+import { FormControl, FormGroup, Validators} from "@angular/forms";
 import {MaterialService} from "../../../../../shared/classes/material.service";
 import {TravelService} from "../../../../../shared/services/travel.service";
 import {CabinetService} from "../../../../cabinet/cabinet.service";
-import {ReviewComponent} from "../../../../map-travel/list-descriptions/review/review.component";
-import {SelectStartPointComponent} from "../../../select-points/select-start-point/select-start-point.component";
-import {SelectEndPointComponent} from "../../../select-points/select-end-point/select-end-point.component";
 import {AddTransportModalComponent} from "../../../add-transport-modal/add-transport-modal.component";
+import {SelectPointComponent} from "../../../select-point/select-point.component";
+
+declare var M: {
+  FormSelect: { init: (arg0: NodeListOf<Element>) => any; },
+  Modal: { init: (arg0: NodeListOf<Element>) => any; }
+  Datepicker: { init: (arg0: NodeListOf<Element>, arg1: any) => any; }
+}
 
 @Component({
   selector: 'app-edit-travel-modal',
@@ -16,12 +20,10 @@ import {AddTransportModalComponent} from "../../../add-transport-modal/add-trans
 })
 export class EditTravelModalComponent implements OnInit {
   form!: FormGroup;
-  techniqueForm!: FormGroup;
   travelId!: string;
   //Для отображения начальных точек
-  placemarksStart: any = []
+  placemarkStart: any = []
   placemarkEnd: any = []
-  techList!: FormArray;
   isTechnique = false;
 
   constructor(
@@ -47,14 +49,9 @@ export class EditTravelModalComponent implements OnInit {
       file: new FormControl(''),
       name: new FormControl('', Validators.required),
     });
-
-    this.techniqueForm = new FormGroup({
-      technique: new FormArray([]),
-    })
   }
 
   ngOnInit(): void {
-    this.techList = this.techniqueForm.get('technique') as FormArray;
     let {travel} = this.data
     for (let item in travel) {
       this.form.controls[item]?.setValue(travel[item])
@@ -65,7 +62,7 @@ export class EditTravelModalComponent implements OnInit {
     this.form.controls.startPointLongitude.setValue(travel.startPoint[0].longitude)
     this.form.controls.endPointLatitude.setValue(travel.endPoint[0].latitude)
     this.form.controls.endPointLongitude.setValue(travel.endPoint[0].longitude)
-    this.placemarksStart.push({
+    this.placemarkStart.push({
       geometry: [travel.startPoint[0].latitude, travel.startPoint[0].longitude],
       options: {
         preset: 'islands#icon',
@@ -80,7 +77,29 @@ export class EditTravelModalComponent implements OnInit {
         iconCaptionMaxWidth: '50',
       },
     })
-    this.form.controls
+
+    this.initMaterialize()
+  }
+
+  initMaterialize() {
+    const options = {
+      i18n: {
+        months: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+        monthsShort: ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'],
+        weekdays: ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'],
+        weekdaysShort: ['Вск', 'Пнд', 'Втр', 'Сре', 'Чтв', 'Птн', 'Суб'],
+        weekdaysAbbrev: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб']
+      },
+      firstDay: 1,
+      format: 'mm.dd.yyyy'
+    }
+
+    const modals = document.querySelectorAll('.modal');
+    const selects = document.querySelectorAll('select');
+    const datepickers = document.querySelectorAll('.datepicker');
+    M.Modal.init(modals);
+    M.FormSelect.init(selects);
+    M.Datepicker.init(datepickers, options)
   }
 
   onSubmit() {
@@ -112,8 +131,8 @@ export class EditTravelModalComponent implements OnInit {
       this.travelService.updateTravel(travelData, this.data.travel._id).subscribe(
         () => {
           //reload
+
           this.dialogRef.close()
-          this.techniqueForm.reset()
           MaterialService.toast('Ваша поездка обновлена')
         },
         error => {
@@ -162,41 +181,12 @@ export class EditTravelModalComponent implements OnInit {
     } else this.isTechnique = false
   }
 
-  loadTransport() {
-    this.cabinetService.getTransportByEmail(this.data.userEmail).subscribe(
-      data => {
-        this.techList.controls = []
-        data.forEach((el: any) => {
-          //@ts-ignore
-          let techArr = this.form.controls.travelTechnique.value?.[0]?.split(',');
-          if (techArr?.includes(el.name))
-            el.selected = true
-          this.addTechnique(el)
-        })
-        this.openAddTransport()
-      },
-      error => console.log(error)
-    )
-  }
-
-  createTechForm(data?: any): FormGroup {
-    return new FormGroup({
-      name: new FormControl(data?.name),
-      license: new FormControl(data?.license),
-      selected: new FormControl(data?.selected ?? false)
-    });
-  }
-
-  addTechnique(data?: any) {
-    this.techList.push(this.createTechForm(data));
-  }
-
   openEndPointMapDialog() {
-    let dialogRef = this.dialog.open(SelectEndPointComponent,
+    let dialogRef = this.dialog.open(SelectPointComponent,
       {
         data: {
           placemarks: this.placemarkEnd,
-          setCoordinates: this.setEndPointData.bind(this)
+          setData: this.setEndPointData.bind(this)
         }
       }
     );
@@ -204,8 +194,9 @@ export class EditTravelModalComponent implements OnInit {
   }
 
   openStartPointMapDialog() {
-    let dialogRef = this.dialog.open(SelectStartPointComponent, {
+    let dialogRef = this.dialog.open(SelectPointComponent, {
       data: {
+        placemarks: this.placemarkStart,
         setData: this.setStartPointData.bind(this)
       }
     });
@@ -217,7 +208,7 @@ export class EditTravelModalComponent implements OnInit {
     this.form.controls.startPointLongitude.setValue(longitude)
   }
 
-  setEndPointData(address: string, latitude: string, longitude: string) {
+  setEndPointData(latitude: string, longitude: string, address: string, ) {
     this.form.controls.endPointAddress.setValue(address)
     this.form.controls.endPointLatitude.setValue(latitude)
     this.form.controls.endPointLongitude.setValue(longitude)
@@ -226,37 +217,15 @@ export class EditTravelModalComponent implements OnInit {
   openAddTransport() {
     let dialogRef = this.dialog.open(AddTransportModalComponent, {
       data: {
-        setTechnique: this.setTechnique.bind(this),
-        selectTransport: this.selectTransport.bind(this),
-        removeTechnique: this.removeTechnique.bind(this),
-        addTechnique: this.addTechnique.bind(this),
-        techniqueForm: this.techniqueForm
+        userEmail: this.data.userEmail,
+        form: this.form,
+        setTechnique: this.setTechnique
       }
     });
     dialogRef.afterClosed().subscribe();
   }
 
-  selectTransport(index: number, status: boolean) {
-    this.techList.value[index].selected = !status
-  }
-
-  removeTechnique(index: any) {
-    this.techList.removeAt(index);
-  }
-
-  setTechnique(cabinet: any) {
-    this.cabinetService.updateCabinetData(cabinet).subscribe(
-      () => {
-        //@ts-ignore
-        let tech = []
-        this.techList.value.forEach((el: any) => {
-          if (el.selected) tech.push(el.name)
-        })
-        //@ts-ignore
-        this.form.controls.travelTechnique.setValue(tech)
-        MaterialService.toast('Вы успешно загрузили технику')
-      },
-      error => console.log(error)
-    )
+  setTechnique(tech: any) {
+    this.form.controls.travelTechnique.setValue(tech)
   }
 }
