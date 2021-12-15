@@ -26,10 +26,10 @@ export class JoinComponent implements OnInit {
       // this.email = params.email
       const pass = this.authService.getToken();
       const data = CryptoJS.AES.decrypt(params.email, pass).toString(CryptoJS.enc.Utf8);
-const dataSplitArray = data.split('/');
-this.organizerEmail = dataSplitArray[0];
-this.travelId = dataSplitArray[1];
-this.userEmail = dataSplitArray[2];
+      const dataSplitArray = data.split('/');
+      this.organizerEmail = dataSplitArray[0];
+      this.travelId = dataSplitArray[1];
+      this.userEmail = dataSplitArray[2];
     });
   }
 

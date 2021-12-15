@@ -86,15 +86,22 @@ module.exports.update = function (req, res) {
 }
 
 module.exports.join = function (req, res) {
-    Cabinet.findOne({email: req.body.email}).then(({fio}) => {
-        Travel.findOneAndUpdate({_id: req.body.id}, {
+    Cabinet.findOne({email: req.body.userEmail}).then((cabinet) => {
+        let userData = {
+            userEmail: req.body.userEmail,
+        }
+
+        if (!cabinet?.fio) {
+            userData.nickName = req.body.userEmail.split('@')[0]
+        } else {
+            userData.fio = cabinet.fio
+        }
+
+        Travel.findOneAndUpdate({_id: req.body.travelId}, {
             $push: {
-                joinedUsers: {
-                    userEmail: req.body.email,
-                    fio
-                }
+                joinedUsers: userData
             }
-        })
+        }).then(() => res.status(200).json({message: 'Пользователь присоединился'}))
     })
 }
 

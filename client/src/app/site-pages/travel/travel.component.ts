@@ -6,6 +6,8 @@ import {Sort} from "@angular/material/sort";
 import {ActivatedRoute} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {CreateTravelModalComponent} from "./create-travel-modal/create-travel-modal.component";
+import * as CryptoJS from "crypto-js";
+import {AuthService} from "../../shared/services/auth.service";
 
 @Component({
   selector: 'app-travel',
@@ -23,14 +25,27 @@ export class TravelComponent implements OnInit {
     private cabinetService: CabinetService,
     private route: ActivatedRoute,
     public dialog: MatDialog,
-  ) {  }
+    private authService: AuthService
+  ) {
+  }
 
   ngOnInit(): void {
-    let userEmail = this.route.snapshot.paramMap.get('userEmail');
-    let travelId = this.route.snapshot.paramMap.get('travelId');
-
+    let urlParams = this.route.snapshot.paramMap.get('cryptData');
     this.userEmail = this.userService.getUserDataFromLocal()
-    this.getUserTravels(this.userEmail)
+
+    if (urlParams) {
+      const pass = this.authService.getToken();
+      const data = CryptoJS.AES.decrypt(urlParams, pass).toString(CryptoJS.enc.Utf8);
+      let [userEmail, travelId] = data.split('/')
+      this.joinTravel(userEmail, travelId)
+    } else
+      this.getUserTravels(this.userEmail)
+  }
+
+  joinTravel(userEmail: string, travelId: string) {
+    this.travelService.joinTravel(userEmail, travelId).subscribe(() => {
+      this.getUserTravels(this.userEmail)
+    })
   }
 
   getUserTravels(userEmail: string) {

@@ -26,6 +26,7 @@ const routes: Routes = [
     path: '', component: SiteLayoutComponent, canActivate: [AuthGuard], children: [
       {path: 'cabinet', component: CabinetComponent, canActivate: [AuthGuard]},
       {path: 'map-travel', component: MapTravelComponent, canActivate: [AuthGuard]},
+      {path: 'travel/:cryptData', component: TravelComponent, canActivate: [AuthGuard]},
       {path: 'travel', component: TravelComponent, canActivate: [AuthGuard]},
       {path: 'chat', component: ChatComponent, canActivate: [AuthGuard]},
       {path: 'feed', component: LiveFeedComponent, canActivate: [AuthGuard]},
