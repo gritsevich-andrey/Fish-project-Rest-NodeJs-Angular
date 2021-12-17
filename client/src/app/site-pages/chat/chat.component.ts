@@ -16,7 +16,6 @@ import {Subscription} from "rxjs";
 export class ChatComponent implements OnInit, OnDestroy {
 
   // https://stackoverflow.com/questions/44857780/how-to-call-header-component-function-to-another-component-in-angular-2/44858648#44858648
-  // public data: any;
   // @ts-ignore
   chatInfoDto: SocketMessageDto;
   userEmail: string;
@@ -80,11 +79,13 @@ export class ChatComponent implements OnInit, OnDestroy {
         date: Date.now()
       }]
     }
-    if (this.role === 'DRIVER') {
-      // @ts-ignore
-      this.chatInfoDto['userEmail'] = this.userEmail;
-      this.chatInfoDto['receiverEmail'] = this.receiverEmail;
-    }
+    // if (this.role === 'DRIVER') {
+    //   this.chatInfoDto['userEmail'] = this.userEmail;
+    //   this.chatInfoDto['receiverEmail'] = this.receiverEmail;
+    // }
+    this.chatInfoDto['userEmail'] = this.userEmail;
+    this.chatInfoDto['receiverEmail'] = this.receiverEmail;
+
     if (this.receiverEmail) {
       this.socketService.sendMessage(this.chatInfoDto);
     } else {
@@ -154,13 +155,17 @@ export class ChatComponent implements OnInit, OnDestroy {
         userEmail: "",
         receiverEmail: ""
       };
-      if (this.role === 'DRIVER') {
-        connectData.userEmail = this.userEmail;
-        connectData.receiverEmail = receiverEmail;
-      } else {
-        connectData.userEmail = receiverEmail;
-        connectData.receiverEmail = this.userEmail;
-      }
+      // if (this.role === 'DRIVER') {
+      //   connectData.userEmail = this.userEmail;
+      //   connectData.receiverEmail = receiverEmail;
+      // } else {
+      //   connectData.userEmail = receiverEmail;
+      //   connectData.receiverEmail = this.userEmail;
+      // }
+
+      connectData.userEmail = this.userEmail;
+      connectData.receiverEmail = receiverEmail;
+
       // @ts-ignore
       this.socketService.sendMessage(connectData);
     }
