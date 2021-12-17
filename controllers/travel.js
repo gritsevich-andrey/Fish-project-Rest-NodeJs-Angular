@@ -19,8 +19,7 @@ module.exports.getTravelByUserEmail = (req, res) => {
 
 module.exports.getAllTravels = (req, res) => {
     Travel.find()
-        .then(travels =>
-            res.status(200).json(travels))
+        .then(travels => res.status(200).json(travels))
         .catch(e => errorHandler(res, e))
 }
 
@@ -85,23 +84,30 @@ module.exports.update = function (req, res) {
         .catch(e => errorHandler(res, e))
 }
 
-module.exports.join = function (req, res) {
-    Cabinet.findOne({email: req.body.userEmail}).then((cabinet) => {
+module.exports.join = async function (req, res) {
+    const cabinet = await Cabinet.findOne({email: req.body.userEmail})
+    const travel = await Travel.findOne({_id: req.body.travelId})
+    const userAlreadyJoined = travel.joinedUsers.some(user => user.userEmail === req.body.userEmail)
+
+    if (!userAlreadyJoined) {
         let userData = {
             userEmail: req.body.userEmail,
         }
-
         if (!cabinet?.fio) {
             userData.nickName = req.body.userEmail.split('@')[0]
         } else {
             userData.fio = cabinet.fio
         }
-        Travel.findOneAndUpdate({_id: req.body.travelId}, {
+
+        await travel.updateOne({
             $push: {
                 joinedUsers: userData
             }
-        }).then(() => res.status(200).json({message: 'Пользователь присоединился'}))
-    })
+        })
+        res.status(200).json({message: 'Пользователь присоединился'})
+    } else {
+        res.status(403).json({message: 'Пользователь уже присоединился'})
+    }
 }
 
 module.exports.changeUserStatus = function (req, res) {

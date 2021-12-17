@@ -33,7 +33,6 @@ export class PhotoService {
 
   getFeedPhotos(pageSize?: number, page?: number): Observable<any> {
     let url = environment.PHOTO_API
-    debugger
     if (pageSize && page) url = `${environment.PHOTO_API}?pagesize=${pageSize}&page=${page}`
     return this.http.get(url).pipe(
       map((data: any) =>
