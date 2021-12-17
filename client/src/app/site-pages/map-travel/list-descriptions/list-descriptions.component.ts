@@ -1,15 +1,13 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Travel} from "../../../shared/interfaces";
 import {MatDialog} from "@angular/material/dialog";
-import {DialogComponent} from "./dialog/dialog.component";
 import {ChatDialogComponent} from "./chat-dialog/chat-dialog.component";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {ReviewComponent} from "./review/review.component";
 import {CabinetService} from "../../cabinet/cabinet.service";
 import * as CryptoJS from 'crypto-js';
 import {UserService} from "../../../shared/services/user.service";
 import {AuthService} from "../../../shared/services/auth.service";
 import {Router} from "@angular/router";
+
 @Component({
   selector: 'app-list-descriptions',
   templateUrl: './list-descriptions.component.html',
