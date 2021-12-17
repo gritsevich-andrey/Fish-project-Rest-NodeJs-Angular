@@ -83,10 +83,7 @@
               </label>
             </p>
           </div>
-          <button mat-mini-fab type="submit" matTooltip="Сохранить изменения"
-                  [@borderForm]="borderState"
-          >
-            <mat-icon>send</mat-icon>
+          <button class="btn" type="submit" matTooltip="Сохранить изменения">Сохранить
           </button>
         </form>
       </div>
@@ -94,14 +91,6 @@
     <mat-tab label="Рейтинг и отзывы">
       <h2>Рейтинг и отзывы</h2>
       <div class="card-cabinet">
-<!--        <div class="cont">-->
-<!--          <div class="stars" *ngFor="let item of ratings">-->
-<!--            <p><b>Поездка: </b>{{item.travelTitle}}</p>-->
-<!--            <ngx-star-rating [(ngModel)]="item.sumValue" [id]="item.sumValue" [disabled]="true">-->
-<!--            </ngx-star-rating>-->
-<!--            <p><b>Средний рейтинг: </b>{{item.sumValue}}</p>-->
-<!--          </div>-->
-<!--        </div>-->
         <app-comment [reviews]="reviews" [ratings]="ratings"></app-comment>
       </div>
     </mat-tab>

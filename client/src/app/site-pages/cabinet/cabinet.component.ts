@@ -2,7 +2,6 @@ import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {mimeType} from "./mime-type.validator";
 import {WarningService} from "../../shared/services/warning.service";
-import {animate, state, style, transition, trigger} from "@angular/animations";
 import {UserService} from "../../shared/services/user.service";
 import {CabinetService} from "./cabinet.service";
 import {Photo} from "../../shared/interfaces";
@@ -12,14 +11,7 @@ import {Subscription} from "rxjs";
 @Component({
   selector: 'app-cabinet',
   templateUrl: './cabinet.component.html',
-  styleUrls: ['./cabinet.component.scss'],
-  animations: [
-    trigger('borderForm', [
-      state('start', style({background: 'red'})),
-      state('end', style({background: '#757575'})),
-      transition('start => end', animate('0.3s')),
-    ]),
-  ]
+  styleUrls: ['./cabinet.component.scss']
 })
 export class CabinetComponent implements OnInit, OnDestroy {
   // https://www.bezkoder.com/ngx-pagination-angular-8/
