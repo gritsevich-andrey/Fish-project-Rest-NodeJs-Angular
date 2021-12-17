@@ -33,16 +33,16 @@ export class JoinedTravelComponent implements OnInit {
   }
 
   getAcceptedUsers() {
-    return this.travel.joinedUsers.filter(el => el.status !== 'Ожидает подтверждение от водителя' && el.status !== 'Отказано')
+    return this.travel.joinedUsers.filter(user => user.status !== 'Ожидает подтверждение от водителя' && user.status !== 'Отказано')
   }
 
   getJoinedUsers() {
-    return this.travel.joinedUsers.filter((el: any) => el.status !== 'Отказано' && el.status !== 'Ожидает подтверждение от водителя')
+    return this.travel.joinedUsers.filter((user: any) => user.status !== 'Отказано' && user.status !== 'Ожидает подтверждение от водителя')
   }
 
   getUserStatus() {
     // @ts-ignore
-    const {status} = this.travel.joinedUsers.find((el: any) => el.userEmail === this.userEmail)
+    const {status} = this.travel.joinedUsers.find((user: any) => user.userEmail === this.userEmail)
     return status
   }
 
@@ -54,8 +54,8 @@ export class JoinedTravelComponent implements OnInit {
   }
 
   checkAllUsersPayed() {
-    const PayedUsersCount = this.travel.joinedUsers.filter((el: any) => el.status === 'Оплачено').length
-    return PayedUsersCount == this.travel.peoplesCount ? true : false
+    const PayedUsersCount = this.travel.joinedUsers.filter((user: any) => user.status === 'Оплачено').length
+    return PayedUsersCount == this.travel.peoplesCount
   }
 
   getTravelStatus() {
@@ -83,7 +83,7 @@ export class JoinedTravelComponent implements OnInit {
 
   getRejectReason() {
     //@ts-ignore
-    const {comment} = this.travel.joinedUsers.find((el: any) => el.userEmail === this.userEmail)
+    const {comment} = this.travel.joinedUsers.find((user: any) => user.userEmail === this.userEmail)
     return comment
   }
 

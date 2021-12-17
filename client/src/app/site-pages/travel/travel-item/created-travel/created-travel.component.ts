@@ -19,8 +19,6 @@ declare var M: {
 })
 export class CreatedTravelComponent implements OnInit {
   @Input() travel!: Travel;
-  @Input() setTravelPublic!: any;
-  @Input() openEditTravel!: any;
   @Input() getUserTravels!: any;
   @Input() userEmail!: string;
   @Input() openUserProfile!: any;
@@ -51,11 +49,11 @@ export class CreatedTravelComponent implements OnInit {
   }
 
   getNotAcceptedUsers() {
-    return this.travel.joinedUsers.filter(el => el.status === 'Ожидает подтверждение от водителя' || el.status === 'Отказано')
+    return this.travel.joinedUsers.filter(user => user.status === 'Ожидает подтверждение от водителя' || user.status === 'Отказано')
   }
 
   getAcceptedUsers() {
-    return this.travel.joinedUsers.filter(el => el.status !== 'Ожидает подтверждение от водителя' && el.status !== 'Отказано')
+    return this.travel.joinedUsers.filter(user => user.status !== 'Ожидает подтверждение от водителя' && user.status !== 'Отказано')
   }
 
   updateUserStatus(userEmail: string, status: string) {
@@ -69,7 +67,7 @@ export class CreatedTravelComponent implements OnInit {
   }
 
   getJoinedUsers(users: any) {
-    return users.filter((el: any) => el.status !== 'Отказано' && el.status !== 'Ожидает подтверждение от водителя')
+    return users.filter((user: any) => user.status !== 'Отказано' && user.status !== 'Ожидает подтверждение от водителя')
   }
 
   updateTravelStatus(status: string) {
@@ -80,8 +78,8 @@ export class CreatedTravelComponent implements OnInit {
   }
 
   checkAllUsersPayed() {
-    const PayedUsersCount = this.travel.joinedUsers.filter((el: any) => el.status === 'Оплачено').length
-    return PayedUsersCount == this.travel.peoplesCount ? true : false
+    const PayedUsersCount = this.travel.joinedUsers.filter((user: any) => user.status === 'Оплачено').length
+    return PayedUsersCount == this.travel.peoplesCount
   }
 
   openReviewDialog(receiverEmail: string) {
@@ -136,4 +134,9 @@ export class CreatedTravelComponent implements OnInit {
     }
   }
 
+
+  setTravelPublic(travelId: string) {
+    this.travel.isPublic = !this.travel.isPublic
+    this.travelService.updateTravel(this.travel, travelId).subscribe()
+  }
 }

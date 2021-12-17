@@ -25,6 +25,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   getImage() {
+    //must use
     if (this.userCabinet?.avatar) {
       return this.imagePreview = this.userCabinet.avatar
     } else {

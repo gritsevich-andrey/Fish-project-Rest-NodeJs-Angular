@@ -21,7 +21,6 @@ declare var M: {
 export class EditTravelModalComponent implements OnInit {
   form!: FormGroup;
   travelId!: string;
-  //Для отображения начальных точек
   placemarkStart: any = []
   placemarkEnd: any = []
   isTechnique = false;
@@ -53,10 +52,10 @@ export class EditTravelModalComponent implements OnInit {
 
   ngOnInit(): void {
     let {travel} = this.data
-    for (let item in travel) {
-      this.form.controls[item]?.setValue(travel[item])
-      if (item === 'date') this.form.controls.travelDate.setValue(travel[item])
-      if (item === 'address') this.form.controls.endPointAddress.setValue(travel[item])
+    for (let travelField in travel) {
+      this.form.controls[travelField]?.setValue(travel[travelField])
+      if (travelField === 'date') this.form.controls.travelDate.setValue(travel[travelField])
+      if (travelField === 'address') this.form.controls.endPointAddress.setValue(travel[travelField])
     }
     this.form.controls.startPointLatitude.setValue(travel.startPoint[0].latitude)
     this.form.controls.startPointLongitude.setValue(travel.startPoint[0].longitude)

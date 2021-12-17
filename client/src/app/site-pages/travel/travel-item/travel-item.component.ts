@@ -10,8 +10,6 @@ export class TravelItemComponent implements OnInit {
     @Input() travel!: Travel;
     @Input() openUserProfile!: any;
     @Input() userEmail!: string;
-    @Input() setTravelPublic!: any;
-    @Input() openEditTravel!: any;
     @Input() getUserTravels!: any;
 
     constructor() {

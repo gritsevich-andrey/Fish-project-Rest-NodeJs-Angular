@@ -50,7 +50,7 @@ export class TravelComponent implements OnInit {
 
   getUserTravels(userEmail: string) {
     this.travelService.getUserTravels(userEmail).subscribe(
-      data => this.userTravels = data,
+      travels => this.userTravels = travels,
       error => console.log(error)
     )
   }
@@ -85,8 +85,8 @@ export class TravelComponent implements OnInit {
   }
 
   openUserProfile(userEmail: string) {
-    this.cabinetService.getCabinetData(userEmail).subscribe(data => {
-      this.openedUserPage = data
+    this.cabinetService.getCabinetData(userEmail).subscribe(cabinet => {
+      this.openedUserPage = cabinet
     })
   }
 

@@ -2,10 +2,11 @@ export interface User {
   technique: { license: any; name: any }[];
   email: string,
   password: string,
-  role:[string],
-  reviews:[{userEmail: string, commentText: string}],
-  ratings:[{travelTitle: string, travelId: string, sumValue: number}]
+  role: [string],
+  reviews: [{ userEmail: string, commentText: string }],
+  ratings: [{ travelTitle: string, travelId: string, sumValue: number }]
 }
+
 export interface Photo {
   imageSrc: string,
   userEmail: string,
@@ -13,6 +14,7 @@ export interface Photo {
   moderation: boolean,
   public: boolean
 }
+
 export interface SocketMessageDto {
   userEmail: string;
   receiverEmail?: string;
@@ -22,17 +24,18 @@ export interface SocketMessageDto {
     date: Date
   }]
 }
+
 export interface Travel {
   name: string;
-travelId: string;
+  travelId: string;
   userEmail: string;
   date: Date;
   address: string;
-    endPoint: [{latitude: string, longitude: string}],
-    startPoint: [{latitude: string, longitude: string}],
+  endPoint: [{ latitude: string, longitude: string }],
+  startPoint: [{ latitude: string, longitude: string }],
   costPerPeople: string,
   description: string,
-  isPublic: true,
+  isPublic: boolean,
   peoplesCount: number,
   title: string,
   travelTarget: string,
