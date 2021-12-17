@@ -16,7 +16,7 @@ export interface Photo {
 export interface SocketMessageDto {
   userEmail: string;
   receiverEmail?: string;
-  passenger: [{
+  passenger?: [{
     email: string,
     message: string,
     date: Date

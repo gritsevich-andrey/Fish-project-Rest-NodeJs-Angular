@@ -98,13 +98,20 @@ export class ChatComponent implements OnInit, OnDestroy {
   getInfoWithChatDto() {
     const infoUsers: { email: string, message: string, date: Date }[] = [];
     this.socketService.chatInfo.map(data => {
+      // @ts-ignore
       data.passenger.forEach(value => {
         infoUsers.push(value);
       })
     });
     const sortedArray = infoUsers.sort(
+      //@ts-ignore
       (item1: any, item2: any) => {
-        return item1.date - item2.date;
+        if (item1.date < item2.date)
+        return -1;
+        if (item1.date > item2.date)
+          return 1;
+        if (item1.date === item2.date)
+          return 0;
       });
     return sortedArray;
   }
@@ -151,7 +158,7 @@ export class ChatComponent implements OnInit, OnDestroy {
         passenger: [
           {
             // @ts-ignore
-            date: Date.now(), email: "", message: ` ${this.userEmail} присоединился`}],
+            date: Date.now(), email: "", message: ``}],
         userEmail: "",
         receiverEmail: ""
       };

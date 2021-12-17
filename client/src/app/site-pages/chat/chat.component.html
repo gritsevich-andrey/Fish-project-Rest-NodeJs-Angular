@@ -5,7 +5,7 @@
         <div  class="card">
           <ul >
             <li class="user-container">
-              <span><button class="btn" (click)="receiverEmail=''">Показать все</button></span>
+              <span class="show-align"><button class="btn" (click)="receiverEmail=''">Показать все</button></span>
               <span *ngFor="let email of getUniqueReceiver()" class="user-left" (click)="addReceiverEmail(email)">{{email}}</span>
             </li>
           </ul>
@@ -25,7 +25,7 @@
              (scrolled)="onScrollDown()"
              [alwaysCallback]="true">
           <ul *ngFor="let info of getInfoWithChatDto() | search: receiverEmail">
-            <li class="chat-container">
+            <li *ngIf="info.message && !(info.message.includes('присоединился'))"  class="chat-container">
               <span class="user-left" (click)="addReceiverEmail(info.email)">{{info.email}} </span>
               <span class="p10">{{info.message}} </span>
               <span class="time-right">{{info.date | date: 'd.MM.YY HH:mm'}} </span>
@@ -45,7 +45,7 @@
   <form (ngSubmit)="sendMessage(sendForm)" #sendForm="ngForm">
     <div class="row">
       <div>
-        <textarea placeholder="Вначале нужно выбрать с кем хотите поговорить" type="text" class="mat-form-field-autofill-control" name="message" id="input-message" ngModel></textarea>
+        <textarea autofocus placeholder="Вначале нужно выбрать с кем хотите поговорить" type="text" class="mat-form-field-autofill-control" name="message" id="input-message" ngModel></textarea>
       </div>
       <div>
         <button [disabled]="!receiverEmail" type="submit" class="btn">Отправить</button>

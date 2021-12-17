@@ -42,11 +42,7 @@ export class ChatDialogComponent {
   }
 
   private saveInDb() {
-     this.chatService.saveMessage(this.chatInfoDto).subscribe(data => {
-         console.log('Объект для отправки в базу', this.chatInfoDto);
-        console.log('Данные полученные из базы через диалог в базу', data);
-      this.warningService.sendWarning(`Сообщение отравлено`);
-      },
+     this.chatService.saveMessage(this.chatInfoDto).subscribe(()=>this.warningService.sendWarning(`Сообщение отравлено`),
       error => this.warningService.sendWarning(`Ошибка отправки сообщения`, error));
   }
 }
