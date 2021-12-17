@@ -17,7 +17,7 @@
     <tbody>
     <tr *ngFor="let user of getAcceptedUsers(), let j = index">
       <td>{{j + 1}}</td>
-      <td (click)="openUserProfile(user.userEmail)">{{user.fio}}</td>
+      <td (click)="openUserProfile(user.userEmail)">{{user.fio || user.nickName}}</td>
       <td>{{user.status}}</td>
       <td *ngIf="travel.status === 'ended'">
         <button class="waves-effect waves-light btn" (click)="openReviewDialog(user.userEmail)">Отзыв</button>
@@ -51,7 +51,7 @@
     <tbody>
     <tr *ngFor="let user of getNotAcceptedUsers(), let j = index">
       <td>{{j + 1}}</td>
-      <td (click)="openUserProfile(user.userEmail)">{{user.fio}}</td>
+      <td (click)="openUserProfile(user.userEmail)">{{user.fio || user.nickName}}</td>
       <td>{{user.status}}</td>
       <td>
         <form [formGroup]="rejectUserForm" (ngSubmit)="rejectFormSubmit(user.userEmail)">
@@ -106,13 +106,6 @@
       (click)="setTravelPublic(travel._id)"
       matTooltip="Повторить поездку"
     >Повторить</button>
-<!--    <button-->
-<!--      class="waves-effect waves-light btn modal-trigger"-->
-<!--      data-target="editTravel"-->
-<!--      matTooltip="Редактировать поездку"-->
-<!--      (click)="openEditTravelModal(travel)"-->
-<!--    >Редактировать-->
-<!--    </button>-->
     <button
       class="waves-effect waves-light btn"
       (click)="openEditTravelModal(travel)"

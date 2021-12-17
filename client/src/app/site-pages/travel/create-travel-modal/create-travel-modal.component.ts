@@ -13,7 +13,6 @@ declare var M: {
   Datepicker: { init: (arg0: NodeListOf<Element>, arg1: any) => any; }
 }
 
-
 @Component({
   selector: 'app-create-travel-modal',
   templateUrl: './create-travel-modal.component.html',

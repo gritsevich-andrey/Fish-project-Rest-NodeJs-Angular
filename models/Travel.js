@@ -70,7 +70,8 @@ const travelSchema = new Schema({
             userEmail: {type: String},
             status: {type: String, default: 'Ожидает подтверждение от водителя'},
             comment: {type: String},
-            fio: {type: String}
+            fio: {type: String},
+            nickName: {type: String}
         }
     ],
     status: {

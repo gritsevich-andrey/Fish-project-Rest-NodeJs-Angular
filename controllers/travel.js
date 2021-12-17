@@ -96,7 +96,6 @@ module.exports.join = function (req, res) {
         } else {
             userData.fio = cabinet.fio
         }
-
         Travel.findOneAndUpdate({_id: req.body.travelId}, {
             $push: {
                 joinedUsers: userData

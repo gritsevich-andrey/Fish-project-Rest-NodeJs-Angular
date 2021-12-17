@@ -31,7 +31,7 @@
         <tbody>
         <tr *ngFor="let user of getAcceptedUsers(), let j = index">
           <td>{{j + 1}}</td>
-          <td (click)="openUserProfile(user.userEmail)">{{user.fio}}</td>
+          <td (click)="openUserProfile(user.userEmail)">{{user.fio || user.nickName}}</td>
         </tr>
         </tbody>
       </table>

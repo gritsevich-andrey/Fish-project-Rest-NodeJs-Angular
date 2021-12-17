@@ -124,13 +124,16 @@ export class CreatedTravelComponent implements OnInit {
   }
 
   rejectFormSubmit(userEmail: string) {
-    if(!this.rejectUserForm.valid)
-      return MaterialService.toast('Укажите причину отказа')
-    this.travelService.updateUserRejectComment(this.travel._id, userEmail, this.rejectUserForm.controls.comment.value).subscribe(
-      () => {
-        this.updateUserStatus(userEmail, 'Отказано')
-      },
-      error => console.log(error)
-    )
+    if (!this.rejectUserForm.valid) {
+      MaterialService.toast('Укажите причину отказа')
+    } else {
+      this.travelService.updateUserRejectComment(this.travel._id, userEmail, this.rejectUserForm.controls.comment.value).subscribe(
+        () => {
+          this.updateUserStatus(userEmail, 'Отказано')
+        },
+        error => console.log(error)
+      )
+    }
   }
+
 }

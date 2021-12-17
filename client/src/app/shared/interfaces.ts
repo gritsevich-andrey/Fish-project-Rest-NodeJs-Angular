@@ -44,6 +44,7 @@ travelId: string;
     fio: string
     status: string
     comment: string
+    nickName: string
   }]
   _id: string
   status: string

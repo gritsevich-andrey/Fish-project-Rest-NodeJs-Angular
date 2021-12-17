@@ -30,46 +30,46 @@ export class AddTransportModalComponent implements OnInit {
   loadTransport() {
     this.techList = this.techniqueForm.get('technique') as FormArray;
     this.cabinetService.getTransportByEmail(this.data.userEmail).subscribe(
-      data => {
+      transports => {
         this.techList.controls = []
 
         let techArr: any = this.data.form.controls.travelTechnique.value?.[0].split(',')
-        data.forEach((el: any) => {
+        transports.forEach((transport: any) => {
           //@ts-ignore
-          if (techArr.includes(el.name))
-            el.selected = true
-          this.addTechnique(el)
+          if (techArr.includes(transport.name))
+            transport.selected = true
+          this.addTechnique(transport)
         })
       },
       error => console.log(error)
     )
   }
 
-  addTechnique(data?: any) {
-    this.techList.push(this.createTechForm(data));
+  addTechnique(transport?: any) {
+    this.techList.push(this.createTechForm(transport));
   }
 
-  createTechForm(data?: any): FormGroup {
+  createTechForm(transport?: any): FormGroup {
     return new FormGroup({
-      name: new FormControl(data?.name),
-      license: new FormControl(data?.license),
-      selected: new FormControl(data?.selected ?? false)
+      name: new FormControl(transport?.name),
+      license: new FormControl(transport?.license),
+      selected: new FormControl(transport?.selected ?? false)
     });
   }
 
   techniqueFormSubmit() {
     this.cabinetService.getCabinetData(this.data.userEmail).subscribe(
-      data => {
+      cabinet => {
         let tech: any = []
-        this.techList.value.forEach((el: any) => {
+        this.techList.value.forEach((technique: any) => {
           tech.push({
-            name: el.name,
-            license: el.license
+            name: technique.name,
+            license: technique.license
           })
         })
         //@ts-ignore
-        data.technique = tech
-        this.setTechnique(data)
+        cabinet.technique = tech
+        this.setTechnique(cabinet)
       },
       error => console.log(error)
     )

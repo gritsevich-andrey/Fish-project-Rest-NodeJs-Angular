@@ -131,7 +131,6 @@ export class EditTravelModalComponent implements OnInit {
       this.travelService.updateTravel(travelData, this.data.travel._id).subscribe(
         () => {
           //reload
-
           this.dialogRef.close()
           MaterialService.toast('Ваша поездка обновлена')
         },
