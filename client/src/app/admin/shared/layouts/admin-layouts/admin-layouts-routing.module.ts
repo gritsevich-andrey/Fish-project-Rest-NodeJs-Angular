@@ -6,6 +6,7 @@ import {ComplaintsComponent} from "../../../users/complaints/complaints.componen
 import {PhotosComponent} from "../../../photos/photos/photos.component";
 import {ReviewsComponent} from "../../../reviews/reviews.component";
 import {ReviewsListComponent} from "../../../reviews/reviews-list/reviews-list.component";
+import {TravelsComponent} from "../../../travels/travels.component";
 
 const routes: Routes = [{
   path: '', component: AdminLayoutsComponent, children: [
@@ -23,7 +24,10 @@ const routes: Routes = [{
     },
     {
       path: 'reviews/:id', component: ReviewsListComponent
-    }
+    },
+    {
+      path: 'travels', component: TravelsComponent
+    },
   ]
 }];
 

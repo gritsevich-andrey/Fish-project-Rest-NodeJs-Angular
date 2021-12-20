@@ -17,7 +17,7 @@ export class MapTravelComponent implements OnInit {
   valueRadio: string | undefined;
   travels: Travel[] = [];
   page = 0;
-  pageSize = 4;
+  pageSize = 10;
 
   constructor(private travelService: TravelService, private emitterService: EmitterService) {
   }

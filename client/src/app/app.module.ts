@@ -96,7 +96,7 @@ const mapConfig: YaConfig = {
     EditTravelModalComponent,
     CreateTravelModalComponent,
     AddTransportModalComponent,
-    SelectPointComponent,
+    SelectPointComponent
   ],
   imports: [
     NgImageSliderModule,

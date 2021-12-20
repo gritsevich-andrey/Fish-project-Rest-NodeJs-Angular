@@ -16,6 +16,8 @@ import {ReviewsComponent} from "../../../reviews/reviews.component";
 import {NgxStarRatingModule} from "ngx-star-rating";
 import {AverageRatingComponent} from "../../../reviews/average-rating/average-rating.component";
 import {ReviewsListComponent} from "../../../reviews/reviews-list/reviews-list.component";
+import {TravelsComponent} from "../../../travels/travels.component";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 
 @NgModule({
@@ -25,7 +27,9 @@ import {ReviewsListComponent} from "../../../reviews/reviews-list/reviews-list.c
     PhotosComponent,
     ReviewsComponent,
     AverageRatingComponent,
-    ReviewsListComponent
+    ReviewsListComponent,
+    PhotosComponent,
+    TravelsComponent
   ],
   imports: [
     CommonModule,
@@ -36,6 +40,7 @@ import {ReviewsListComponent} from "../../../reviews/reviews-list/reviews-list.c
     NgxPaginationModule,
     NgImageSliderModule,
     NgxStarRatingModule,
+    MatTooltipModule
   ],
   exports: [
     SearchFilterPipe
