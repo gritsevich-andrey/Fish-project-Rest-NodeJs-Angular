@@ -12,23 +12,31 @@ import {SearchFilterPipe} from "../../../../pipe/search-filter.pipe";
 import {PhotosComponent} from "../../../photos/photos/photos.component";
 import {NgImageSliderModule} from "ng-image-slider";
 import {EmitterService} from "../../../../shared/services/emitter.service";
+import {ReviewsComponent} from "../../../reviews/reviews.component";
+import {NgxStarRatingModule} from "ngx-star-rating";
+import {AverageRatingComponent} from "../../../reviews/average-rating/average-rating.component";
+import {ReviewsListComponent} from "../../../reviews/reviews-list/reviews-list.component";
 
 
 @NgModule({
   declarations: [
     AdminLayoutsComponent,
     UsersComponent,
-    PhotosComponent
+    PhotosComponent,
+    ReviewsComponent,
+    AverageRatingComponent,
+    ReviewsListComponent
   ],
-    imports: [
-        CommonModule,
-        AdminLayoutsRoutingModule,
-        SharedModule,
-        MatSortModule,
-        MatTableModule,
-        NgxPaginationModule,
-        NgImageSliderModule,
-    ],
+  imports: [
+    CommonModule,
+    AdminLayoutsRoutingModule,
+    SharedModule,
+    MatSortModule,
+    MatTableModule,
+    NgxPaginationModule,
+    NgImageSliderModule,
+    NgxStarRatingModule,
+  ],
   exports: [
     SearchFilterPipe
   ],

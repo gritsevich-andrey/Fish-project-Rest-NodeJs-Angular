@@ -173,3 +173,4 @@ module.exports.getRating = function (req, res) {
         })
         .catch(e => errorHandler(res, e))
 }
+

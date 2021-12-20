@@ -1,0 +1,24 @@
+<div class="container">
+  <h1>Отзывы на поездку</h1>
+  <table>
+    <thead>
+    <tr>
+      <th>Дата</th>
+      <th>ФИО</th>
+      <!--может лучше почта-->
+      <th>Текст отзыва</th>
+      <th>Удалить/Восстановить</th>
+    </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let review of reviews">
+        <td>{{review.date | date: 'dd/MM/yyyy'}}</td>
+        <td>{{review.userEmail}}</td>
+        <td>{{review.reviewText}}</td>
+        <td>
+          <button class="btn">Удалить</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

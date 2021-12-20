@@ -24,7 +24,7 @@ export class AdminLayoutsComponent implements OnInit {
     },
     {
       title: 'Отзывы и рейтинг',
-      href: 'rating',
+      href: 'reviews',
       icon: 'star'
     },
     {

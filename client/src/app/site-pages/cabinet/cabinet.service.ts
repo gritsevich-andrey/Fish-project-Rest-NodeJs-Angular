@@ -15,8 +15,8 @@ export class CabinetService {
   getCabinetData(email: string): Observable<User> {
     return this.http.get<User>(environment.CABINET_API + `/${email}`);
   }
-  getCabinetRating(travelId: string, email: string): Observable<User> {
-    return this.http.get<User>(environment.CABINET_API + `/rating/${travelId}/${email}`);
+  getCabinetRating(travelId: string, email: string): Observable<any> {
+    return this.http.get<any>(environment.CABINET_API + `/rating/${travelId}/${email}`);
   }
 
   createCabinetData(data: any, image?: File): Observable<any> {

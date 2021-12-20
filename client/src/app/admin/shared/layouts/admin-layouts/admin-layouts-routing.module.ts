@@ -4,6 +4,8 @@ import {AdminLayoutsComponent} from './admin-layouts.component';
 import {UsersComponent} from "../../../users/users.component";
 import {ComplaintsComponent} from "../../../users/complaints/complaints.component";
 import {PhotosComponent} from "../../../photos/photos/photos.component";
+import {ReviewsComponent} from "../../../reviews/reviews.component";
+import {ReviewsListComponent} from "../../../reviews/reviews-list/reviews-list.component";
 
 const routes: Routes = [{
   path: '', component: AdminLayoutsComponent, children: [
@@ -15,6 +17,12 @@ const routes: Routes = [{
     },
     {
       path: 'photos', component: PhotosComponent
+    },
+    {
+      path: 'reviews', component: ReviewsComponent
+    },
+    {
+      path: 'reviews/:id', component: ReviewsListComponent
     }
   ]
 }];
