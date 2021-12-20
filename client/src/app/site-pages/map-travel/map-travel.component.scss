@@ -21,6 +21,7 @@
 .map-container {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
 }
 .list-container{
   display: flex;
@@ -28,7 +29,7 @@
 }
 .radio-group {
   display: flex;
-  flex-direction: column;
+  //flex-direction: column;
   margin: 15px 0;
 }
 
