@@ -4,6 +4,7 @@ import {AdminLayoutsComponent} from './admin-layouts.component';
 import {UsersComponent} from "../../../users/users.component";
 import {ComplaintsComponent} from "../../../users/complaints/complaints.component";
 import {PhotosComponent} from "../../../photos/photos/photos.component";
+import {TravelsComponent} from "../../../travels/travels.component";
 
 const routes: Routes = [{
   path: '', component: AdminLayoutsComponent, children: [
@@ -15,7 +16,10 @@ const routes: Routes = [{
     },
     {
       path: 'photos', component: PhotosComponent
-    }
+    },
+    {
+      path: 'travels', component: TravelsComponent
+    },
   ]
 }];
 

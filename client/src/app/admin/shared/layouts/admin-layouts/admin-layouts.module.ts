@@ -12,23 +12,27 @@ import {SearchFilterPipe} from "../../../../pipe/search-filter.pipe";
 import {PhotosComponent} from "../../../photos/photos/photos.component";
 import {NgImageSliderModule} from "ng-image-slider";
 import {EmitterService} from "../../../../shared/services/emitter.service";
+import {TravelsComponent} from "../../../travels/travels.component";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 
 @NgModule({
   declarations: [
     AdminLayoutsComponent,
     UsersComponent,
-    PhotosComponent
+    PhotosComponent,
+    TravelsComponent
   ],
-    imports: [
-        CommonModule,
-        AdminLayoutsRoutingModule,
-        SharedModule,
-        MatSortModule,
-        MatTableModule,
-        NgxPaginationModule,
-        NgImageSliderModule,
-    ],
+  imports: [
+    CommonModule,
+    AdminLayoutsRoutingModule,
+    SharedModule,
+    MatSortModule,
+    MatTableModule,
+    NgxPaginationModule,
+    NgImageSliderModule,
+    MatTooltipModule,
+  ],
   exports: [
     SearchFilterPipe
   ],
