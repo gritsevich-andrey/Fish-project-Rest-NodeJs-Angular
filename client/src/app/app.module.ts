@@ -60,6 +60,7 @@ import {CreateTravelModalComponent} from './site-pages/travel/create-travel-moda
 import {AddTransportModalComponent} from './site-pages/travel/add-transport-modal/add-transport-modal.component';
 import {SelectPointComponent} from './site-pages/travel/select-point/select-point.component';
 import { TripComponent } from './admin/travels/trip/trip.component';
+import { DeleteDialogComponent } from './admin/travels/delete-dialog/delete-dialog.component';
 
 const mapConfig: YaConfig = {
   apikey: '6c5c5f61-fa87-4efd-8ad9-f652f1fd0727',

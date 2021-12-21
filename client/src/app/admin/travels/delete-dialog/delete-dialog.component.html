@@ -1,0 +1,9 @@
+<mat-dialog-actions>
+  <mat-form-field class="full-width" appearance="fill">
+    <h3 class="mat-title">Объяснить причину удаления поездки</h3>
+    <mat-label>Текст сообщения</mat-label>
+    <textarea matInput name="message" [(ngModel)]="message"></textarea>
+  </mat-form-field>
+  <button mat-button mat-dialog-close>Отмена</button>
+  <button mat-button matTooltip="Разослать причину удаления в чат участников и удалить поездку" [mat-dialog-close]="true" cdkFocusInitial (click)="saveMessage()">Удалить</button>
+</mat-dialog-actions>

@@ -18,6 +18,12 @@ import {AverageRatingComponent} from "../../../reviews/average-rating/average-ra
 import {ReviewsListComponent} from "../../../reviews/reviews-list/reviews-list.component";
 import {TravelsComponent} from "../../../travels/travels.component";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatIconModule} from "@angular/material/icon";
+import {MatButtonModule} from "@angular/material/button";
+import {DeleteDialogComponent} from "../../../travels/delete-dialog/delete-dialog.component";
+import {MatDialogModule} from "@angular/material/dialog";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
 
 
 @NgModule({
@@ -29,7 +35,8 @@ import {MatTooltipModule} from "@angular/material/tooltip";
     AverageRatingComponent,
     ReviewsListComponent,
     PhotosComponent,
-    TravelsComponent
+    TravelsComponent,
+    DeleteDialogComponent
   ],
   imports: [
     CommonModule,
@@ -40,7 +47,12 @@ import {MatTooltipModule} from "@angular/material/tooltip";
     NgxPaginationModule,
     NgImageSliderModule,
     NgxStarRatingModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatIconModule,
+    MatButtonModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   exports: [
     SearchFilterPipe

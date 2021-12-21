@@ -13,4 +13,7 @@ export class TravelService {
   getTravels(): Observable<any>{
     return this.http.get(environment.TRAVEL_API);
   }
+  deleteTravel(travelId: string): Observable<any>{
+    return this.http.delete(environment.TRAVEL_API + `/${travelId}`);
+  }
 }
