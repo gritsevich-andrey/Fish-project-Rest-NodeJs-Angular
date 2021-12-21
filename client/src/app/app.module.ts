@@ -59,6 +59,7 @@ import {EditTravelModalComponent} from './site-pages/travel/travel-item/created-
 import {CreateTravelModalComponent} from './site-pages/travel/create-travel-modal/create-travel-modal.component';
 import {AddTransportModalComponent} from './site-pages/travel/add-transport-modal/add-transport-modal.component';
 import {SelectPointComponent} from './site-pages/travel/select-point/select-point.component';
+import { TripComponent } from './admin/travels/trip/trip.component';
 
 const mapConfig: YaConfig = {
   apikey: '6c5c5f61-fa87-4efd-8ad9-f652f1fd0727',
@@ -96,7 +97,8 @@ const mapConfig: YaConfig = {
     EditTravelModalComponent,
     CreateTravelModalComponent,
     AddTransportModalComponent,
-    SelectPointComponent
+    SelectPointComponent,
+    TripComponent
   ],
   imports: [
     NgImageSliderModule,

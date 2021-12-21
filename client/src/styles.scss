@@ -45,6 +45,9 @@
 .pointer {
   cursor: pointer;
 }
+.pointer:hover {
+  color: var(--button-color);
+}
 .order-row {
   flex-wrap: wrap;
 }

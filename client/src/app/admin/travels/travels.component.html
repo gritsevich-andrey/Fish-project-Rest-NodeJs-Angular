@@ -1,9 +1,9 @@
 <h2>Модерация путешествий</h2>
 <table matSort (matSortChange)="sortData($event)">
   <tr>
-    <th mat-sort-header="npp">Nпп</th>
+    <th mat-sort-header="npp">№</th>
     <th mat-sort-header="date">Дата</th>
-    <th mat-sort-header="userEmail">Email орган</th>
+    <th mat-sort-header="name">Название</th>
     <th mat-sort-header="joinedUsers">Участники</th>
     <th mat-sort-header="description">Описание</th>
   </tr>
@@ -11,11 +11,11 @@
   <tr *ngFor="let travel of sortedData; let i = index">
     <td>{{i+1}}</td>
         <td>{{travel.date}}</td>
-    <td>{{travel.userEmail}}</td>
+    <td><span class="pointer" (click)="openDialog(travel._id)">{{travel.name}}</span></td>
     <td>
       <ul *ngFor="let joinUser of travel.joinedUsers">
         <li>
-          {{joinUser.fio + ' ' + joinUser.userEmail}}
+          {{joinUser.fio}}
         </li>
       </ul>
     </td>

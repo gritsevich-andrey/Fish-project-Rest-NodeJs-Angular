@@ -1,14 +1,18 @@
 import {Component, OnInit} from '@angular/core';
 import {Sort} from "@angular/material/sort";
 import {TravelService} from "../shared/services/travel.service";
+import {ChatDialogComponent} from "../../site-pages/map-travel/list-descriptions/chat-dialog/chat-dialog.component";
+import {MatDialog} from "@angular/material/dialog";
+import {TripComponent} from "./trip/trip.component";
 
 export interface Travels {
   npp: number;
-  userEmail: string;
+  name: string;
   description: number;
   // @ts-ignore
-  joinedUsers: string[{fio: string, userEmail: string}];
+  joinedUsers: string[{fio: string, name: string}];
   date: string;
+  _id: string;
 }
 
 @Component({
@@ -18,17 +22,13 @@ export interface Travels {
 })
 export class TravelsComponent implements OnInit {
   travels: Travels[] = [
-    // {date: 'Frozen yogurt', userEmail: '159', joinedUsers: 6, description: 24},
-    // {date: 'Ice cream sandwich', userEmail: 237, joinedUsers: 9, description: 37},
-    // {date: 'Eclair', userEmail: 262, joinedUsers: 16, description: 24},
-    // {date: 'Cupcake', userEmail: 305, joinedUsers: 4, description: 67},
-    // {date: 'Gingerbread', userEmail: 356, joinedUsers: 16, description: 49},
   ];
 //@ts-ignore
   sortedData: Travels[];
   textDesc = '';
 
-  constructor(private travelService: TravelService) {
+  constructor(private travelService: TravelService,
+              public dialog: MatDialog) {
     // this.sortedData = this.travels.slice();
   }
 
@@ -54,8 +54,8 @@ export class TravelsComponent implements OnInit {
           return compare(a.npp, b.npp, isAsc);
         case 'date':
           return compare(a.date, b.date, isAsc);
-        case 'userEmail':
-          return compare(a.userEmail, b.userEmail, isAsc);
+        case 'name':
+          return compare(a.name, b.name, isAsc);
         // case 'joinedUsers':
         //   return compare(a.joinedUsers, b.joinedUsers, isAsc);
         case 'description':
@@ -64,6 +64,20 @@ export class TravelsComponent implements OnInit {
           return 0;
       }
     });
+  }
+
+  openDialog(_id: string) {
+    const travels = JSON.parse(JSON.stringify(this.travels));
+
+  const filteredTravels= travels.filter((data: Travels) => {
+     return  data._id === _id;
+    });
+    const dialogRef = this.dialog.open(TripComponent,
+      {
+        data: filteredTravels
+      }
+    );
+    dialogRef.afterClosed().subscribe();
   }
 }
 
