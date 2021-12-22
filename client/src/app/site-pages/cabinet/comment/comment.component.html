@@ -16,10 +16,9 @@
     <p><b>Поездка: </b>{{item.travelTitle}}</p>
     <ngx-star-rating [(ngModel)]="item.sumValue" [id]="item.travelId" [disabled]="true">
     </ngx-star-rating>
-    <p><b>Средний рейтинг: </b>{{item.sumValue}}</p>
+    <p><b>Средний рейтинг за поездку: </b>{{item.sumValue}}</p>
   </div>
 </div>
-
 
 <div class="reviewView-container">
   <div class="align-column" *ngFor="let review of reviews | search: valueRadio">
