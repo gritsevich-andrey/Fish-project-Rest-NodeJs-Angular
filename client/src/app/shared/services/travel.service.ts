@@ -58,9 +58,5 @@ export class TravelService {
   joinTravel(userEmail: string, travelId: string): Observable<any> {
     return this.http.patch(environment.TRAVEL_API + '/join', {travelId, userEmail})
   }
-
-  getTravelReviews(travelId: string): Observable<any> {
-    return this.http.get(environment.TRAVEL_API + '/get-travel-reviews/' + travelId)
-  }
 }
 

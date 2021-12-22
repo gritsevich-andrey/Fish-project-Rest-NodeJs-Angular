@@ -7,6 +7,7 @@ const router = express.Router();
 
 // http://localhost:5000/api/cabinet
 const authenticate = passport.authenticate('jwt', {session: false});
+router.get('/get-cabinets-with-reviews', controller.getCabinetsWithReviews);
 router.get('/',authenticate , controller.getAll);
 router.get('/:email',authenticate, controller.getByEmail);
 router.post('/fio',authenticate,controller.getFIO)

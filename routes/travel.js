@@ -8,7 +8,6 @@ const router = express.Router();
 const authenticate = passport.authenticate('jwt', {session: false});
 router.get('/:userEmail', authenticate, controller.getTravelByUserEmail);
 router.get('/', authenticate, controller.getAllTravels);
-router.get('/get-travel-reviews/:id', /*authenticate,*/ controller.getTravelReviews);
 router.get('/get-travel/:id', authenticate, controller.getTravelById);
 router.post('/', authenticate, upload.single('image'), controller.create);
 router.patch('/update/:id', authenticate, upload.single('image'), controller.update);

@@ -24,9 +24,5 @@ export class ReviewsListComponent implements OnInit {
   }
 
   getReviews(travelId: string) {
-    this.travelService.getTravelReviews(travelId).subscribe(reviews => {
-          this.reviews = reviews
-      },
-      error => console.log(error))
   }
 }

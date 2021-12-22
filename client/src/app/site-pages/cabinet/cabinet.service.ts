@@ -15,6 +15,7 @@ export class CabinetService {
   getCabinetData(email: string): Observable<User> {
     return this.http.get<User>(environment.CABINET_API + `/${email}`);
   }
+
   getCabinetRating(travelId: string, email: string): Observable<any> {
     return this.http.get<any>(environment.CABINET_API + `/rating/${travelId}/${email}`);
   }
@@ -80,5 +81,19 @@ export class CabinetService {
 
   getTransportByEmail(userEmail: string) {
     return this.http.get(environment.CABINET_API + '/' + userEmail).pipe(map((data: any) => JSON.parse(data.technique)))
+  }
+
+  getReviewsCabinetData(): Observable<any> {
+    return this.http.get(environment.CABINET_API + '/get-cabinets-with-reviews')
+    //   .pipe(map(
+    //   (cabinet: any) => {
+    //     debugger
+    //     return {
+    //       reviews: cabinet.reviews,
+    //       ratings: cabinet.ratings,
+    //       fio: cabinet.fio
+    //     }
+    //   }
+    // ))
   }
 }

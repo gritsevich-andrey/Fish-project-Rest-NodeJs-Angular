@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Travel} from "../../shared/interfaces";
-import {TravelService} from "../../shared/services/travel.service";
+import {CabinetService} from "../../site-pages/cabinet/cabinet.service";
 
 declare var M: { FormSelect: { init: (arg0: NodeListOf<Element>) => any; }; }
 
@@ -16,7 +16,7 @@ export class ReviewsComponent implements OnInit {
   travelsData: Travel[] = []
 
   constructor(
-    private travelService: TravelService
+    private cabinetService: CabinetService
   ) {
   }
 
@@ -27,8 +27,36 @@ export class ReviewsComponent implements OnInit {
   }
 
   getAllTravels() {
-    this.travelService.getAllTravels().subscribe(travels => {
+
+    this.cabinetService.getReviewsCabinetData().subscribe(cabinets => {
+        let travels: any = []
+debugger
+        cabinets.map((cabinet: any) => {
+          let travelsIds = new Set()
+
+          cabinet.reviews.map((review: any) => {
+            travelsIds.add(review.travelId)
+          })
+
+          debugger
+          travelsIds.forEach(id => {
+              let userTravel: any = {}
+              let travelRatings = cabinet.ratings.filter((rating: any) => rating.travelId === id)
+
+              userTravel.id = id
+              userTravel.reviews = cabinet.reviews.filter((review: any) => review.travelId === id)
+              userTravel.averageRating = travelRatings.reduce((sum: number, rating: any) => {
+                return sum + rating.sumValue
+              }, 0) / travelRatings.length
+
+              travels.push(userTravel)
+            }
+          )
+        })
+
+        //@ts-ignore
         this.travelsData = travels
+        debugger
       },
       error => console.log(error))
   }

@@ -142,21 +142,3 @@ module.exports.changeTravelStatus = function (req, res) {
     Travel.findOneAndUpdate({_id: req.body.travelId}, {status: req.body.status})
         .then((data) => res.status(200).json({message: 'статус обновлен'}))
 }
-
-module.exports.getTravelReviews = (req, res) => {
-    Cabinet.find({reviews: {$elemMatch: {travelId: req.params.id}}})
-        .then(data => {
-            let reviews = []
-
-            //Медлено работает
-            data.forEach(cabinet => {
-                cabinet.reviews.forEach(review => {
-                    if (review.travelId === req.params.id) {
-                        reviews.push(review)
-                    }
-                })
-            })
-
-            res.status(200).json(reviews)
-        })
-}
