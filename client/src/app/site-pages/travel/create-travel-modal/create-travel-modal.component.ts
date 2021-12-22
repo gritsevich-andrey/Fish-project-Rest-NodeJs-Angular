@@ -19,8 +19,10 @@ declare var M: {
   styleUrls: ['./create-travel-modal.component.scss']
 })
 export class CreateTravelModalComponent implements OnInit {
+  userFIO!: string;
   form!: FormGroup;
   travelId!: string;
+  technique: any[] = [];
   //Для отображения начальных точек
   placemarkStart: any = []
   placemarkEnd: any = []
@@ -53,6 +55,18 @@ export class CreateTravelModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.initMaterialize()
+    this.getCabinet(this.data.userEmail)
+  }
+
+  getCabinet(userEmail: string) {
+    this.cabinetService.getCabinetData(userEmail).subscribe(
+      ({fio, technique}) => {
+        this.userFIO = fio
+        // @ts-ignore
+        this.technique = JSON.parse(technique)
+      },
+      error => console.log(error)
+    )
   }
 
   initMaterialize() {
@@ -99,7 +113,8 @@ export class CreateTravelModalComponent implements OnInit {
       file: this.form.controls.file.value,
       isPublic: true,
       isOrganizer: true,
-      name: this.form.controls.name.value
+      name: this.form.controls.name.value,
+      userFIO: this.userFIO
     }
     if (this.form.valid) {
       this.travelService.createTravel(travelData).subscribe(
@@ -172,8 +187,9 @@ export class CreateTravelModalComponent implements OnInit {
     let dialogRef = this.dialog.open(AddTransportModalComponent, {
       data: {
         userEmail: this.data.userEmail,
-        form: this.form,
-        setTechnique: this.setTechnique
+        setTechnique: this.setTechnique,
+        technique: this.technique,
+        form: this.form
       }
     });
     dialogRef.afterClosed().subscribe();

@@ -6,6 +6,9 @@ const travelSchema = new Schema({
         type: String,
         required: true,
     },
+    userFIO: {
+        type: String,
+    },
     travelType: {
         type: String,
         required: true,

@@ -29,20 +29,31 @@ export class AddTransportModalComponent implements OnInit {
 
   loadTransport() {
     this.techList = this.techniqueForm.get('technique') as FormArray;
-    this.cabinetService.getTransportByEmail(this.data.userEmail).subscribe(
-      transports => {
-        this.techList.controls = []
 
-        let techArr: any = this.data.form.controls.travelTechnique.value?.[0].split(',')
-        transports.forEach((transport: any) => {
-          //@ts-ignore
-          if (techArr.includes(transport.name))
-            transport.selected = true
-          this.addTechnique(transport)
-        })
-      },
-      error => console.log(error)
-    )
+    //if(this.data.technique) {
+    this.techList.controls = []
+    let techArr: any = this.data.form?.controls.travelTechnique.value?.[0].split(',') ?? []
+    this.data.technique.forEach((transport: any) => {
+      //@ts-ignore
+      if (techArr.includes(transport.name))
+        transport.selected = true
+      this.addTechnique(transport)
+    })
+    // } else {
+    //   this.cabinetService.getTransportByEmail(this.data.userEmail).subscribe(
+    //     transports => {
+    //       this.techList.controls = []
+    //       let techArr: any = this.data.form.controls.travelTechnique.value?.[0].split(',')
+    //       transports.forEach((transport: any) => {
+    //         //@ts-ignore
+    //         if (techArr.includes(transport.name))
+    //           transport.selected = true
+    //         this.addTechnique(transport)
+    //       })
+    //     },
+    //     error => console.log(error)
+    //   )
+    // }
   }
 
   addTechnique(transport?: any) {

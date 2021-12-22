@@ -4,7 +4,8 @@ export interface User {
   password: string,
   role: [string],
   reviews: [{ userEmail: string, commentText: string }],
-  ratings: [{ travelTitle: string, travelId: string, sumValue: number }]
+  ratings: [{ travelTitle: string, travelId: string, sumValue: number }],
+  fio: string
 }
 
 export interface Photo {

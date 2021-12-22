@@ -24,6 +24,7 @@ export class EditTravelModalComponent implements OnInit {
   placemarkStart: any = []
   placemarkEnd: any = []
   isTechnique = false;
+  technique: any[] = [];
 
   constructor(
     private travelService: TravelService,
@@ -78,6 +79,17 @@ export class EditTravelModalComponent implements OnInit {
     })
 
     this.initMaterialize()
+    this.getCabinet(this.data.userEmail)
+  }
+
+  getCabinet(userEmail: string) {
+    this.cabinetService.getCabinetData(userEmail).subscribe(
+      ({technique}) => {
+        // @ts-ignore
+        this.technique = JSON.parse(technique)
+      },
+      error => console.log(error)
+    )
   }
 
   initMaterialize() {
@@ -124,7 +136,7 @@ export class EditTravelModalComponent implements OnInit {
       file: this.form.controls.file.value,
       isPublic: true,
       isOrganizer: true,
-      name: this.form.controls.name.value
+      name: this.form.controls.name.value,
     }
     if (this.form.valid) {
       this.travelService.updateTravel(travelData, this.data.travel._id).subscribe(
@@ -217,6 +229,7 @@ export class EditTravelModalComponent implements OnInit {
       data: {
         userEmail: this.data.userEmail,
         form: this.form,
+        technique: this.technique,
         setTechnique: this.setTechnique
       }
     });

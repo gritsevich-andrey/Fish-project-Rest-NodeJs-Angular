@@ -46,7 +46,9 @@ module.exports.create = function (req, res) {
             travelTechnique: req.body.travelTechnique,
             date: req.body.date,
             address: req.body.address,
-            isOrganizer: req.body.isOrganizer
+            isOrganizer: req.body.isOrganizer,
+            name: req.body.name,
+            userFIO: req.body.userFIO
         }).save();
         res.status(201).json(travel);
     } catch (e) {
@@ -76,6 +78,7 @@ module.exports.update = function (req, res) {
         address: req.body.address,
         isOrganizer: req.body.isOrganizer,
         name: req.body.name,
+        userFIO: req.body.userFIO
     }
     if (req.file) {
         updated.imageSrc = req.file.path;
