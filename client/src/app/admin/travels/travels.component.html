@@ -1,11 +1,11 @@
-<h2>Модерация путешествий</h2>
+
 <table matSort (matSortChange)="sortData($event)">
   <tr>
     <th mat-sort-header="npp">№</th>
     <th mat-sort-header="date">Дата</th>
     <th mat-sort-header="name">Название</th>
     <th mat-sort-header="joinedUsers">Участники</th>
-    <th mat-sort-header="description">Описание</th>
+    <th mat-sort-header="description">Удалить</th>
   </tr>
 
   <tr *ngFor="let travel of sortedData; let i = index">
@@ -19,7 +19,8 @@
         </li>
       </ul>
     </td>
-    <td><textarea name="textDesc" [(ngModel)]="textDesc"></textarea></td>
-    <td><button matTooltip="Удалить поездку" class="btn">Удалить</button></td>
+    <td>
+      <button mat-button matTooltip="Разослать причину отказа в чат всем участникам поездки" (click)="sendInChat(travel._id)"><mat-icon>edit</mat-icon></button>
+    </td>
   </tr>
 </table>

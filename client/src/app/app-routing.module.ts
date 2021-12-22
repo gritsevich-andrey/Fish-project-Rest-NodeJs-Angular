@@ -33,7 +33,13 @@ const routes: Routes = [
       {path: 'join/:email', component: JoinComponent, canActivate: [AuthGuard]}
     ]
   },
-  { path: 'administrator', loadChildren: () => import('./admin/shared/layouts/admin-layouts/admin-layouts.module').then(m => m.AdminLayoutsModule) }
+  { path: 'administrator',
+    loadChildren: () =>
+      import('./admin/shared/layouts/admin-layouts/admin-layouts.module').then(
+        ({ AdminLayoutsModule }) => AdminLayoutsModule
+      ),
+    // loadChildren: () => import('./admin/shared/layouts/admin-layouts/admin-layouts.module').then(m => m.AdminLayoutsModule)
+  }
 ];
 
 @NgModule({

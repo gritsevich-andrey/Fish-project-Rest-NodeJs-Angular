@@ -19,6 +19,10 @@ import {ReviewsListComponent} from "../../../reviews/reviews-list/reviews-list.c
 import {TravelsComponent} from "../../../travels/travels.component";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatDialogModule} from "@angular/material/dialog";
+import {MatIconModule} from "@angular/material/icon";
+import {MatButtonModule} from "@angular/material/button";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
 
 
 @NgModule({
@@ -42,7 +46,13 @@ import {MatDialogModule} from "@angular/material/dialog";
     NgImageSliderModule,
     NgxStarRatingModule,
     MatTooltipModule,
-    MatDialogModule
+    MatDialogModule,
+    MatTooltipModule,
+    MatIconModule,
+    MatButtonModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   exports: [
     SearchFilterPipe

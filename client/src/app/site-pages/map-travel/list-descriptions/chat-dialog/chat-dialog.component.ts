@@ -23,22 +23,28 @@ export class ChatDialogComponent {
 
   saveMessage() {
     const email = this.userService.getUserDataFromLocal();
-    if(this.message && (email !== this.data)){
-      this.chatInfoDto = {
-        userEmail: this.data,
-        receiverEmail: email,
-        passenger: [{
-          email: email,
-          message: this.message,
-          // @ts-ignore
-          date: Date.now()
-        }]
-      }
-      this.saveInDb();
+    if(this.message && (email !== this.data) && (typeof(this.data) === 'string')){
+      this.formatSendObject(this.data, email);
     }
     else {
-      this.warningService.sendWarning(`Вы не можете писать сообщения себе`);
+      this.data.forEach((value: string) => {
+        this.formatSendObject(value, email);
+      });
     }
+  }
+
+  private formatSendObject(dataEmail:string, email: string) {
+    this.chatInfoDto = {
+      userEmail: dataEmail,
+      receiverEmail: email,
+      passenger: [{
+        email: email,
+        message: this.message,
+        // @ts-ignore
+        date: Date.now()
+      }]
+    }
+    this.saveInDb();
   }
 
   private saveInDb() {

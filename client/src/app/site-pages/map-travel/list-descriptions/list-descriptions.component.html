@@ -14,12 +14,13 @@
   </mat-card-content>
   <mat-card-actions>
     <span class="p10">
-    <a class="waves-effect waves-light btn" matTooltip="Информация об организаторе" mat-button (click)="goJoin(travels.userEmail, travels._id)"><i class="material-icons left">cloud</i>Присоединиться
+    <a matTooltip="Информация об организаторе" mat-button (click)="goJoin(travels.userEmail, travels._id)">
+      <i class="material-icons left">info</i>
+    </a>
+      <a matTooltip="Написать в чат организатору поездки" mat-button (click)="openChatDialog(travels.userEmail)">
+      <i class="material-icons left">message</i>
     </a>
       </span>
-    <a matTooltip="Написать в чат организатору поездки" mat-button (click)="openChatDialog(travels.userEmail)">
-      <mat-icon>message</mat-icon>
-    </a>
   </mat-card-actions>
 </mat-card>
 

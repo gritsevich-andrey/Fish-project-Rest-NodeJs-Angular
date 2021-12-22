@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {Sort} from "@angular/material/sort";
 import {TravelService} from "../shared/services/travel.service";
-import {ChatDialogComponent} from "../../site-pages/map-travel/list-descriptions/chat-dialog/chat-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {TripComponent} from "./trip/trip.component";
+import {DeleteDialogComponent} from "./delete-dialog/delete-dialog.component";
 
 export interface Travels {
   npp: number;
@@ -12,6 +12,7 @@ export interface Travels {
   // @ts-ignore
   joinedUsers: string[{ fio: string, name: string }];
   date: string;
+  userEmail: string;
   _id: string;
 }
 
@@ -24,11 +25,10 @@ export class TravelsComponent implements OnInit {
   travels: Travels[] = [];
 //@ts-ignore
   sortedData: Travels[];
-  textDesc = '';
+  textDesc: string[] = [];
 
   constructor(private travelService: TravelService,
               public dialog: MatDialog) {
-    // this.sortedData = this.travels.slice();
   }
 
   ngOnInit(): void {
@@ -74,6 +74,32 @@ export class TravelsComponent implements OnInit {
     const dialogRef = this.dialog.open(TripComponent,
       {
         data: filteredTravels
+      }
+    );
+    dialogRef.afterClosed().subscribe();
+  }
+
+  sendInChat(travelId: string) {
+    const travels = JSON.parse(JSON.stringify(this.travels));
+    const filteredTravels= travels.filter((data: Travels) => {
+      return  data._id === travelId;
+    });
+    let userEmails: string[] = [];
+   filteredTravels.map((value: any) => {
+      userEmails.push(value.userEmail);
+      value.joinedUsers.map((data: {userEmail: string}) => {
+        userEmails.push(data.userEmail);
+      })
+      return userEmails;
+    });
+   const transferData = {
+     travelId: travelId,
+     userEmails: userEmails
+   }
+    console.log('Фильтрованный массив почт', userEmails);
+    const dialogRef = this.dialog.open(DeleteDialogComponent,
+      {
+        data: transferData
       }
     );
     dialogRef.afterClosed().subscribe();

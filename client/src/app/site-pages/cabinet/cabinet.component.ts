@@ -37,8 +37,7 @@ export class CabinetComponent implements OnInit, OnDestroy {
   countPage = 1;
   reviews: any[] = [];
   ratings: any[] = [];
-  //@ts-ignore
-  sumRating: number;
+  sumRating = 0;
 
   constructor(private warningService: WarningService,
               private cabinetService: CabinetService,
@@ -69,7 +68,13 @@ export class CabinetComponent implements OnInit, OnDestroy {
       this.reviews = data.reviews;
       this.ratings = data.ratings;
       this.ratings.forEach(value => {
-        this.sumRating = value.sumRating;
+        if (this.sumRating === 0)
+        {
+          this.sumRating = value.sumValue;
+        }
+       else {
+          this.sumRating = (this.sumRating+value.sumValue)/2;
+        }
         this.form.value.rating2 = value.sumRating;
       })
       this.addDataOnForm(data);
