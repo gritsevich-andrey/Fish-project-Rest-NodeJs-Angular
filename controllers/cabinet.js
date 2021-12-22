@@ -104,7 +104,8 @@ module.exports.updateReview = function (req, res) {
                     reviews: {
                         userEmail: req.body.userEmail,
                         travelId: req.body.travelId,
-                        reviewText: req.body.reviewText
+                        reviewText: req.body.reviewText,
+                        userFIO: req.body.userFIO
                     }
                 }
             })

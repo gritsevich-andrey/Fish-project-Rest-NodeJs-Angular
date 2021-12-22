@@ -13,28 +13,18 @@
 <table>
   <thead>
   <tr>
-    <th>Дата</th>
     <th>Поездка</th>
-    <th>Средний рейтинг</th>
     <th>Отзывы</th>
   </tr>
   </thead>
   <tbody>
   <tr
     *ngFor="let travel of travelsData | paginate: { itemsPerPage: travelsOnPage || defaultTravelsOnPage, currentPage: page }">
-    <td>{{travel.date | date:'dd/MM/yyyy'}}</td>
     <td>
-      <a [routerLink]="['/travel/'+travel._id]">
-        <button class="btn">открыть поездку</button>
-      </a>
+      <button (click)="openTravel(travel.id)" class="btn">открыть поездку</button>
     </td>
     <td>
-<!--      <app-average-rating [travelId]="travel._id" [userEmail]="travel.userEmail"></app-average-rating>-->
-    </td>
-    <td>
-      <a [routerLink]="[travel._id]">
-        <button class="btn">открыть отзывы</button>
-      </a>
+      <button (click)="openReviews(travel)" class="btn">открыть отзывы</button>
     </td>
   </tr>
   </tbody>

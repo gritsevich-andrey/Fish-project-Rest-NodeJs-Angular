@@ -1,6 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
-import {TravelService} from "../../../shared/services/travel.service";
+import {Component, Inject, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-reviews-list',
@@ -8,21 +7,12 @@ import {TravelService} from "../../../shared/services/travel.service";
   styleUrls: ['./reviews-list.component.scss']
 })
 export class ReviewsListComponent implements OnInit {
-  reviews: any = []
 
-  constructor(
-    private route: ActivatedRoute,
-    private travelService: TravelService
-  ) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
-  ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      const travelId = params['id']
-      this.getReviews(travelId)
-    });
-  }
-
-  getReviews(travelId: string) {
+  ngOnInit() {
+    this.data
+    debugger
   }
 }

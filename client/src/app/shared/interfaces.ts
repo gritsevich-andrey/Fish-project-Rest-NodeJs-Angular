@@ -30,6 +30,7 @@ export interface Travel {
   name: string;
   travelId: string;
   userEmail: string;
+  userFIO: string;
   date: Date;
   address: string;
   endPoint: [{ latitude: string, longitude: string }],

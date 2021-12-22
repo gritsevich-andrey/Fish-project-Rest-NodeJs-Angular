@@ -40,7 +40,8 @@ const cabinetSchema = new Schema({
         reviewText: {type: String, default: ''},
         travelId: {type: String, default: ''},
         date: {type: Date, default: Date.now},
-        travelName: {type: String, default: ''}
+        travelName: {type: String, default: ''},
+        userFIO: {type: String, default: ''},
     }],
     date: {
         type: Date,

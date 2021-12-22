@@ -18,6 +18,7 @@ import {AverageRatingComponent} from "../../../reviews/average-rating/average-ra
 import {ReviewsListComponent} from "../../../reviews/reviews-list/reviews-list.component";
 import {TravelsComponent} from "../../../travels/travels.component";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatDialogModule} from "@angular/material/dialog";
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import {MatTooltipModule} from "@angular/material/tooltip";
     NgxPaginationModule,
     NgImageSliderModule,
     NgxStarRatingModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatDialogModule
   ],
   exports: [
     SearchFilterPipe

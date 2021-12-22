@@ -10,7 +10,7 @@ export interface Travels {
   name: string;
   description: number;
   // @ts-ignore
-  joinedUsers: string[{fio: string, name: string}];
+  joinedUsers: string[{ fio: string, name: string }];
   date: string;
   _id: string;
 }
@@ -21,8 +21,7 @@ export interface Travels {
   styleUrls: ['./travels.component.scss']
 })
 export class TravelsComponent implements OnInit {
-  travels: Travels[] = [
-  ];
+  travels: Travels[] = [];
 //@ts-ignore
   sortedData: Travels[];
   textDesc = '';
@@ -69,8 +68,8 @@ export class TravelsComponent implements OnInit {
   openDialog(_id: string) {
     const travels = JSON.parse(JSON.stringify(this.travels));
 
-  const filteredTravels= travels.filter((data: Travels) => {
-     return  data._id === _id;
+    const filteredTravels = travels.filter((data: Travels) => {
+      return data._id === _id;
     });
     const dialogRef = this.dialog.open(TripComponent,
       {

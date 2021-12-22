@@ -85,7 +85,8 @@ export class CreatedTravelComponent implements OnInit {
   openReviewDialog(receiverEmail: string) {
     const transferData = {
       travelId: this.travel._id,
-      receiverEmail: receiverEmail
+      receiverEmail: receiverEmail,
+      userFIO: this.travel.userFIO
     }
     const dialogRef = this.dialog.open(ReviewComponent,
       {

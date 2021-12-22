@@ -90,7 +90,8 @@ export class JoinedTravelComponent implements OnInit {
   openReviewDialog(receiverEmail: string) {
     const transferData = {
       travelId: this.travel._id,
-      receiverEmail: receiverEmail
+      receiverEmail: receiverEmail,
+      userFIO: this.getUserFIO()
     }
     const dialogRef = this.dialog.open(ReviewComponent,
       {
@@ -98,6 +99,18 @@ export class JoinedTravelComponent implements OnInit {
       }
     );
     dialogRef.afterClosed().subscribe();
+  }
+
+  getUserFIO() {
+    let userFIO = ''
+
+    this.travel.joinedUsers.map(user => {
+      if (user.userEmail = this.userEmail) {
+        userFIO = user.fio
+      }
+    })
+
+    return userFIO
   }
 
   saveRating(receiverEmail: string) {
