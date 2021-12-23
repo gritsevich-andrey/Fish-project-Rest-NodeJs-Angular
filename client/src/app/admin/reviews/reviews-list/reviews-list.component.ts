@@ -1,5 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
+import {CabinetService} from "../../../site-pages/cabinet/cabinet.service";
+import {MaterialService} from "../../../shared/classes/material.service";
 
 @Component({
   selector: 'app-reviews-list',
@@ -8,11 +10,19 @@ import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 })
 export class ReviewsListComponent implements OnInit {
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private cabinetService: CabinetService
+  ) {
   }
 
   ngOnInit() {
-    this.data
-    debugger
+  }
+
+  updateReviewShown(reviewId: string, status: boolean) {
+    this.cabinetService.updateReviewShown(reviewId, status).subscribe(
+      () => MaterialService.toast('Статус обновлен'),
+      error => console.log(error)
+    )
   }
 }

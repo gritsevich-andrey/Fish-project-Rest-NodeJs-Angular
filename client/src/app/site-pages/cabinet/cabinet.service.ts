@@ -30,11 +30,12 @@ export class CabinetService {
     return this.http.patch(environment.CABINET_API, fd);
   }
 
-  updateCabinetReview(email: string, review: { userEmail: string; reviewText: string; travelId: string }): Observable<any> {
+  updateCabinetReview(email: string, review: { userEmail: string; reviewText: string; travelId: string, userFIO: string }): Observable<any> {
     return this.http.patch(environment.CABINET_API + `/update/${email}`, {
       userEmail: review.userEmail,
       reviewText: review.reviewText,
-      travelId: review.travelId
+      travelId: review.travelId,
+      userFIO: review.userFIO
     });
   }
 
@@ -85,15 +86,12 @@ export class CabinetService {
 
   getReviewsCabinetData(): Observable<any> {
     return this.http.get(environment.CABINET_API + '/get-cabinets-with-reviews')
-    //   .pipe(map(
-    //   (cabinet: any) => {
-    //     debugger
-    //     return {
-    //       reviews: cabinet.reviews,
-    //       ratings: cabinet.ratings,
-    //       fio: cabinet.fio
-    //     }
-    //   }
-    // ))
+  }
+
+  updateReviewShown(reviewId: string, status: boolean): Observable<any> {
+    return this.http.patch(environment.CABINET_API + '/update-review-shown', {
+      id: reviewId,
+      status
+    })
   }
 }

@@ -29,6 +29,7 @@ export class ReviewComponent implements OnInit {
     const receiverEmail = this.data.receiverEmail;
     const travelId = this.data.travelId;
     const userFIO = this.data.userFIO
+    debugger
 
     const review = {
       userEmail: email,

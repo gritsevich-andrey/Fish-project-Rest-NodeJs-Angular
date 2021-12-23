@@ -180,3 +180,18 @@ module.exports.getCabinetsWithReviews = (req, res) => {
         res.status(200).json(cabinets)
     })
 }
+
+module.exports.updateReviewShown = (req, res) => {
+    Cabinet.updateOne(
+        {
+            reviews: {$elemMatch: {_id: req.body.id}},
+            'reviews._id': req.body.id,
+        },
+        {$set: {"reviews.$.isShown": req.body.status}},
+    ).then(() => res.status(200).json({message: 'Обновлено успешно'}))
+}
+
+module.exports.getUserReviews = (req, res) => {
+    Cabinet.find({reviews: {$elemMatch: {userEmail: req.body.email}}})
+    //filter data
+}

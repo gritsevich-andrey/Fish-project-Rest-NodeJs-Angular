@@ -47,6 +47,8 @@ export class ReviewsComponent implements OnInit {
                   senderFIO: review.userFIO,
                   reviewText: review.reviewText,
                   date: review.date,
+                  id: review._id,
+                  isShown: review.isShown,
                 }]
               })
             } else {
@@ -55,7 +57,9 @@ export class ReviewsComponent implements OnInit {
                 receiverFIO: cabinet.fio,
                 senderFIO: review.userFIO,
                 reviewText: review.reviewText,
-                date: review.date
+                date: review.date,
+                id: review._id,
+                isShown: review.isShown,
               })
             }
           })

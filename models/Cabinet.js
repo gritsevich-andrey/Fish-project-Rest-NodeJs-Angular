@@ -42,6 +42,7 @@ const cabinetSchema = new Schema({
         date: {type: Date, default: Date.now},
         travelName: {type: String, default: ''},
         userFIO: {type: String, default: ''},
+        isShown: {type: Boolean, default: true}
     }],
     date: {
         type: Date,

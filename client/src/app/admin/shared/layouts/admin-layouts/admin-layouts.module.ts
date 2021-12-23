@@ -18,9 +18,10 @@ import {AverageRatingComponent} from "../../../reviews/average-rating/average-ra
 import {ReviewsListComponent} from "../../../reviews/reviews-list/reviews-list.component";
 import {TravelsComponent} from "../../../travels/travels.component";
 import {MatTooltipModule} from "@angular/material/tooltip";
-import {MatDialogModule} from "@angular/material/dialog";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
+import {DeleteDialogComponent} from "../../../travels/delete-dialog/delete-dialog.component";
+import {MatDialogModule} from "@angular/material/dialog";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 
@@ -34,7 +35,8 @@ import {MatInputModule} from "@angular/material/input";
     AverageRatingComponent,
     ReviewsListComponent,
     PhotosComponent,
-    TravelsComponent
+    TravelsComponent,
+    DeleteDialogComponent
   ],
   imports: [
     CommonModule,
@@ -45,8 +47,6 @@ import {MatInputModule} from "@angular/material/input";
     NgxPaginationModule,
     NgImageSliderModule,
     NgxStarRatingModule,
-    MatTooltipModule,
-    MatDialogModule,
     MatTooltipModule,
     MatIconModule,
     MatButtonModule,
