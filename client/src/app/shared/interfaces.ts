@@ -54,3 +54,14 @@ export interface Travel {
   _id: string
   status: string
 }
+
+export interface Review {
+  userEmail: string
+  reviewText: string
+  travelId: string
+  date: Date
+  travelName: string
+  userFIO: string
+  isShown: boolean
+  rejectionReason: string
+}

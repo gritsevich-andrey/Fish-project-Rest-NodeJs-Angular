@@ -61,6 +61,7 @@ import {AddTransportModalComponent} from './site-pages/travel/add-transport-moda
 import {SelectPointComponent} from './site-pages/travel/select-point/select-point.component';
 import { TripComponent } from './admin/travels/trip/trip.component';
 import { DeleteDialogComponent } from './admin/travels/delete-dialog/delete-dialog.component';
+import { MyReviewsComponent } from './site-pages/cabinet/my-reviews/my-reviews.component';
 
 const mapConfig: YaConfig = {
   apikey: '6c5c5f61-fa87-4efd-8ad9-f652f1fd0727',
@@ -99,7 +100,8 @@ const mapConfig: YaConfig = {
     CreateTravelModalComponent,
     AddTransportModalComponent,
     SelectPointComponent,
-    TripComponent
+    TripComponent,
+    MyReviewsComponent,
   ],
   imports: [
     NgImageSliderModule,
@@ -146,5 +148,5 @@ const mapConfig: YaConfig = {
   bootstrap: [AppComponent]
 })
 
-export class AppModule {
-}
+//@ts-ignore
+export class AppModule {}

@@ -1,0 +1,20 @@
+<table>
+  <thead>
+  <tr>
+    <th>Дата</th>
+    <th>Текст</th>
+    <th>Статус</th>
+    <th>Поездка</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let review of reviews">
+    <td>{{review.date}}</td>
+    <td>{{review.reviewText}}</td>
+    <td>{{review.isShown ? 'Отображается' : review.rejectionReason}}</td>
+    <td>
+      <button class="btn" (click)="openTravel(review.travelId)">Открыть</button>
+    </td>
+  </tr>
+  </tbody>
+</table>

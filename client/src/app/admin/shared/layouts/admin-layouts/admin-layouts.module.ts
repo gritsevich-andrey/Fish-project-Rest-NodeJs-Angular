@@ -14,7 +14,6 @@ import {NgImageSliderModule} from "ng-image-slider";
 import {EmitterService} from "../../../../shared/services/emitter.service";
 import {ReviewsComponent} from "../../../reviews/reviews.component";
 import {NgxStarRatingModule} from "ngx-star-rating";
-import {AverageRatingComponent} from "../../../reviews/average-rating/average-rating.component";
 import {ReviewsListComponent} from "../../../reviews/reviews-list/reviews-list.component";
 import {TravelsComponent} from "../../../travels/travels.component";
 import {MatTooltipModule} from "@angular/material/tooltip";
@@ -24,6 +23,7 @@ import {DeleteDialogComponent} from "../../../travels/delete-dialog/delete-dialo
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
+import {RejectReasonComponent} from "../../../reviews/reject-reason/reject-reason.component";
 
 
 @NgModule({
@@ -32,11 +32,11 @@ import {MatInputModule} from "@angular/material/input";
     UsersComponent,
     PhotosComponent,
     ReviewsComponent,
-    AverageRatingComponent,
     ReviewsListComponent,
     PhotosComponent,
     TravelsComponent,
-    DeleteDialogComponent
+    DeleteDialogComponent,
+    RejectReasonComponent
   ],
   imports: [
     CommonModule,
@@ -52,7 +52,7 @@ import {MatInputModule} from "@angular/material/input";
     MatButtonModule,
     MatDialogModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
   ],
   exports: [
     SearchFilterPipe

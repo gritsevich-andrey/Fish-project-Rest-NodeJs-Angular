@@ -192,6 +192,11 @@ module.exports.updateReviewShown = (req, res) => {
 }
 
 module.exports.getUserReviews = (req, res) => {
-    Cabinet.find({reviews: {$elemMatch: {userEmail: req.body.email}}})
-    //filter data
+    Cabinet.find({reviews: {$elemMatch: {userEmail: req.params.email}}})
+        .then(cabinets => {
+            let reviews = []
+            cabinets.map(cabinet => reviews.push(...cabinet.reviews))
+            let userReviews = reviews.filter(review => review.userEmail === req.params.email)
+            res.status(200).json(userReviews)
+        })
 }
