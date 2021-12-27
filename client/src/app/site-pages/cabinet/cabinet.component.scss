@@ -48,3 +48,9 @@ div.stars {
 .mat-tab-group {
   width: 100%;
 }
+p {
+  margin: 1px 1px 1px !important;
+}
+:host ::ng-deep td {
+  padding: 1px 1px!important;
+}
