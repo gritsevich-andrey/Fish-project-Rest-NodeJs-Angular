@@ -78,7 +78,81 @@ td, th {
 .buttonsBlock {
   display: flex;
   margin-top: 20px;
+
   button {
     margin-right: 10px;
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+  table thead {
+    display: none;
+  }
+  tr td:last-child {
+    border-bottom: 1px solid #000;
+  }
+  tr td {
+    display: flex;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    word-break: break-all;
+  }
+  tr td::before {
+    font-weight: bold;
+    width: 120px;
+    min-width: 120px;
+    margin-right: 20px;
+  }
+
+  .acceptedBlock {
+    table td:nth-child(1)::before {
+      content: '№';
+    }
+
+    table td:nth-child(2)::before {
+      content: 'ФИО';
+    }
+
+    table td:nth-child(3)::before {
+      content: 'Статус';
+    }
+
+    table td:nth-child(4)::before {
+      display: flex;
+      align-items: center;
+      content: 'Оставить отзыв';
+    }
+
+    table td:nth-child(5)::before {
+      display: flex;
+      align-items: center;
+      content: 'Оставить рейтинг';
+    }
+  }
+
+  .requestsBlock {
+    table td:nth-child(1)::before {
+      content: '№';
+    }
+
+    table td:nth-child(2)::before {
+      content: 'ФИО';
+    }
+
+    table td:nth-child(3)::before {
+      content: 'Статус';
+    }
+
+    table td:nth-child(4)::before {
+      display: flex;
+      align-items: center;
+      content: 'Отказать';
+    }
+
+    table td:nth-child(5)::before {
+      display: flex;
+      align-items: center;
+      content: 'Разрешить';
+    }
   }
 }

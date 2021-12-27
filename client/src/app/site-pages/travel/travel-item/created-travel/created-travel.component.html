@@ -52,7 +52,7 @@
     <tbody>
     <tr *ngFor="let user of getNotAcceptedUsers(), let j = index">
       <td>{{j + 1}}</td>
-      <td (click)="openUserProfile(user.userEmail)">{{user.fio || user.nickName}}</td>
+      <td (click)="openUserProfile(user.userEmail)"><span class="pointer">{{user.fio || user.nickName}}</span></td>
       <td>{{user.status}}</td>
       <td>
         <form [formGroup]="rejectUserForm" (ngSubmit)="rejectFormSubmit(user.userEmail)">
