@@ -9,7 +9,7 @@
   </thead>
   <tbody>
   <tr *ngFor="let review of reviews">
-    <td>{{review.date}}</td>
+    <td>{{review.date | date: 'dd.MM.yyyy'}}</td>
     <td>{{review.reviewText}}</td>
     <td>{{review.isShown ? 'Отображается' : review.rejectionReason}}</td>
     <td>

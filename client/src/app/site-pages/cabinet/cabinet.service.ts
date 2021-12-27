@@ -92,10 +92,11 @@ export class CabinetService {
     return this.http.get(environment.CABINET_API + '/get-user-reviews/' + userEmail)
   }
 
-  updateReviewShown(reviewId: string, status: boolean): Observable<any> {
+  updateReviewShown(reviewId: string, status: boolean, rejectionReason?: string): Observable<any> {
     return this.http.patch(environment.CABINET_API + '/update-review-shown', {
       id: reviewId,
-      status
+      status,
+      rejectionReason
     })
   }
 }

@@ -13,13 +13,16 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let item of data.reviews">
+        <tr *ngFor="let item of reviews, let i = index">
           <td>{{item.date | date: 'dd.MM.yy'}}</td>
           <td>{{item.senderFIO || 'ФИО не указано'}}</td>
           <td>{{item.receiverFIO || 'ФИО не указано'}}</td>
           <td>{{item.reviewText}}</td>
           <td>
-            <button (click)="updateReviewShown(item.id, !item.isShown)" class="btn">{{item.isShown ? 'Удалить' : 'Восстановить'}}</button>
+            <button *ngIf="!item.isShown" (click)="updateReviewShown(item.id, !item.isShown, i)" class="btn">
+              Восстановить
+            </button>
+            <button *ngIf="item.isShown" (click)="openRejectReason(item.id, i)" class="btn">Удалить</button>
           </td>
         </tr>
         </tbody>

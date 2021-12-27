@@ -1,8 +1,10 @@
 <mat-dialog-actions>
   <mat-form-field class="full-width" appearance="fill">
     <mat-label>Причина удаления</mat-label>
-    <textarea matInput name="message" [(ngModel)]="deleteReason"></textarea>
+    <textarea matInput [(ngModel)]="rejectReason"></textarea>
   </mat-form-field>
-  <button mat-button mat-dialog-close>Отмена</button>
-  <button mat-button [mat-dialog-close]="true" cdkFocusInitial (click)="deleteReview()">Сохранить</button>
+  <div >
+    <button mat-button mat-dialog-close>Отмена</button>
+    <button mat-button [mat-dialog-close]="true" cdkFocusInitial (click)="deleteReview()">Удалить</button>
+  </div>
 </mat-dialog-actions>

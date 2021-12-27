@@ -187,7 +187,12 @@ module.exports.updateReviewShown = (req, res) => {
             reviews: {$elemMatch: {_id: req.body.id}},
             'reviews._id': req.body.id,
         },
-        {$set: {"reviews.$.isShown": req.body.status}},
+        {
+            $set: {
+                "reviews.$.isShown": req.body.status,
+                "reviews.$.rejectionReason": req.body.rejectionReason
+            }
+        },
     ).then(() => res.status(200).json({message: 'Обновлено успешно'}))
 }
 
