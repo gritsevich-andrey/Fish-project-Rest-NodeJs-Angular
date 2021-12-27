@@ -11,12 +11,10 @@
   </div>
 </mat-radio-group>
 
-<div class="cont">
+<div class="stars-align">
   <div class="stars" *ngFor="let item of ratings | search: valueRadio">
-    <p><b>Поездка: </b>{{item.travelTitle}}</p>
-    <ngx-star-rating [(ngModel)]="item.sumValue" [id]="item.travelId" [disabled]="true">
-    </ngx-star-rating>
-    <p><b>Средний рейтинг за поездку: </b>{{item.sumValue}}</p>
+    <ngx-star-rating [(ngModel)]="item.sumValue" [id]="item.travelId" [disabled]="true"></ngx-star-rating>
+    <p class="mat-card-subtitle center-align">{{item.travelTitle + ': ' + item.sumValue}}</p>
   </div>
 </div>
 
