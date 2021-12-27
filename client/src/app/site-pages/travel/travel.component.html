@@ -16,14 +16,8 @@
     <div *ngFor="let item of userTravels, let i = index">
       <app-travel-item [travel]="item"
                        [userEmail]="userEmail"
-                       [openUserProfile]="openUserProfile.bind(this)"
                        [getUserTravels]="getUserTravels.bind(this)"
       ></app-travel-item>
-    </div>
-  </div>
-  <div class="col s4 userPageContainer">
-    <div class="userPage">
-      <app-user-profile [userCabinet]="openedUserPage"></app-user-profile>
     </div>
   </div>
 </div>

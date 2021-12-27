@@ -1,4 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Inject, Input, OnInit} from '@angular/core';
+import {CabinetService} from "../../cabinet/cabinet.service";
+import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-user-profile',
@@ -6,16 +8,25 @@ import {Component, Input, OnInit} from '@angular/core';
   styleUrls: ['./user-profile.component.scss']
 })
 export class UserProfileComponent implements OnInit {
-  @Input()
   userCabinet!: any;
   imagePreview = 'uploads/avatar.jpg';
   averageRating = 0
   reviewsPage = 1;
 
-  constructor() {
+  constructor(
+    private cabinetService: CabinetService,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+  ) {
   }
 
   ngOnInit(): void {
+    this.getUserCabinet(this.data.email)
+  }
+
+  getUserCabinet(userEmail: string) {
+    this.cabinetService.getCabinetData(userEmail).subscribe(cabinet => {
+      this.userCabinet = cabinet
+    })
   }
 
   getAverageRating() {

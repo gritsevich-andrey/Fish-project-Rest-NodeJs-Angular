@@ -7,6 +7,7 @@ import {ReviewComponent} from "../../../map-travel/list-descriptions/review/revi
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {CabinetService} from "../../../cabinet/cabinet.service";
 import {EditTravelModalComponent} from "./edit-travel-modal/edit-travel-modal.component";
+import {UserProfileComponent} from "../../user-profile/user-profile.component";
 
 declare var M: {
   Modal: { init: (arg0: NodeListOf<Element>) => any; }
@@ -21,7 +22,6 @@ export class CreatedTravelComponent implements OnInit {
   @Input() travel!: Travel;
   @Input() getUserTravels!: any;
   @Input() userEmail!: string;
-  @Input() openUserProfile!: any;
 
   form: FormGroup;
   rejectUserForm: FormGroup;
@@ -135,6 +135,16 @@ export class CreatedTravelComponent implements OnInit {
     }
   }
 
+  openUserProfile(userEmail: string) {
+    const dialogRef = this.dialog.open(UserProfileComponent,
+      {
+        data: {
+          email: userEmail
+        }
+      }
+    );
+    dialogRef.afterClosed().subscribe();
+  }
 
   setTravelPublic(travelId: string) {
     this.travel.isPublic = !this.travel.isPublic

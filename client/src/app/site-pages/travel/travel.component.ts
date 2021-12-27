@@ -17,7 +17,6 @@ import {AuthService} from "../../shared/services/auth.service";
 export class TravelComponent implements OnInit {
   userEmail!: string
   userTravels: any[] = []
-  openedUserPage!: any;
 
   constructor(
     private userService: UserService,
@@ -82,12 +81,6 @@ export class TravelComponent implements OnInit {
 
   compare(a: string | number, b: string | number, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
-  }
-
-  openUserProfile(userEmail: string) {
-    this.cabinetService.getCabinetData(userEmail).subscribe(cabinet => {
-      this.openedUserPage = cabinet
-    })
   }
 
   openCreateTravel() {

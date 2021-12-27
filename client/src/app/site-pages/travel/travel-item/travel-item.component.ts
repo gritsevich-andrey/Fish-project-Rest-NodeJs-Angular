@@ -8,7 +8,6 @@ import {Travel} from "../../../shared/interfaces";
 })
 export class TravelItemComponent implements OnInit {
     @Input() travel!: Travel;
-    @Input() openUserProfile!: any;
     @Input() userEmail!: string;
     @Input() getUserTravels!: any;
 

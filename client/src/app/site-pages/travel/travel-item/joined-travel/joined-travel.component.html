@@ -31,7 +31,7 @@
         <tbody>
         <tr *ngFor="let user of getAcceptedUsers(), let j = index">
           <td>{{j + 1}}</td>
-          <td (click)="openUserProfile(user.userEmail)">{{user.fio || user.nickName}}</td>
+          <td (click)="openUserProfile(user.userEmail)"><span class="pointer">{{user.fio || user.nickName}}</span></td>
         </tr>
         </tbody>
       </table>
@@ -44,7 +44,7 @@
         <form [formGroup]="form">
           <ngx-star-rating [id]="travel._id" formControlName="rating"></ngx-star-rating>
         </form>
-        <button class="waves-effect waves-light btn" (click)="saveRating(travel.userEmail)">Сохранить
+        <button class="waves-effect waves-light btn" (click)="saveRating(travel.userEmail)" matTooltip="сохранить отзыв на поездку">Сохранить
         </button>
       </div>
     </div>

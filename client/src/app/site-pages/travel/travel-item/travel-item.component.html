@@ -15,14 +15,12 @@
     <app-created-travel [getUserTravels]="getUserTravels"
                         [travel]="travel"
                         [userEmail]="userEmail"
-                        [openUserProfile]="openUserProfile"
     ></app-created-travel>
   </div>
   <div *ngIf="userEmail !== travel.userEmail" class="travel-item">
     <app-joined-travel [getUserTravels]="getUserTravels"
                        [travel]="travel"
                        [userEmail]="userEmail"
-                       [openUserProfile]="openUserProfile"
     ></app-joined-travel>
   </div>
 </div>
