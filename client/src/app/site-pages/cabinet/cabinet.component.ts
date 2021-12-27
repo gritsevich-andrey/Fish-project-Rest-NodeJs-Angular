@@ -194,8 +194,6 @@ export class CabinetComponent implements OnInit, OnDestroy {
   handlePageChange() {
     this.getMyPhoto();
     this.countPage += 1;
-    console.log('Объект юсер фото', this.userPhotos);
-    console.log('Количество страниц', this.countPage);
   }
 
   // handlePageSizeChange(event: Event) {

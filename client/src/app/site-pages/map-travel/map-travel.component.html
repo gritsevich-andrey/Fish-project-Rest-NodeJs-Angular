@@ -25,8 +25,8 @@
       <div *ngFor="let coordinate of travels | search: valueRadio">
         <ya-placemark *ngFor="let endPoint of coordinate.endPoint"
                       [geometry]="[endPoint.latitude, endPoint.longitude]" [properties]="{
-    balloonContentHeader: coordinate.title,
-    balloonContentBody: '<p class=mat-card-title>'+ coordinate.name + '</p>' +
+    balloonContentHeader: coordinate.name,
+    balloonContentBody:
     '<img src=' + coordinate.imageSrc + ' width=150px>' + '<br/>' +
     coordinate.description + '<br>Когда:' + coordinate.date + '<br>Кол-во людей: ' + coordinate.peoplesCount,
     balloonContentFooter: 'Цена за чел: ' + coordinate.costPerPeople,

@@ -69,3 +69,11 @@ div.stars {
   width: 270px;
   display: inline-block;
 }
+.stars-align {
+  display: flex;
+  padding-left: 1rem;
+}
+:host ::ng-deep label.star {
+  padding: 1px!important;
+  font-size: 20px!important;
+}
