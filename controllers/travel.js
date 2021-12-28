@@ -13,7 +13,7 @@ module.exports.getTravelByUserEmail = (req, res) => {
             }
         ]
     })
-        .then(photos => res.status(200).json(photos))
+        .then(travels => res.status(200).json(travels))
         .catch(e => errorHandler(res, e))
 }
 
@@ -109,7 +109,7 @@ module.exports.join = async function (req, res) {
         })
         res.status(200).json({message: 'Пользователь присоединился'})
     } else {
-        res.status(403).json({message: 'Пользователь уже присоединился'})
+        res.status(403).json({message: 'Пользователь уже присоединился к этой поездке'})
     }
 }
 

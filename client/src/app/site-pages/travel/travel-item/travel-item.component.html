@@ -1,13 +1,14 @@
 <div class="travelItem">
   <div class="travelsList">
     <div>
-      <strong matTooltip="Название поездки">{{travel.title}}</strong>
+      <strong matTooltip="Название поездки">{{travel.name}}</strong>
     </div>
     <div>
       <strong matTooltip="Дата начала поездки">{{travel.date | date:'dd/MM/yyyy'}}</strong>
     </div>
     <div>
-      <strong matTooltip="Описание поездки">{{travel.description}}</strong>
+      <app-read-more [text]="travel.description" [maxLength]="10"></app-read-more>
+<!--      <strong matTooltip="Описание поездки">{{travel.description}}</strong>-->
     </div>
   </div>
   <hr/>

@@ -8,6 +8,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {CreateTravelModalComponent} from "./create-travel-modal/create-travel-modal.component";
 import * as CryptoJS from "crypto-js";
 import {AuthService} from "../../shared/services/auth.service";
+import {MaterialService} from "../../shared/classes/material.service";
 
 @Component({
   selector: 'app-travel',
@@ -42,14 +43,25 @@ export class TravelComponent implements OnInit {
   }
 
   joinTravel(userEmail: string, travelId: string) {
-    this.travelService.joinTravel(userEmail, travelId).subscribe(() => {
-      this.getUserTravels(this.userEmail)
-    })
+    this.travelService.joinTravel(userEmail, travelId).subscribe(
+      () => {
+        MaterialService.toast('Вы присоединились к поездке')
+        this.getUserTravels(this.userEmail)
+      },
+      ({error}) => {
+        if (error.message)
+          MaterialService.toast(error.message)
+        else
+          MaterialService.toast('Ошибка присоединения')
+
+        this.getUserTravels(this.userEmail)
+      }
+    )
   }
 
   getUserTravels(userEmail: string) {
     this.travelService.getUserTravels(userEmail).subscribe(
-      travels => this.userTravels = travels,
+      travels => this.userTravels = travels.reverse(),
       error => console.log(error)
     )
   }
