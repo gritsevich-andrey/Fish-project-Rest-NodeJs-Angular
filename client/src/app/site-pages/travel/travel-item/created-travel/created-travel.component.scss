@@ -18,16 +18,16 @@ h3 {
 }
 
 .acceptedBlock {
-  margin-top: 30px;
+  margin-top: .3rem;
 }
 
 .requestsBlock {
-  margin-top: 40px;
+  margin-top: .3rem;
 }
 
 .freeSeats {
-  font-size: 18px;
-  margin-top: 30px;
+  //font-size: 12px;
+  margin-top: 1px;
 }
 
 div.stars {
@@ -72,12 +72,12 @@ label.star:before {
 }
 
 td, th {
-  padding: 5px;
+  padding: .1rem;
 }
 
 .buttonsBlock {
   display: flex;
-  margin-top: 20px;
+  margin-top: .4rem;
 
   button {
     margin-right: 10px;
