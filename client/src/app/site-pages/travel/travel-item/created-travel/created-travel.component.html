@@ -1,9 +1,9 @@
-<div class="freeSeats">
-  Свободные места - {{travel.peoplesCount - getJoinedUsers(travel.joinedUsers).length}} / {{travel.peoplesCount }}
+<div class="freeSeats mat-form-field-label">
+  Свободные места: <span class="red-text"> {{travel.peoplesCount - getJoinedUsers(travel.joinedUsers).length}} / {{travel.peoplesCount }} </span>
 </div>
 
 <div class="acceptedBlock">
-  <h3 class="tableTitle">Учасники поездки:</h3>
+  <span class="mat-form-field-label">Участники</span>
   <table>
     <thead>
     <tr>
@@ -38,7 +38,7 @@
 </div>
 
 <div class="requestsBlock">
-  <h3 class="tableTitle">Запросы на поездку:</h3>
+  <span class="mat-form-field-label">В ожидании разрешения</span>
   <table>
     <thead>
     <tr>
