@@ -1,16 +1,91 @@
-.chat {
+.container {
   margin-top: 1rem;
+  min-height: calc(100vh - 140px);
 }
 
-div.chat-content {
+.live-feed {
   border-radius: .25rem;
   margin-bottom: 2rem;
+  height: 40rem;
+  padding: 10px 10px;
+  overflow: auto;
+  box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%), 0 1px 5px 0 rgb(0 0 0 / 20%);
 }
 
-.card {
-  height: 40rem;
+.feedItem {
+  padding: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%), 0 1px 5px 0 rgb(0 0 0 / 20%);
+}
+
+.feedItemData {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.feedItemPhoto {
+  width: 305px;
+  margin: 0 auto;
+}
+
+.feedItemDescription {
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.feedbackBlock {
+  display: flex;
+  align-items: center;
+}
+
+.feedItemFeedback {
+  display: flex;
+  align-items: center;
+  background: #F0F2F5;
+  border-radius: 20px;
+  padding: 5px 10px;
+
+  span {
+    display: block;
+    margin-left: 5px;
+    font-size: 17px;
+  }
+}
+
+.feedItemCommentsIcon {
+  margin-left: 15px;
+}
+
+.feedItemComments {
+  margin-top: 15px;
+
+  .feedItemComment {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+
+    .commentEmail {
+      font-size: 12px;
+      line-height: 12px;
+    }
+
+    .commentValue {
+      font-size: 16px;
+    }
+  }
+}
+
+.writeCommentBlock {
+  display: flex;
+  flex-direction: column;
   padding: 0 10px;
-  overflow: auto;
+
+  .input-field {
+    margin-top: 0;
+    margin-bottom: 0;
+    width: 100%;
+  }
 }
 
 .buttonsBlock {
@@ -34,40 +109,13 @@ div.chat-content {
   margin-bottom: 30px;
 }
 
-.container {
-  min-height: calc(100vh - 140px);
-}
-
 .likeBlock {
   display: flex;
   align-items: center;
 }
 
-.photoDataBlock {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
-}
-
-.photoDescription {
-  font-size: 20px;
-}
-
 .descriptionBlock {
   margin-top: 10px;
-}
-
-.comment-icon {
-  margin-left: 10px;
-}
-
-.writeCommentBlock {
-  display: flex;
-  align-items: center;
-
-  .input-field  {
-    margin-right: 15px;
-  }
 }
 
 .search-results {
@@ -80,16 +128,9 @@ div.chat-content {
     margin-right: 10px;
     font-size: 16px;
   }
+
   display: flex;
   align-items: center;
-}
-
-//
-
-.photoCard {
-  width: 45%;
-  padding: 10px;
-  box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%), 0 1px 5px 0 rgb(0 0 0 / 20%);
 }
 
 .contentContainer {
@@ -97,24 +138,4 @@ div.chat-content {
   flex-direction: column;
   flex-wrap: wrap;
   flex-flow: wrap;
-}
-
-.contentContainerBlock {
-  width: 45%;
-}
-
-.gridContainer {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(40%, 1fr));
-  grid-auto-rows: 50px;
-  grid-gap: 10px;
-}
-
-.gridItem {
-  display: inline-block;
-  //min-height: 300px;
-  //grid-row: span 5;
-  img {
-    height: 100%;
-  }
 }

@@ -1,120 +1,95 @@
-<div class="chat">
-  <div class="container">
-    <div class="chat-content">
-      <div class="card" #scrollContainer>
-        <div
-          class="row scroll-container"
-          infiniteScroll
-          [scrollWindow]="false"
-          [infiniteScrollContainer]="scrollContainer"
-          [infiniteScrollDistance]="1"
-          [infiniteScrollThrottle]="50"
-          (scrolled)="onScrollDown()"
-          [alwaysCallback]="true"
-        >
-
-
-          <div class="gridContainer">
-            <div *ngFor="let item of photos" class="gridItem">
-              <img class="image" src="{{item.imageSrc}}" alt="{{item.description}}">
+<div class="container">
+  <div class="live-feed" #scrollContainer>
+    <div
+      class="row scroll-container"
+      infiniteScroll
+      [scrollWindow]="false"
+      [infiniteScrollContainer]="scrollContainer"
+      [infiniteScrollDistance]="1"
+      [infiniteScrollThrottle]="50"
+      (scrolled)="onScrollDown()"
+      [alwaysCallback]="true"
+    >
+      <div *ngFor="let item of photos" class="col s12  m6 l4">
+        <div class="feedItem">
+          <div class="feedItemData">
+            <strong>{{item.userEmail}}</strong>
+            <strong class="teal-text">{{item.date | date:'dd.MM.yyyy'}}</strong>
+          </div>
+          <div class="feedItemPhoto">
+            <ng-image-slider
+              [imageSize]="{height: '300px', width: '300px'}"
+              [images]="[{image: item.imageSrc, thumbImage: item.imageSrc, alt: item.description}]"
+            ></ng-image-slider>
+          </div>
+          <div class="feedItemDescription">
+            <app-read-more [text]="item.description" [maxLength]="20"></app-read-more>
+          </div>
+          <div class="feedbackBlock">
+            <div class="feedItemFeedback">
+              <i class="material-icons {{ item.isLiked ? 'red-text' : 'grey-text darken-2'}}"
+                 (click)="setLike(item.imageId, item.likeCount+1, item.isLiked)">
+                {{item.isLiked ? 'favorite' : 'favorite_border'}}
+              </i>
+              <span>{{item.likeCount}}</span>
+            </div>
+            <div
+              class="feedItemFeedback feedItemCommentsIcon"
+              (click)="item.showComments = !item.showComments; getComments(item.imageId, item.showComments)"
+            >
+              <i class="material-icons comment-icon grey-text darken-2">comment</i>
+              <span>{{item.likeCount}}</span>
             </div>
           </div>
-<!--          <div *ngFor="let item of photos" class="photoCard">-->
-<!--            <div class="imageContainer">-->
-<!--              <img class="image" src="{{item.imageSrc}}" alt="{{item.description}}">-->
-<!--            </div>-->
-<!--            &lt;!&ndash;                <ng-image-slider&ndash;&gt;-->
-<!--            &lt;!&ndash;                  [imageSize]="{height: '30%', width: '50%'}"&ndash;&gt;-->
-<!--            &lt;!&ndash;                  [images]="[{image: item.imageSrc, thumbImage: item.imageSrc, alt: item.description}]"&ndash;&gt;-->
-<!--            &lt;!&ndash;                ></ng-image-slider>&ndash;&gt;-->
-<!--            <app-read-more [text]="item.description" [maxLength]="20"></app-read-more>-->
-<!--            <div class="likeBlock">-->
-<!--              <span>{{item.likeCount}}</span>-->
-<!--              <i class="material-icons"-->
-<!--                 (click)="setLike(item.imageId, item.likeCount+1, item.isLiked)">{{!item.isLiked-->
-<!--                ?-->
-<!--                'favorite_border' : 'favorite'}}</i>-->
-<!--              <i class="material-icons comment-icon"-->
-<!--                 (click)="item.showComments = !item.showComments; getComments(item.imageId, item.showComments)">mode_comment</i>-->
-<!--            </div>-->
-<!--            <div *ngIf="item.showComments">-->
-<!--              <div *ngFor="let comment of item.comments">-->
-<!--                <span><strong>{{comment.userEmail}}</strong> {{comment.commentValue}}</span>-->
-<!--              </div>-->
-<!--              <div class="row writeCommentBlock">-->
-<!--                <div class="input-field s6">-->
-<!--                  <input [(ngModel)]="item.comment" placeholder="Ваш комментарий" type="text">-->
-<!--                </div>-->
-<!--                <a class="waves-effect waves-light btn"-->
-<!--                   (click)="sendComment(item.imageId, item.comment); item.comment = ''">Отправить</a>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
 
+          <div *ngIf="item.showComments" class="feedItemComments">
+            <hr/>
+            <div *ngFor="let comment of item.comments" class="feedItemComment">
+              <span class="commentEmail teal-text">{{comment.userEmail}}</span>
+              <div>
+                <app-read-more [text]="comment.commentValue" [maxLength]="5"></app-read-more>
+              </div>
+              <!--              пагинация-->
+            </div>
+            <!--            <hr/>-->
+            <div class="row writeCommentBlock">
+              <div class="input-field">
+                <textarea class="materialize-textarea" [(ngModel)]="item.comment" placeholder="Ваш комментарий"
+                          type="text"></textarea>
+              </div>
+              <div>
+                <a class="waves-effect waves-light btn"
+                   (click)="sendComment(item.imageId, item.comment); item.comment = ''">Отправить</a>
+              </div>
 
-
-
-
-          <!--          <div *ngFor="let item of photos" class="list-group-item">-->
-          <!--            <div class="photoDataBlock">-->
-          <!--              <strong>{{item.userEmail}}</strong>-->
-          <!--              <strong class="teal-text">{{item.date | date:'dd/MM/yyyy'}}</strong>-->
-          <!--            </div>-->
-          <!--            <div class="imageContainer">-->
-          <!--              <img class="image" src="{{item.imageSrc}}" alt="{{item.description}}">-->
-          <!--            </div>-->
-          <!--            <div class="descriptionBlock">-->
-          <!--              <span class="photoDescription">-->
-          <!--                <app-read-more [text]="item.description" [maxLength]="20"></app-read-more>-->
-          <!--              </span>-->
-          <!--              <div class="likeBlock">-->
-          <!--                <span>{{item.likeCount}}</span>-->
-          <!--                <i class="material-icons"-->
-          <!--                   (click)="setLike(item.imageId, item.likeCount+1, item.isLiked)">{{!item.isLiked-->
-          <!--                  ?-->
-          <!--                  'favorite_border' : 'favorite'}}</i>-->
-          <!--                <i class="material-icons comment-icon"-->
-          <!--                   (click)="item.showComments = !item.showComments; getComments(item.imageId, item.showComments)">mode_comment</i>-->
-          <!--              </div>-->
-          <!--            </div>-->
-          <!--            <div *ngIf="item.showComments">-->
-          <!--              <div *ngFor="let comment of item.comments">-->
-          <!--                <span><strong>{{comment.userEmail}}</strong> {{comment.commentValue}}</span>-->
-          <!--              </div>-->
-          <!--              <div class="row writeCommentBlock">-->
-          <!--                <div class="input-field s6">-->
-          <!--                  <input [(ngModel)]="item.comment" placeholder="Ваш комментарий" type="text">-->
-          <!--                </div>-->
-          <!--                <a class="waves-effect waves-light btn"-->
-          <!--                   (click)="sendComment(item.imageId, item.comment); item.comment = ''">Отправить</a>-->
-          <!--              </div>-->
-          <!--            </div>-->
-          <!--          </div>-->
-          <!--          <div *ngIf="showSpinner">-->
-          <!--            Загрузка...-->
-          <!--          </div>-->
+            </div>
+          </div>
         </div>
-
       </div>
-      <form [formGroup]="form" (ngSubmit)="sendFile()">
-        <div class="chat-send row">
-          <div class="addPhotoBlock">
-            <span>Добавить изображение:</span>
-            <i class="material-icons" (click)="file.click()" matTooltip="Добавить фото">add_a_photo</i>
-            <input [hidden]="true" type="file" (change)="onFileLoad($event)" #file/>
-          </div>
-          <div class="col-2">
-            <input disabled type="text" class="form-control" name="user" id="input-user" [value]="userEmail">
-          </div>
-          <div class="col-8">
-            <textarea id="input-message" class="materialize-textarea" type="text" formControlName="description"
-                      name="message"></textarea>
-          </div>
-          <div class="col-2 buttonsBlock">
-            <button type="submit" class="btn btn-primary">Отправить</button>
-          </div>
-        </div>
-      </form>
+      <div *ngIf="showSpinner">
+        Загрузка...
+      </div>
     </div>
   </div>
+
+  <form [formGroup]="form" (ngSubmit)="sendFile()">
+    <div class="chat-send row">
+      <div class="addPhotoBlock">
+        <span>Добавить изображение:</span>
+        <i class="material-icons" (click)="file.click()" matTooltip="Добавить фото">add_a_photo</i>
+        <input [hidden]="true" type="file" (change)="onFileLoad($event)" #file/>
+      </div>
+      <div class="col-2">
+        <input disabled type="text" class="form-control" name="user" id="input-user" [value]="userEmail">
+      </div>
+      <div class="col-8">
+            <textarea id="input-message" class="materialize-textarea" type="text" formControlName="description"
+                      name="message"></textarea>
+      </div>
+      <div class="col-2 buttonsBlock">
+        <button type="submit" class="btn btn-primary">Отправить</button>
+      </div>
+    </div>
+  </form>
+
 </div>
