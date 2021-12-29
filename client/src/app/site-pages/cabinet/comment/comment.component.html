@@ -17,14 +17,28 @@
     <p class="mat-card-subtitle center-align">{{item.travelTitle + ': ' + item.sumValue}}</p>
   </div>
 </div>
-
+<mat-paginator [length]="length"
+               [pageSize]="pageSizeReview"
+               [pageSizeOptions]="pageSizeOptions"
+               (page)="pageEvent = $event"
+               aria-label="Select page">
+</mat-paginator>
 <div class="reviewView-container">
-  <div class="align-column" *ngFor="let review of reviews | search: valueRadio">
+  <div class="align-column" *ngFor="let review of reviews | search: valueRadio | paginate: {
+              itemsPerPage: pageSize,
+              currentPage: page
+            }">
     <div class="date">
       <mat-icon>rate_review</mat-icon>
       {{review.date | date: 'dd.MM.yyyy hh:mm'}}
       <span class="sender">От кого: {{review.userEmail}}</span>
     </div>
+    <div class="reviewText mat-card-subtitle">{{review.travelName}}</div>
     <div class="reviewText">{{review.reviewText}}</div>
   </div>
 </div>
+<pagination-controls
+  previousLabel="Назад"
+  nextLabel="Вперед"
+  (pageChange)="page = $event"
+></pagination-controls>

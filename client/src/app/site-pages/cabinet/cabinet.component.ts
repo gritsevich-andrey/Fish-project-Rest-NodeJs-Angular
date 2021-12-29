@@ -5,7 +5,6 @@ import {WarningService} from "../../shared/services/warning.service";
 import {UserService} from "../../shared/services/user.service";
 import {CabinetService} from "./cabinet.service";
 import {Photo} from "../../shared/interfaces";
-import {SortService} from "../../shared/services/sort.service";
 import {Subscription} from "rxjs";
 
 @Component({
@@ -42,8 +41,7 @@ export class CabinetComponent implements OnInit, OnDestroy {
   constructor(private warningService: WarningService,
               private cabinetService: CabinetService,
               private userService: UserService,
-              private fb: FormBuilder,
-              public sortService: SortService) {
+              private fb: FormBuilder) {
 
     this.form = new FormGroup({
       fio: new FormControl('', Validators.required),
@@ -65,7 +63,28 @@ export class CabinetComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.techList = this.form.get('technique') as FormArray;
     this.photoSub = this.cabinetService.getCabinetData(this.email).subscribe(data => {
-      this.reviews = data.reviews;
+      let splitReviews: {
+          date: any; userEmail: string;
+          travelName: any;
+          reviewText: any;
+          userFIO: any;
+      }[] = [];
+      data.reviews.map(value => {
+       const array = value.userEmail.split('@');
+       const splitReview = {
+         //@ts-ignore
+         date: value.date,
+         userEmail: array[0],
+         //@ts-ignore
+         travelName: value.travelName,
+         //@ts-ignore
+         reviewText: value.reviewText,
+         //@ts-ignore
+         userFIO: value.userFIO
+       }
+       splitReviews.push(splitReview);
+      })
+      this.reviews = splitReviews;
       this.ratings = data.ratings;
       this.ratings.forEach(value => {
         if (this.sumRating === 0)

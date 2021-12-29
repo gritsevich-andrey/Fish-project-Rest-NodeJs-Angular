@@ -99,37 +99,7 @@
       <app-my-reviews [userEmail]="email"></app-my-reviews>
     </mat-tab>
     <mat-tab label="Мои фото">
-      <div>
-        <table matSort (matSortChange)="sortService.sortData($event)">
-          <thead>
-          <tr>
-            <th mat-sort-header="number">№</th>
-            <th mat-sort-header="image">Изображение</th>
-            <th mat-sort-header="description">Описание</th>
-            <th mat-sort-header="moderation">Модерация</th>
-            <th mat-sort-header="public" matTooltip="Фото/видео отображается в живой ленте">Публичное</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="let photo of userPhotos | paginate: {
-              itemsPerPage: pageSize,
-              currentPage: page
-            }; let i = index;">
-            <td>{{i + 1}}</td>
-            <td class="image-preview"><img [src]="photo.imageSrc"></td>
-            <td>{{photo.description}}</td>
-            <td>{{photo.moderation}}</td>
-            <td>{{photo.public}}</td>
-          </tr>
-          </tbody>
-        </table>
-        <span class="mt10"><button class="btn btn-dark" (click)="handlePageChange()">Загрузить еще</button></span>
-      </div>
-      <pagination-controls
-        previousLabel="Назад"
-        nextLabel="Вперед"
-        (pageChange)="page = $event"
-      ></pagination-controls>
+      <app-my-photo></app-my-photo>
     </mat-tab>
   </mat-tab-group>
 </div>
