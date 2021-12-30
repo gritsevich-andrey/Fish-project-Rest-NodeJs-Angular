@@ -5,8 +5,8 @@
         <div  class="card">
           <ul >
             <li class="user-container">
-              <span class="show-align"><button class="btn" (click)="receiverEmail=''">Показать все</button></span>
-              <span *ngFor="let email of getUniqueReceiver()" class="user-left" (click)="addReceiverEmail(email)">{{email}}</span>
+              <span class="show-align"><button matTooltip="Сообщения всех пользователей" class="btn" (click)="receiverEmail=''"><i class="material-icons">all_inbox</i></button></span>
+              <span *ngFor="let email of getUniqueReceiver()" class="user-left" (click)="addReceiverEmail(email)">{{splitEmail(email)}}</span>
             </li>
           </ul>
         </div>
@@ -26,7 +26,7 @@
              [alwaysCallback]="true">
           <ul *ngFor="let info of getInfoWithChatDto() | search: receiverEmail">
             <li *ngIf="info.message && !(info.message.includes('присоединился'))"  class="chat-container">
-              <span class="user-left" (click)="addReceiverEmail(info.email)">{{info.email}} </span>
+              <span class="user-left user-width" (click)="addReceiverEmail(info.email)">{{splitEmail(info.email)}} </span>
               <span class="p10">{{info.message}} </span>
               <span class="time-right">{{info.date | date: 'd.MM.YY HH:mm'}} </span>
             </li>
@@ -39,13 +39,14 @@
 <div class="flex-col">
   <div>
     <label>Кому</label>
-    <input [disabled]="true" type="text" *ngIf="receiverEmail" [value]="receiverEmail">
+    <input [disabled]="true" type="text" *ngIf="receiverEmail" [value]="splitEmail(receiverEmail)">
     <input [disabled]="true" type="text" *ngIf="!receiverEmail" value="Нужно выбрать получателя">
   </div>
   <form (ngSubmit)="sendMessage(sendForm)" #sendForm="ngForm">
     <div class="row">
       <div>
-        <textarea autofocus placeholder="Вначале нужно выбрать с кем хотите поговорить" type="text" class="mat-form-field-autofill-control" name="message" id="input-message" ngModel></textarea>
+        <textarea *ngIf="!receiverEmail" autofocus placeholder="Вначале нужно выбрать с кем хотите поговорить" type="text" class="mat-form-field-autofill-control"></textarea>
+        <textarea *ngIf="receiverEmail" autofocus placeholder="Напишите текст сообщения" type="text" class="mat-form-field-autofill-control p10" name="message" id="input-message" ngModel></textarea>
       </div>
       <div>
         <button [disabled]="!receiverEmail" type="submit" class="btn">Отправить</button>
