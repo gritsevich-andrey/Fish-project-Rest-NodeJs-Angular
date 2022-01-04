@@ -10,6 +10,7 @@ import {SearchFilterPipe} from "../pipe/search-filter.pipe";
 import {EmitterService} from "./services/emitter.service";
 import {MatIconModule} from "@angular/material/icon";
 import { DuplicateRatingPipe } from './pipes/duplicate-rating.pipe';
+import { SpacePipe } from './pipes/space.pipe';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { DuplicateRatingPipe } from './pipes/duplicate-rating.pipe';
     FooterComponent,
     DuplicatePipe,
     SearchFilterPipe,
-    DuplicateRatingPipe
+    DuplicateRatingPipe,
+    SpacePipe
   ],
     imports: [
         CommonModule,
@@ -33,7 +35,8 @@ import { DuplicateRatingPipe } from './pipes/duplicate-rating.pipe';
         FormsModule,
         DuplicatePipe,
         SearchFilterPipe,
-        DuplicateRatingPipe
+        DuplicateRatingPipe,
+        SpacePipe
     ],
   providers: [{provide: EmitterService, useClass: EmitterService}]
 })
