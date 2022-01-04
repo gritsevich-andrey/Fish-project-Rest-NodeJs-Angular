@@ -8,7 +8,6 @@ import {environment} from "../../../environments/environment";
   providedIn: 'root'
 })
 export class PhotoService {
-  likeCount: any = [];
 
   constructor(private http: HttpClient) {
   }
@@ -79,8 +78,8 @@ export class PhotoService {
     return this.http.post(environment.COMMENTS_API, {photoId, commentValue, userEmail})
   }
 
-  updateLikes(imageId: string, likesCount: number) {
-    return this.http.patch(environment.PHOTO_API + "/updateLikes", {imageId, likesCount}).subscribe()
+  updateLikes(imageId: string) {
+    return this.http.patch(environment.PHOTO_API + "/updateLikes", {imageId}).subscribe()
   }
 }
 

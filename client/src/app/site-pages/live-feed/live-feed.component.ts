@@ -3,8 +3,9 @@ import {FormControl, FormGroup} from "@angular/forms";
 import {UserService} from "../../shared/services/user.service";
 import {PhotoService} from "../../shared/services/photo.service";
 import {MaterialService} from "../../shared/classes/material.service";
+import {map} from "rxjs/operators";
 
-interface Photos {
+interface Post {
   imageSrc: string
   userEmail: string
   description: string
@@ -24,14 +25,15 @@ interface Photos {
   styleUrls: ['./live-feed.component.scss']
 })
 export class LiveFeedComponent implements OnInit, OnDestroy {
-  photos!: Photos[];
+  photos!: Post[];
   userEmail!: string;
   file!: File;
   form!: FormGroup;
-  imagesOnPage = 10;
-  imagesPage = 1;
+  postsOnPage = 10;
+  postsPage = 1;
   showSpinner = false;
-  isAllPictures = false;
+  isAllPosts = false;
+  likeCount: any = [];
 
   constructor(
     private userService: UserService,
@@ -45,32 +47,50 @@ export class LiveFeedComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.userEmail = this.userService.getUserDataFromLocal();
+    this.likeCount = JSON.parse(localStorage.getItem('likes') || '[]')
+    debugger
+    this.userEmail = this.userService.getUserDataFromLocal()
     this.getPhotos()
   }
 
   @HostListener('window:beforeunload')
   ngOnDestroy() {
-    this.photoService.likeCount.forEach((el: any) => this.photoService.updateLikes(el.imageId, el.likeCount))
-    this.photoService.likeCount = []
-    this.imagesPage = 1
+    this.likeCount.forEach((imageId: any) => this.photoService.updateLikes(imageId))
+    localStorage.setItem('likes', JSON.stringify(this.likeCount))
   }
 
-  setLike(imageId: string, likeCount: number, isLiked: boolean) {
+  setLike(imageId: string, isLiked: boolean) {
     if (!isLiked) {
-      this.photoService.likeCount.push({imageId})
-      this.photos.forEach(el => {
-        if (el.imageId === imageId) {
-          el.isLiked = true
-          el.likeCount = likeCount
+      this.likeCount.push(imageId)
+      this.photos.forEach(photo => {
+        if (photo.imageId === imageId) {
+          photo.isLiked = true
+          photo.likeCount += 1
+        }
+      })
+    } else {
+      const index = this.likeCount.findIndex((likeImageId: string) => likeImageId === imageId)
+      this.likeCount.splice(index, 1)
+
+      this.photos.forEach(photo => {
+        if (photo.imageId === imageId) {
+          photo.isLiked = false
+          photo.likeCount -= 1
         }
       })
     }
   }
 
   getPhotos() {
-    this.photoService.getFeedPhotos(this.imagesOnPage, 1).subscribe(
-      data => this.photos = data,
+    this.photoService.getFeedPhotos(this.postsOnPage, 1).pipe(map(posts => {
+      return posts.map((post: Post) => {
+        post.isLiked = this.likeCount.includes(post.imageId)
+        return post
+      })
+    })).subscribe(
+      posts => {
+        this.photos = posts
+      },
       error => console.log(error)
     )
   }
@@ -137,15 +157,15 @@ export class LiveFeedComponent implements OnInit, OnDestroy {
   }
 
   onScrollDown() {
-    if (!this.showSpinner && !this.isAllPictures) {
+    if (!this.showSpinner && !this.isAllPosts) {
       this.showSpinner = true
-      this.imagesPage += 1;
-      this.photoService.getFeedPhotos(this.imagesOnPage, this.imagesPage).subscribe(
+      this.postsPage += 1;
+      this.photoService.getFeedPhotos(this.postsOnPage, this.postsPage).subscribe(
         data => {
           this.photos.push(...data)
           this.showSpinner = false
           if (data.length === 0) {
-            this.isAllPictures = true
+            this.isAllPosts = true
           }
         },
         error => console.log(error)

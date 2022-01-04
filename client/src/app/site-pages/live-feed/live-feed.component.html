@@ -13,7 +13,7 @@
       <div *ngFor="let item of photos" class="col s12  m6 l4">
         <div class="feedItem">
           <div class="feedItemData">
-            <strong>{{item.userEmail}}</strong>
+            <strong>Пользователь: {{item.userEmail | emailCut}}</strong>
             <strong class="teal-text">{{item.date | date:'dd.MM.yyyy'}}</strong>
           </div>
           <div class="feedItemPhoto">
@@ -28,7 +28,7 @@
           <div class="feedbackBlock">
             <div class="feedItemFeedback">
               <i class="material-icons {{ item.isLiked ? 'red-text' : 'grey-text darken-2'}}"
-                 (click)="setLike(item.imageId, item.likeCount+1, item.isLiked)">
+                 (click)="setLike(item.imageId, item.isLiked)">
                 {{item.isLiked ? 'favorite' : 'favorite_border'}}
               </i>
               <span>{{item.likeCount}}</span>
@@ -38,18 +38,16 @@
               (click)="item.showComments = !item.showComments; getComments(item.imageId, item.showComments)"
             >
               <i class="material-icons comment-icon grey-text darken-2">comment</i>
-              <span>{{item.likeCount}}</span>
             </div>
           </div>
 
           <div *ngIf="item.showComments" class="feedItemComments">
             <hr/>
             <div *ngFor="let comment of item.comments" class="feedItemComment">
-              <span class="commentEmail teal-text">{{comment.userEmail}}</span>
+              <span class="commentEmail teal-text">{{comment.userEmail | emailCut}}</span>
               <div>
                 <app-read-more [text]="comment.commentValue" [maxLength]="5"></app-read-more>
               </div>
-              <!--              пагинация-->
             </div>
             <!--            <hr/>-->
             <div class="row writeCommentBlock">
