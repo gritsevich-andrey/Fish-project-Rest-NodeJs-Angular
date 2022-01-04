@@ -5,3 +5,10 @@
 .image-preview img {
   height: 100%;
 }
+:host ::ng-deep a {
+  position: relative!important;
+}
+.pl5 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}

@@ -16,7 +16,7 @@
             }; let i = index;">
       <td>{{i + 1}}</td>
       <td class="image-preview"><img [src]="photo.imageSrc"></td>
-      <td>{{photo.description}}</td>
+      <td class="pl5"><app-read-more [text]="photo.description" [maxLength]="20"></app-read-more></td>
       <td *ngIf="photo.moderation">{{'разрешено'}}</td>
       <td *ngIf="!photo.moderation">{{'на модерации'}}</td>
       <td *ngIf="photo.public">{{'опубликовано'}}</td>
