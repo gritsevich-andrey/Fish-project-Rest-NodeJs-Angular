@@ -62,6 +62,7 @@ import {SelectPointComponent} from './site-pages/travel/select-point/select-poin
 import {TripComponent} from './admin/travels/trip/trip.component';
 import {MyReviewsComponent} from './site-pages/cabinet/my-reviews/my-reviews.component';
 import {MyPhotoComponent} from './site-pages/cabinet/my-photo/my-photo.component';
+import {EmailCutPipe} from "./shared/pipes/email-cut.pipe";
 
 const mapConfig: YaConfig = {
   apikey: '6c5c5f61-fa87-4efd-8ad9-f652f1fd0727',
@@ -102,7 +103,8 @@ const mapConfig: YaConfig = {
     SelectPointComponent,
     TripComponent,
     MyReviewsComponent,
-    MyPhotoComponent
+    MyPhotoComponent,
+    EmailCutPipe
   ],
   imports: [
     NgImageSliderModule,
