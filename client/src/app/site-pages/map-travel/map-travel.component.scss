@@ -8,15 +8,15 @@
 
 @media only screen and (max-width: 993px) {
   .yandex-container  {
-    width: 60rem!important;
+    width: 98%;
   }
 }
 
-@media only screen and (max-width: 601px) {
-  .yandex-container  {
-    width: 40rem!important;
-  }
-}
+//@media only screen and (max-width: 601px) {
+//  .yandex-container  {
+//    width: 95%;
+//  }
+//}
 
 .map-container {
   display: flex;
@@ -69,4 +69,8 @@ margin: 1.8px!important;
 }
 .text-limit {
   overflow: hidden;
+}
+:host ::ng-deep .mat-radio-label-content {
+  margin-top: 5px!important;
+
 }
