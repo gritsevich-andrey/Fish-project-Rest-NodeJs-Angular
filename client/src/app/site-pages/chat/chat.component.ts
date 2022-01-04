@@ -14,8 +14,6 @@ import {Subscription} from "rxjs";
   styleUrls: ['./chat.component.scss']
 })
 export class ChatComponent implements OnInit, OnDestroy {
-
-  // https://stackoverflow.com/questions/44857780/how-to-call-header-component-function-to-another-component-in-angular-2/44858648#44858648
   // @ts-ignore
   chatInfoDto: SocketMessageDto;
   userEmail: string;
@@ -40,7 +38,6 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // this.saveInDb();
     if (this.chatSub) {
       this.chatSub.unsubscribe();
     }
@@ -79,10 +76,6 @@ export class ChatComponent implements OnInit, OnDestroy {
         date: Date.now()
       }]
     }
-    // if (this.role === 'DRIVER') {
-    //   this.chatInfoDto['userEmail'] = this.userEmail;
-    //   this.chatInfoDto['receiverEmail'] = this.receiverEmail;
-    // }
     this.chatInfoDto['userEmail'] = this.userEmail;
     this.chatInfoDto['receiverEmail'] = this.receiverEmail;
 
@@ -181,7 +174,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   saveInDb() {
     this.messSub = this.chatService.saveMessage(this.chatInfoDto).subscribe(data => {
-        this.warningService.sendWarning(`Сообщение ${this.receiverEmail} отравлено`);
+        this.warningService.sendWarning(`Сообщение ${this.splitEmail(this.receiverEmail)} отравлено`);
       },
       error => this.warningService.sendWarning(`Ошибка отправки сообщения ${this.receiverEmail}`));
     // @ts-ignore
@@ -200,5 +193,10 @@ export class ChatComponent implements OnInit, OnDestroy {
           this.socketService.chatInfo.push(data);
         });
     }
+  }
+
+  splitEmail(email: string) {
+    const splitEmail = email.split('@');
+    return splitEmail[0];
   }
 }

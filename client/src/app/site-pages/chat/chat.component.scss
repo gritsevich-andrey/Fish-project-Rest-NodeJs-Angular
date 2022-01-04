@@ -11,7 +11,7 @@ div.chat-content {
   border: 1px solid #dedede;
   background-color: #f1f1f1;
   border-radius: 2px;
-  padding: 10px;
+  padding: 15px;
   margin: 5px;
 }
 .user-container {
@@ -57,11 +57,11 @@ div.chat-content {
   margin: 5px;
 }
 .user-left:hover{
-  color: var(--light-color);
+  color: red;
   cursor: pointer;
-  background: var(--button-color);
-  border-radius: 3px;
-  padding: 5px;
+  //background: var(--button-color);
+  //border-radius: 3px;
+  //padding: 5px;
 }
 а:active{
   color: var(--success-color);
@@ -105,4 +105,9 @@ textarea {
 }
 .show-align {
   display: block;
+}
+.user-width {
+  width: 99%;
+  color: var(--button-color);
+  font-weight: bold;
 }
