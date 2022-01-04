@@ -65,3 +65,20 @@ export interface Review {
   isShown: boolean
   rejectionReason: string
 }
+
+export interface LiveFeedPost {
+  imageSrc: string
+  userEmail: string
+  description: string
+  readMore: boolean
+  showComments: boolean
+  comments: any
+  imageId: string
+  comment: string
+  likeCount: number
+  isLiked: boolean
+  date: string
+  latitude: number
+  longitude: number
+  address: string
+}

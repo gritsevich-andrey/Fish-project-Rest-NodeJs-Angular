@@ -37,6 +37,15 @@ const photoSchema = new Schema({
     likesCount: {
         type: Number,
         default: 0
+    },
+    longitude: {
+        type: Number
+    },
+    latitude: {
+        type: Number
+    },
+    address: {
+        type: String
     }
 });
 module.exports= mongoose.model('photos', photoSchema);

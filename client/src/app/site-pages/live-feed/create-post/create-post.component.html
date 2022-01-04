@@ -1,0 +1,21 @@
+<form [formGroup]="form" (ngSubmit)="createPost()">
+  <div class="row">
+    <div class="addPhoto">
+      <span>Добавить изображение:</span>
+      <i class="material-icons" (click)="file.click()" matTooltip="Добавить фото">add_a_photo</i>
+      <input [hidden]="true" type="file" (change)="onFileLoad($event)" #file/>
+    </div>
+    <div class="openMap">
+      <span>Указать место на карте:</span>
+      <button type="button" (click)="openMap()" class="btn-small">указать</button>
+    </div>
+    <div class="col-2">
+      <input disabled type="text" class="form-control" name="user" id="input-user" [value]="userEmail">
+    </div>
+    <div class="col-8">
+            <textarea id="input-message" class="materialize-textarea" type="text" formControlName="description"
+                      name="message"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Отправить</button>
+  </div>
+</form>

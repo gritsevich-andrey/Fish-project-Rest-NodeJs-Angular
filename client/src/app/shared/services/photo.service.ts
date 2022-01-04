@@ -34,23 +34,8 @@ export class PhotoService {
     let url = environment.PHOTO_API
     if (pageSize && page) url = `${environment.PHOTO_API}?pagesize=${pageSize}&page=${page}`
     return this.http.get(url).pipe(
-      map((data: any) =>
-        data.filter((el: any) => el.public && el.moderation).map((data: any) => {
-          return {
-            imageSrc: data.imageSrc,
-            userEmail: data.userEmail,
-            description: data.description,
-            readMore: false,
-            showComments: false,
-            //Текст комментария (input)
-            comment: '',
-            imageId: data._id,
-            likeCount: data.likesCount,
-            isLiked: false,
-            date: data.date,
-          }
-        })
-      ))
+      map((data: any) => data.filter((el: any) => el.public && el.moderation))
+    )
   }
 
   createPhoto(data: any): Observable<any> {
@@ -59,6 +44,9 @@ export class PhotoService {
     formData.append('email', data.email)
     formData.append('description', data.description)
     formData.append('public', data.public)
+    formData.append('longitude', data.longitude)
+    formData.append('latitude', data.latitude)
+    formData.append('address', data.address)
     return this.http.post(environment.PHOTO_API, formData)
   }
 

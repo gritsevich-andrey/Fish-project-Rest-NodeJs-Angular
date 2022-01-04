@@ -10,40 +10,44 @@
       (scrolled)="onScrollDown()"
       [alwaysCallback]="true"
     >
-      <div *ngFor="let item of photos" class="col s12  m6 l4">
+      <div *ngFor="let post of posts" class="col s12  m6 l4">
         <div class="feedItem">
           <div class="feedItemData">
-            <strong>Пользователь: {{item.userEmail | emailCut}}</strong>
-            <strong class="teal-text">{{item.date | date:'dd.MM.yyyy'}}</strong>
+            <strong>Пользователь: {{post.userEmail | emailCut}}</strong>
+            <strong class="teal-text">{{post.date | date:'dd.MM.yyyy'}}</strong>
           </div>
           <div class="feedItemPhoto">
             <ng-image-slider
               [imageSize]="{height: '300px', width: '300px'}"
-              [images]="[{image: item.imageSrc, thumbImage: item.imageSrc, alt: item.description}]"
+              [images]="[{image: post.imageSrc, thumbImage: post.imageSrc, alt: post.description}]"
             ></ng-image-slider>
           </div>
           <div class="feedItemDescription">
-            <app-read-more [text]="item.description" [maxLength]="20"></app-read-more>
+            <app-read-more [text]="post.description" [maxLength]="20"></app-read-more>
           </div>
           <div class="feedbackBlock">
             <div class="feedItemFeedback">
-              <i class="material-icons {{ item.isLiked ? 'red-text' : 'grey-text darken-2'}}"
-                 (click)="setLike(item.imageId, item.isLiked)">
-                {{item.isLiked ? 'favorite' : 'favorite_border'}}
+              <i class="material-icons {{ post.isLiked ? 'red-text' : 'grey-text darken-2'}}"
+                 (click)="setLike(post.imageId, post.isLiked)">
+                {{post.isLiked ? 'favorite' : 'favorite_border'}}
               </i>
-              <span>{{item.likeCount}}</span>
+              <span>{{post.likeCount}}</span>
             </div>
             <div
               class="feedItemFeedback feedItemCommentsIcon"
-              (click)="item.showComments = !item.showComments; getComments(item.imageId, item.showComments)"
+              (click)="post.showComments = !post.showComments; getComments(post.imageId, post.showComments)"
             >
               <i class="material-icons comment-icon grey-text darken-2">comment</i>
             </div>
+            <button *ngIf="post.latitude && post.longitude" class=" btn-small"
+                    (click)="openMap(post.latitude, post.longitude)">Подробнее
+            </button>
+            <button *ngIf="!post.latitude && !post.longitude" class="disabled btn-small">Подробнее</button>
           </div>
 
-          <div *ngIf="item.showComments" class="feedItemComments">
+          <div *ngIf="post.showComments" class="feedItemComments">
             <hr/>
-            <div *ngFor="let comment of item.comments" class="feedItemComment">
+            <div *ngFor="let comment of post.comments" class="feedItemComment">
               <span class="commentEmail teal-text">{{comment.userEmail | emailCut}}</span>
               <div>
                 <app-read-more [text]="comment.commentValue" [maxLength]="5"></app-read-more>
@@ -52,14 +56,13 @@
             <!--            <hr/>-->
             <div class="row writeCommentBlock">
               <div class="input-field">
-                <textarea class="materialize-textarea" [(ngModel)]="item.comment" placeholder="Ваш комментарий"
+                <textarea class="materialize-textarea" [(ngModel)]="post.comment" placeholder="Ваш комментарий"
                           type="text"></textarea>
               </div>
               <div>
                 <a class="waves-effect waves-light btn"
-                   (click)="sendComment(item.imageId, item.comment); item.comment = ''">Отправить</a>
+                   (click)="sendComment(post.imageId, post.comment); post.comment = ''">Отправить</a>
               </div>
-
             </div>
           </div>
         </div>
@@ -69,25 +72,5 @@
       </div>
     </div>
   </div>
-
-  <form [formGroup]="form" (ngSubmit)="sendFile()">
-    <div class="chat-send row">
-      <div class="addPhotoBlock">
-        <span>Добавить изображение:</span>
-        <i class="material-icons" (click)="file.click()" matTooltip="Добавить фото">add_a_photo</i>
-        <input [hidden]="true" type="file" (change)="onFileLoad($event)" #file/>
-      </div>
-      <div class="col-2">
-        <input disabled type="text" class="form-control" name="user" id="input-user" [value]="userEmail">
-      </div>
-      <div class="col-8">
-            <textarea id="input-message" class="materialize-textarea" type="text" formControlName="description"
-                      name="message"></textarea>
-      </div>
-      <div class="col-2 buttonsBlock">
-        <button type="submit" class="btn btn-primary">Отправить</button>
-      </div>
-    </div>
-  </form>
-
+  <app-create-post [userEmail]="userEmail"></app-create-post>
 </div>

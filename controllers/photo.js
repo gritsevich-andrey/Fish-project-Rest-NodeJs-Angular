@@ -40,20 +40,24 @@ module.exports.getPhotoById = function (req, res) {
 
 module.exports.create = async function (req, res) {
     try {
-        const photo = await new Photo({
+        new Photo({
             imageSrc: req.file ? req.file.path : '',
             userEmail: req.body.email,
             coordinates: req.body.coordinates,
             description: req.body.description,
             moderation: req.body.moderation,
-            public: req.body.public
-        }).save()
-        await new Comments({
-            photoId: photo._id,
-            comments: []
-        }).save()
-
-        res.status(201).json(photo);
+            public: req.body.public,
+            longitude: req.body.longitude,
+            latitude: req.body.latitude,
+            address: req.body.address,
+        }).save().then((photo) => {
+            new Comments({
+                photoId: photo._id,
+                comments: []
+            }).save().then(() => {
+                res.status(201).json({message: 'Фото загружено'});
+            })
+        })
     } catch (e) {
         errorHandler(res, e);
     }
@@ -73,7 +77,10 @@ module.exports.update = function (req, res) {
         description: req.body.description,
         moderation: req.body.moderation,
         public: req.body.public,
-        banDescription: req.body.banDescription
+        banDescription: req.body.banDescription,
+        longitude: req.body.longitude,
+        latitude: req.body.latitude,
+        address: req.body.address,
     }
     if (req.file) {
         updated.imageSrc = req.file.path
