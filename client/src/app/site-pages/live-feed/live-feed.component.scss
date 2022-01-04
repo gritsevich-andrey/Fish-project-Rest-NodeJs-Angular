@@ -37,6 +37,7 @@
 .feedbackBlock {
   display: flex;
   align-items: center;
+  margin-top: 10px;
 }
 
 .feedItemFeedback {
@@ -138,4 +139,13 @@
   flex-direction: column;
   flex-wrap: wrap;
   flex-flow: wrap;
+}
+
+::ng-deep app-read-more {
+  p {
+    margin-bottom: 0 !important;
+    a {
+      position: static !important;
+    }
+  }
 }
