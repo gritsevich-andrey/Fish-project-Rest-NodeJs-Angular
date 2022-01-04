@@ -24,6 +24,7 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {RejectReasonComponent} from "../../../reviews/reject-reason/reject-reason.component";
+import {ReadMoreModule} from "ng-readmore";
 
 
 @NgModule({
@@ -38,22 +39,23 @@ import {RejectReasonComponent} from "../../../reviews/reject-reason/reject-reaso
     DeleteDialogComponent,
     RejectReasonComponent
   ],
-  imports: [
-    CommonModule,
-    AdminLayoutsRoutingModule,
-    SharedModule,
-    MatSortModule,
-    MatTableModule,
-    NgxPaginationModule,
-    NgImageSliderModule,
-    NgxStarRatingModule,
-    MatTooltipModule,
-    MatIconModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatFormFieldModule,
-    MatInputModule,
-  ],
+    imports: [
+        CommonModule,
+        AdminLayoutsRoutingModule,
+        SharedModule,
+        MatSortModule,
+        MatTableModule,
+        NgxPaginationModule,
+        NgImageSliderModule,
+        NgxStarRatingModule,
+        MatTooltipModule,
+        MatIconModule,
+        MatButtonModule,
+        MatDialogModule,
+        MatFormFieldModule,
+        MatInputModule,
+        ReadMoreModule,
+    ],
   exports: [
     SearchFilterPipe
   ],

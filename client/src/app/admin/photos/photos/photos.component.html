@@ -40,7 +40,9 @@
           [images]="[{image: item.imageSrc, thumbImage: item.imageSrc, alt: item.description}]"></ng-image-slider>
       </div>
     </td>
-    <td>{{item.description}}</td>
+    <td>
+      <app-read-more [maxLength]="10" [text]="item.description"></app-read-more>
+    </td>
     <td>
       <label>
         <input checked="{{item.public ? 'checked' : ''}}" (click)="setPublic(item.fotoId, !item.public)"
