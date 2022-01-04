@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {Travel} from "../../../shared/interfaces";
 import {MatDialog} from "@angular/material/dialog";
 import {ChatDialogComponent} from "./chat-dialog/chat-dialog.component";
@@ -27,6 +27,12 @@ export class ListDescriptionsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const link = document.querySelector('.text-primary');
+    console.log('ссылка', link);
+    // @ts-ignore
+    link.textContent = 'Подробнее';
+    // @ts-ignore
+    link.innerHTML = 'Подробнее';
   }
 
   openChatDialog(receiverEmail: string) {
@@ -37,8 +43,6 @@ export class ListDescriptionsComponent implements OnInit {
     );
     dialogRef.afterClosed().subscribe();
   }
-
-
   goJoin(userEmail: string, _id: string) {
     const email = this.userService.getUserDataFromLocal();
     const pass = this.authService.getToken();

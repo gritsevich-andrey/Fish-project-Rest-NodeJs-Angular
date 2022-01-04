@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {YaReadyEvent} from "angular8-yandex-maps";
 import {TravelService} from "../../shared/services/travel.service";
 import {Travel} from "../../shared/interfaces";
@@ -33,7 +33,7 @@ export class MapTravelComponent implements OnInit {
   }
 
   onMapReady(event: YaReadyEvent<ymaps.Map>) {
-    // this.map = event.target;
+    this.map = event.target;
   }
 
   private getData() {

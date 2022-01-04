@@ -19,9 +19,9 @@
             (ready)="onMapReady($event)"
 
     >
-      <ya-control type="RoutePanel"
-        [parameters]="{ options: { float: 'right' } }"
-      ></ya-control>
+<!--      <ya-control type="RoutePanel"-->
+<!--        [parameters]="{ options: { float: 'right' } }"-->
+<!--      ></ya-control>-->
       <div *ngFor="let coordinate of travels | search: valueRadio">
         <ya-placemark *ngFor="let endPoint of coordinate.endPoint"
                       [geometry]="[endPoint.latitude, endPoint.longitude]" [properties]="{
