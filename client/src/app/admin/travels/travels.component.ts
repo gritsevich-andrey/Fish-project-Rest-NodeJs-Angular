@@ -8,6 +8,7 @@ import {DeleteDialogComponent} from "./delete-dialog/delete-dialog.component";
 export interface Travels {
   npp: number;
   name: string;
+  userFIO: string;
   description: number;
   // @ts-ignore
   joinedUsers: string[{ fio: string, name: string }];
@@ -34,8 +35,10 @@ export class TravelsComponent implements OnInit {
   ngOnInit(): void {
     this.travelService.getTravels().subscribe(data => {
       data.map((value: any) => {
+        console.log('Значение', value);
         this.travels.push(value);
       })
+      console.log('Поездки', this.travels);
       this.sortedData = this.travels.slice();
     });
   }
@@ -55,8 +58,8 @@ export class TravelsComponent implements OnInit {
           return compare(a.date, b.date, isAsc);
         case 'name':
           return compare(a.name, b.name, isAsc);
-        // case 'joinedUsers':
-        //   return compare(a.joinedUsers, b.joinedUsers, isAsc);
+        case 'userFIO':
+          return compare(a.userFIO, b.userFIO, isAsc);
         case 'description':
           return compare(a.description, b.description, isAsc);
         default:
