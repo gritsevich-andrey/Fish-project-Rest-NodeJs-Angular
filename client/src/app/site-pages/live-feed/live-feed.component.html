@@ -28,14 +28,14 @@
           <div class="feedbackBlock">
             <div class="feedItemFeedback">
               <i class="material-icons {{ post.isLiked ? 'red-text' : 'grey-text darken-2'}}"
-                 (click)="setLike(post.imageId, post.isLiked)">
+                 (click)="setLike(post._id, post.isLiked)">
                 {{post.isLiked ? 'favorite' : 'favorite_border'}}
               </i>
-              <span>{{post.likeCount}}</span>
+              <span>{{post.likesCount}}</span>
             </div>
             <div
               class="feedItemFeedback feedItemCommentsIcon"
-              (click)="post.showComments = !post.showComments; getComments(post.imageId, post.showComments)"
+              (click)="post.showComments = !post.showComments; getComments(post._id, post.showComments)"
             >
               <i class="material-icons comment-icon grey-text darken-2">comment</i>
             </div>
@@ -61,7 +61,7 @@
               </div>
               <div>
                 <a class="waves-effect waves-light btn"
-                   (click)="sendComment(post.imageId, post.comment); post.comment = ''">Отправить</a>
+                   (click)="sendComment(post._id, post.comment); post.comment = ''">Отправить</a>
               </div>
             </div>
           </div>

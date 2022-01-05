@@ -90,9 +90,17 @@ module.exports.update = function (req, res) {
         .catch(e => errorHandler(res, e))
 }
 
-module.exports.setLikes = function (req, res) {
-    Photo.findOne({_id: req.body.imageId})
-        .then(data => Photo.updateOne({_id: req.body.imageId}, {likesCount: data.likesCount + 1}))
-        .then(() => res.status(200).json({message: `Success set like at image ${req.body.imageId}`}))
-        .catch(e => errorHandler(res, e))
+module.exports.incrementLikes = async (req, res) => {
+    let photo = await Photo.findOne({_id: req.body.imageId})
+    console.log(req.body.imageId)
+    let likesCount = photo.likesCount + 1
+    await Photo.findOneAndUpdate({_id: req.body.imageId}, {likesCount})
+    res.status(200).json({message: 'Успешно обновлено количество лайков'})
+}
+
+module.exports.decrementLikes = async (req, res) => {
+    let {likesCount} = await Photo.findOne({_id: req.body.imageId})
+    likesCount -= 1
+    await Photo.findOneAndUpdate({_id: req.body.imageId}, {likesCount})
+    res.status(200).json({message: 'Успешно обновлено количество лайков'})
 }

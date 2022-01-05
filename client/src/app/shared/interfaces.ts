@@ -73,9 +73,9 @@ export interface LiveFeedPost {
   readMore: boolean
   showComments: boolean
   comments: any
-  imageId: string
+  _id: string
   comment: string
-  likeCount: number
+  likesCount: number
   isLiked: boolean
   date: string
   latitude: number
