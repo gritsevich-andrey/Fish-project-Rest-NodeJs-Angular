@@ -13,13 +13,19 @@
 <table>
   <thead>
   <tr>
+    <th>№</th>
+    <th matTooltip="email организатора поездки">Email</th>
+    <th matTooltip="ФИО организатора поездки">ФИО</th>
     <th>Поездка</th>
     <th>Отзывы</th>
   </tr>
   </thead>
   <tbody>
   <tr
-    *ngFor="let travel of travelsData | paginate: { itemsPerPage: travelsOnPage || defaultTravelsOnPage, currentPage: page }">
+    *ngFor="let travel of travelsData | paginate: { itemsPerPage: travelsOnPage || defaultTravelsOnPage, currentPage: page }, let i = index">
+    <td>{{i + 1}}</td>
+    <td>{{travel.email}}</td>
+    <td>{{travel.fio}}</td>
     <td>
       <button (click)="openTravel(travel.id)" class="btn">открыть поездку</button>
     </td>

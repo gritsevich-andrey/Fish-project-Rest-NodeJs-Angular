@@ -40,7 +40,8 @@ export class ReviewsComponent implements OnInit {
 
             if (isNewTravel) {
               travels.push({
-                userEmail: cabinet.userEmail,
+                email: cabinet.email,
+                fio: cabinet.fio,
                 id: review.travelId,
                 reviews: [{
                   receiverFIO: cabinet.fio,
@@ -51,6 +52,7 @@ export class ReviewsComponent implements OnInit {
                   isShown: review.isShown,
                 }]
               })
+
             } else {
               const travelIndex = travels.findIndex((travel: any) => travel.id === review.travelId)
               travels[travelIndex].reviews.push({
