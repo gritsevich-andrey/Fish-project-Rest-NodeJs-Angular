@@ -4,14 +4,15 @@
     <th mat-sort-header="npp">№</th>
     <th mat-sort-header="date">Дата</th>
     <th mat-sort-header="name">Название</th>
+    <th mat-sort-header="userFIO">ФИО организатора</th>
     <th mat-sort-header="joinedUsers">Участники</th>
     <th mat-sort-header="description">Удалить</th>
   </tr>
-
   <tr *ngFor="let travel of sortedData; let i = index">
     <td>{{i+1}}</td>
         <td>{{travel.date}}</td>
     <td><span class="pointer" (click)="openDialog(travel._id)">{{travel.name}}</span></td>
+    <td>{{travel.userFIO}}</td>
     <td>
       <ul *ngFor="let joinUser of travel.joinedUsers">
         <li>

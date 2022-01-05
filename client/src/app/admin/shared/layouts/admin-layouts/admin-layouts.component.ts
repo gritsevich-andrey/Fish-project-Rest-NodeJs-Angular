@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import {UserService} from "../../../../shared/services/user.service";
+import {WarningService} from "../../../../shared/services/warning.service";
+import {AuthService} from "../../../../shared/services/auth.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-admin-layouts',
@@ -52,9 +56,27 @@ export class AdminLayoutsComponent implements OnInit {
     },
   ]
 
-  constructor() { }
+  constructor(private userService: UserService,
+              private warningService: WarningService,
+              private authService: AuthService,
+              private router: Router) { }
 
   ngOnInit(): void {
+    this.checkRole();
   }
-
+  checkRole(): void {
+   const role = this.userService.getUserRole();
+   let roleAdmin = false;
+    for (let roleElement of role) {
+      if (roleElement === 'ADMIN')
+      {
+        roleAdmin = true;
+      }
+    }
+    if(!roleAdmin) {
+      this.warningService.sendWarning('Вы не являетесь администратором');
+      this.authService.logout();
+      this.router.navigate(['login']);
+    }
+  }
 }

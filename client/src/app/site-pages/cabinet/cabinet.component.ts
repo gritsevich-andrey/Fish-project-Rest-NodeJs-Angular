@@ -37,6 +37,7 @@ export class CabinetComponent implements OnInit, OnDestroy {
   reviews: any[] = [];
   ratings: any[] = [];
   sumRating = 0;
+  urFlag = false;
 
   constructor(private warningService: WarningService,
               private cabinetService: CabinetService,
