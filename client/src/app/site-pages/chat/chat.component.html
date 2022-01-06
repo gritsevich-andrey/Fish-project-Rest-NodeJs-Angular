@@ -45,8 +45,8 @@
   <form (ngSubmit)="sendMessage(sendForm)" #sendForm="ngForm">
     <div class="row">
       <div>
-        <textarea *ngIf="!receiverEmail" autofocus placeholder="Вначале нужно выбрать с кем хотите поговорить" type="text" class="mat-form-field-autofill-control"></textarea>
-        <textarea *ngIf="receiverEmail" autofocus placeholder="Напишите текст сообщения" type="text" class="mat-form-field-autofill-control p10" name="message" id="input-message" ngModel></textarea>
+        <textarea *ngIf="!receiverEmail" placeholder="Вначале нужно выбрать с кем хотите поговорить" class="mat-form-field-autofill-control"></textarea>
+        <textarea *ngIf="receiverEmail" placeholder="Напишите текст сообщения" type="text" class="mat-form-field-autofill-control p10" name="message" id="input-message" ngModel></textarea>
       </div>
       <div>
         <button [disabled]="!receiverEmail" type="submit" class="btn">Отправить</button>
