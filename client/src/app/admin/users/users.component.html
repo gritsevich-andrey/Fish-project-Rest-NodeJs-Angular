@@ -27,6 +27,7 @@
     <th mat-sort-header="email">Email</th>
     <th>Дата регистрации</th>
     <th>ФИО</th>
+    <th>Роль</th>
     <th mat-sort-header="banned">Забанен</th>
     <th>Забанить</th>
     <th>Список жалоб</th>
@@ -34,27 +35,37 @@
   </thead>
   <tbody>
   <tr *ngFor="
-let value of sortedData | searchFilter: searchValue | paginate: { itemsPerPage: usersOnPage || defaultUsersOnPage, currentPage: page }; let i=index;">
+let user of sortedData | searchFilter: searchValue | paginate: { itemsPerPage: usersOnPage || defaultUsersOnPage, currentPage: page }; let i=index;">
     <td>{{i + 1}}</td>
-    <td>{{value.email}}</td>
-    <td>{{value.date | date:'dd/MM/yyyy'}}</td>
-    <td>{{value.fio}}</td>
+    <td>{{user.email}}</td>
+    <td>{{user.registrationDate | date:'dd/MM/yyyy'}}</td>
+    <td>{{user.fio}}</td>
     <td>
-      <span *ngIf="value.banned">Да</span>
-      <span *ngIf="!value.banned">Нет</span>
+      <mat-form-field>
+        <mat-select [(value)]="user.role" placeholder="{{user.role}}">
+          <mat-option value="USER">USER</mat-option>
+          <mat-option value="ADMIN">ADMIN</mat-option>
+          <mat-option value="MODERATOR">MODERATOR</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button class="btn-small" (click)="updateRole(user.email, user.role)">сохранить</button>
     </td>
     <td>
-      <button (click)="unBanUserByEmail(value.email, i)" class="waves-effect waves-light btn-small"
-              *ngIf="value.banned">
+      <span *ngIf="user.banned">Да</span>
+      <span *ngIf="!user.banned">Нет</span>
+    </td>
+    <td>
+      <button (click)="unBanUserByEmail(user.email, i)" class="waves-effect waves-light btn-small"
+              *ngIf="user.banned">
         Разбанить
       </button>
-      <button (click)="banUserByEmail(value.email, i)" class="waves-effect waves-light btn-small"
-              *ngIf="!value.banned">
+      <button (click)="banUserByEmail(user.email, i)" class="waves-effect waves-light btn-small"
+              *ngIf="!user.banned">
         Забанить
       </button>
     </td>
     <td>
-      <a [routerLink]="['/administrator/complaints/' + value.email]">
+      <a [routerLink]="['/administrator/complaints/' + user.email]">
         <button class="waves-effect waves-light btn-small">Открыть</button>
       </a>
     </td>

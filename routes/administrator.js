@@ -9,5 +9,6 @@ const authenticate = passport.authenticate('jwt', {session: false});
 router.get('/', authenticate, controller.getAll);
 router.patch('/ban', authenticate, controller.banById);
 router.patch('/unban', authenticate, controller.unBanById);
+router.patch('/update-role', authenticate, controller.updateRole);
 
 module.exports = router

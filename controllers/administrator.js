@@ -6,15 +6,19 @@ module.exports.getAll = function (req, res) {
     User.find().then(users => {
         let resData = [];
         Cabinet.find().then(cabinet => {
-            users.forEach(item => {
-                let data = {email: item.email, banned: item.banned}
-                cabinet.forEach(el => {
-                    if (el.email === item.email) {
-                        data.fio = el.fio
-                        data.date = el.date
+            users.forEach(user => {
+                let userData = {
+                    email: user.email,
+                    banned: user.banned,
+                    registrationDate: user.registrationDate,
+                    role: user.role
+                }
+                cabinet.forEach(cabinet => {
+                    if (cabinet.email === user.email) {
+                        userData.fio = cabinet.fio
                     }
                 })
-                resData.push(data)
+                resData.push(userData)
             })
             res.status(200).json(resData)
         })
@@ -34,11 +38,17 @@ module.exports.banById = async function (req, res) {
 
 module.exports.unBanById = async function (req, res) {
     try {
-         await User.updateOne({email: req.body.email}, {banned: false});
+        await User.updateOne({email: req.body.email}, {banned: false});
         res.status(200).json({
             message: `Пользователь ${req.body.email} был разбанен`
         });
     } catch (e) {
         errorHandler(res, e);
     }
+}
+
+module.exports.updateRole = (req, res) => {
+    User.findOneAndUpdate({email: req.body.email}, {role: req.body.role})
+        .then(() => res.status(200).json({message: 'Роль обновлена'}))
+        .catch(error => console.log(error))
 }

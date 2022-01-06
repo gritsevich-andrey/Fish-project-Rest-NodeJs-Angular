@@ -80,3 +80,8 @@ input {
   justify-content: space-between;
   flex-wrap: wrap;
 }
+
+::ng-deep.mat-form-field {
+  padding-right: 5px;
+  max-width: 120px;
+}

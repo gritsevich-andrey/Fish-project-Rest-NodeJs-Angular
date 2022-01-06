@@ -25,6 +25,7 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {RejectReasonComponent} from "../../../reviews/reject-reason/reject-reason.component";
 import {ReadMoreModule} from "ng-readmore";
+import {MatSelectModule} from "@angular/material/select";
 
 
 @NgModule({
@@ -55,6 +56,7 @@ import {ReadMoreModule} from "ng-readmore";
         MatFormFieldModule,
         MatInputModule,
         ReadMoreModule,
+        MatSelectModule,
     ],
   exports: [
     SearchFilterPipe

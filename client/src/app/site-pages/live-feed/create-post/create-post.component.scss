@@ -9,7 +9,7 @@
 }
 
 .openMap {
-  margin-top: 10px;
+  margin-top: 2px;
 
   span {
     font-size: 16px;
@@ -18,4 +18,13 @@
   button {
     margin-left: 15px;
   }
+}
+
+input {
+  height: 2rem !important;
+  margin-bottom: 0 !important;
+}
+
+textarea {
+  margin-bottom: 0;
 }
