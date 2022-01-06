@@ -23,9 +23,9 @@ module.exports.getAll = function (req, res) {
 
 module.exports.banById = async function (req, res) {
     try {
-        const user = await User.updateOne({email: req.body.email}, {banned: true});
+        await User.updateOne({email: req.body.email}, {banned: true});
         res.status(200).json({
-            message: 'Пользователь был забанен'
+            message: `Пользователь ${req.body.email} был забанен`
         });
     } catch (e) {
         errorHandler(res, e);
@@ -34,9 +34,9 @@ module.exports.banById = async function (req, res) {
 
 module.exports.unBanById = async function (req, res) {
     try {
-        const user = await User.updateOne({email: req.body.email}, {banned: false});
+         await User.updateOne({email: req.body.email}, {banned: false});
         res.status(200).json({
-            message: 'Пользователь был разбанен'
+            message: `Пользователь ${req.body.email} был разбанен`
         });
     } catch (e) {
         errorHandler(res, e);

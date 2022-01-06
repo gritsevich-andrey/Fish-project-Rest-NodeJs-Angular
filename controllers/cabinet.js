@@ -10,21 +10,6 @@ module.exports.getAll = async function (req, res) {
     }
 }
 
-// module.exports.getByEmail = (req, res) => {
-//     Cabinet.findOne({email:req.params.email})
-//         .then(cabinet => {
-//             if (cabinet) {
-//                 res.status(200).json(cabinet);
-//             } else {
-//                 res.status(404).json({message: 'Кабинет не найден'})
-//             }
-//         })
-//         .catch(e => {
-//             res.status(404).json({message: 'Ошибка получения данных из базы'});
-//             errorHandler(res, e);
-//         })
-// }
-
 module.exports.getByEmail = async function (req, res) {
     try {
         const cabinet = await Cabinet.findOne({email: req.params.email});

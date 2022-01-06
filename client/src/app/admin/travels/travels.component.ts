@@ -35,10 +35,8 @@ export class TravelsComponent implements OnInit {
   ngOnInit(): void {
     this.travelService.getTravels().subscribe(data => {
       data.map((value: any) => {
-        console.log('Значение', value);
         this.travels.push(value);
       })
-      console.log('Поездки', this.travels);
       this.sortedData = this.travels.slice();
     });
   }
@@ -99,7 +97,6 @@ export class TravelsComponent implements OnInit {
      travelId: travelId,
      userEmails: userEmails
    }
-    console.log('Фильтрованный массив почт', userEmails);
     const dialogRef = this.dialog.open(DeleteDialogComponent,
       {
         data: transferData

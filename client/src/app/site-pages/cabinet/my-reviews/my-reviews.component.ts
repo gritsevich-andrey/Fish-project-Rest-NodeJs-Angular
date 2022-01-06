@@ -1,7 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Review} from "../../../shared/interfaces";
 import {TravelService} from "../../../admin/shared/services/travel.service";
-import {ReviewsListComponent} from "../../../admin/reviews/reviews-list/reviews-list.component";
 import {MatDialog} from "@angular/material/dialog";
 import {CabinetService} from "../cabinet.service";
 import {TripComponent} from "../../../admin/travels/trip/trip.component";

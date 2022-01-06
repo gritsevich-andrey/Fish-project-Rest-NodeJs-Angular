@@ -4,7 +4,6 @@
       aria-labelledby="radio-group-label"
       class="radio-group"
       [(ngModel)]="valueRadio"
-      (change)="changeRadioValue()"
     >
       <mat-radio-button class="radio-button" (click)="valueRadio=''"><b>Все поездки</b></mat-radio-button>
       <div *ngFor="let place of travels | duplicate: 'place'">

@@ -11,7 +11,7 @@ router.get('/', authenticate, controller.getAllTravels);
 router.get('/get-travel/:id', authenticate, controller.getTravelById);
 router.post('/', authenticate, upload.single('image'), controller.create);
 router.patch('/update/:id', authenticate, upload.single('image'), controller.update);
-router.delete('/:id', /*authenticate,*/ controller.remove);
+router.delete('/:id', authenticate, controller.remove);
 router.patch('/join', authenticate, controller.join)
 router.patch('/change-user-status', authenticate, controller.changeUserStatus)
 router.patch('/update-user-comment', authenticate, controller.updateUserComment)

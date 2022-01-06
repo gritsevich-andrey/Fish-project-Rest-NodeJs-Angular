@@ -9,7 +9,7 @@ import {CabinetService} from "../../../cabinet/cabinet.service";
   templateUrl: './review.component.html',
   styleUrls: ['./review.component.scss']
 })
-export class ReviewComponent implements OnInit {
+export class ReviewComponent {
 //@ts-ignore
   message: string;
 
@@ -19,9 +19,6 @@ export class ReviewComponent implements OnInit {
     private cabinetService: CabinetService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-  }
-
-  ngOnInit(): void {
   }
 
   saveReview() {
@@ -37,8 +34,6 @@ export class ReviewComponent implements OnInit {
       userFIO,
       travelId
     };
-    this.cabinetService.updateCabinetReview(receiverEmail, review).subscribe(data => {
-      console.log('Ответ после сохранение отзыва в базе', data);
-    })
+    this.cabinetService.updateCabinetReview(receiverEmail, review).subscribe()
   }
 }

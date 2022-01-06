@@ -28,7 +28,6 @@ export class ListDescriptionsComponent implements OnInit {
 
   ngOnInit(): void {
     const link = document.querySelector('.text-primary');
-    console.log('ссылка', link);
     // @ts-ignore
     link.textContent = 'Подробнее';
     // @ts-ignore

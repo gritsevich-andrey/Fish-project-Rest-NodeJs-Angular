@@ -7,7 +7,13 @@ const nodemailer = require('nodemailer')
 const errorHandler = require('../utils/errorHandler');
 
 module.exports.login = async function (req, res) {
-    const candidate = await User.findOne({email: req.body.email});
+    const candidate = await User.findOne({email: req.body.email}).select('email password role banned _id');
+   if (candidate['banned']) {
+       res.status(403).json({
+           message: 'Ваш аккаунт заблокирован. Обратитесь к администратору'
+       })
+       return;
+   }
     if (candidate) {
         const passwordResult = bcrypt.compareSync(req.body.password, candidate.password);
         if (passwordResult) {
@@ -32,7 +38,7 @@ module.exports.login = async function (req, res) {
 
 }
 module.exports.register = async function (req, res) {
-    const candidate = await User.findOne({email: req.body.email});
+    const candidate = await User.findOne({email: req.body.email}).select('email');
     if (candidate) {
         res.status(409).json({
             message: 'Такой email уже занят. Попробуйте другой.'

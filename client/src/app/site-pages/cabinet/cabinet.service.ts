@@ -65,8 +65,6 @@ export class CabinetService {
       // @ts-ignore
       if (cabinetKey !== 'technique') {
         // @ts-ignore
-        console.log(cabinetKey, cabinet[cabinetKey])
-        // @ts-ignore
         fd.append(`${cabinetKey}`, `${cabinet[cabinetKey]}`);
       } else {
         fd.append('technique', JSON.stringify(cabinet.technique));

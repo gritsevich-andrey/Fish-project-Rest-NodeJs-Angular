@@ -6,7 +6,7 @@ const router = express.Router();
 
 // http://localhost:5000/chat
 const authenticate = passport.authenticate('jwt', {session: false});
-router.get('/', controller.getAll);
-router.post('/', controller.create);
-router.get('/:email', controller.getByEmail);
+router.get('/', authenticate, controller.getAll);
+router.post('/', authenticate, controller.create);
+router.get('/:email', authenticate, controller.getByEmail);
 module.exports = router

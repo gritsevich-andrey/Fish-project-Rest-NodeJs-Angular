@@ -32,15 +32,13 @@ export class ComplaintsComponent implements OnInit {
     this.userService.getComplaintByEmail(email).subscribe(
       data => {
         this.complains = data;
-        console.log(data);
       },
       error => console.log(error));
   }
 
   deleteComplaint(email: string, id: string) {
     this.userService.deleteComplaintById(email, id).subscribe(
-      data => {
-        console.log(data)
+      () => {
         this.getComplaints(email)
       }
     )

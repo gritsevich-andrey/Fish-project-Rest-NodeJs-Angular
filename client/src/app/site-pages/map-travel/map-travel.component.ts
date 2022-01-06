@@ -40,15 +40,10 @@ export class MapTravelComponent implements OnInit {
     const titles: any[] = [];
     this.travelService.getAllTravels().subscribe(data => {
       this.travels = data;
-      console.log(data);
       this.travels.forEach(value => {
         titles.push(value.title);
       });
     });
-  }
-
-  changeRadioValue() {
-    console.log('радиозначение', this.valueRadio);
   }
 }
 

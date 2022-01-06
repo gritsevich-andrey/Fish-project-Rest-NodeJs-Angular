@@ -14,7 +14,6 @@ export class CommentComponent implements OnInit {
   idS = '100';
   page = 0;
   pageSize: number = 20;
-  // MatPaginator Inputs
   length = 100;
   pageSizeReview = 5;
   pageSizeOptions: number[] = [5, 10, 25, 100];
@@ -26,12 +25,6 @@ export class CommentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const ratings = this.ratings;
-    console.log('сумма рейтинга', ratings);
-  // let sum =  this.ratings.reduce((previousValue, currentValue) => {
-  //     return previousValue + currentValue/2;
-  //   }, 0);
-  // console.log('сумма рейтинга', sum);
   }
 
   sumRatings(event: any) {

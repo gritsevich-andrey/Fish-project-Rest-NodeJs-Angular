@@ -52,9 +52,7 @@ export class DeleteDialogComponent implements OnInit{
       error => this.warningService.sendWarning(`Ошибка отправки сообщения`, error));
   }
   private deleteTrip() {
-    this.travelService.deleteTravel(this.travelId).subscribe(data => {
-      console.log('Поездка удалена успешно', data);
-    },
+    this.travelService.deleteTravel(this.travelId).subscribe(
       error => this.warningService.sendWarning(`Ошибка удаления поездки`, error));
   }
 
