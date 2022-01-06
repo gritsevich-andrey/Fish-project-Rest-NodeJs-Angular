@@ -13,7 +13,7 @@ const userSchema = new Schema({
     },
     role: {
         type: [String],
-        enum: ['USER', 'ADMIN', 'MODERATOR', 'SUPER-ADMIN', 'DRIVER'],
+        enum: ['USER', 'ADMIN', 'MODERATOR', 'SUPER-ADMIN'],
         default: ['USER']
     },
     reviews:[{

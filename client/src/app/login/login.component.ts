@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.extractedUserRoles()
           .forEach( (item: any) => {
           if (item === 'ADMIN') {
-            this.router.navigate(['/administrator']);
+            this.router.navigate(['/administrator/users']);
           } else {
             this.router.navigate(['/cabinet'])
           }

@@ -11,7 +11,6 @@ const storage = multer.diskStorage({
         const date = moment().format('DDMMYYYY-HHmmss_SSS')
         cb(null, `${date}-${filename}`)
     }
-
 })
 
 const fileFilter = (req, file, cb) => {

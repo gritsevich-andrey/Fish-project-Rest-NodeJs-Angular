@@ -22,7 +22,6 @@ export class MapTravelComponent implements OnInit {
   constructor(private travelService: TravelService, private emitterService: EmitterService) {
   }
 
-
   ngOnInit(): void {
     this.getData();
     this.emitterService.isAuthenticated$.subscribe(authenticated => {

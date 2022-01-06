@@ -10,5 +10,4 @@ router.patch('/update', authenticate, controller.login);
 router.post('/register', controller.register);
 router.post('/restore-password', controller.restorePassword);
 router.get('/users', authenticate, controller.getAll);
-
 module.exports = router

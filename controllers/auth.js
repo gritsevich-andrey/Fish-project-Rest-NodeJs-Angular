@@ -8,7 +8,7 @@ const errorHandler = require('../utils/errorHandler');
 
 module.exports.login = async function (req, res) {
     const candidate = await User.findOne({email: req.body.email}).select('email password role banned _id');
-   if (candidate['banned']) {
+   if ((candidate) && (candidate['banned'])) {
        res.status(403).json({
            message: 'Ваш аккаунт заблокирован. Обратитесь к администратору'
        })
