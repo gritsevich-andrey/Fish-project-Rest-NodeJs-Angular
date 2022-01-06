@@ -29,7 +29,11 @@ export class MyReviewsComponent implements OnInit {
 
   getReviews(userEmail: string) {
     this.cabinetService.getUserReviews(userEmail).subscribe(
-      reviews => this.reviews = reviews,
+      reviews => {
+        if(reviews) {
+          this.reviews = reviews
+        }
+      },
       error => console.log(error)
     )
   }

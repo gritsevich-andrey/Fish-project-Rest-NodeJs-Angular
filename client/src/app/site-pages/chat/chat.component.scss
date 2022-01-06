@@ -99,6 +99,11 @@ div.chat-content {
   flex-direction: column;
   justify-content: center;
 }
+@media screen and (max-width: 993px) {
+  .flex-col {
+    padding: 20px;
+  }
+}
 textarea {
   overflow: auto;
   padding: .5rem;

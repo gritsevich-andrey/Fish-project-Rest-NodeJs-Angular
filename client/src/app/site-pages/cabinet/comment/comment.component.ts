@@ -7,7 +7,7 @@ import {PageEvent} from "@angular/material/paginator";
   styleUrls: ['./comment.component.scss']
 })
 export class CommentComponent implements OnInit {
-@Input() reviews: any[]=[];
+ @Input() reviews?: any[]=[];
   @Input() ratings: any[]=[];
   @Input() sumRating: number = 0;
   valueRadio = '';

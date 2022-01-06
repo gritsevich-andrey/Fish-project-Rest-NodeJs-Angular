@@ -34,7 +34,7 @@ export class CabinetComponent implements OnInit, OnDestroy {
   pageSize: number = 5;
   email = this.userService.getUserDataFromLocal();
   countPage = 1;
-  reviews: any[] = [];
+  reviews?: any[] = [];
   ratings: any[] = [];
   sumRating = 0;
   urFlag = false;
@@ -70,35 +70,37 @@ export class CabinetComponent implements OnInit, OnDestroy {
           reviewText: any;
           userFIO: any;
       }[] = [];
-      data.reviews.map(value => {
-       const array = value.userEmail.split('@');
-       const splitReview = {
-         //@ts-ignore
-         date: value.date,
-         userEmail: array[0],
-         //@ts-ignore
-         travelName: value.travelName,
-         //@ts-ignore
-         reviewText: value.reviewText,
-         //@ts-ignore
-         userFIO: value.userFIO
-       }
-       splitReviews.push(splitReview);
-      })
-      this.reviews = splitReviews;
-      this.ratings = data.ratings;
-      this.ratings.forEach(value => {
-        if (this.sumRating === 0)
-        {
-          this.sumRating = value.sumValue;
-        }
-       else {
-          this.sumRating = (this.sumRating+value.sumValue)/2;
-        }
-        this.form.value.rating2 = value.sumRating;
-      })
-      this.addDataOnForm(data);
-      this.isNew = false;
+      if(data) {
+        data.reviews.map(value => {
+          const array = value.userEmail.split('@');
+          const splitReview = {
+            //@ts-ignore
+            date: value.date,
+            userEmail: array[0],
+            //@ts-ignore
+            travelName: value.travelName,
+            //@ts-ignore
+            reviewText: value.reviewText,
+            //@ts-ignore
+            userFIO: value.userFIO
+          }
+          splitReviews.push(splitReview);
+        });
+        this.reviews = splitReviews;
+        this.ratings = data.ratings;
+        this.ratings.forEach(value => {
+          if (this.sumRating === 0)
+          {
+            this.sumRating = value.sumValue;
+          }
+          else {
+            this.sumRating = (this.sumRating+value.sumValue)/2;
+          }
+          this.form.value.rating2 = value.sumRating;
+        })
+        this.addDataOnForm(data);
+        this.isNew = false;
+      }
     });
     this.handlePageChange();
   }

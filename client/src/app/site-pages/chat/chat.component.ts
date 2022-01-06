@@ -50,14 +50,16 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.socketService.openSocket();
     this.chatSub = this.chatService.getDriverSubscriber()
       .subscribe(data => {
-        this.socketService.chatInfo.push(data);
-        data.passenger.forEach((value: any) => {
-          this.createConnection(value.email);
-        })
+        if(data) {
+          this.socketService.chatInfo.push(data);
+          data.passenger.forEach((value: any) => {
+            this.createConnection(value.email);
+          })
+        }
       });
     const role = this.userService.getUserRole();
 
-    if (role[0] === 'DRIVER') {
+    if (role[0] === 'USER') {
       this.role = role[0];
     }
     this.userEmail = this.chatService.getUserEmail();
@@ -91,10 +93,12 @@ export class ChatComponent implements OnInit, OnDestroy {
   getInfoWithChatDto() {
     const infoUsers: { email: string, message: string, date: Date }[] = [];
     this.socketService.chatInfo.map(data => {
-      // @ts-ignore
-      data.passenger.forEach(value => {
-        infoUsers.push(value);
-      })
+      if (data) {
+        // @ts-ignore
+        data.passenger.forEach(value => {
+          infoUsers.push(value);
+        })
+      }
     });
     const sortedArray = infoUsers.sort(
       //@ts-ignore
@@ -112,12 +116,14 @@ export class ChatComponent implements OnInit, OnDestroy {
   getUniqueReceiver() {
     const uniqueEmail: string[] = [];
     this.socketService.chatInfo.map(data => {
-      // @ts-ignore
-      data.passenger.forEach(value => {
-        if (value.email !== this.userEmail) {
-          uniqueEmail.push(value.email);
-        }
-      })
+      if(data) {
+        // @ts-ignore
+        data.passenger.forEach(value => {
+          if (value.email !== this.userEmail) {
+            uniqueEmail.push(value.email);
+          }
+        })
+      }
     });
     return [...new Set(uniqueEmail)];
   }

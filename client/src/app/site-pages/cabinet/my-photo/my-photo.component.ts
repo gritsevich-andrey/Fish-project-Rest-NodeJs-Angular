@@ -26,16 +26,18 @@ userPhotos: Photo[] = [];
   }
   private getMyPhoto() {
     this.cabinetService.getPhotoByUserEmail(this.email, this.pageSize, this.countPage).subscribe(data => {
-      data.map((value: any) => {
-        this.userPhotos.push(
-          {
-            userEmail: value.userEmail,
-            description: value.description,
-            imageSrc: value.imageSrc,
-            moderation: value.moderation,
-            public: value.public
-          });
-      })
+      if(data) {
+        data.map((value: any) => {
+          this.userPhotos.push(
+            {
+              userEmail: value.userEmail,
+              description: value.description,
+              imageSrc: value.imageSrc,
+              moderation: value.moderation,
+              public: value.public
+            });
+        })
+      }
     })
   }
   handlePageChange() {
