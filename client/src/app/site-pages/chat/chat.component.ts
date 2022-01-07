@@ -59,7 +59,7 @@ export class ChatComponent implements OnInit, OnDestroy {
       });
     const role = this.userService.getUserRole();
 
-    if (role[0] === 'USER') {
+    if (role[0] === 'DRIVER') {
       this.role = role[0];
     }
     this.userEmail = this.chatService.getUserEmail();

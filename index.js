@@ -32,8 +32,6 @@ io.on('connection', socket => {
     socket.on('chat', (data) => {
         const room = data.userEmail + '-' + data.receiverEmail;
         socket.join(room);
-        // console.log('Название комнаты', room);
         io.sockets.in(room).emit('newMessage', data);
-        // socket.to(room).emit('newMessage', data);
     })
 });
