@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
-import { FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {MaterialService} from "../../../../../shared/classes/material.service";
 import {TravelService} from "../../../../../shared/services/travel.service";
 import {CabinetService} from "../../../../cabinet/cabinet.service";
@@ -196,29 +196,36 @@ export class EditTravelModalComponent implements OnInit {
       {
         data: {
           placemarks: this.placemarkEnd,
-          setData: this.setEndPointData.bind(this)
+          //edit here
+          // setData: this.setEndPointData.bind(this)
         }
       }
     );
-    dialogRef.afterClosed().subscribe();
+    dialogRef.afterClosed().subscribe(({latitude, longitude, address}) => {
+      this.setEndPointData(latitude, longitude, address)
+    });
   }
 
   openStartPointMapDialog() {
     let dialogRef = this.dialog.open(SelectPointComponent, {
       data: {
         placemarks: this.placemarkStart,
-        setData: this.setStartPointData.bind(this)
+        //edit here
+        // setData: this.setStartPointData.bind(this)
       }
     });
-    dialogRef.afterClosed().subscribe();
+    dialogRef.afterClosed().subscribe(({latitude, longitude}) => {
+      this.setStartPointData(latitude, longitude)
+    });
   }
 
   setStartPointData(latitude: string, longitude: string) {
+    debugger
     this.form.controls.startPointLatitude.setValue(latitude)
     this.form.controls.startPointLongitude.setValue(longitude)
   }
 
-  setEndPointData(latitude: string, longitude: string, address: string, ) {
+  setEndPointData(latitude: string, longitude: string, address: string,) {
     this.form.controls.endPointAddress.setValue(address)
     this.form.controls.endPointLatitude.setValue(latitude)
     this.form.controls.endPointLongitude.setValue(longitude)

@@ -59,7 +59,10 @@ export class CabinetService {
       gender: data.gender,
       technique: data.technique,
       juridicalPerson: data.juridicalPerson,
-      avatar: data.avatar
+      avatar: data.avatar,
+      inn: data.inn,
+      kpp: data.kpp,
+      organizationName: data.organizationName
     };
     for (let cabinetKey in cabinet) {
       // @ts-ignore

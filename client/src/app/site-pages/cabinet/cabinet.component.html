@@ -86,9 +86,9 @@
           </div>
           <ng-container *ngIf="urFlag">
             <div class="input-field">
-              <input class="ml5" placeholder="Название организации" id="nameCompany" type="text">
-              <input class="ml5" placeholder="ИНН" id="inn" type="text">
-              <input class="ml5" placeholder="КПП" id="kpp" type="text">
+              <input formControlName="organizationName" class="ml5" placeholder="Название организации" id="nameCompany" type="text">
+              <input formControlName="inn" class="ml5" placeholder="ИНН" id="inn" type="text">
+              <input formControlName="kpp" class="ml5" placeholder="КПП" id="kpp" type="text">
             </div>
           </ng-container>
           <button class="btn" type="submit" matTooltip="Сохранить изменения">Сохранить

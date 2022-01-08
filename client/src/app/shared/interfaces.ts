@@ -6,6 +6,10 @@ export interface User {
   reviews: [{ userEmail: string, commentText: string }],
   ratings: [{ travelTitle: string, travelId: string, sumValue: number }],
   fio: string
+  juridicalPerson: string
+  organizationName: string
+  inn: string
+  kpp: string
 }
 
 export interface Photo {

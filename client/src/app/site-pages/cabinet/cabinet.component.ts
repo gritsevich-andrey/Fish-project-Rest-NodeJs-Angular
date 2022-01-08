@@ -50,7 +50,10 @@ export class CabinetComponent implements OnInit, OnDestroy {
       gender: new FormControl('', Validators.required),
       age: new FormControl('', Validators.required),
       technique: new FormArray([this.createTechForm()]),
-      juridicalPerson: new FormControl('', Validators.required)
+      juridicalPerson: new FormControl('', Validators.required),
+      organizationName: new FormControl(''),
+      inn: new FormControl(''),
+      kpp: new FormControl(''),
     });
     this.rating3 = 0;
 
@@ -65,12 +68,18 @@ export class CabinetComponent implements OnInit, OnDestroy {
     this.techList = this.form.get('technique') as FormArray;
     this.photoSub = this.cabinetService.getCabinetData(this.email).subscribe(data => {
       let splitReviews: {
-          date: any; userEmail: string;
-          travelName: any;
-          reviewText: any;
-          userFIO: any;
+        date: any; userEmail: string;
+        travelName: any;
+        reviewText: any;
+        userFIO: any;
       }[] = [];
-      if(data) {
+      if (data) {
+        this.urFlag = data.juridicalPerson === 'Юридическое лицо'
+
+        this.form.controls.organizationName.setValue(data.organizationName)
+        this.form.controls.inn.setValue(data.inn)
+        this.form.controls.kpp.setValue(data.kpp)
+
         data.reviews.map(value => {
           const array = value.userEmail.split('@');
           const splitReview = {
@@ -89,12 +98,10 @@ export class CabinetComponent implements OnInit, OnDestroy {
         this.reviews = splitReviews;
         this.ratings = data.ratings;
         this.ratings.forEach(value => {
-          if (this.sumRating === 0)
-          {
+          if (this.sumRating === 0) {
             this.sumRating = value.sumValue;
-          }
-          else {
-            this.sumRating = (this.sumRating+value.sumValue)/2;
+          } else {
+            this.sumRating = (this.sumRating + value.sumValue) / 2;
           }
           this.form.value.rating2 = value.sumRating;
         })
@@ -111,6 +118,9 @@ export class CabinetComponent implements OnInit, OnDestroy {
       email: userEmail,
       fio: this.form.value.fio,
       age: this.form.value.age,
+      organizationName: this.form.value.organizationName,
+      inn: this.form.value.inn,
+      kpp: this.form.value.kpp,
       gender: this.form.value.gender,
       technique: this.techList.value,
       juridicalPerson: this.form.value.juridicalPerson,
