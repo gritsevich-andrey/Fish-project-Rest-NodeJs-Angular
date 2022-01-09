@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Travel} from "../../../shared/interfaces";
 import {MatDialog} from "@angular/material/dialog";
 import {ChatDialogComponent} from "./chat-dialog/chat-dialog.component";
