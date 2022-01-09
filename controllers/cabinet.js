@@ -64,7 +64,10 @@ module.exports.update = async function (req, res) {
         juridicalPerson: req.body.juridicalPerson,
         reviews: req.body.reviews,
         ratings: req.body.ratings,
-        countRating: req.body.countRating
+        countRating: req.body.countRating,
+        inn: req.body.inn,
+        kpp: req.body.kpp,
+        organizationName: req.body.organizationName
     }
 
     if (req.file) {

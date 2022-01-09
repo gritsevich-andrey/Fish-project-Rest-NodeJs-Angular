@@ -48,6 +48,18 @@ const cabinetSchema = new Schema({
     date: {
         type: Date,
         default: Date.now
+    },
+    organizationName: {
+        type: String,
+        default: ''
+    },
+    inn: {
+        type: String,
+        default: ''
+    },
+    kpp: {
+        type: String,
+        default: ''
     }
 })
 module.exports = mongoose.model('cabinets', cabinetSchema)

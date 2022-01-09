@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA,  MatDialogRef} from "@angular/material/dialog";
 import {MaterialService} from "../../../shared/classes/material.service";
 import {CabinetService} from "../../../site-pages/cabinet/cabinet.service";
 import {ReviewsListComponent} from "../reviews-list/reviews-list.component";

@@ -155,21 +155,25 @@ export class CreateTravelModalComponent implements OnInit {
       {
         data: {
           placemarks: this.placemarkEnd,
-          setData: this.setEndPointData.bind(this)
+          // setData: this.setEndPointData.bind(this)
         }
       }
     );
-    dialogRef.afterClosed().subscribe();
+    dialogRef.afterClosed().subscribe(({latitude, longitude, address}) => {
+      this.setEndPointData(latitude, longitude, address)
+    });
   }
 
   openStartPointMapDialog() {
     let dialogRef = this.dialog.open(SelectPointComponent, {
       data: {
         placemarks: this.placemarkStart,
-        setData: this.setStartPointData.bind(this)
+        // setData: this.setStartPointData.bind(this)
       }
     });
-    dialogRef.afterClosed().subscribe();
+    dialogRef.afterClosed().subscribe(({latitude, longitude}) => {
+      this.setStartPointData(latitude, longitude)
+    });
   }
 
   setStartPointData(latitude: string, longitude: string) {
