@@ -7,9 +7,9 @@
     >
       <mat-radio-button class="radio-button" (click)="valueRadio=''"><b>Все поездки</b></mat-radio-button>
       <div *ngFor="let place of travels | duplicate: 'place'">
-      <mat-radio-button class="radio-button" [value]="place">
-        {{place}}
-      </mat-radio-button>
+        <mat-radio-button class="radio-button" [value]="place">
+          {{place}}
+        </mat-radio-button>
       </div>
     </mat-radio-group>
   </div>
@@ -18,9 +18,6 @@
             (ready)="onMapReady($event)"
 
     >
-<!--      <ya-control type="RoutePanel"-->
-<!--        [parameters]="{ options: { float: 'right' } }"-->
-<!--      ></ya-control>-->
       <div *ngFor="let coordinate of travels | search: valueRadio">
         <ya-placemark *ngFor="let endPoint of coordinate.endPoint"
                       [geometry]="[endPoint.latitude, endPoint.longitude]" [properties]="{
@@ -29,14 +26,21 @@
     '<img src=' + coordinate.imageSrc + ' width=100px />' + '<br/>' + '<b>Адрес:</b> ' + coordinate.address
      + '<br/><b>Описание:</b> ' + '<span class=text-limit>' + coordinate.description + '</span>'
      + '<br><b>Когда:</b> ' + coordinate.date + '<br><b>Мест:</b> ' + coordinate.peoplesCount,
-    balloonContentFooter: '<b>Цена за чел:</b> ' + coordinate.costPerPeople + '</div>',
+    balloonContentFooter: '<b>Цена за чел:</b> ' + coordinate.costPerPeople + '<a target=_blank href=' + '/join/'+ endPoint.latitude + '>'+ '<br/>' + 'Присоединиться к поездке'+ '</a>' + '</div>',
     hintContent: 'Место: ' + coordinate.address}"
-                      [options] = "{
+                      [options]="{
                       preset: 'islands#orangeDotIcon'
         }"
+                      (yamouseenter)="onMouse($event, 'enter')"
+                      (yamouseleave)="onMouse($event, 'leave')"
         ></ya-placemark>
       </div>
-
+      <ya-placemark
+        *ngFor="let placemark of placemarks"
+        [geometry]="placemark.geometry"
+        [properties]="placemark.properties"
+        [options]="placemark.options"
+      ></ya-placemark>
     </ya-map>
   </div>
 </div>
@@ -48,8 +52,10 @@
     <app-list-descriptions [travels]="travel"></app-list-descriptions>
   </div>
 </div>
-<div><pagination-controls
-  previousLabel="Назад"
-  nextLabel="Вперед"
-  (pageChange)="page = $event"
-></pagination-controls></div>
+<div>
+  <pagination-controls
+    previousLabel="Назад"
+    nextLabel="Вперед"
+    (pageChange)="page = $event"
+  ></pagination-controls>
+</div>
