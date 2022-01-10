@@ -1,4 +1,3 @@
-<!--ПЕРЕДЕЛАТЬ ПОД SELECT POINT-->
 <!--TRAVEL RELOAD AFTER CHANGE POINT-->
 
 <div class="container">
@@ -38,9 +37,10 @@
             </div>
             <div
               class="feedItemFeedback feedItemCommentsIcon"
-              (click)="post.showComments = !post.showComments; getComments(post._id, post.showComments)"
+              (click)="post.showComments = !post.showComments;"
             >
               <i class="material-icons comment-icon grey-text darken-2">comment</i>
+              <span *ngIf="post.comments.length !== 0">{{post.comments.length}}</span>
             </div>
             <button *ngIf="post.latitude && post.longitude" class=" btn-small"
                     (click)="openMap(post.latitude, post.longitude)">Подробнее
@@ -51,11 +51,12 @@
           <div *ngIf="post.showComments" class="feedItemComments">
             <hr/>
             <div *ngFor="let comment of post.comments" class="feedItemComment">
-              <span class="commentEmail teal-text">{{comment.userEmail | emailCut}}</span>
+              <span class="commentEmail teal-text">{{comment.email | emailCut}}</span>
               <div>
-                <app-read-more [text]="comment.commentValue" [maxLength]="5"></app-read-more>
+                <app-read-more [text]="comment.value" [maxLength]="5"></app-read-more>
               </div>
             </div>
+            <span *ngIf="post.comments.length === 0">Комментариев нет</span>
             <!--            <hr/>-->
             <div class="row writeCommentBlock">
               <div class="input-field">
@@ -64,7 +65,7 @@
               </div>
               <div>
                 <a class="waves-effect waves-light btn"
-                   (click)="sendComment(post._id, post.comment); post.comment = ''">Отправить</a>
+                   (click)="sendComment(post._id, post.comment, post); post.comment = ''">Отправить</a>
               </div>
             </div>
           </div>

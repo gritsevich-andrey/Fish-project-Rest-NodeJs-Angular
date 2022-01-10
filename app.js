@@ -10,7 +10,6 @@ const complaintRoutes = require('./routes/complaint');
 const administratorRoutes = require('./routes/administrator');
 const photoRoutes = require('./routes/photo');
 const chatRoutes = require('./routes/chat')
-const commentsRoutes = require('./routes/comments')
 const travelsRoutes = require('./routes/travel')
 
 const mongoose = require('mongoose');
@@ -37,7 +36,6 @@ app.use('/api/cabinet', cabinetRoutes);
 app.use('/api/complaint', complaintRoutes);
 app.use('/api/administrator', administratorRoutes);
 app.use('/api/photo', photoRoutes);
-app.use('/api/comments', commentsRoutes);
 app.use('/api/travels', travelsRoutes);
 app.use('/api/chat', chatRoutes);
 

@@ -2,9 +2,8 @@ import {Component, Input, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {MaterialService} from "../../../shared/classes/material.service";
 import {PhotoService} from "../../../shared/services/photo.service";
-import {ViewPointMapComponent} from "../view-point-map/view-point-map.component";
-import {SetPointMapComponent} from "../set-point-map/set-point-map.component";
 import {MatDialog} from "@angular/material/dialog";
+import {SelectPointComponent} from "../../travel/select-point/select-point.component";
 
 @Component({
   selector: 'app-create-post',
@@ -71,7 +70,7 @@ export class CreatePostComponent implements OnInit {
   }
 
   openMap() {
-    const dialogRef = this.dialog.open(SetPointMapComponent);
+    const dialogRef = this.dialog.open(SelectPointComponent)
     dialogRef.afterClosed().subscribe(({latitude, longitude, address}) => {
       this.form.patchValue({latitude, longitude, address})
     });

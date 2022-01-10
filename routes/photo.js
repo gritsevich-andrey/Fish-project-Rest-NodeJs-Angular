@@ -12,6 +12,7 @@ router.get('/:id', authenticate, controller.getPhotoById);
 router.post('/', authenticate, upload.single('image'), controller.create);
 router.patch('/increment-likes', authenticate, controller.incrementLikes);
 router.patch('/decrement-likes', authenticate, controller.decrementLikes);
+router.patch('/set-comment', authenticate, controller.setComment);
 router.patch('/:id', authenticate, controller.update);
 router.delete('/:id', authenticate, controller.remove);
 

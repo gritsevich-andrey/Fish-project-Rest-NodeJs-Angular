@@ -58,17 +58,9 @@ export class PhotoService {
     return this.http.patch(environment.PHOTO_API + "/" + photoInfo.userEmail, {...photoInfo})
   }
 
-  getComments(imageId: string): Observable<any> {
-    return this.http.get(environment.COMMENTS_API + '/' + imageId)
+  setComment(imageId: string, value: string, email: string): Observable<any> {
+    return this.http.patch(environment.PHOTO_API + '/set-comment', {imageId, value, email})
   }
-
-  setComment(photoId: string, commentValue: string, userEmail: string): Observable<any> {
-    return this.http.post(environment.COMMENTS_API, {photoId, commentValue, userEmail})
-  }
-
-  // updateLikes(imageId: string) {
-  //   return this.http.patch(environment.PHOTO_API + "/updateLikes", {imageId}).subscribe()
-  // }
 
   incrementLikes(imageId: string): Observable<any> {
     return this.http.patch(environment.PHOTO_API + "/increment-likes", {imageId})

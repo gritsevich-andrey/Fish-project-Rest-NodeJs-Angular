@@ -10,13 +10,9 @@ module.exports.getAll = async function (req, res) {
     }
 }
 
-module.exports.getByEmail = async function (req, res) {
-    try {
-        const cabinet = await Cabinet.findOne({email: req.params.email});
-        res.status(200).json(cabinet);
-    } catch (e) {
-        errorHandler(res, e);
-    }
+module.exports.getByEmail = (req, res) => {
+    Cabinet.findOne({email: req.params.email})
+        .then(cabinet => res.status(200).json(cabinet))
 }
 
 module.exports.remove = async function (req, res) {
