@@ -1,6 +1,5 @@
 const Photo = require('../models/Photo')
 const errorHandler = require('../utils/errorHandler')
-const Comments = require("../models/Comments");
 
 module.exports.getPhotoByUserEmail = (req, res) => {
     const pageSize = +req.query.pagesize;
@@ -50,13 +49,8 @@ module.exports.create = async function (req, res) {
             longitude: req.body.longitude,
             latitude: req.body.latitude,
             address: req.body.address,
-        }).save().then((photo) => {
-            new Comments({
-                photoId: photo._id,
-                comments: []
-            }).save().then(() => {
+        }).save().then(() => {
                 res.status(201).json({message: 'Фото загружено'});
-            })
         })
     } catch (e) {
         errorHandler(res, e);
@@ -65,7 +59,6 @@ module.exports.create = async function (req, res) {
 module.exports.remove = function (req, res) {
     Photo.remove({_id: req.params.id})
         .then(() => res.status(200).json({message: 'Фотография удалена.'}))
-        .then(() => Comments.remove({photoId: req.params.id}))
         .catch(e => errorHandler(res, e))
 }
 
@@ -103,4 +96,18 @@ module.exports.decrementLikes = async (req, res) => {
     likesCount -= 1
     await Photo.findOneAndUpdate({_id: req.body.imageId}, {likesCount})
     res.status(200).json({message: 'Успешно обновлено количество лайков'})
+}
+
+module.exports.setComment = (req, res) => {
+    console.log(req.body.imageId)
+    console.log(req.body.email)
+    console.log(req.body.value)
+    Photo.findOneAndUpdate({_id: req.body.imageId}, {
+        $push: {
+            comments: {
+                email: req.body.email,
+                value: req.body.value
+            }
+        }
+    }).then(() => res.status(200).json({message: 'Успешно добавлен комментарий'}))
 }

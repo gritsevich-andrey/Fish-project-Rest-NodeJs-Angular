@@ -46,6 +46,16 @@ const photoSchema = new Schema({
     },
     address: {
         type: String
-    }
+    },
+    comments: [{
+        email: {
+            type: String,
+            required: true
+        },
+        value: {
+            type: String,
+            required: true
+        }
+    }]
 });
-module.exports= mongoose.model('photos', photoSchema);
+module.exports = mongoose.model('photos', photoSchema);
