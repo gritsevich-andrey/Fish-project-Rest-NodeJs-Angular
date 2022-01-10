@@ -19,7 +19,7 @@ export class SelectPointComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.placemark = this.data.placemarks[0]
+    this.placemark = this.data?.placemark
   }
 
   onMapReady(event: YaReadyEvent<ymaps.Map>) {

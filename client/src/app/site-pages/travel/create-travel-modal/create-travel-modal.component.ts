@@ -154,7 +154,7 @@ export class CreateTravelModalComponent implements OnInit {
     let dialogRef = this.dialog.open(SelectPointComponent,
       {
         data: {
-          placemarks: this.placemarkEnd,
+          placemark: this.placemarkEnd,
           // setData: this.setEndPointData.bind(this)
         }
       }
@@ -167,7 +167,7 @@ export class CreateTravelModalComponent implements OnInit {
   openStartPointMapDialog() {
     let dialogRef = this.dialog.open(SelectPointComponent, {
       data: {
-        placemarks: this.placemarkStart,
+        placemark: this.placemarkStart,
         // setData: this.setStartPointData.bind(this)
       }
     });
