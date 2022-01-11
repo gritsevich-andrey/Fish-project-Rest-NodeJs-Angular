@@ -8,6 +8,7 @@ import {UserService} from "../../shared/services/user.service";
 import * as CryptoJS from "crypto-js";
 import {AuthService} from "../../shared/services/auth.service";
 import {WarningService} from "../../shared/services/warning.service";
+import {map} from "rxjs/operators";
 interface PlacemarkConstructor {
   geometry: number[];
   properties: ymaps.IPlacemarkProperties;
@@ -102,34 +103,45 @@ email = '';
   }
 
   private getData() {
-    this.travelService.getAllTravels().subscribe(data => {
-      let tempDataObj = {};
-      data.map((value: any) => {
-        tempDataObj = {
-          address: value.address,
-          costPerPeople: value.costPerPeople,
-          date: value.date,
-          description:  value.description,
-          endPoint: value.endPoint,
-          imageSrc: value.imageSrc,
-          name: value.name,
-          peoplesCount: value.peoplesCount,
-          title: value.title,
-          travelTarget: value.travelTarget,
-          travelTechnique: value.travelTechnique,
-          userEmail: value.userEmail,
-          id: value._id,
-          url: this.createBCryptUrl(value.userEmail, value._id)
-        };
-        this.travels.push(tempDataObj);
-      })
-      let category: string[] = [];
-      this.travels.forEach(value => {
-        category.push(value.title);
+    this.travelService.getAllTravels()
+      .pipe(
+        map(value => {
+          let arrayValues: any[] = [];
+          value.map((data: any) => {
+            const  tempDataObj = {
+                address: data.address,
+                costPerPeople: data.costPerPeople,
+                date: data.date,
+                description:  data.description,
+                endPoint: data.endPoint,
+                imageSrc: data.imageSrc,
+                name: data.name,
+                peoplesCount: data.peoplesCount,
+                title: data.title,
+                travelTarget: data.travelTarget,
+                travelTechnique: data.travelTechnique,
+                userEmail: data.userEmail,
+                id: data._id,
+                url: this.createBCryptUrl(data.userEmail, data._id)
+              };
+            arrayValues.push(tempDataObj);
+          })
+          return arrayValues;
+        })
+      )
+      .subscribe(data => {
+        this.travels = data;
+        this.getUniqueCategory();
       });
-      const uniq = new Set(category);
-      this.categoryTravels = [...uniq];
+  }
+
+  private getUniqueCategory() {
+    let category: string[] = [];
+    this.travels.forEach(value => {
+      category.push(value.title);
     });
+    const uniq = new Set(category);
+    this.categoryTravels = [...uniq];
   }
 
   onMouse(event: YaEvent<ymaps.Placemark>, type: 'enter' | 'leave'): void {

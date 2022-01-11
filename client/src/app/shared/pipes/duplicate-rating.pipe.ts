@@ -6,14 +6,14 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class DuplicateRatingPipe implements PipeTransform {
   transform(value: any, ...args: any[]): any {
-    let uniqueArray: any[] = [];
+    let uniqueArray: string[] = [];
     value.forEach((obj: any) => {
       for (let objKey in obj)
       {
         uniqueArray.push(obj['travelName']);
       }
     });
-    return   [...new Set(uniqueArray)];
+    return [...new Set(uniqueArray)];
   }
 
 }

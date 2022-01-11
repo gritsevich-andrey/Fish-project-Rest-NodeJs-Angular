@@ -67,6 +67,7 @@ export class CabinetComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.techList = this.form.get('technique') as FormArray;
     this.photoSub = this.cabinetService.getCabinetData(this.email).subscribe(data => {
+      console.log('Данные для формирования рейтинга в кабинете', data)
       let splitReviews: {
         date: any; userEmail: string;
         travelName: any;

@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {environment} from "../../../environments/environment";
+import {map, shareReplay} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,9 @@ export class TravelService {
 
   getUserTravels(userEmail: string): Observable<any> {
     return this.http.get(environment.TRAVEL_API + '/' + userEmail)
+      .pipe(
+        shareReplay()
+      )
   }
 
   private generateFormData(data: any) {
@@ -41,6 +45,9 @@ export class TravelService {
 
   getAllTravels(): Observable<any> {
     return this.http.get(environment.TRAVEL_API)
+      .pipe(
+      shareReplay()
+      )
   }
 
   updateUserStatus(travelId: string, userEmail: string, status: string): Observable<any> {

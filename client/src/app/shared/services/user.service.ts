@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import jwt_decode from "jwt-decode";
 import {environment} from "../../../environments/environment";
+import {shareReplay} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class UserService {
   }
 
   createComplaint(data: any): Observable<any> {
-    return this.http.post(environment.COMPLAINT_API, {...data});
+    return this.http.post(environment.COMPLAINT_API, {...data})
   }
 
   getComplaintByEmail(email: string): Observable<any> {
