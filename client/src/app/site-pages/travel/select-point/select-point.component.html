@@ -1,9 +1,7 @@
-<!--определение геолокации-->
-
 <mat-dialog-actions>
   <div>
     <div class="mapContainer">
-      <ya-map [center]="[placemark?.geometry?.[0], placemark?.geometry?.[1]]" [zoom]="10" (ready)="onMapReady($event)">
+      <ya-map [zoom]="10" (ready)="onMapReady($event)">
         <ya-placemark
           [geometry]="placemark?.geometry"
           [options]="placemark?.options"
@@ -12,6 +10,7 @@
     </div>
     <div>
       <button (click)="confirm()" class="waves-effect waves-green btn">Подтвердить</button>
+      <button  class="waves-effect waves-green btn" mat-dialog-close>Отмена</button>
     </div>
   </div>
 </mat-dialog-actions>

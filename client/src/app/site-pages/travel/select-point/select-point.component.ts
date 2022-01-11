@@ -7,7 +7,7 @@ import {YaGeocoderService, YaReadyEvent} from "angular8-yandex-maps";
   templateUrl: './select-point.component.html',
   styleUrls: ['./select-point.component.scss']
 })
-export class SelectPointComponent implements OnInit {
+export class SelectPointComponent {
   placemark: any = {}
   address = ''
 
@@ -18,26 +18,26 @@ export class SelectPointComponent implements OnInit {
   ) {
   }
 
-  ngOnInit(): void {
-    this.placemark = this.data.placemark ?? {}
-  }
-
   onMapReady(event: YaReadyEvent<ymaps.Map>) {
     let map = event.target;
 
-    // const searchControl = new ymaps.control.SearchControl({options: {provider: 'yandex#map'}
+    if (!this.data?.placemark) {
+      ymaps.geolocation
+        .get({
+          provider: 'yandex',
+          mapStateAutoApply: true,
+        })
+        .then((result) => {
+          //@ts-ignore
+          map.setCenter(result.geoObjects.position)
+        });
+    } else {
+      this.placemark = this.data.placemark
+      map.setCenter(this.data.placemark.geometry)
+    }
+
     const searchControl = new ymaps.control.SearchControl({options: {provider: 'yandex#map', noPlacemark: true}});
     searchControl.events.add('resultselect', (e: any) => {
-      // let results = searchControl.getResultsArray();
-      // let selected = e.get('index');
-      // // @ts-ignore
-      // let [latitude, longitude] = results[selected].geometry.getCoordinates();
-      // this.getPointAddress(latitude, longitude).subscribe((result: any) => {
-      //   let endPointAddress = ''
-      //   const firstGeoObject = result.geoObjects.get(0);
-      //   endPointAddress = firstGeoObject.properties._data.text
-      //   this.data.setData(latitude, longitude, endPointAddress)
-      // })
     })
 
     map.events.add('click', (e) => {
@@ -47,7 +47,6 @@ export class SelectPointComponent implements OnInit {
       this.getPointAddress(coords[0], coords[1]).subscribe((result: any) => {
         const firstGeoObject = result.geoObjects.get(0);
         this.address = firstGeoObject.properties._data.text
-        // this.data.setData((coords[0], coords[1], address))
       })
     })
 

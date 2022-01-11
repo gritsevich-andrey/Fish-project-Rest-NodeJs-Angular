@@ -21,8 +21,8 @@ declare var M: {
 export class EditTravelModalComponent implements OnInit {
   form!: FormGroup;
   travelId!: string;
-  placemarkStart: any = []
-  placemarkEnd: any = []
+  placemarkStart: any = {}
+  placemarkEnd: any = {}
   isTechnique = false;
   technique: any[] = [];
 
@@ -62,21 +62,21 @@ export class EditTravelModalComponent implements OnInit {
     this.form.controls.startPointLongitude.setValue(travel.startPoint[0].longitude)
     this.form.controls.endPointLatitude.setValue(travel.endPoint[0].latitude)
     this.form.controls.endPointLongitude.setValue(travel.endPoint[0].longitude)
-    this.placemarkStart.push({
+    this.placemarkStart = {
       geometry: [travel.startPoint[0].latitude, travel.startPoint[0].longitude],
       options: {
         preset: 'islands#icon',
         iconCaptionMaxWidth: '50',
       },
-    })
+    }
 
-    this.placemarkEnd.push({
+    this.placemarkEnd = {
       geometry: [travel.endPoint[0].latitude, travel.endPoint[0].longitude],
       options: {
         preset: 'islands#icon',
         iconCaptionMaxWidth: '50',
       },
-    })
+    }
 
     this.initMaterialize()
     this.getCabinet(this.data.userEmail)
