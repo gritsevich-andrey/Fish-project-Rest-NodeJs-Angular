@@ -6,7 +6,7 @@
       [(ngModel)]="valueRadio"
     >
       <mat-radio-button class="radio-button" (click)="valueRadio=''"><b>Все поездки</b></mat-radio-button>
-      <div *ngFor="let place of travels | duplicate: 'place'">
+      <div *ngFor="let place of categoryTravels">
         <mat-radio-button class="radio-button" [value]="place">
           {{place}}
         </mat-radio-button>
@@ -26,7 +26,7 @@
     '<img src=' + coordinate.imageSrc + ' width=100px />' + '<br/>' + '<b>Адрес:</b> ' + coordinate.address
      + '<br/><b>Описание:</b> ' + '<span class=text-limit>' + coordinate.description + '</span>'
      + '<br><b>Когда:</b> ' + coordinate.date + '<br><b>Мест:</b> ' + coordinate.peoplesCount,
-    balloonContentFooter: '<b>Цена за чел:</b> ' + coordinate.costPerPeople + '<a class=' + coordinate._id + 'target=_blank href=' + '/join/'+ endPoint.latitude + '>'+ '<br/>' + 'Присоединиться к поездке'+ '</a>' + '</div>',
+    balloonContentFooter: '<b>Цена за чел:</b> ' + coordinate.costPerPeople + '<button (click)=this.createTrip(); >Присоединиться к поездке</button>'  + '</div>',
     hintContent: 'Место: ' + coordinate.address}"
                       [options]="{
                       preset: 'islands#orangeDotIcon'
