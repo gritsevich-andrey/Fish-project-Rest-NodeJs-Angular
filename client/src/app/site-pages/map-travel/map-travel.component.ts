@@ -48,12 +48,20 @@ email = '';
 
   onMapReady(event: YaReadyEvent<ymaps.Map>) {
     this.map = event.target;
+    this.map.balloon.events.add('click', () => {
+     const btn = document.querySelector('.btn-train');
+      // @ts-ignore
+      btn.addEventListener('click', () => {
+        this.createTrip();
+      })
+    })
+
     this.map.events.add('click', (e) => {
       const coords = e.get('coords');
       this.placemarks.push({
         geometry: coords,
         properties: {
-          balloonContent: '<a href=/travel/1 target="_blank">' + 'Предложить поездку' + '</a>',
+          balloonContent: '<button class="btn-train">Предложить поездку</button>',
         },
         options: {
           preset: 'islands#circleDotIcon',
@@ -88,9 +96,9 @@ email = '';
      // Опции геообъектов задаются с префиксом 'geoObject'.
      geoObjectOpenBalloonOnClick: true
    });
-   objectManager.objects.balloon.events.add('click', function (e) {
-console.log('Привет');
-    });
+//    objectManager.objects.balloon.events.add('click', function (e) {
+// console.log('Привет');
+//     });
   }
 
   private getData() {
