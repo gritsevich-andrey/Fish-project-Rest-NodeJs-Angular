@@ -107,7 +107,7 @@ const mapConfig: YaConfig = {
     MyPhotoComponent,
     EmailCutPipe,
     ViewPointMapComponent,
-    CreatePostComponent
+    CreatePostComponent,
   ],
   imports: [
     NgImageSliderModule,
