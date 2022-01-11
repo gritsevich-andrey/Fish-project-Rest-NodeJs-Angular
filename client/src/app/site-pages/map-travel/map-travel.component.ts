@@ -1,15 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {YaEvent, YaReadyEvent} from "angular8-yandex-maps";
 import {TravelService} from "../../shared/services/travel.service";
-import {Travel} from "../../shared/interfaces";
 import {EmitterService} from "../../shared/services/emitter.service";
 import {CreateTravelModalComponent} from "../travel/create-travel-modal/create-travel-modal.component";
 import {MatDialog} from "@angular/material/dialog";
 import {UserService} from "../../shared/services/user.service";
 import * as CryptoJS from "crypto-js";
 import {AuthService} from "../../shared/services/auth.service";
-import {Router} from "@angular/router";
-
+import {WarningService} from "../../shared/services/warning.service";
 interface PlacemarkConstructor {
   geometry: number[];
   properties: ymaps.IPlacemarkProperties;
@@ -25,31 +23,27 @@ export class MapTravelComponent implements OnInit {
 // @ts-ignore
 //   https://openbase.com/js/angular8-yandex-maps
 //   https://ddubrava.github.io/angular8-yandex-maps/additional-documentation/examples.html
+  // https://ru.stackoverflow.com/questions/938768/angular-6-%D0%B8-yandex-map-api
   map: ymaps.Map;
   valueRadio: string | undefined;
-  travels: Travel[] = [];
+  travels: any[] = [];
   page = 0;
   pageSize = 10;
   placemarks: PlacemarkConstructor[] = [];
-  private objectManager: any;
-  //@ts-ignore
-  private activeObjectMonitor: ymaps.Monitor;
+email = '';
+  categoryTravels: string[] = [];
 
   constructor(private travelService: TravelService,
               private emitterService: EmitterService,
               public dialog: MatDialog,
               private userService: UserService,
               private authService: AuthService,
-              private router: Router) {
+              private warningService: WarningService) {
   }
 
   ngOnInit(): void {
+    this.email = this.userService.getUserDataFromLocal();
     this.getData();
-    this.emitterService.isAuthenticated$.subscribe(authenticated => {
-      if (authenticated) {
-        this.getData();
-      }
-    });
   }
 
   onMapReady(event: YaReadyEvent<ymaps.Map>) {
@@ -74,36 +68,59 @@ export class MapTravelComponent implements OnInit {
         mapStateAutoApply: true,
       })
       .then((result) => {
-        // We'll mark the position calculated by IP in red.
-        result.geoObjects.options.set('preset', 'islands#redCircleIcon');
+        result.geoObjects.options.set('preset', 'islands#redDotIcon');
         result.geoObjects.get(0).properties.set({
-          balloonContentBody: 'My location',
+          balloonContentBody: 'Вы здесь',
         });
         this.map.geoObjects.add(result.geoObjects);
       });
+    // @ts-ignore
+    this.map.setBounds(this.map.geoObjects.getBounds(), {checkZoomRange:true}).then(() =>{
+      if(this.map.getZoom() > 15) this.map.setZoom(15); // Если значение zoom превышает 15, то устанавливаем 15.
+    });
 
-    ymaps.geolocation
-      .get({
-        provider: 'browser',
-        mapStateAutoApply: true,
-      })
-      .then((result) => {
-        /**
-         * We'll mark the position obtained through the browser in blue.
-         * If the browser does not support this functionality, the placemark will not be added to the map.
-         */
-        result.geoObjects.options.set('preset', 'islands#blueCircleIcon');
-        this.map.geoObjects.add(result.geoObjects);
-      });
+
+    const objectManager = new ymaps.ObjectManager({
+     // Включаем кластеризацию.
+     clusterize: true,
+      // @ts-ignore
+     clusterHasBalloon: false,
+     // Опции геообъектов задаются с префиксом 'geoObject'.
+     geoObjectOpenBalloonOnClick: true
+   });
+   objectManager.objects.balloon.events.add('click', function (e) {
+console.log('Привет');
+    });
   }
 
   private getData() {
-    const titles: any[] = [];
     this.travelService.getAllTravels().subscribe(data => {
-      this.travels = data;
+      let tempDataObj = {};
+      data.map((value: any) => {
+        tempDataObj = {
+          address: value.address,
+          costPerPeople: value.costPerPeople,
+          date: value.date,
+          description:  value.description,
+          endPoint: value.endPoint,
+          imageSrc: value.imageSrc,
+          name: value.name,
+          peoplesCount: value.peoplesCount,
+          title: value.title,
+          travelTarget: value.travelTarget,
+          travelTechnique: value.travelTechnique,
+          userEmail: value.userEmail,
+          id: value._id,
+          url: this.createBCryptUrl(value.userEmail, value._id)
+        };
+        this.travels.push(tempDataObj);
+      })
+      let category: string[] = [];
       this.travels.forEach(value => {
-        titles.push(value.title);
+        category.push(value.title);
       });
+      const uniq = new Set(category);
+      this.categoryTravels = [...uniq];
     });
   }
 
@@ -123,6 +140,7 @@ export class MapTravelComponent implements OnInit {
 
   createTrip() {
     const email = this.userService.getUserDataFromLocal();
+    console.log('Привет');
     const dialogRef = this.dialog.open(CreateTravelModalComponent,
       {
         data: {
@@ -133,11 +151,17 @@ export class MapTravelComponent implements OnInit {
     dialogRef.afterClosed().subscribe();
   }
 
-  goJoin(userEmail: string, _id: string) {
-    const email = this.userService.getUserDataFromLocal();
-    const pass = this.authService.getToken();
-    const data = `${userEmail}/${_id}/${email}`
-    const dataCrypt = CryptoJS.AES.encrypt(data, pass).toString();
-    this.router.navigate(['/join', dataCrypt]);
+  createBCryptUrl(userEmail: string, _id: string) {
+    if (userEmail === this.email) {
+      this.warningService.sendWarning('Вы не можете присоединиться к своей поездке');
+      return '';
+    }
+    else {
+      const pass = this.authService.getToken();
+      const data = `${userEmail}/${_id}/${this.email}`
+      const dataCrypt = CryptoJS.AES.encrypt(data, pass).toString();
+      // const bCryptUrl = `<a href="/join/${dataCrypt}" target="_blank"> <br/> Присоединиться к поездке</a>`;
+      return dataCrypt;
+    }
   }
 }
