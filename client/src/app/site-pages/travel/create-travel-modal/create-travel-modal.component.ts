@@ -23,9 +23,6 @@ export class CreateTravelModalComponent implements OnInit {
   form!: FormGroup;
   travelId!: string;
   technique: any[] = [];
-  //Для отображения начальных точек
-  placemarkStart: any = []
-  placemarkEnd: any = []
   isTechnique = false;
 
   constructor(
@@ -151,26 +148,14 @@ export class CreateTravelModalComponent implements OnInit {
   }
 
   openEndPointMapDialog() {
-    let dialogRef = this.dialog.open(SelectPointComponent,
-      {
-        data: {
-          placemark: this.placemarkEnd,
-          // setData: this.setEndPointData.bind(this)
-        }
-      }
-    );
+    let dialogRef = this.dialog.open(SelectPointComponent);
     dialogRef.afterClosed().subscribe(({latitude, longitude, address}) => {
       this.setEndPointData(latitude, longitude, address)
     });
   }
 
   openStartPointMapDialog() {
-    let dialogRef = this.dialog.open(SelectPointComponent, {
-      data: {
-        placemark: this.placemarkStart,
-        // setData: this.setStartPointData.bind(this)
-      }
-    });
+    let dialogRef = this.dialog.open(SelectPointComponent);
     dialogRef.afterClosed().subscribe(({latitude, longitude}) => {
       this.setStartPointData(latitude, longitude)
     });
