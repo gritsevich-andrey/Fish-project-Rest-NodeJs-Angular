@@ -6,6 +6,9 @@ import {EmitterService} from "../../shared/services/emitter.service";
 import {CreateTravelModalComponent} from "../travel/create-travel-modal/create-travel-modal.component";
 import {MatDialog} from "@angular/material/dialog";
 import {UserService} from "../../shared/services/user.service";
+import * as CryptoJS from "crypto-js";
+import {AuthService} from "../../shared/services/auth.service";
+import {Router} from "@angular/router";
 
 interface PlacemarkConstructor {
   geometry: number[];
@@ -28,10 +31,16 @@ export class MapTravelComponent implements OnInit {
   page = 0;
   pageSize = 10;
   placemarks: PlacemarkConstructor[] = [];
+  private objectManager: any;
+  //@ts-ignore
+  private activeObjectMonitor: ymaps.Monitor;
+
   constructor(private travelService: TravelService,
               private emitterService: EmitterService,
               public dialog: MatDialog,
-              private userService: UserService) {
+              private userService: UserService,
+              private authService: AuthService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -47,17 +56,45 @@ export class MapTravelComponent implements OnInit {
     this.map = event.target;
     this.map.events.add('click', (e) => {
       const coords = e.get('coords');
-this.placemarks.push({
-  geometry: coords,
-  properties: {
-    balloonContent: '<a href=/travel/1 target="_blank">' + 'Предложить поездку' + '</a>',
-  },
-  options: {
-    preset: 'islands#circleDotIcon',
-    iconColor: 'yellow',
-  }
-})
-    })
+      this.placemarks.push({
+        geometry: coords,
+        properties: {
+          balloonContent: '<a href=/travel/1 target="_blank">' + 'Предложить поездку' + '</a>',
+        },
+        options: {
+          preset: 'islands#circleDotIcon',
+          iconColor: 'yellow',
+        }
+      })
+    });
+
+    ymaps.geolocation
+      .get({
+        provider: 'yandex',
+        mapStateAutoApply: true,
+      })
+      .then((result) => {
+        // We'll mark the position calculated by IP in red.
+        result.geoObjects.options.set('preset', 'islands#redCircleIcon');
+        result.geoObjects.get(0).properties.set({
+          balloonContentBody: 'My location',
+        });
+        this.map.geoObjects.add(result.geoObjects);
+      });
+
+    ymaps.geolocation
+      .get({
+        provider: 'browser',
+        mapStateAutoApply: true,
+      })
+      .then((result) => {
+        /**
+         * We'll mark the position obtained through the browser in blue.
+         * If the browser does not support this functionality, the placemark will not be added to the map.
+         */
+        result.geoObjects.options.set('preset', 'islands#blueCircleIcon');
+        this.map.geoObjects.add(result.geoObjects);
+      });
   }
 
   private getData() {
@@ -69,8 +106,9 @@ this.placemarks.push({
       });
     });
   }
+
   onMouse(event: YaEvent<ymaps.Placemark>, type: 'enter' | 'leave'): void {
-    const { options } = event.target;
+    const {options} = event.target;
 
     switch (type) {
       case 'enter':
@@ -82,7 +120,8 @@ this.placemarks.push({
         break;
     }
   }
-  createTrip(){
+
+  createTrip() {
     const email = this.userService.getUserDataFromLocal();
     const dialogRef = this.dialog.open(CreateTravelModalComponent,
       {
@@ -91,9 +130,14 @@ this.placemarks.push({
         }
       }
     );
-   dialogRef.afterClosed().subscribe();
+    dialogRef.afterClosed().subscribe();
   }
-}
-function createTrip() {
-  console.log('Читаем');
+
+  goJoin(userEmail: string, _id: string) {
+    const email = this.userService.getUserDataFromLocal();
+    const pass = this.authService.getToken();
+    const data = `${userEmail}/${_id}/${email}`
+    const dataCrypt = CryptoJS.AES.encrypt(data, pass).toString();
+    this.router.navigate(['/join', dataCrypt]);
+  }
 }

@@ -26,14 +26,16 @@
     '<img src=' + coordinate.imageSrc + ' width=100px />' + '<br/>' + '<b>Адрес:</b> ' + coordinate.address
      + '<br/><b>Описание:</b> ' + '<span class=text-limit>' + coordinate.description + '</span>'
      + '<br><b>Когда:</b> ' + coordinate.date + '<br><b>Мест:</b> ' + coordinate.peoplesCount,
-    balloonContentFooter: '<b>Цена за чел:</b> ' + coordinate.costPerPeople + '<a target=_blank href=' + '/join/'+ endPoint.latitude + '>'+ '<br/>' + 'Присоединиться к поездке'+ '</a>' + '</div>',
+    balloonContentFooter: '<b>Цена за чел:</b> ' + coordinate.costPerPeople + '<a class=' + coordinate._id + 'target=_blank href=' + '/join/'+ endPoint.latitude + '>'+ '<br/>' + 'Присоединиться к поездке'+ '</a>' + '</div>',
     hintContent: 'Место: ' + coordinate.address}"
                       [options]="{
                       preset: 'islands#orangeDotIcon'
         }"
                       (yamouseenter)="onMouse($event, 'enter')"
                       (yamouseleave)="onMouse($event, 'leave')"
-        ></ya-placemark>
+        >
+
+        </ya-placemark>
       </div>
       <ya-placemark
         *ngFor="let placemark of placemarks"
