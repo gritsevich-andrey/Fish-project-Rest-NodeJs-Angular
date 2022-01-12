@@ -76,7 +76,6 @@ export class CabinetComponent implements OnInit, OnDestroy {
       }[] = [];
       if (data) {
         this.urFlag = data.juridicalPerson === 'Юридическое лицо'
-
         this.form.controls.organizationName.setValue(data.organizationName)
         this.form.controls.inn.setValue(data.inn)
         this.form.controls.kpp.setValue(data.kpp)

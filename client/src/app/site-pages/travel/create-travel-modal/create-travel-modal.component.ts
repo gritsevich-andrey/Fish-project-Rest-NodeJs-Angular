@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {TravelService} from "../../../shared/services/travel.service";
 import {CabinetService} from "../../cabinet/cabinet.service";
@@ -6,6 +6,7 @@ import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog
 import {MaterialService} from "../../../shared/classes/material.service";
 import {SelectPointComponent} from "../select-point/select-point.component";
 import {AddTransportModalComponent} from "../add-transport-modal/add-transport-modal.component";
+import {Subscription} from "rxjs";
 
 declare var M: {
   FormSelect: { init: (arg0: NodeListOf<Element>) => any; },
@@ -18,17 +19,19 @@ declare var M: {
   templateUrl: './create-travel-modal.component.html',
   styleUrls: ['./create-travel-modal.component.scss']
 })
-export class CreateTravelModalComponent implements OnInit {
+export class CreateTravelModalComponent implements OnInit, OnDestroy {
   userFIO!: string;
   form!: FormGroup;
   travelId!: string;
   technique: any[] = [];
   isTechnique = false;
+  private sub?: Subscription;
+
 
   constructor(
+    public dialogRef: MatDialogRef<any>,
     private travelService: TravelService,
     private cabinetService: CabinetService,
-    private dialogRef: MatDialogRef<any>,
     public dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
@@ -114,7 +117,7 @@ export class CreateTravelModalComponent implements OnInit {
       userFIO: this.userFIO
     }
     if (this.form.valid) {
-      this.travelService.createTravel(travelData).subscribe(
+     this.sub = this.travelService.createTravel(travelData).subscribe(
         () => {
           this.dialogRef.close()
           MaterialService.toast('Ваша поездка сохранена')
@@ -173,7 +176,7 @@ export class CreateTravelModalComponent implements OnInit {
   }
 
   openAddTransport() {
-    let dialogRef = this.dialog.open(AddTransportModalComponent, {
+    const dialogRef = this.dialog.open(AddTransportModalComponent, {
       data: {
         userEmail: this.data.userEmail,
         setTechnique: this.setTechnique,
@@ -186,5 +189,15 @@ export class CreateTravelModalComponent implements OnInit {
 
   setTechnique(tech: any) {
     this.form.controls.travelTechnique.setValue(tech)
+  }
+
+  onNoClick() {
+    this.dialogRef.close(true);
+  }
+
+  ngOnDestroy(): void {
+    if(this.sub) {
+      this.sub.unsubscribe();
+    }
   }
 }

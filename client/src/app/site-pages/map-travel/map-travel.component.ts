@@ -1,14 +1,15 @@
-import {Component, OnInit} from '@angular/core';
-import {YaEvent, YaReadyEvent} from "angular8-yandex-maps";
+import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
+import {YaEvent} from "angular8-yandex-maps";
 import {TravelService} from "../../shared/services/travel.service";
 import {EmitterService} from "../../shared/services/emitter.service";
 import {CreateTravelModalComponent} from "../travel/create-travel-modal/create-travel-modal.component";
-import {MatDialog} from "@angular/material/dialog";
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {UserService} from "../../shared/services/user.service";
 import * as CryptoJS from "crypto-js";
 import {AuthService} from "../../shared/services/auth.service";
 import {WarningService} from "../../shared/services/warning.service";
-import {map} from "rxjs/operators";
+import {map, take} from "rxjs/operators";
+
 interface PlacemarkConstructor {
   geometry: number[];
   properties: ymaps.IPlacemarkProperties;
@@ -20,7 +21,7 @@ interface PlacemarkConstructor {
   templateUrl: './map-travel.component.html',
   styleUrls: ['./map-travel.component.scss']
 })
-export class MapTravelComponent implements OnInit {
+export class MapTravelComponent implements OnInit, OnDestroy {
 // @ts-ignore
 //   https://openbase.com/js/angular8-yandex-maps
 //   https://ddubrava.github.io/angular8-yandex-maps/additional-documentation/examples.html
@@ -32,6 +33,7 @@ export class MapTravelComponent implements OnInit {
   pageSize = 10;
   placemarks: PlacemarkConstructor[] = [];
 email = '';
+  dialogRef: any;
   categoryTravels: string[] = [];
 
   constructor(private travelService: TravelService,
@@ -39,15 +41,20 @@ email = '';
               public dialog: MatDialog,
               private userService: UserService,
               private authService: AuthService,
-              private warningService: WarningService) {
+              private warningService: WarningService,
+     private ngZone: NgZone) {
   }
+
+  ngOnDestroy(): void {
+        this.map.destroy();
+    }
 
   ngOnInit(): void {
     this.email = this.userService.getUserDataFromLocal();
     this.getData();
   }
 
-  onMapReady(event: YaReadyEvent<ymaps.Map>) {
+  onMapReady(event: any) {
     this.map = event.target;
     this.map.balloon.events.add('click', () => {
      const btn = document.querySelector('.btn-train');
@@ -158,17 +165,21 @@ email = '';
     }
   }
 
-  createTrip() {
+   createTrip() {
     const email = this.userService.getUserDataFromLocal();
     console.log('Привет');
-    const dialogRef = this.dialog.open(CreateTravelModalComponent,
+   this.dialogRef = this.dialog.open(CreateTravelModalComponent,
       {
         data: {
           userEmail: email
         }
       }
     );
-    dialogRef.afterClosed().subscribe();
+    this.dialogRef.afterClosed()
+      .subscribe((result: any) => {
+        console.log('Окно закрыто', result);
+        this.dialogRef.close();
+      });
   }
 
   createBCryptUrl(userEmail: string, _id: string) {
