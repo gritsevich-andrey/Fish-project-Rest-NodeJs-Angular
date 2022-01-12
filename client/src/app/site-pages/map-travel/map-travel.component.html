@@ -32,8 +32,8 @@
                       [options]="{
                       preset: 'islands#orangeDotIcon'
         }"
-                      (yamouseenter)="onMouse($event, 'enter')"
-                      (yamouseleave)="onMouse($event, 'leave')"
+                      (yamouseenter)="onMouse($event, 'enter', coordinate.id)"
+                      (yamouseleave)="onMouse($event,'leave',coordinate.id)"
         >
         </ya-placemark>
       </div>
@@ -51,7 +51,7 @@
               itemsPerPage: pageSize,
               currentPage: page
             }">
-    <app-list-descriptions [travels]="travel"></app-list-descriptions>
+    <app-list-descriptions [travels]="travel" [idForSelect] = "idTrainForSelect"></app-list-descriptions>
   </div>
 </div>
 <div>

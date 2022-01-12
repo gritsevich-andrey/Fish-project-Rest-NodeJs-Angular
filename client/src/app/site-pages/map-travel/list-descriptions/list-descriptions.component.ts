@@ -16,6 +16,7 @@ import {Router} from "@angular/router";
 export class ListDescriptionsComponent implements OnInit {
   //@ts-ignore
   @Input() travels: Travel;
+  @Input() idForSelect: string[] = [];
   imageNull = 'uploads/avatar.jpg';
 
   constructor(public dialog: MatDialog,
@@ -27,11 +28,7 @@ export class ListDescriptionsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const link = document.querySelector('.text-primary');
-    // @ts-ignore
-    link.textContent = 'Подробнее';
-    // @ts-ignore
-    link.innerHTML = 'Подробнее';
+ console.log('Идентификаторы из листа',this.idForSelect);
   }
 
   openChatDialog(receiverEmail: string) {

@@ -24,15 +24,17 @@ export class MapTravelComponent implements OnInit, OnDestroy {
 //   https://openbase.com/js/angular8-yandex-maps
 //   https://ddubrava.github.io/angular8-yandex-maps/additional-documentation/examples.html
   // https://ru.stackoverflow.com/questions/938768/angular-6-%D0%B8-yandex-map-api
+  //https://yandex.ru/dev/maps/jsbox/2.1/object_list
   map: ymaps.Map;
   valueRadio: string | undefined;
   travels: any[] = [];
   page = 0;
   pageSize = 10;
   placemarks: PlacemarkConstructor[] = [];
-email = '';
-  dialogRef: any;
+  email = '';
+  // dialogRef: any;
   categoryTravels: string[] = [];
+  idTrainForSelect: string[] = [];
 
   constructor(private travelService: TravelService,
               private emitterService: EmitterService,
@@ -42,8 +44,8 @@ email = '';
   }
 
   ngOnDestroy(): void {
-        this.map.destroy();
-    }
+    this.map.destroy();
+  }
 
   ngOnInit(): void {
     this.email = this.userService.getUserDataFromLocal();
@@ -61,7 +63,7 @@ email = '';
           balloonContent:
             '<p>Координаты: ' +
             [coords[0].toPrecision(6), coords[1].toPrecision(6)].join(', ') +
-            '</p><p>' + '<a href=/create-trip/' + coords + 'target=_blank>Предложить поездку</a></p>',
+            '</p><p>' + '<a target=_blank href=/create-trip/' + coords + '>Предложить поездку</a></p>',
         },
         options: {
           preset: 'islands#redDotIcon',
@@ -77,16 +79,23 @@ email = '';
       })
       .then((result: any) => {
         result.geoObjects.options.set('preset', 'islands#redDotIcon');
+       const coords = result.geoObjects.position;
         result.geoObjects.get(0).properties.set({
-          balloonContentBody: 'Вы здесь',
+          balloonContentBody:
+          '<p> Ваши координаты: ' + coords +
+            '</p><p>' + '<a target=_blank href=/create-trip/' + coords + '>Предложить поездку</a></p>',
         });
         this.map.geoObjects.add(result.geoObjects);
-        this.map.setZoom(1);
-      });
-    //@ts-ignore
-    // this.map.setBounds(this.map.geoObjects.getBounds(), {checkZoomRange:true}).then(() =>{
-    //   if(this.map.getZoom() > 15) this.map.setZoom(15); // Если значение zoom превышает 15, то устанавливаем 15.
-    // });
+        this.map.setZoom(5);
+      })
+      .catch(() => {
+        this.map = new ymaps.Map('map', {
+          // При инициализации карты обязательно нужно указать
+          // её центр и коэффициент масштабирования.
+          center: [55.76, 37.64], // Москва
+          zoom: 2
+        })
+      })
   }
 
   private getData() {
@@ -95,22 +104,22 @@ email = '';
         map(value => {
           let arrayValues: any[] = [];
           value.map((data: any) => {
-            const  tempDataObj = {
-                address: data.address,
-                costPerPeople: data.costPerPeople,
-                date: data.date,
-                description:  data.description,
-                endPoint: data.endPoint,
-                imageSrc: data.imageSrc,
-                name: data.name,
-                peoplesCount: data.peoplesCount,
-                title: data.title,
-                travelTarget: data.travelTarget,
-                travelTechnique: data.travelTechnique,
-                userEmail: data.userEmail,
-                id: data._id,
-                url: this.createBCryptUrl(data.userEmail, data._id)
-              };
+            const tempDataObj = {
+              address: data.address,
+              costPerPeople: data.costPerPeople,
+              date: data.date,
+              description: data.description,
+              endPoint: data.endPoint,
+              imageSrc: data.imageSrc,
+              name: data.name,
+              peoplesCount: data.peoplesCount,
+              title: data.title,
+              travelTarget: data.travelTarget,
+              travelTechnique: data.travelTechnique,
+              userEmail: data.userEmail,
+              id: data._id,
+              url: this.createBCryptUrl(data.userEmail, data._id)
+            };
             arrayValues.push(tempDataObj);
           })
           return arrayValues;
@@ -131,11 +140,11 @@ email = '';
     this.categoryTravels = [...uniq];
   }
 
-  onMouse(event: YaEvent<ymaps.Placemark>, type: 'enter' | 'leave'): void {
+  onMouse(event: YaEvent<ymaps.Placemark>, type: "enter" | "leave", id: string): void {
     const {options} = event.target;
-
     switch (type) {
       case 'enter':
+        this.idTrainForSelect.push(id);
         options.set('preset', 'islands#greenIcon');
         break;
 
@@ -148,20 +157,20 @@ email = '';
   createBCryptUrl(userEmail: string, _id: string) {
     if (userEmail === this.email) {
       return 1;
-    }
-    else {
+    } else {
       const pass = this.authService.getToken();
       const data = `${userEmail}/${_id}/${this.email}`
       const dataCrypt = CryptoJS.AES.encrypt(data, pass).toString();
       const pattern = "/";
-      const  re = new RegExp(pattern, "g");
+      const re = new RegExp(pattern, "g");
       const srtNonHyphen = String(dataCrypt.replace(re, '%2F'));
       console.log('Строка без слеша', srtNonHyphen);
       return srtNonHyphen;
     }
   }
+
   onMapClick(e: YaEvent<ymaps.Map>): void {
-    const { target, event } = e;
+    const {target, event} = e;
     if (!target.balloon.isOpen()) {
       const coords = event.get('coords');
       target.balloon.open(coords, {
@@ -169,7 +178,7 @@ email = '';
         contentBody:
           '<p>Координаты: ' +
           [coords[0].toPrecision(6), coords[1].toPrecision(6)].join(', ') +
-          '</p>' + '<a href=/create-trip/' +  coords + ' target=_blank>Предложить поездку</a>',
+          '</p>' + '<a target=_blank href=/create-trip/' + coords + '>Предложить поездку</a>',
         contentFooter: '<sup></sup>',
       });
     } else {
