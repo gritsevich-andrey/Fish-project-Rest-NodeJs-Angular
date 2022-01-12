@@ -174,7 +174,7 @@ export class MapTravelComponent implements OnInit, OnDestroy {
     if (!target.balloon.isOpen()) {
       const coords = event.get('coords');
       target.balloon.open(coords, {
-        contentHeader: 'Предложить поездку!',
+        contentHeader: 'Ваша метка',
         contentBody:
           '<p>Координаты: ' +
           [coords[0].toPrecision(6), coords[1].toPrecision(6)].join(', ') +
