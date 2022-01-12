@@ -1,14 +1,12 @@
-import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
-import {YaEvent} from "angular8-yandex-maps";
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {YaEvent, YaReadyEvent} from "angular8-yandex-maps";
 import {TravelService} from "../../shared/services/travel.service";
 import {EmitterService} from "../../shared/services/emitter.service";
-import {CreateTravelModalComponent} from "../travel/create-travel-modal/create-travel-modal.component";
-import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {MatDialog} from "@angular/material/dialog";
 import {UserService} from "../../shared/services/user.service";
 import * as CryptoJS from "crypto-js";
 import {AuthService} from "../../shared/services/auth.service";
-import {WarningService} from "../../shared/services/warning.service";
-import {map, take} from "rxjs/operators";
+import {map} from "rxjs/operators";
 
 interface PlacemarkConstructor {
   geometry: number[];
@@ -40,9 +38,7 @@ email = '';
               private emitterService: EmitterService,
               public dialog: MatDialog,
               private userService: UserService,
-              private authService: AuthService,
-              private warningService: WarningService,
-     private ngZone: NgZone) {
+              private authService: AuthService) {
   }
 
   ngOnDestroy(): void {
@@ -54,26 +50,22 @@ email = '';
     this.getData();
   }
 
-  onMapReady(event: any) {
+  onMapReady(event: YaReadyEvent<any>) {
     this.map = event.target;
-    this.map.balloon.events.add('click', () => {
-     const btn = document.querySelector('.btn-train');
-      // @ts-ignore
-      btn.addEventListener('click', () => {
-        this.createTrip();
-      })
-    })
 
     this.map.events.add('click', (e) => {
       const coords = e.get('coords');
       this.placemarks.push({
         geometry: coords,
         properties: {
-          balloonContent: '<button class="btn-train">Предложить поездку</button>',
+          balloonContent:
+            '<p>Координаты: ' +
+            [coords[0].toPrecision(6), coords[1].toPrecision(6)].join(', ') +
+            '</p><p>' + '<a href=/create-trip/' + coords + 'target=_blank>Предложить поездку</a></p>',
         },
         options: {
-          preset: 'islands#circleDotIcon',
-          iconColor: 'yellow',
+          preset: 'islands#redDotIcon',
+          iconColor: 'red',
         }
       })
     });
@@ -83,30 +75,18 @@ email = '';
         provider: 'yandex',
         mapStateAutoApply: true,
       })
-      .then((result) => {
+      .then((result: any) => {
         result.geoObjects.options.set('preset', 'islands#redDotIcon');
         result.geoObjects.get(0).properties.set({
           balloonContentBody: 'Вы здесь',
         });
         this.map.geoObjects.add(result.geoObjects);
+        this.map.setZoom(1);
       });
-    // @ts-ignore
-    this.map.setBounds(this.map.geoObjects.getBounds(), {checkZoomRange:true}).then(() =>{
-      if(this.map.getZoom() > 15) this.map.setZoom(15); // Если значение zoom превышает 15, то устанавливаем 15.
-    });
-
-
-    const objectManager = new ymaps.ObjectManager({
-     // Включаем кластеризацию.
-     clusterize: true,
-      // @ts-ignore
-     clusterHasBalloon: false,
-     // Опции геообъектов задаются с префиксом 'geoObject'.
-     geoObjectOpenBalloonOnClick: true
-   });
-//    objectManager.objects.balloon.events.add('click', function (e) {
-// console.log('Привет');
-//     });
+    //@ts-ignore
+    // this.map.setBounds(this.map.geoObjects.getBounds(), {checkZoomRange:true}).then(() =>{
+    //   if(this.map.getZoom() > 15) this.map.setZoom(15); // Если значение zoom превышает 15, то устанавливаем 15.
+    // });
   }
 
   private getData() {
@@ -165,34 +145,35 @@ email = '';
     }
   }
 
-   createTrip() {
-    const email = this.userService.getUserDataFromLocal();
-    console.log('Привет');
-   this.dialogRef = this.dialog.open(CreateTravelModalComponent,
-      {
-        data: {
-          userEmail: email
-        }
-      }
-    );
-    this.dialogRef.afterClosed()
-      .subscribe((result: any) => {
-        console.log('Окно закрыто', result);
-        this.dialogRef.close();
-      });
-  }
-
   createBCryptUrl(userEmail: string, _id: string) {
     if (userEmail === this.email) {
-      this.warningService.sendWarning('Вы не можете присоединиться к своей поездке');
-      return '';
+      return 1;
     }
     else {
       const pass = this.authService.getToken();
       const data = `${userEmail}/${_id}/${this.email}`
       const dataCrypt = CryptoJS.AES.encrypt(data, pass).toString();
-      // const bCryptUrl = `<a href="/join/${dataCrypt}" target="_blank"> <br/> Присоединиться к поездке</a>`;
-      return dataCrypt;
+      const pattern = "/";
+      const  re = new RegExp(pattern, "g");
+      const srtNonHyphen = String(dataCrypt.replace(re, '%2F'));
+      console.log('Строка без слеша', srtNonHyphen);
+      return srtNonHyphen;
+    }
+  }
+  onMapClick(e: YaEvent<ymaps.Map>): void {
+    const { target, event } = e;
+    if (!target.balloon.isOpen()) {
+      const coords = event.get('coords');
+      target.balloon.open(coords, {
+        contentHeader: 'Предложить поездку!',
+        contentBody:
+          '<p>Координаты: ' +
+          [coords[0].toPrecision(6), coords[1].toPrecision(6)].join(', ') +
+          '</p>' + '<a href=/create-trip/' +  coords + ' target=_blank>Предложить поездку</a>',
+        contentFooter: '<sup></sup>',
+      });
+    } else {
+      target.balloon.close();
     }
   }
 }

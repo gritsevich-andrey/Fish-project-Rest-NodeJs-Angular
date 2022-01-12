@@ -12,6 +12,7 @@ import {LiveFeedComponent} from "./site-pages/live-feed/live-feed.component";
 import {ChatComponent} from "./site-pages/chat/chat.component";
 import {MapTravelComponent} from "./site-pages/map-travel/map-travel.component";
 import {JoinComponent} from "./site-pages/join/join.component";
+import {JoinWithMapComponent} from "./site-pages/map-travel/join-with-map/join-with-map.component";
 
 const routes: Routes = [
   {
@@ -30,16 +31,12 @@ const routes: Routes = [
       {path: 'travel', component: TravelComponent, canActivate: [AuthGuard]},
       {path: 'chat', component: ChatComponent, canActivate: [AuthGuard]},
       {path: 'feed', component: LiveFeedComponent, canActivate: [AuthGuard]},
-      {path: 'join/:email', component: JoinComponent, canActivate: [AuthGuard]}
+      {path: 'join/:email', component: JoinComponent, canActivate: [AuthGuard]},
+      {path: 'create-trip/:coords', component: JoinWithMapComponent, canActivate: [AuthGuard]}
     ]
   },
-  { path: 'administrator',
-    loadChildren: () =>
-      import('./admin/shared/layouts/admin-layouts/admin-layouts.module').then(
-        ({ AdminLayoutsModule }) => AdminLayoutsModule
-      ),
-    // loadChildren: () => import('./admin/shared/layouts/admin-layouts/admin-layouts.module').then(m => m.AdminLayoutsModule)
-  }
+  { path: 'administrator', loadChildren: () => import('./admin/shared/layouts/admin-layouts/admin-layouts.module')
+      .then(({ AdminLayoutsModule }) => AdminLayoutsModule)}
 ];
 
 @NgModule({

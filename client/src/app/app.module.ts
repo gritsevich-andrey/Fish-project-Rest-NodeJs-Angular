@@ -64,6 +64,7 @@ import {MyPhotoComponent} from './site-pages/cabinet/my-photo/my-photo.component
 import {EmailCutPipe} from "./shared/pipes/email-cut.pipe";
 import {ViewPointMapComponent} from './site-pages/live-feed/view-point-map/view-point-map.component';
 import {CreatePostComponent} from './site-pages/live-feed/create-post/create-post.component';
+import { JoinWithMapComponent } from './site-pages/map-travel/join-with-map/join-with-map.component';
 
 const mapConfig: YaConfig = {
   apikey: '6c5c5f61-fa87-4efd-8ad9-f652f1fd0727',
@@ -108,6 +109,7 @@ const mapConfig: YaConfig = {
     EmailCutPipe,
     ViewPointMapComponent,
     CreatePostComponent,
+    JoinWithMapComponent,
   ],
   imports: [
     NgImageSliderModule,

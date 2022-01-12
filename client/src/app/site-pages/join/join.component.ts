@@ -3,6 +3,7 @@ import {CabinetService} from "../cabinet/cabinet.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {AuthService} from "../../shared/services/auth.service";
 import * as CryptoJS from 'crypto-js';
+import {WarningService} from "../../shared/services/warning.service";
 
 @Component({
   selector: 'app-join',
@@ -21,9 +22,16 @@ export class JoinComponent implements OnInit {
   constructor(private cabinetService: CabinetService,
               private route: ActivatedRoute,
               private router: Router,
-              private authService: AuthService) {
+              private authService: AuthService,
+              private warningService: WarningService) {
     this.route.params.subscribe(params => {
       // this.email = params.email
+      if(params.email === '1') {
+        this.warningService.sendWarning('Вы не можете присоединиться к своей поездке');
+        setTimeout(()=> {
+          window.close();
+        }, 2000)
+      }
       const pass = this.authService.getToken();
       const data = CryptoJS.AES.decrypt(params.email, pass).toString(CryptoJS.enc.Utf8);
       const dataSplitArray = data.split('/');
@@ -34,6 +42,7 @@ export class JoinComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log('Входим в join');
     this.cabinetService.getCabinetData(this.organizerEmail).subscribe(data => {
       // @ts-ignore
       this.technique = JSON.parse(data.technique);
