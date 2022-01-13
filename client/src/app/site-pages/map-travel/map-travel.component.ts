@@ -7,6 +7,7 @@ import {UserService} from "../../shared/services/user.service";
 import * as CryptoJS from "crypto-js";
 import {AuthService} from "../../shared/services/auth.service";
 import {map} from "rxjs/operators";
+import {Subscription} from "rxjs";
 
 interface PlacemarkConstructor {
   geometry: number[];
@@ -35,6 +36,7 @@ export class MapTravelComponent implements OnInit, OnDestroy {
   // dialogRef: any;
   categoryTravels: string[] = [];
   idTrainForSelect: string[] = [];
+  private subTravel?: Subscription;
 
   constructor(private travelService: TravelService,
               private emitterService: EmitterService,
@@ -45,6 +47,9 @@ export class MapTravelComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.map.destroy();
+    if(this.subTravel) {
+      this.subTravel.unsubscribe();
+    }
   }
 
   ngOnInit(): void {
@@ -99,8 +104,8 @@ export class MapTravelComponent implements OnInit, OnDestroy {
   }
 
   private getData() {
-    this.travelService.getAllTravels()
-      .pipe(
+  this.subTravel = this.travelService.getAllTravels()
+    .pipe(
         map(value => {
           let arrayValues: any[] = [];
           value.map((data: any) => {
@@ -126,7 +131,6 @@ export class MapTravelComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe(data => {
-        console.log('Данные мап', data);
         this.travels = data;
         this.getUniqueCategory();
       });
@@ -141,17 +145,16 @@ export class MapTravelComponent implements OnInit, OnDestroy {
     this.categoryTravels = [...uniq];
   }
 
-  onMouse(event: YaEvent<ymaps.Placemark>, type: "enter" | "leave", id: string): void {
+  onMouse(event: YaEvent<ymaps.Placemark>, type: "enter" | "leave"): void {
     const {options} = event.target;
     switch (type) {
       case 'enter':
-        this.idTrainForSelect.push(id);
         options.set('preset', 'islands#greenIcon');
         break;
 
-      case 'leave':
-        options.unset('preset');
-        break;
+      // case 'leave':
+      //   options.unset('preset');
+      //   break;
     }
   }
 
@@ -185,5 +188,12 @@ export class MapTravelComponent implements OnInit, OnDestroy {
     } else {
       target.balloon.close();
     }
+  }
+
+  onContextMenu(event: YaEvent, id: string) {
+    const {options} = event.target;
+        this.idTrainForSelect.push(id);
+        options.set('preset', 'islands#blueCircleDotIcon');
+    console.log('Добавления id массива из контекстного меню', this.idTrainForSelect);
   }
 }

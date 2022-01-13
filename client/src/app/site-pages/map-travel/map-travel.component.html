@@ -17,7 +17,6 @@
     <ya-map [center]="[54.83, 37.11]" [zoom]="1"
             (ready)="onMapReady($event)"
             (yaclick)="onMapClick($event)"
-
     >
       <div *ngFor="let coordinate of travels | search: valueRadio">
         <ya-placemark *ngFor="let endPoint of coordinate.endPoint"
@@ -32,10 +31,10 @@
                       [options]="{
                       preset: 'islands#orangeDotIcon'
         }"
-                      (yamouseenter)="onMouse($event, 'enter', coordinate.id)"
-                      (yamouseleave)="onMouse($event,'leave',coordinate.id)"
+                      (yacontextmenu)="onContextMenu($event, coordinate._id)"
         >
         </ya-placemark>
+<!--        (yamouseenter)="onMouse($event, 'enter')"-->
       </div>
       <ya-placemark
         *ngFor="let placemark of placemarks"
