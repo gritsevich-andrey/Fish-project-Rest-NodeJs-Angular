@@ -117,7 +117,7 @@ export class MapTravelComponent implements OnInit, OnDestroy {
               travelTarget: data.travelTarget,
               travelTechnique: data.travelTechnique,
               userEmail: data.userEmail,
-              id: data._id,
+              _id: data._id,
               url: this.createBCryptUrl(data.userEmail, data._id)
             };
             arrayValues.push(tempDataObj);
@@ -126,6 +126,7 @@ export class MapTravelComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe(data => {
+        console.log('Данные мап', data);
         this.travels = data;
         this.getUniqueCategory();
       });
@@ -174,7 +175,7 @@ export class MapTravelComponent implements OnInit, OnDestroy {
     if (!target.balloon.isOpen()) {
       const coords = event.get('coords');
       target.balloon.open(coords, {
-        contentHeader: 'Ваша метка',
+        contentHeader: '<label class="mat-card-subtitle">Ваша метка<label>',
         contentBody:
           '<p>Координаты: ' +
           [coords[0].toPrecision(6), coords[1].toPrecision(6)].join(', ') +

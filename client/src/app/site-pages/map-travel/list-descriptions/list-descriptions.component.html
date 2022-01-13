@@ -8,7 +8,7 @@
   </mat-card-subtitle>
   <mat-card-content>
     <p><b>Куда:</b> {{travels.address}}</p>
-    <p><b>Когда:</b> {{travels.date | date: 'dd.MM.yyyy'}}</p>
+    <p><b>Когда:</b> {{travels.date}}</p>
     <span class="p10"><app-read-more [text]="travels.description" [maxLength]="15"></app-read-more></span>
     <p *ngIf="!travels.travelTechnique.includes('') && travels.travelTechnique[0] !== 'null'"><b>Техника:</b> {{travels.travelTechnique | space: 'travels.travelTechnique'}}</p>
   </mat-card-content>
