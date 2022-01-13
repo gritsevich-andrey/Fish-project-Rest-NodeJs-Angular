@@ -4,14 +4,24 @@
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <div>
         <div>
+          <div class="coords" *ngIf="isFromMap">
+            <span>Вы выбрали точку на карте</span>
+            <button class="btn" type='button' (click)="openViewPointMap()">Показать</button>
+          </div>
           <strong>{{form.controls.travelDate.value | date:'dd.MM.yyyy' }}</strong>
-          <button matTooltip="Дата поездки" (click)="datepicker.click()" class="waves-effect waves-light btn" type="button">Дата</button>
+          <button matTooltip="Дата поездки" (click)="datepicker.click()" class="waves-effect waves-light btn"
+                  type="button">Дата
+          </button>
           <input (change)="onFileLoad($event)" type="file" [hidden]="true" #inputFile>
-          <button matTooltip="Добавить изображение поездки" class="waves-effect waves-light btn" type="button" (click)="inputFile.click()">Фото
+          <button matTooltip="Добавить изображение поездки" class="waves-effect waves-light btn" type="button"
+                  (click)="inputFile.click()">Фото
           </button>
-          <button matTooltip="Куда поедем" (click)="openEndPointMapDialog()" type='button' class="waves-effect waves-light btn ">Куда
+          <button *ngIf="!isFromMap" matTooltip="Куда поедем" (click)="openEndPointMapDialog()" type='button'
+                  class="waves-effect waves-light btn ">Куда
           </button>
-          <button matTooltip="Откуда поедем" (click)="openStartPointMapDialog()" type='button' class="waves-effect waves-light btn">Откуда</button>
+          <button matTooltip="Откуда поедем" (click)="openStartPointMapDialog()" type='button'
+                  class="waves-effect waves-light btn">Откуда
+          </button>
         </div>
         <div class="input-field col s6">
           <input id="travelName" formControlName="name" type="text" min="1" class="validate"/>
@@ -32,15 +42,15 @@
                   (click)="this.openAddTransport()">Выбрать технику
           </button>
         </div>
-<!--        <div class="buttonBlock">-->
-<!--          <span>Куда поехать?</span>-->
-<!--          <button (click)="openEndPointMapDialog()" type='button' class="waves-effect waves-light btn ">Указать на карте-->
-<!--          </button>-->
-<!--        </div>-->
-<!--        <div class="buttonBlock">-->
-<!--          <span>Откуда выезд?</span>-->
-<!--          <button (click)="openStartPointMapDialog()" type='button' class="waves-effect waves-light btn">Указать на карте</button>-->
-<!--        </div>-->
+        <!--        <div class="buttonBlock">-->
+        <!--          <span>Куда поехать?</span>-->
+        <!--          <button (click)="openEndPointMapDialog()" type='button' class="waves-effect waves-light btn ">Указать на карте-->
+        <!--          </button>-->
+        <!--        </div>-->
+        <!--        <div class="buttonBlock">-->
+        <!--          <span>Откуда выезд?</span>-->
+        <!--          <button (click)="openStartPointMapDialog()" type='button' class="waves-effect waves-light btn">Указать на карте</button>-->
+        <!--        </div>-->
         <div class="input-field select-field-item">
           <select class="icons" formControlName="travelTarget">
             <option value="" selected disabled>Цель поездки</option>
@@ -50,13 +60,15 @@
           </select>
         </div>
         <div class="input-field col s6">
-          <input id="peoplesCount" placeholder="Кол-во человек" formControlName="peoplesCount" type="number" min="1" class="validate input-width"/>
-<!--          <label for="peoplesCount">Количество человек</label>-->
+          <input id="peoplesCount" placeholder="Кол-во человек" formControlName="peoplesCount" type="number" min="1"
+                 class="validate input-width"/>
+          <!--          <label for="peoplesCount">Количество человек</label>-->
           <span class="helper-text red-text" *ngIf="f.peoplesCount.touched && f.peoplesCount.invalid">
             <small *ngIf="f.peoplesCount.hasError('required')">Поле не должно быть пустым</small>
         </span>
-          <input id="costPerPeople" placeholder="Цена за 1 чел" formControlName="costPerPeople" type="number" min="0" class="validate input-width"/>
-<!--          <label for="costPerPeople">Цена за 1 чел.</label>-->
+          <input id="costPerPeople" placeholder="Цена за 1 чел" formControlName="costPerPeople" type="number" min="0"
+                 class="validate input-width"/>
+          <!--          <label for="costPerPeople">Цена за 1 чел.</label>-->
           <span class="helper-text red-text" *ngIf="f.costPerPeople.touched && f.costPerPeople.invalid">
             <small *ngIf="f.costPerPeople.hasError('required')">Поле не должно быть пустым</small>
         </span>

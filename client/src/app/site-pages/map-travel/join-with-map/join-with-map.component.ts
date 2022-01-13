@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {CreateTravelModalComponent} from "../../travel/create-travel-modal/create-travel-modal.component";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
@@ -10,25 +10,30 @@ import {UserService} from "../../../shared/services/user.service";
   styleUrls: ['./join-with-map.component.scss']
 })
 export class JoinWithMapComponent implements OnInit {
- private dialogRef: MatDialogRef<any> | undefined;
+  private dialogRef: MatDialogRef<any> | undefined;
+
   constructor(private route: ActivatedRoute,
               private dialog: MatDialog,
               private userService: UserService,
-              ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.route.params.subscribe(data => {
-      console.log('локация' , data.coords);
+      console.log('локация', data.coords);
       if (data.coords) {
-        this.createTrip();
+        this.createTrip(data.coords.split(','));
       }
     });
   }
-  createTrip() {
+
+  createTrip(coords: string[]) {
     const email = this.userService.getUserDataFromLocal();
     this.dialogRef = this.dialog.open(CreateTravelModalComponent,
       {
         data: {
+          latitude: coords[0],
+          longitude: coords[1],
           userEmail: email
         }
       }

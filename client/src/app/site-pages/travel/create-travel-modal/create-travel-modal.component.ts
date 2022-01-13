@@ -7,6 +7,7 @@ import {MaterialService} from "../../../shared/classes/material.service";
 import {SelectPointComponent} from "../select-point/select-point.component";
 import {AddTransportModalComponent} from "../add-transport-modal/add-transport-modal.component";
 import {Subscription} from "rxjs";
+import {ViewPointMapComponent} from "../../live-feed/view-point-map/view-point-map.component";
 
 declare var M: {
   FormSelect: { init: (arg0: NodeListOf<Element>) => any; },
@@ -26,6 +27,7 @@ export class CreateTravelModalComponent implements OnInit, OnDestroy {
   technique: any[] = [];
   isTechnique = false;
   private sub?: Subscription;
+  isFromMap = false
 
 
   constructor(
@@ -54,6 +56,11 @@ export class CreateTravelModalComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    if(this.data.latitude && this.data.longitude) {
+      this.isFromMap = true
+      this.form.controls.endPointLatitude.setValue(this.data.latitude);
+      this.form.controls.endPointLongitude.setValue(this.data.longitude);
+    }
     this.initMaterialize()
     this.getCabinet(this.data.userEmail)
   }
@@ -193,6 +200,16 @@ export class CreateTravelModalComponent implements OnInit, OnDestroy {
 
   onNoClick() {
     this.dialogRef.close(true);
+  }
+
+  openViewPointMap() {
+    const dialogRef = this.dialog.open(ViewPointMapComponent, {
+      data: {
+        latitude: this.form.controls.endPointLatitude.value,
+        longitude: this.form.controls.endPointLongitude.value
+      }
+    });
+    dialogRef.afterClosed().subscribe();
   }
 
   ngOnDestroy(): void {

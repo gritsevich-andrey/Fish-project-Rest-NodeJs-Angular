@@ -32,16 +32,31 @@
   margin: 0 auto;
 
   ::ng-deep.custom-image-main {
-    width: 305px;
+    //width: 250px;
+    //height: 250px;
+  }
+
+  ::ng-deep.ng-image-slider .ng-image-slider-container .main .main-inner .img-div {
+    box-shadow: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   ::ng-deep.ng-image-slider .ng-image-slider-container .main .main-inner .img-div img {
     position: static;
+    height: auto;
+    max-width: 250px;
+    max-height: 250px;
   }
 
   ::ng-deep.ng-image-slider .ng-image-slider-container .main {
     overflow: visible;
     position: static;
+    height: 250px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
 }
