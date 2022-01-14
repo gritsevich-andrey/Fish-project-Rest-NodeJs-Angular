@@ -8,6 +8,8 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {CabinetService} from "../../../cabinet/cabinet.service";
 import {EditTravelModalComponent} from "./edit-travel-modal/edit-travel-modal.component";
 import {UserProfileComponent} from "../../user-profile/user-profile.component";
+import {ChatDialogComponent} from "../../../map-travel/list-descriptions/chat-dialog/chat-dialog.component";
+import {Router} from "@angular/router";
 
 declare var M: {
   Modal: { init: (arg0: NodeListOf<Element>) => any; }
@@ -30,6 +32,7 @@ export class CreatedTravelComponent implements OnInit {
     public travelService: TravelService,
     public dialog: MatDialog,
     private cabinetService: CabinetService,
+    private router: Router
   ) {
     this.form = new FormGroup({
       rating: new FormControl('', Validators.required)
@@ -144,6 +147,19 @@ export class CreatedTravelComponent implements OnInit {
       }
     );
     dialogRef.afterClosed().subscribe();
+  }
+
+  openChat(email: string) {
+    const dialogRef = this.dialog.open(ChatDialogComponent,
+      {
+        data: email
+      }
+    );
+    dialogRef.afterClosed().subscribe(({isMessageSend}) => {
+      if(isMessageSend) {
+        this.router.navigate(['/chat'])
+      }
+    });
   }
 
   setTravelPublic(travelId: string) {

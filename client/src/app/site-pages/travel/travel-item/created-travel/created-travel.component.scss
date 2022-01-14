@@ -118,12 +118,18 @@ td, th {
     }
 
     table td:nth-child(4)::before {
+      content: 'Чат';
+      display: flex;
+      align-items: center;
+    }
+
+    table td:nth-child(5)::before {
       display: flex;
       align-items: center;
       content: 'Оставить отзыв';
     }
 
-    table td:nth-child(5)::before {
+    table td:nth-child(6)::before {
       display: flex;
       align-items: center;
       content: 'Оставить рейтинг';
@@ -144,12 +150,18 @@ td, th {
     }
 
     table td:nth-child(4)::before {
+      content: 'Чат';
+      display: flex;
+      align-items: center;
+    }
+
+    table td:nth-child(5)::before {
       display: flex;
       align-items: center;
       content: 'Отказать';
     }
 
-    table td:nth-child(5)::before {
+    table td:nth-child(6)::before {
       display: flex;
       align-items: center;
       content: 'Разрешить';
