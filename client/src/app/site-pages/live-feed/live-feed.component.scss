@@ -28,7 +28,6 @@
   //display: flex;
   position: relative;
   align-items: center;
-  width: 305px;
   margin: 0 auto;
 
   ::ng-deep.custom-image-main {
@@ -48,17 +47,19 @@
     height: auto;
     max-width: 250px;
     max-height: 250px;
+
   }
 
   ::ng-deep.ng-image-slider .ng-image-slider-container .main {
     overflow: visible;
     position: static;
-    height: 250px !important;
     display: flex;
-    align-items: center;
     justify-content: center;
   }
 
+  ::ng-deep.ng-image-slider .ng-image-slider-container .main .main-inner {
+    transition: none !important;
+  }
 }
 
 .feedItemDescription {
