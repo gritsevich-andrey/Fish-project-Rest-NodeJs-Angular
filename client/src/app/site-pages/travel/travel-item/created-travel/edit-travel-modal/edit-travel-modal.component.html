@@ -5,7 +5,7 @@
       <div>
         <div>
           <strong>{{form.controls.travelDate.value | date:'dd.MM.yyyy'}}</strong>
-          <button (click)="datepicker.click()" class="waves-effect waves-light btn" type="button">Дата поездки</button>
+          <button (click)="datepicker.click()" class="waves-effect waves-light btn travel-date" type="button">Дата поездки</button>
           <div class="rescheduleBlock">
             <button class="waves-effect waves-light btn" type="button" (click)="rescheduleForTwoWeeks()">Перенести на 2
               недели
