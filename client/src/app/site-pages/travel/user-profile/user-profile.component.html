@@ -17,7 +17,8 @@
     </div>
     <div>
       <strong class="span-text reviewTitle">Отзывы:</strong>
-      <div *ngFor="let review of userCabinet.reviews | paginate: { itemsPerPage: 10, currentPage: reviewsPage }" class="flex">
+      <div *ngFor="let review of userCabinet.reviews | paginate: { itemsPerPage: 10, currentPage: reviewsPage }"
+           class="flex">
         <div class="reviewItem">
           <strong>{{review.userEmail}} </strong>
           <span> - {{review.reviewText}}</span>
@@ -29,6 +30,9 @@
     </div>
   </div>
 </div>
-<div *ngIf="!userCabinet">
+<div *ngIf="!userCabinet && !loading">
   <h1>Пользователь не заполнил кабинет</h1>
+</div>
+<div *ngIf="loading">
+  <h1>Загрузка...</h1>
 </div>

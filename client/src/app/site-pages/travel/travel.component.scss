@@ -1,3 +1,8 @@
+::ng-deep.cdk-overlay-pane {
+  max-width: none !important;
+  width: auto;
+}
+
 form {
   div {
     margin-bottom: 10px;
@@ -32,7 +37,7 @@ form {
 }
 
 .select-field-item {
-  width: 200px!important;
+  width: 200px !important;
 }
 
 input[type=number] {
@@ -79,11 +84,14 @@ textarea {
   width: 100%;
   //margin-top: 30px;
   padding: 5px 10px 20px 5px;
-  div{
+
+  div {
     width: 30%;
+
     button:first-child {
       margin-right: 10px;
     }
+
     strong {
       font-size: 20px;
     }
