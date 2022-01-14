@@ -29,6 +29,7 @@ export class MapTravelComponent implements OnInit, OnDestroy {
   map: ymaps.Map;
   valueRadio: string | undefined;
   travels: any[] = [];
+  travelList: any[] = [];
   page = 0;
   pageSize = 10;
   placemarks: PlacemarkConstructor[] = [];
@@ -36,6 +37,7 @@ export class MapTravelComponent implements OnInit, OnDestroy {
   // dialogRef: any;
   categoryTravels: string[] = [];
   idTrainForSelect: string[] = [];
+  listBorderFlag = false;
   private subTravel?: Subscription;
 
   constructor(private travelService: TravelService,
@@ -192,8 +194,36 @@ export class MapTravelComponent implements OnInit, OnDestroy {
 
   onContextMenu(event: YaEvent, id: string) {
     const {options} = event.target;
-        this.idTrainForSelect.push(id);
+    let arrayIds: string[] = [];
+    if(this.idTrainForSelect.length > 0) {
+      arrayIds = this.idTrainForSelect;
+      arrayIds.push(id);
+      const uniqueArrayIds = [...new Set(arrayIds)];
+      this.idTrainForSelect = uniqueArrayIds;
+    }
+    else {
+      this.idTrainForSelect.push(id);
+    }
+    this.createTravelList();
         options.set('preset', 'islands#blueCircleDotIcon');
-    console.log('Добавления id массива из контекстного меню', this.idTrainForSelect);
+  }
+  createTravelList() {
+    this.travelList = [];
+    let newList = [];
+    if(this.idTrainForSelect.length > 0) {
+      for (let id of this.idTrainForSelect) {
+      const travelList = this.travels.filter(value => value._id === id);
+        for (let travelListElement of travelList) {
+          newList.push(travelListElement)
+        }
+      }
+    }
+    this.travelList = newList;
+    this.listBorderFlag = true;
+  }
+
+  setDefaultSettings() {
+    this.travelList=[]; this.listBorderFlag=false;
+    console.log(this.map.geoObjects.getBounds());
   }
 }
