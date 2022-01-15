@@ -13,6 +13,7 @@ module.exports.getAll = async function (req, res) {
 module.exports.getByEmail = (req, res) => {
     Cabinet.findOne({email: req.params.email})
         .then(cabinet => res.status(200).json(cabinet))
+        .catch(error => errorHandler(res, error))
 }
 
 module.exports.remove = async function (req, res) {
@@ -94,9 +95,15 @@ module.exports.updateReview = function (req, res) {
                 }
             })
                 .then(cabinet => res.status(201).json(cabinet))
-                .catch(e => errorHandler(res, e))
+                .catch(error => errorHandler(res, error))
         })
-        .catch(e => errorHandler(res, e))
+        .catch(error => {
+            if (error.message = 'Cannot read properties of null (reading \'updateOne\')') {
+                res.status(404).json({message: 'Пользователь не заполнил кабинет, невозможно сохранить отзыв'})
+            } else {
+                errorHandler(res, error)
+            }
+        })
 }
 
 module.exports.updateRating = function (req, res) {

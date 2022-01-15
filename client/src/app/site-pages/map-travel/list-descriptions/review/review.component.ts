@@ -3,6 +3,7 @@ import {WarningService} from "../../../../shared/services/warning.service";
 import {UserService} from "../../../../shared/services/user.service";
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 import {CabinetService} from "../../../cabinet/cabinet.service";
+import {MaterialService} from "../../../../shared/classes/material.service";
 
 @Component({
   selector: 'app-review',
@@ -26,7 +27,6 @@ export class ReviewComponent {
     const receiverEmail = this.data.receiverEmail;
     const travelId = this.data.travelId;
     const userFIO = this.data.userFIO
-    debugger
 
     const review = {
       userEmail: email,
@@ -34,6 +34,16 @@ export class ReviewComponent {
       userFIO,
       travelId
     };
-    this.cabinetService.updateCabinetReview(receiverEmail, review).subscribe()
+    this.cabinetService.updateCabinetReview(receiverEmail, review).subscribe(
+      () => MaterialService.toast('Отзыв оставлен'),
+      error => {
+        console.log(error)
+        if (error.status === 404) {
+          MaterialService.toast(error.error.message)
+        } else {
+          MaterialService.toast('Ошибка сохранения отзыва')
+        }
+      }
+    )
   }
 }
