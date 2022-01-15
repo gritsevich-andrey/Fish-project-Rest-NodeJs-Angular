@@ -30,7 +30,7 @@ export class CabinetService {
     return this.http.patch(environment.CABINET_API, fd);
   }
 
-  updateCabinetReview(email: string, review: { userEmail: string; reviewText: string; travelId: string, userFIO: string }): Observable<any> {
+  updateCabinetReview(email: string, review: { userEmail: string; reviewText: string; travelId: string, userFIO: string, travelName: string }): Observable<any> {
     return this.http.patch(environment.CABINET_API + `/update/${email}`, {
       userEmail: review.userEmail,
       reviewText: review.reviewText,

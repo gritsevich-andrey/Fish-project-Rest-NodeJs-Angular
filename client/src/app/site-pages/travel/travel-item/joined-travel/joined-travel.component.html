@@ -50,4 +50,6 @@
       </div>
     </div>
   </div>
+
+  <button *ngIf="travel.status !== 'ended'" class="btn rejectButton" (click)="leaveFromTravel()">Отказаться</button>
 </div>

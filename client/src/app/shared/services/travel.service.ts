@@ -65,5 +65,9 @@ export class TravelService {
   joinTravel(userEmail: string, travelId: string): Observable<any> {
     return this.http.patch(environment.TRAVEL_API + '/join', {travelId, userEmail})
   }
+
+  leaveFromTravel(userEmail: string, travelId: string): Observable<any> {
+    return this.http.patch(environment.TRAVEL_API + '/leave', {travelId, userEmail})
+  }
 }
 

@@ -90,7 +90,8 @@ module.exports.updateReview = function (req, res) {
                         userEmail: req.body.userEmail,
                         travelId: req.body.travelId,
                         reviewText: req.body.reviewText,
-                        userFIO: req.body.userFIO
+                        userFIO: req.body.userFIO,
+                        travelName: req.body.travelName
                     }
                 }
             })

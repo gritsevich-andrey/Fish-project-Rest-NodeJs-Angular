@@ -27,12 +27,14 @@ export class ReviewComponent {
     const receiverEmail = this.data.receiverEmail;
     const travelId = this.data.travelId;
     const userFIO = this.data.userFIO
+    const travelName = this.data.name
 
     const review = {
       userEmail: email,
       reviewText: this.message,
       userFIO,
-      travelId
+      travelId,
+      travelName
     };
     this.cabinetService.updateCabinetReview(receiverEmail, review).subscribe(
       () => MaterialService.toast('Отзыв оставлен'),

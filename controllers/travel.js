@@ -145,3 +145,9 @@ module.exports.changeTravelStatus = function (req, res) {
     Travel.findOneAndUpdate({_id: req.body.travelId}, {status: req.body.status})
         .then((data) => res.status(200).json({message: 'статус обновлен'}))
 }
+
+module.exports.leave = (req, res) => {
+    Travel.updateOne({_id: req.body.travelId}, {
+        $pull: {joinedUsers: {userEmail: req.body.userEmail}}
+    }).then(() => res.status(200).json('Вы успешно покинули поездку'))
+}
