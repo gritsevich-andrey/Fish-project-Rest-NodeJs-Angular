@@ -100,16 +100,7 @@ export class ChatComponent implements OnInit, OnDestroy {
         })
       }
     });
-    const sortedArray = infoUsers.sort(
-      //@ts-ignore
-      (item1: any, item2: any) => {
-        if (item1.date < item2.date)
-        return -1;
-        if (item1.date > item2.date)
-          return 1;
-        if (item1.date === item2.date)
-          return 0;
-      });
+    const sortedArray = infoUsers.reverse();
     return sortedArray;
   }
 

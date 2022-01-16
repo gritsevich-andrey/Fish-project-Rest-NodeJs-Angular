@@ -3,7 +3,7 @@ const errorHandler = require('../utils/errorHandler')
 
 module.exports.getAll = function (req, res) {
     Chat.find()
-        .then(chats => res.status(200).json(chats))
+        .then(chats => res.status(200).json(chats.reverse()))
         .catch(e => errorHandler(res, e));
 }
 
