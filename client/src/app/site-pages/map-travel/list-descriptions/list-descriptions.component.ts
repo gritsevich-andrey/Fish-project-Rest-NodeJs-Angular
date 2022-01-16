@@ -17,7 +17,6 @@ export class ListDescriptionsComponent implements OnInit {
   //@ts-ignore
   @Input() travels: Travel;
   @Input() travelSelect?: any[];
-  @Input() styleBorder: boolean = false;
   imageNull = 'uploads/avatar.jpg';
 
   constructor(public dialog: MatDialog,

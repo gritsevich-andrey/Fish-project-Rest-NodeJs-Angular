@@ -170,7 +170,6 @@ export class MapTravelComponent implements OnInit, OnDestroy {
       const pattern = "/";
       const re = new RegExp(pattern, "g");
       const srtNonHyphen = String(dataCrypt.replace(re, '%2F'));
-      console.log('Строка без слеша', srtNonHyphen);
       return srtNonHyphen;
     }
   }
@@ -194,18 +193,23 @@ export class MapTravelComponent implements OnInit, OnDestroy {
 
   onContextMenu(event: YaEvent, id: string) {
     const {options} = event.target;
-    let arrayIds: string[] = [];
-    if(this.idTrainForSelect.length > 0) {
-      arrayIds = this.idTrainForSelect;
+    let replayedClick = false;
+    let arrayIds: string[] = this.idTrainForSelect;
+    arrayIds.forEach((value, idx) => {
+      if (value === id) {
+        arrayIds.splice(idx, 1);
+        replayedClick = true;
+      }
+    })
+    if(!replayedClick) {
       arrayIds.push(id);
-      const uniqueArrayIds = [...new Set(arrayIds)];
-      this.idTrainForSelect = uniqueArrayIds;
+      options.set('preset', 'islands#blueCircleDotIcon');
     }
     else {
-      this.idTrainForSelect.push(id);
+      options.set('preset', 'islands#orangeDotIcon');
     }
+    this.idTrainForSelect = [...new Set(arrayIds)];
     this.createTravelList();
-        options.set('preset', 'islands#blueCircleDotIcon');
   }
   createTravelList() {
     this.travelList = [];
@@ -219,11 +223,9 @@ export class MapTravelComponent implements OnInit, OnDestroy {
       }
     }
     this.travelList = newList;
-    this.listBorderFlag = true;
   }
 
   setDefaultSettings() {
     this.travelList=[]; this.listBorderFlag=false;
-    console.log(this.map.geoObjects.getBounds());
   }
 }
