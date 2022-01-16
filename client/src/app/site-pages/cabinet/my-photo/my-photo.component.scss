@@ -4,6 +4,7 @@
 }
 .image-preview img {
   height: 100%;
+  vertical-align: middle;
 }
 :host ::ng-deep a {
   position: relative!important;
