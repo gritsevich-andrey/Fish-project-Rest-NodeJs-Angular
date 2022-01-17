@@ -1,0 +1,128 @@
+<mat-tab-group>
+  <mat-tab label="Все фотографии">
+    <h1>Таблица проверки фото и видео</h1>
+    <div class="sortingBlock">
+      <div class="input-field">
+        <input [(ngModel)]="searchValue" id="search_input" type="text" class="validate">
+        <label for="search_input">Поиск по Email или ФИО</label>
+      </div>
+      <div class="input-field">
+        <label *ngIf="!photosOnPage">Кол-во постов</label>
+        <select [(ngModel)]="photosOnPage">
+          <option value="10">10 постов</option>
+          <option value="25">25 постов</option>
+          <option value="50">50 постов</option>
+          <option value="100">100 постов</option>
+        </select>
+      </div>
+    </div>
+    <table>
+      <thead>
+      <tr>
+        <th>Дата</th>
+        <th>Email</th>
+        <th>ФИО</th>
+        <th>Контент</th>
+        <th>Описание</th>
+        <th>Опубликовать</th>
+        <th>Подтверить</th>
+        <th>Описание отказа публикации</th>
+        <th>Сохранить</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr
+        *ngFor="let photo of photos | searchFilter: searchValue | paginate: { itemsPerPage: photosOnPage || defaultPhotosOnPage, currentPage: page }">
+        <td>{{photo.date | date:'dd/MM/yyyy'}}</td>
+        <td>{{photo.userEmail}}</td>
+        <td>{{photo.fio}}</td>
+        <td>
+          <div class="image-slider">
+            <ng-image-slider
+              [images]="[{image: photo.imageSrc, thumbImage: photo.imageSrc, alt: photo.description}]"
+              [imageSize]="{height: 100, width: 100}"
+            ></ng-image-slider>
+          </div>
+        </td>
+        <td>
+          <app-read-more [maxLength]="10" [text]="photo.description"></app-read-more>
+        </td>
+        <td>
+          <label>
+            <input checked="{{photo.public ? 'checked' : ''}}" (click)="setPublic(photo._id, !photo.public)"
+                   type="checkbox"/>
+            <span>Опубликовать</span>
+          </label>
+        </td>
+        <td>
+          <label>
+            <input checked="{{photo.moderation ? 'checked' : ''}}" (click)="setModeration(photo._id,!photo.moderation)"
+                   type="checkbox"/>
+            <span>Подтвердить</span>
+          </label>
+        </td>
+        <td>
+          <div class="input-field col s12">
+            <textarea [(ngModel)]="photo.banDescription" id="textarea1" class="materialize-textarea"></textarea>
+            <span class="helper-text">Описание отказа публикации</span>
+          </div>
+        </td>
+        <td>
+          <a class="waves-effect waves-light btn" (click)="updatePhotoInfo(photo)">Сохранить</a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <pagination-controls previousLabel="Предыдущая"
+                         nextLabel="Следующая" (pageChange)="page = $event"
+    ></pagination-controls>
+  </mat-tab>
+  <mat-tab label="Запросы на удаление">
+    <h1>Таблица запросов на удаление</h1>
+    <div class="sortingBlock">
+      <div class="input-field">
+        <input [(ngModel)]="searchValue" id="search_input1" type="text" class="validate">
+        <label for="search_input1">Поиск по Email или ФИО</label>
+      </div>
+      <div class="input-field">
+        <label *ngIf="!photosOnPage">Кол-во постов</label>
+        <select [(ngModel)]="photosOnPage">
+          <option value="10">10 постов</option>
+          <option value="25">25 постов</option>
+          <option value="50">50 постов</option>
+          <option value="100">100 постов</option>
+        </select>
+      </div>
+    </div>
+    <table>
+      <thead>
+      <tr>
+        <th>Дата</th>
+        <th>Email</th>
+        <th>Контент</th>
+        <th>Описание</th>
+        <th>Удалить</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr
+        *ngFor="let photo of deleteRequestPhotos | searchFilter: searchValue | paginate: { itemsPerPage: photosOnPage || defaultPhotosOnPage, currentPage: page }">
+        <td>{{photo.date | date:'dd/MM/yyyy'}}</td>
+        <td>{{photo.userEmail}}</td>
+        <td>
+          <ng-image-slider
+            [images]="[{image: photo.imageSrc, thumbImage: photo.imageSrc, alt: photo.description}]"
+            [imageSize]="{height: 100, width: 100}"
+          ></ng-image-slider>
+        </td>
+        <td>
+          <app-read-more [maxLength]="10" [text]="photo.description"></app-read-more>
+        </td>
+        <td>
+          <button class="btn" (click)="openDeleteModal(photo._id)">Удалить</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </mat-tab>
+</mat-tab-group>

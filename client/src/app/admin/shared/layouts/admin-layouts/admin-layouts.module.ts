@@ -9,7 +9,7 @@ import {UsersComponent} from "../../../users/users.component";
 import {MatTableModule} from "@angular/material/table";
 import {NgxPaginationModule} from "ngx-pagination";
 import {SearchFilterPipe} from "../../../../pipe/search-filter.pipe";
-import {PhotosComponent} from "../../../photos/photos/photos.component";
+import {PhotosComponent} from "../../../photos/photos.component";
 import {NgImageSliderModule} from "ng-image-slider";
 import {EmitterService} from "../../../../shared/services/emitter.service";
 import {ReviewsComponent} from "../../../reviews/reviews.component";
@@ -26,6 +26,8 @@ import {MatInputModule} from "@angular/material/input";
 import {RejectReasonComponent} from "../../../reviews/reject-reason/reject-reason.component";
 import {ReadMoreModule} from "ng-readmore";
 import {MatSelectModule} from "@angular/material/select";
+import {MatTabsModule} from "@angular/material/tabs";
+import {DeletePhotoModalComponent} from "../../../photos/delete-photo-modal/delete-photo-modal.component";
 
 
 @NgModule({
@@ -38,26 +40,28 @@ import {MatSelectModule} from "@angular/material/select";
     PhotosComponent,
     TravelsComponent,
     DeleteDialogComponent,
-    RejectReasonComponent
+    RejectReasonComponent,
+    DeletePhotoModalComponent
   ],
-    imports: [
-        CommonModule,
-        AdminLayoutsRoutingModule,
-        SharedModule,
-        MatSortModule,
-        MatTableModule,
-        NgxPaginationModule,
-        NgImageSliderModule,
-        NgxStarRatingModule,
-        MatTooltipModule,
-        MatIconModule,
-        MatButtonModule,
-        MatDialogModule,
-        MatFormFieldModule,
-        MatInputModule,
-        ReadMoreModule,
-        MatSelectModule,
-    ],
+  imports: [
+    CommonModule,
+    AdminLayoutsRoutingModule,
+    SharedModule,
+    MatSortModule,
+    MatTableModule,
+    NgxPaginationModule,
+    NgImageSliderModule,
+    NgxStarRatingModule,
+    MatTooltipModule,
+    MatIconModule,
+    MatButtonModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    ReadMoreModule,
+    MatSelectModule,
+    MatTabsModule,
+  ],
   exports: [
     SearchFilterPipe
   ],
