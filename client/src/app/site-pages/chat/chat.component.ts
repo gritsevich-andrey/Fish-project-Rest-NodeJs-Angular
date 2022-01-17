@@ -21,10 +21,8 @@ export class ChatComponent implements OnInit, OnDestroy {
   receiverEmail = '';
   // @ts-ignore
   role: string;
-  // @ts-ignore
-  private chatSub: Subscription;
-  // @ts-ignore
-  private messSub: Subscription;
+  private chatSub?: Subscription;
+  private messSub?: Subscription;
   imagesOnPage = 2;
   imagesPage = 1;
   showSpinner = false
@@ -50,7 +48,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.socketService.openSocket();
     this.chatSub = this.chatService.getDriverSubscriber()
       .subscribe(data => {
-        if(data) {
+        if (data) {
           this.socketService.chatInfo.push(data);
           data.passenger.forEach((value: any) => {
             this.createConnection(value.email);
@@ -107,7 +105,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   getUniqueReceiver() {
     const uniqueEmail: string[] = [];
     this.socketService.chatInfo.map(data => {
-      if(data) {
+      if (data) {
         // @ts-ignore
         data.passenger.forEach(value => {
           if (value.email !== this.userEmail) {
@@ -135,11 +133,10 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   createConnection(receiverEmail: string) {
 
-   if(this.userEmail !== receiverEmail)
-   {
-     // @ts-ignore
-     this.arrEmail.push(receiverEmail);
-   }
+    if (this.userEmail !== receiverEmail) {
+      // @ts-ignore
+      this.arrEmail.push(receiverEmail);
+    }
 
     const connEmail = [...new Set(this.arrEmail)];
 
@@ -148,17 +145,11 @@ export class ChatComponent implements OnInit, OnDestroy {
         passenger: [
           {
             // @ts-ignore
-            date: Date.now(), email: "", message: ``}],
+            date: Date.now(), email: "", message: ``
+          }],
         userEmail: "",
         receiverEmail: ""
       };
-      // if (this.role === 'DRIVER') {
-      //   connectData.userEmail = this.userEmail;
-      //   connectData.receiverEmail = receiverEmail;
-      // } else {
-      //   connectData.userEmail = receiverEmail;
-      //   connectData.receiverEmail = this.userEmail;
-      // }
 
       connectData.userEmail = this.userEmail;
       connectData.receiverEmail = receiverEmail;

@@ -19,6 +19,7 @@ export interface Photo {
   description: string,
   moderation: boolean,
   public: boolean
+  queryDeleted?: boolean
 }
 
 export interface SocketMessageDto {

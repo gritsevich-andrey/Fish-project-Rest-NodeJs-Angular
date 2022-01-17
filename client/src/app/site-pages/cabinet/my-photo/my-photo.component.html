@@ -15,6 +15,7 @@
               itemsPerPage: pageSize,
               currentPage: page
             }; let i = index;">
+      <ng-container *ngIf="!photo.queryDeleted">
       <td>{{i + 1}}</td>
       <td class="image-preview"><img [src]="photo.imageSrc"></td>
       <td class="pl5"><app-read-more [text]="photo.description" [maxLength]="20"></app-read-more></td>
@@ -23,6 +24,7 @@
       <td *ngIf="photo.public">{{'опубликовано'}}</td>
       <td *ngIf="!photo.public">{{'не опубликовано'}}</td>
       <td><button mat-button class="btn-danger" (click)="deleteImage(photo.id)"><mat-icon>delete</mat-icon></button></td>
+      </ng-container>
     </tr>
     </tbody>
   </table>
