@@ -43,7 +43,7 @@
               <span *ngIf="post.comments.length !== 0">{{post.comments.length}}</span>
             </div>
             <button *ngIf="post.latitude && post.longitude" class=" btn-small"
-                    (click)="openMap(post.latitude, post.longitude)">Подробнее
+                    (click)="openMap(post.latitude, post.longitude)">Место
             </button>
             <button *ngIf="!post.latitude && !post.longitude" class="disabled btn-small">Подробнее</button>
           </div>
