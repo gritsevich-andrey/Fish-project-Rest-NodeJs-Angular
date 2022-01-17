@@ -21,7 +21,7 @@
           <div class="feedItemPhoto">
             <ng-image-slider
               [imageSize]="{width: 300, height: 250}"
-              [images]="[{image: post.imageSrc, thumbImage: post.imageSrc, alt: post.description}]"
+              [images]="[{image: post.imageSrc, thumbImage: post.imageSrc, alt: post.description.slice(0, 200)}]"
             ></ng-image-slider>
           </div>
           <div class="feedItemDescription">

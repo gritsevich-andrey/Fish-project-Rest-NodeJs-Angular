@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {map} from "rxjs/operators";
+import {filter, map} from "rxjs/operators";
 import {environment} from "../../../environments/environment";
+import {PhotoAdmin} from "../interfaces";
 
 @Injectable({
     providedIn: 'root'
@@ -18,10 +19,9 @@ export class PhotoService {
 
     getFeedPhotos(pageSize?: number, page?: number): Observable<any> {
         let url = environment.PHOTO_API
-        if (pageSize && page) url = `${environment.PHOTO_API}?pagesize=${pageSize}&page=${page}`
-        return this.http.get(url).pipe(
-            map((data: any) => data.filter((el: any) => el.public && el.moderation))
-        )
+        if (pageSize && page)
+            url = `${environment.PHOTO_API}?pagesize=${pageSize}&page=${page}`
+        return this.http.get(url).pipe(map((photos: any) => photos.filter((photo: PhotoAdmin) => photo.public && photo.moderation && photo.queryDeleted)))
     }
 
     createPhoto(data: any): Observable<any> {
