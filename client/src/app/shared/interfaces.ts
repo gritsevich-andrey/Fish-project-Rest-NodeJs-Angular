@@ -21,6 +21,30 @@ export interface Photo {
   public: boolean
 }
 
+interface PhotoComment {
+  email: string
+  value: string
+}
+
+export interface PhotoAdmin {
+  imageSrc: string
+  userEmail: string
+  coordinates: string
+  description: string
+  moderation: boolean
+  public: boolean
+  banDescription: string
+  date: Date
+  likesCount: number
+  longitude: number
+  latitude: number
+  address: string
+  comments: PhotoComment[]
+  queryDeleted: boolean
+  _id: string
+  fio: string
+}
+
 export interface SocketMessageDto {
   userEmail: string;
   receiverEmail?: string;
