@@ -74,6 +74,7 @@ module.exports.update = function (req, res) {
         longitude: req.body.longitude,
         latitude: req.body.latitude,
         address: req.body.address,
+        queryDeleted: req.body.queryDeleted
     }
     if (req.file) {
         updated.imageSrc = req.file.path
@@ -99,9 +100,6 @@ module.exports.decrementLikes = async (req, res) => {
 }
 
 module.exports.setComment = (req, res) => {
-    console.log(req.body.imageId)
-    console.log(req.body.email)
-    console.log(req.body.value)
     Photo.findOneAndUpdate({_id: req.body.imageId}, {
         $push: {
             comments: {
