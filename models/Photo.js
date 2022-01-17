@@ -56,6 +56,10 @@ const photoSchema = new Schema({
             type: String,
             required: true
         }
-    }]
+    }],
+    queryDeleted: {
+        type: Boolean,
+        default: false
+    },
 });
 module.exports = mongoose.model('photos', photoSchema);
