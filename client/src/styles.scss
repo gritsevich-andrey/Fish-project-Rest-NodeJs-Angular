@@ -138,6 +138,9 @@
 .btn-floating.tap-target-origin {
   background-color: #bdbdbd !important;
 }
+.btn-danger {
+  color: var(--danger-color);
+}
 .auth-block {
   display: flex;
   justify-content: center;

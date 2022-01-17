@@ -1,8 +1,11 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Photo} from "../../../shared/interfaces";
 import {SortService} from "../../../shared/services/sort.service";
 import {CabinetService} from "../cabinet.service";
 import {UserService} from "../../../shared/services/user.service";
+import {ChatDialogComponent} from "../../map-travel/list-descriptions/chat-dialog/chat-dialog.component";
+import {MatDialog} from "@angular/material/dialog";
+import {DeleteModalComponent} from "./delete-modal/delete-modal.component";
 
 @Component({
   selector: 'app-my-photo',
@@ -17,7 +20,8 @@ userPhotos: Photo[] = [];
   private email = '';
   constructor(public sortService: SortService,
               private cabinetService: CabinetService,
-              private userService: UserService) {
+              private userService: UserService,
+              private dialog: MatDialog) {
     this.email = this.userService.getUserDataFromLocal();
   }
 
@@ -30,6 +34,7 @@ userPhotos: Photo[] = [];
         data.map((value: any) => {
           this.userPhotos.push(
             {
+              id: value._id,
               userEmail: value.userEmail,
               description: value.description,
               imageSrc: value.imageSrc,
@@ -43,5 +48,19 @@ userPhotos: Photo[] = [];
   handlePageChange() {
     this.getMyPhoto();
     this.countPage += 1;
+  }
+
+  deleteImage(id: string) {
+    console.log('Идентификатор изображения', id);
+    this.openDialogConfirm(id);
+  }
+
+  openDialogConfirm(id: string) {
+    const dialogRef = this.dialog.open(DeleteModalComponent,
+      {
+        data: id
+      }
+    );
+    dialogRef.afterClosed().subscribe();
   }
 }

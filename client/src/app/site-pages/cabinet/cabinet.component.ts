@@ -203,20 +203,21 @@ export class CabinetComponent implements OnInit, OnDestroy {
     this.techList.removeAt(index);
   }
 
-  private getMyPhoto() {
-    this.cabinetService.getPhotoByUserEmail(this.email, this.pageSize, this.countPage).subscribe(data => {
-      data.map((value: any) => {
-        this.userPhotos.push(
-          {
-            userEmail: value.userEmail,
-            description: value.description,
-            imageSrc: value.imageSrc,
-            moderation: value.moderation,
-            public: value.public
-          });
-      })
-    })
-  }
+  // private getMyPhoto() {
+  //   this.cabinetService.getPhotoByUserEmail(this.email, this.pageSize, this.countPage).subscribe(data => {
+  //     data.map((value: any) => {
+  //       this.userPhotos.push(
+  //         {
+  //           id: value._id,
+  //           userEmail: value.userEmail,
+  //           description: value.description,
+  //           imageSrc: value.imageSrc,
+  //           moderation: value.moderation,
+  //           public: value.public
+  //         });
+  //     })
+  //   })
+  // }
 
 
   ngOnDestroy(): void {
@@ -224,7 +225,7 @@ export class CabinetComponent implements OnInit, OnDestroy {
   }
 
   handlePageChange() {
-    this.getMyPhoto();
+    // this.getMyPhoto();
     this.countPage += 1;
   }
 

@@ -13,6 +13,7 @@ export interface User {
 }
 
 export interface Photo {
+  id: string;
   imageSrc: string,
   userEmail: string,
   description: string,
