@@ -5,15 +5,17 @@ const User = require('../models/User');
 const {v4} = require('uuid');
 const nodemailer = require('nodemailer')
 const errorHandler = require('../utils/errorHandler');
+const validatePassword = require('../middleware/validatePassword');
 
 module.exports.login = async function (req, res) {
+
     const candidate = await User.findOne({email: req.body.email}).select('email password role banned _id');
-   if ((candidate) && (candidate['banned'])) {
-       res.status(403).json({
-           message: 'Ваш аккаунт заблокирован. Обратитесь к администратору'
-       })
-       return;
-   }
+    if ((candidate) && (candidate['banned'])) {
+        res.status(403).json({
+            message: 'Ваш аккаунт заблокирован. Обратитесь к администратору'
+        })
+        return;
+    }
     if (candidate) {
         const passwordResult = bcrypt.compareSync(req.body.password, candidate.password);
         if (passwordResult) {
@@ -37,27 +39,35 @@ module.exports.login = async function (req, res) {
     }
 
 }
+
+
 module.exports.register = async function (req, res) {
-    const candidate = await User.findOne({email: req.body.email}).select('email');
-    if (candidate) {
-        res.status(409).json({
-            message: 'Такой email уже занят. Попробуйте другой.'
-        });
+    const errors = validatePassword(req.body.password);
+    if (errors.length > 0) {
+        const errorMessage = getErrorMessage(errors);
+        res.status(400).json({message: errorMessage});
     } else {
-        const salt = bcrypt.genSaltSync(10);
-        const password = req.body.password;
-        const user = new User({
-            email: req.body.email,
-            password: bcrypt.hashSync(password, salt),
-            role: req.body.role,
-            banned: req.body.banned,
-            review: req.review
-        });
-        try {
-            await user.save()
-            res.status(201).json(user);
-        } catch (e) {
-            errorHandler(res, e);
+        const candidate = await User.findOne({email: req.body.email}).select('email');
+        if (candidate) {
+            res.status(409).json({
+                message: 'Такой email уже занят. Попробуйте другой.'
+            });
+        } else {
+            const salt = bcrypt.genSaltSync(10);
+            const password = req.body.password;
+            const user = new User({
+                email: req.body.email,
+                password: bcrypt.hashSync(password, salt),
+                role: req.body.role,
+                banned: req.body.banned,
+                review: req.review
+            });
+            try {
+                await user.save()
+                res.status(201).json(user);
+            } catch (e) {
+                errorHandler(res, e);
+            }
         }
     }
 }
@@ -98,14 +108,14 @@ module.exports.restorePassword = async function (req, res) {
                 новым паролем <a href="https://scary-grave-23217.herokuapp.com/login">ВОЙТИ</a>`
             }
             transporter.sendMail(mailOptions, (err, info) => {
-                if(err) {
+                if (err) {
                     console.log(err)
                 } else {
                     res.status(200).json({
                         message: 'Письмо с новым паролем было отправлено на почту.'
                     })
                 }
-            } )
+            })
         } else {
             res.status(404).json({
                 message: `Пользователь с email ${req.body.email} не зарегистрирован.`
@@ -120,11 +130,37 @@ module.exports.update = function (req, res) {
         review: req.body.review,
         rating: req.body.rating
     }
-        User.findOneAndUpdate(
-            {email: req.body.email},
-            {$set: update},
-            {new: true}
-        )
-            .then(user => res.status(200).json(user))
-            .catch(err => errorHandler(res, err))
+    User.findOneAndUpdate(
+        {email: req.body.email},
+        {$set: update},
+        {new: true}
+    )
+        .then(user => res.status(200).json(user))
+        .catch(err => errorHandler(res, err))
+}
+
+function getErrorMessage(errors) {
+    let errorMessage = '';
+    for (let errorsKey in errors) {
+        switch (errors[errorsKey]) {
+            case 'uppercase':
+                errorMessage = 'Пароль должен содержать хотя бы одну большую букву';
+                break;
+            case 'lowercase':
+                errorMessage = 'Пароль должен содержать хотя бы одну малую букву';
+                break;
+            case 'digits':
+                errorMessage = 'Пароль должен содержать хотя бы одну цифру';
+                break;
+            case 'min':
+                errorMessage = 'Минимальная величина пароля 6 символов';
+                break;
+            case 'max':
+                errorMessage = 'Слишком большой пароль';
+                break;
+            default:
+                break;
+        }
+    }
+    return errorMessage;
 }
