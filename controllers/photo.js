@@ -79,7 +79,7 @@ module.exports.update = function (req, res) {
     if (req.file) {
         updated.imageSrc = req.file.path
     }
-    Photo.findOneAndUpdate({_id: req.body.fotoId}, updated)
+    Photo.findOneAndUpdate({_id: req.body._id}, updated)
         .then(photo => res.status(200).json(photo))
         .catch(e => errorHandler(res, e))
 }

@@ -39,8 +39,9 @@
         <td>
           <div class="image-slider">
             <ng-image-slider
+              #nav
+              [imageSize]="{height: 100, width: 150}"
               [images]="[{image: photo.imageSrc, thumbImage: photo.imageSrc, alt: photo.description}]"
-              [imageSize]="{height: 100, width: 100}"
             ></ng-image-slider>
           </div>
         </td>
@@ -110,10 +111,13 @@
         <td>{{photo.date | date:'dd/MM/yyyy'}}</td>
         <td>{{photo.userEmail}}</td>
         <td>
-          <ng-image-slider
-            [images]="[{image: photo.imageSrc, thumbImage: photo.imageSrc, alt: photo.description}]"
-            [imageSize]="{height: 100, width: 100}"
-          ></ng-image-slider>
+          <div class="image-slider">
+            <ng-image-slider
+              #nav
+              [images]="[{image: photo.imageSrc, thumbImage: photo.imageSrc, alt: photo.description}]"
+              [imageSize]="{height: 100, width: 150}"
+            ></ng-image-slider>
+          </div>
         </td>
         <td>
           <app-read-more [maxLength]="10" [text]="photo.description"></app-read-more>

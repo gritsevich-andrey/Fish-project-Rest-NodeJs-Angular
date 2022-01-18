@@ -3,7 +3,6 @@ import {MaterialService} from 'src/app/shared/classes/material.service';
 import {EmitterService} from "../../shared/services/emitter.service";
 import {PhotoService} from "../../shared/services/photo.service";
 import {PhotoAdmin} from "../../shared/interfaces";
-import {AddTransportModalComponent} from "../../site-pages/travel/add-transport-modal/add-transport-modal.component";
 import {DeletePhotoModalComponent} from "./delete-photo-modal/delete-photo-modal.component";
 import {MatDialog} from "@angular/material/dialog";
 
@@ -51,8 +50,8 @@ export class PhotosComponent implements OnInit {
   getPhotos() {
     this.photoService.getPhotos().pipe().subscribe(
       (photos: PhotoAdmin[]) => {
-        this.photos = photos.filter(photo => photo.queryDeleted)
-        this.deleteRequestPhotos = photos.filter(photo => !photo.queryDeleted)
+        this.photos = photos.filter(photo => !photo.queryDeleted)
+        this.deleteRequestPhotos = photos.filter(photo => photo.queryDeleted)
         this.emailsArray = photos.map((photo: any) => photo.userEmail)
         this.getEmailFIO(this.emailsArray)
       },

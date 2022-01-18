@@ -26,7 +26,7 @@ export class DeleteModalComponent implements OnInit, OnDestroy {
    const email = this.userService.getUserDataFromLocal();
    const transferObj = {
      userEmail: email,
-     fotoId: this.id,
+     _id: this.id,
      queryDeleted: true
    }
    this.sub = this.photoService.updatePhotoInfo(transferObj).subscribe( data => console.log('Данные из диалога', data));

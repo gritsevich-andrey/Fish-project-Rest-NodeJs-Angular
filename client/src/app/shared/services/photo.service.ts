@@ -21,7 +21,7 @@ export class PhotoService {
         let url = environment.PHOTO_API
         if (pageSize && page)
             url = `${environment.PHOTO_API}?pagesize=${pageSize}&page=${page}`
-        return this.http.get(url).pipe(map((photos: any) => photos.filter((photo: PhotoAdmin) => photo.public && photo.moderation && photo.queryDeleted)))
+        return this.http.get(url).pipe(map((photos: any) => photos.filter((photo: PhotoAdmin) => photo.public && photo.moderation && !photo.queryDeleted)))
     }
 
     createPhoto(data: any): Observable<any> {
