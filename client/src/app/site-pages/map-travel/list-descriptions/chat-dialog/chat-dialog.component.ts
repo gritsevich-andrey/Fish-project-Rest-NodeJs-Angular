@@ -41,6 +41,7 @@ export class ChatDialogComponent {
       passenger: [{
         email: email,
         message: this.message,
+        receiverEl: dataEmail,
         // @ts-ignore
         date: Date.now()
       }]
@@ -49,10 +50,16 @@ export class ChatDialogComponent {
   }
 
   private saveInDb() {
-    this.chatService.saveMessage(this.chatInfoDto).subscribe(() => {
+    this.chatService.saveMessage(this.chatInfoDto).subscribe(data => {
         this.warningService.sendWarning(`Сообщение отравлено`)
-        this.dialogRef.close({isMessageSend: true})
+
       },
       error => this.warningService.sendWarning(`Ошибка отправки сообщения`, error));
+    //@ts-ignore
+    this.chatInfoDto['userEmail'] = this.chatInfoDto['receiverEmail'];
+    this.chatService.saveMessage(this.chatInfoDto).subscribe(data => {
+      },
+      error => console.error('Ошибка сохранения в базу чата', error));
+    this.dialogRef.close({isMessageSend: true});
   }
 }

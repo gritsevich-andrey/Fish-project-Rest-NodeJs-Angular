@@ -32,16 +32,16 @@ export class ChatComponent implements OnInit, OnDestroy {
               private socketService: SocketService,
               private warningService: WarningService,
               private userService: UserService) {
-    this.userEmail = this.getUserEmail();
+    this.userEmail = this.userService.getUserDataFromLocal();
   }
 
   ngOnDestroy(): void {
-    if (this.chatSub) {
-      this.chatSub.unsubscribe();
-    }
-    if (this.messSub) {
-      this.messSub.unsubscribe();
-    }
+    // if (this.chatSub) {
+    //   this.chatSub.unsubscribe();
+    // }
+    // if (this.messSub) {
+    //   this.messSub.unsubscribe();
+    // }
   }
 
   ngOnInit(): void {
@@ -60,25 +60,22 @@ export class ChatComponent implements OnInit, OnDestroy {
     if (role[0] === 'DRIVER') {
       this.role = role[0];
     }
-    this.userEmail = this.chatService.getUserEmail();
+    this.userEmail = this.userService.getUserDataFromLocal();
     this.getInfoWithChatDto();
-    // this.createConnection();
   }
 
   sendMessage(sendForm: NgForm) {
     this.chatInfoDto = {
-      userEmail: this.receiverEmail,
-      receiverEmail: this.userEmail,
+      userEmail: this.userEmail,
+      receiverEmail: this.receiverEmail,
       passenger: [{
         email: this.userEmail,
         message: sendForm.value.message,
+        receiverEl: this.receiverEmail,
         // @ts-ignore
         date: Date.now()
       }]
     }
-    this.chatInfoDto['userEmail'] = this.userEmail;
-    this.chatInfoDto['receiverEmail'] = this.receiverEmail;
-
     if (this.receiverEmail) {
       this.socketService.sendMessage(this.chatInfoDto);
     } else {
@@ -94,11 +91,19 @@ export class ChatComponent implements OnInit, OnDestroy {
       if (data) {
         // @ts-ignore
         data.passenger.forEach(value => {
-          infoUsers.push(value);
+          if (value.email) {
+            if (value.email === this.userEmail)
+            {
+              value.email = `Ваше сообщение ${value.receiverEl}`
+            }
+            infoUsers.push(value);
+          }
         })
       }
     });
-    const sortedArray = infoUsers.reverse();
+    const uniqueUsers = [... new Set(infoUsers)];
+    console.log('Уникальный массив', uniqueUsers);
+    const sortedArray = uniqueUsers.reverse();
     return sortedArray;
   }
 
@@ -108,7 +113,7 @@ export class ChatComponent implements OnInit, OnDestroy {
       if (data) {
         // @ts-ignore
         data.passenger.forEach(value => {
-          if (value.email !== this.userEmail) {
+          if ((value.email !== this.userEmail) && !(value.email.includes('Ваше сообщение'))) {
             uniqueEmail.push(value.email);
           }
         })
@@ -118,17 +123,13 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   addReceiverEmail(receiverEmail: string) {
-    this.receiverEmail = receiverEmail;
-    // this.createConnection(receiverEmail);
-  }
-
-  getUserEmail(): string {
-    const token = localStorage.getItem('auth-token');
-    // @ts-ignore
-    const tokenSplit = token.split(' ');
-    // @ts-ignore
-    const {email} = jwt_decode(tokenSplit[1]);
-    return email;
+    if(!(receiverEmail.includes('Ваше сообщение')))
+    {
+      this.receiverEmail = receiverEmail;
+    }
+   else {
+     this.warningService.sendWarning('Вы не можете писать себе');
+    }
   }
 
   createConnection(receiverEmail: string) {
@@ -162,26 +163,26 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   saveInDb() {
     this.messSub = this.chatService.saveMessage(this.chatInfoDto).subscribe(data => {
+      console.log('Данные из базы', data)
         this.warningService.sendWarning(`Сообщение ${this.splitEmail(this.receiverEmail)} отравлено`);
       },
       error => this.warningService.sendWarning(`Ошибка отправки сообщения ${this.receiverEmail}`));
-    // @ts-ignore
+    //@ts-ignore
+    //Сохраняем свои сообщения
     this.chatInfoDto['userEmail'] = this.chatInfoDto['receiverEmail'];
-    this.chatService.saveMessage(this.chatInfoDto).subscribe(data => {
-      console.log(data);
-    })
+    this.chatService.saveMessage(this.chatInfoDto).subscribe();
   }
 
-  onScrollDown() {
-    if (!this.showSpinner) {
-      this.showSpinner = true
-      this.imagesPage += 1;
-      this.chatSub = this.chatService.getDriverSubscriber()
-        .subscribe(data => {
-          this.socketService.chatInfo.push(data);
-        });
-    }
-  }
+  // onScrollDown() {
+  //   if (!this.showSpinner) {
+  //     this.showSpinner = true
+  //     this.imagesPage += 1;
+  //     this.chatSub = this.chatService.getDriverSubscriber()
+  //       .subscribe(data => {
+  //         this.socketService.chatInfo.push(data);
+  //       });
+  //   }
+  // }
 
   splitEmail(email: string) {
     const splitEmail = email.split('@');

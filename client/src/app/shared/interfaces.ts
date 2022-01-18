@@ -52,6 +52,7 @@ export interface SocketMessageDto {
   passenger?: [{
     email: string,
     message: string,
+    receiverEl?: string,
     date: Date
   }]
 }

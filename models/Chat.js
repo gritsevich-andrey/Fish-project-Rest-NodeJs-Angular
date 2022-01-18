@@ -12,6 +12,7 @@ const chatSchema = new Schema({
     },
     passenger: [{
         email: {type: String, required: true},
+        receiverEl: {type: String, default: ''},
         message: {type: String, default: ''},
         date: {type: Date, default: Date.now()}
     }]
