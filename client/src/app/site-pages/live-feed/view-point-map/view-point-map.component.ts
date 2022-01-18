@@ -1,5 +1,5 @@
-import {Component, Inject, Input, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
+import {Component, Inject, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-view-point-map',

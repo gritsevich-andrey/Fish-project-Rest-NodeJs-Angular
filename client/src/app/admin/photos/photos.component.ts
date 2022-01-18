@@ -107,6 +107,9 @@ export class PhotosComponent implements OnInit {
     const dialogRef = this.dialog.open(DeletePhotoModalComponent, {
       data: {id}
     });
-    dialogRef.afterClosed().subscribe();
+    dialogRef.afterClosed().subscribe(({photoId}) => {
+      let index = this.deleteRequestPhotos.findIndex(photo => photo._id === photoId)
+      this.deleteRequestPhotos.splice(index, 1)
+    });
   }
 }

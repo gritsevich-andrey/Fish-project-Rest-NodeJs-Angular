@@ -50,6 +50,7 @@ export class SelectPointComponent {
       })
     })
 
+    map.controls.remove('fullscreenControl')
     map.controls.remove('searchControl');
     map.controls.add(searchControl);
   }
