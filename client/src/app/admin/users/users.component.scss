@@ -42,9 +42,12 @@ a {
     content: 'ФИО';
   }
   table td:nth-child(5)::before {
-    content: 'Забанен';
+    content: 'Роль';
   }
   table td:nth-child(6)::before {
+    content: 'Забанен';
+  }
+  table td:nth-child(7)::before {
     content: 'Забанить';
   }
   table td:nth-child(7)::before {

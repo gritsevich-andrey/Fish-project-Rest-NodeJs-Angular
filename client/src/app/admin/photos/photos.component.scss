@@ -33,35 +33,64 @@ a {
     margin-right: 20px;
   }
 
-  table td:nth-child(1)::before {
-    content: '№';
+  .photosTable {
+    table td:nth-child(1)::before {
+      content: 'Дата';
+    }
+
+    table td:nth-child(2)::before {
+      content: 'Email';
+    }
+
+    table td:nth-child(3)::before {
+      content: 'ФИО';
+    }
+
+    table td:nth-child(4)::before {
+      content: 'Контент';
+    }
+
+    table td:nth-child(5)::before {
+      content: 'Описание';
+    }
+
+    table td:nth-child(6)::before {
+      content: 'Опубликовать';
+    }
+
+    table td:nth-child(7)::before {
+      content: 'Подтверить';
+    }
+
+    table td:nth-child(8)::before {
+      content: 'Описание отказа публикации';
+    }
+
+    table td:nth-child(9)::before {
+      content: 'Сохранить';
+    }
   }
-  table td:nth-child(2)::before {
-    content: 'Дата прикрепления';
-  }
-  table td:nth-child(3)::before {
-    content: 'Email';
-  }
-  table td:nth-child(4)::before {
-    content: 'ФИО';
-  }
-  table td:nth-child(5)::before {
-    content: 'Контент';
-  }
-  table td:nth-child(6)::before {
-    content: 'Описание фото/видео';
-  }
-  table td:nth-child(7)::before {
-    content: 'Опубликовать в ленте';
-  }
-  table td:nth-child(8)::before {
-    content: 'Подтверждение';
-  }
-  table td:nth-child(9)::before {
-    content: 'Описание отказа публикации';
-  }
-  table td:nth-child(10)::before {
-    content: 'Сохранить';
+
+  .queryDeleteTable {
+    table td:nth-child(1)::before {
+      content: 'Дата';
+    }
+
+    table td:nth-child(2)::before {
+      content: 'Email';
+    }
+
+    table td:nth-child(3)::before {
+      content: 'Контент';
+    }
+
+    table td:nth-child(4)::before {
+      content: 'Описание';
+    }
+
+    table td:nth-child(5)::before {
+      content: 'Удалить';
+    }
   }
   .sorting {
     display: flex;
@@ -100,7 +129,6 @@ table {
   justify-content: space-between;
   flex-wrap: wrap;
 }
-
 
 
 ::ng-deep.mat-tab-body-content {

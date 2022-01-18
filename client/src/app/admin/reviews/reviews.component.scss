@@ -44,6 +44,26 @@ a {
 
     margin-bottom: 20px;
   }
+
+  table td:nth-child(1)::before {
+    content: '№';
+  }
+
+  table td:nth-child(2)::before {
+    content: 'Email';
+  }
+
+  table td:nth-child(3)::before {
+    content: 'ФИО';
+  }
+
+  table td:nth-child(4)::before {
+    content: 'Поездка';
+  }
+
+  table td:nth-child(5)::before {
+    content: 'Отзывы';
+  }
 }
 
 input {

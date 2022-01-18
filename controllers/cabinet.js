@@ -82,22 +82,18 @@ module.exports.update = async function (req, res) {
     }
 }
 module.exports.updateReview = function (req, res) {
-    Cabinet.findOne({email: req.params.email})
-        .then(cabinetFind => {
-            cabinetFind.updateOne({
-                $push: {
-                    reviews: {
-                        userEmail: req.body.userEmail,
-                        travelId: req.body.travelId,
-                        reviewText: req.body.reviewText,
-                        userFIO: req.body.userFIO,
-                        travelName: req.body.travelName
-                    }
-                }
-            })
-                .then(cabinet => res.status(201).json(cabinet))
-                .catch(error => errorHandler(res, error))
-        })
+    Cabinet.findOneAndUpdate({email: req.params.email}, {
+        $push: {
+            reviews: {
+                userEmail: req.body.userEmail,
+                travelId: req.body.travelId,
+                reviewText: req.body.reviewText,
+                userFIO: req.body.userFIO,
+                travelName: req.body.travelName
+            }
+        }
+    })
+        .then(cabinet => res.status(201).json(cabinet))
         .catch(error => {
             if (error.message = 'Cannot read properties of null (reading \'updateOne\')') {
                 res.status(404).json({message: 'Пользователь не заполнил кабинет, невозможно сохранить отзыв'})

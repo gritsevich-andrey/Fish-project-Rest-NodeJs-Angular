@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 const keys = require('../config/keys');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const Cabinet = require('../models/Cabinet');
 const {v4} = require('uuid');
 const nodemailer = require('nodemailer')
 const errorHandler = require('../utils/errorHandler');
@@ -62,8 +63,12 @@ module.exports.register = async function (req, res) {
                 banned: req.body.banned,
                 review: req.review
             });
+            const cabinet = new Cabinet({
+                email: req.body.email
+            })
             try {
                 await user.save()
+                await cabinet.save()
                 res.status(201).json(user);
             } catch (e) {
                 errorHandler(res, e);

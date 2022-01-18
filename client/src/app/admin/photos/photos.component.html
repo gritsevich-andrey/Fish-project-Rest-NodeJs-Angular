@@ -16,64 +16,67 @@
         </select>
       </div>
     </div>
-    <table>
-      <thead>
-      <tr>
-        <th>Дата</th>
-        <th>Email</th>
-        <th>ФИО</th>
-        <th>Контент</th>
-        <th>Описание</th>
-        <th>Опубликовать</th>
-        <th>Подтверить</th>
-        <th>Описание отказа публикации</th>
-        <th>Сохранить</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr
-        *ngFor="let photo of photos | searchFilter: searchValue | paginate: { itemsPerPage: photosOnPage || defaultPhotosOnPage, currentPage: page }">
-        <td>{{photo.date | date:'dd/MM/yyyy'}}</td>
-        <td>{{photo.userEmail}}</td>
-        <td>{{photo.fio}}</td>
-        <td>
-          <div class="image-slider">
-            <ng-image-slider
-              #nav
-              [imageSize]="{height: 100, width: 150}"
-              [images]="[{image: photo.imageSrc, thumbImage: photo.imageSrc, alt: photo.description}]"
-            ></ng-image-slider>
-          </div>
-        </td>
-        <td>
-          <app-read-more [maxLength]="10" [text]="photo.description"></app-read-more>
-        </td>
-        <td>
-          <label>
-            <input checked="{{photo.public ? 'checked' : ''}}" (click)="setPublic(photo._id, !photo.public)"
-                   type="checkbox"/>
-            <span>Опубликовать</span>
-          </label>
-        </td>
-        <td>
-          <label>
-            <input checked="{{photo.moderation ? 'checked' : ''}}" (click)="setModeration(photo._id,!photo.moderation)"
-                   type="checkbox"/>
-            <span>Подтвердить</span>
-          </label>
-        </td>
-        <td>
-          <div class="input-field col s12">
-            <textarea [(ngModel)]="photo.banDescription" id="textarea1" class="materialize-textarea"></textarea>
-            <span class="helper-text">Описание отказа публикации</span>
-          </div>
-        </td>
-        <td>
-          <a class="waves-effect waves-light btn" (click)="updatePhotoInfo(photo)">Сохранить</a>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+    <div class="photosTable">
+      <table>
+        <thead>
+        <tr>
+          <th>Дата</th>
+          <th>Email</th>
+          <th>ФИО</th>
+          <th>Контент</th>
+          <th>Описание</th>
+          <th>Опубликовать</th>
+          <th>Подтверить</th>
+          <th>Описание отказа публикации</th>
+          <th>Сохранить</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr
+          *ngFor="let photo of photos | searchFilter: searchValue | paginate: { itemsPerPage: photosOnPage || defaultPhotosOnPage, currentPage: page }">
+          <td>{{photo.date | date:'dd/MM/yyyy'}}</td>
+          <td>{{photo.userEmail}}</td>
+          <td>{{photo.fio}}</td>
+          <td>
+            <div class="image-slider">
+              <ng-image-slider
+                #nav
+                [imageSize]="{height: 100, width: 150}"
+                [images]="[{image: photo.imageSrc, thumbImage: photo.imageSrc, alt: photo.description}]"
+              ></ng-image-slider>
+            </div>
+          </td>
+          <td>
+            <app-read-more [maxLength]="10" [text]="photo.description"></app-read-more>
+          </td>
+          <td>
+            <label>
+              <input checked="{{photo.public ? 'checked' : ''}}" (click)="setPublic(photo._id, !photo.public)"
+                     type="checkbox"/>
+              <span>Опубликовать</span>
+            </label>
+          </td>
+          <td>
+            <label>
+              <input checked="{{photo.moderation ? 'checked' : ''}}"
+                     (click)="setModeration(photo._id,!photo.moderation)"
+                     type="checkbox"/>
+              <span>Подтвердить</span>
+            </label>
+          </td>
+          <td>
+            <div class="input-field col s12">
+              <textarea [(ngModel)]="photo.banDescription" id="textarea1" class="materialize-textarea"></textarea>
+              <span class="helper-text">Описание отказа публикации</span>
+            </div>
+          </td>
+          <td>
+            <a class="waves-effect waves-light btn" (click)="updatePhotoInfo(photo)">Сохранить</a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
     <pagination-controls previousLabel="Предыдущая"
                          nextLabel="Следующая" (pageChange)="page = $event"
     ></pagination-controls>
@@ -95,38 +98,40 @@
         </select>
       </div>
     </div>
-    <table>
-      <thead>
-      <tr>
-        <th>Дата</th>
-        <th>Email</th>
-        <th>Контент</th>
-        <th>Описание</th>
-        <th>Удалить</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr
-        *ngFor="let photo of deleteRequestPhotos | searchFilter: searchValue | paginate: { itemsPerPage: photosOnPage || defaultPhotosOnPage, currentPage: page }">
-        <td>{{photo.date | date:'dd/MM/yyyy'}}</td>
-        <td>{{photo.userEmail}}</td>
-        <td>
-          <div class="image-slider">
-            <ng-image-slider
-              #nav
-              [images]="[{image: photo.imageSrc, thumbImage: photo.imageSrc, alt: photo.description}]"
-              [imageSize]="{height: 100, width: 150}"
-            ></ng-image-slider>
-          </div>
-        </td>
-        <td>
-          <app-read-more [maxLength]="10" [text]="photo.description"></app-read-more>
-        </td>
-        <td>
-          <button class="btn" (click)="openDeleteModal(photo._id)">Удалить</button>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+    <div class="queryDeleteTable">
+      <table>
+        <thead>
+        <tr>
+          <th>Дата</th>
+          <th>Email</th>
+          <th>Контент</th>
+          <th>Описание</th>
+          <th>Удалить</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr
+          *ngFor="let photo of deleteRequestPhotos | searchFilter: searchValue | paginate: { itemsPerPage: photosOnPage || defaultPhotosOnPage, currentPage: page }">
+          <td>{{photo.date | date:'dd/MM/yyyy'}}</td>
+          <td>{{photo.userEmail}}</td>
+          <td>
+            <div class="image-slider">
+              <ng-image-slider
+                #nav
+                [images]="[{image: photo.imageSrc, thumbImage: photo.imageSrc, alt: photo.description}]"
+                [imageSize]="{height: 100, width: 150}"
+              ></ng-image-slider>
+            </div>
+          </td>
+          <td>
+            <app-read-more [maxLength]="10" [text]="photo.description"></app-read-more>
+          </td>
+          <td>
+            <button class="btn" (click)="openDeleteModal(photo._id)">Удалить</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
   </mat-tab>
 </mat-tab-group>
