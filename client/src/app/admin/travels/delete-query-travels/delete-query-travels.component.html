@@ -1,0 +1,26 @@
+<table>
+  <tr>
+    <th>№</th>
+    <th>Дата</th>
+    <th>Название</th>
+    <th>ФИО организатора</th>
+    <th>Участники</th>
+    <th>Удалить</th>
+  </tr>
+  <tr *ngFor="let travel of travels; let i = index">
+    <td>{{i + 1}}</td>
+    <td>{{travel.date}}</td>
+    <td><span class="pointer" (click)="openDialog(travel._id)">{{travel.name}}</span></td>
+    <td>{{travel.userFIO}}</td>
+    <td>
+      <ul *ngFor="let joinUser of travel.joinedUsers">
+        <li>
+          {{joinUser.fio}}
+        </li>
+      </ul>
+    </td>
+    <td>
+      <button class="btn" (click)="deleteTravel(travel._id)">Удалить</button>
+    </td>
+  </tr>
+</table>

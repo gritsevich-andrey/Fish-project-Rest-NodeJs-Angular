@@ -156,7 +156,7 @@ export class CreatedTravelComponent implements OnInit {
       }
     );
     dialogRef.afterClosed().subscribe(({isMessageSend}) => {
-      if(isMessageSend) {
+      if (isMessageSend) {
         this.router.navigate(['/chat'])
       }
     });
@@ -165,5 +165,15 @@ export class CreatedTravelComponent implements OnInit {
   setTravelPublic(travelId: string) {
     this.travel.isPublic = !this.travel.isPublic
     this.travelService.updateTravel(this.travel, travelId).subscribe()
+  }
+
+  deleteTravel(travelId: string) {
+    this.travelService.updateTravel({queryDelete: true}, travelId).subscribe(
+      () => {
+        MaterialService.toast('Поездка удалена')
+        this.getUserTravels(this.userEmail)
+      },
+      error => console.log(error)
+    )
   }
 }

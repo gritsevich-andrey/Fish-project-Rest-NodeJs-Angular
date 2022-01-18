@@ -9,6 +9,7 @@ import {CreateTravelModalComponent} from "./create-travel-modal/create-travel-mo
 import * as CryptoJS from "crypto-js";
 import {AuthService} from "../../shared/services/auth.service";
 import {MaterialService} from "../../shared/classes/material.service";
+import {Travel} from "../../shared/interfaces";
 
 @Component({
   selector: 'app-travel',
@@ -61,7 +62,7 @@ export class TravelComponent implements OnInit {
 
   getUserTravels(userEmail: string) {
     this.travelService.getUserTravels(userEmail).subscribe(
-      travels => this.userTravels = travels.reverse(),
+      (travels: Travel[]) => this.userTravels = travels.reverse().filter(travel => !travel.queryDelete),
       error => console.log(error)
     )
   }

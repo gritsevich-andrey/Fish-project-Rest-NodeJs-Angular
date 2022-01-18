@@ -15,6 +15,7 @@ export interface Travels {
   date: string;
   userEmail: string;
   _id: string;
+  queryDelete: boolean
 }
 
 @Component({
@@ -24,6 +25,7 @@ export interface Travels {
 })
 export class TravelsComponent implements OnInit {
   travels: Travels[] = [];
+  queryDeleteTravels: Travels[] = [];
 //@ts-ignore
   sortedData: Travels[];
   textDesc: string[] = [];
@@ -33,11 +35,14 @@ export class TravelsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.travelService.getTravels().subscribe(data => {
-      data.map((value: any) => {
+    this.travelService.getTravels().subscribe((travels: Travels[]) => {
+      // Зачем это нужно?
+      /*data.map((value: any) => {
         this.travels.push(value);
-      })
+      })*/
+      this.travels = travels.filter(travel => !travel.queryDelete)
       this.sortedData = this.travels.slice();
+      this.queryDeleteTravels = travels.filter(travel => travel.queryDelete)
     });
   }
 
@@ -82,21 +87,21 @@ export class TravelsComponent implements OnInit {
 
   sendInChat(travelId: string) {
     const travels = JSON.parse(JSON.stringify(this.travels));
-    const filteredTravels= travels.filter((data: Travels) => {
-      return  data._id === travelId;
+    const filteredTravels = travels.filter((data: Travels) => {
+      return data._id === travelId;
     });
     let userEmails: string[] = [];
-   filteredTravels.map((value: any) => {
+    filteredTravels.map((value: any) => {
       userEmails.push(value.userEmail);
-      value.joinedUsers.map((data: {userEmail: string}) => {
+      value.joinedUsers.map((data: { userEmail: string }) => {
         userEmails.push(data.userEmail);
       })
       return userEmails;
     });
-   const transferData = {
-     travelId: travelId,
-     userEmails: userEmails
-   }
+    const transferData = {
+      travelId: travelId,
+      userEmails: userEmails
+    }
     const dialogRef = this.dialog.open(DeleteDialogComponent,
       {
         data: transferData

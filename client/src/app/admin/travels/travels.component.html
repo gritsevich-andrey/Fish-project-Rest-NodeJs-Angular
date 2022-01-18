@@ -1,27 +1,38 @@
-
-<table matSort (matSortChange)="sortData($event)">
-  <tr>
-    <th mat-sort-header="npp">№</th>
-    <th mat-sort-header="date">Дата</th>
-    <th mat-sort-header="name">Название</th>
-    <th mat-sort-header="userFIO">ФИО организатора</th>
-    <th mat-sort-header="joinedUsers">Участники</th>
-    <th mat-sort-header="description">Удалить</th>
-  </tr>
-  <tr *ngFor="let travel of sortedData; let i = index">
-    <td>{{i+1}}</td>
+<mat-tab-group>
+  <mat-tab label="Все поездки">
+    <table matSort (matSortChange)="sortData($event)">
+      <tr>
+        <th mat-sort-header="npp">№</th>
+        <th mat-sort-header="date">Дата</th>
+        <th mat-sort-header="name">Название</th>
+        <th mat-sort-header="userFIO">ФИО организатора</th>
+        <th mat-sort-header="joinedUsers">Участники</th>
+        <th mat-sort-header="description">Удалить</th>
+      </tr>
+      <tr *ngFor="let travel of sortedData; let i = index">
+        <td>{{i + 1}}</td>
         <td>{{travel.date}}</td>
-    <td><span class="pointer" (click)="openDialog(travel._id)">{{travel.name}}</span></td>
-    <td>{{travel.userFIO}}</td>
-    <td>
-      <ul *ngFor="let joinUser of travel.joinedUsers">
-        <li>
-          {{joinUser.fio}}
-        </li>
-      </ul>
-    </td>
-    <td>
-      <button mat-button matTooltip="Разослать причину отказа в чат всем участникам поездки" (click)="sendInChat(travel._id)"><mat-icon>edit</mat-icon></button>
-    </td>
-  </tr>
-</table>
+        <td><span class="pointer" (click)="openDialog(travel._id)">{{travel.name}}</span></td>
+        <td>{{travel.userFIO}}</td>
+        <td>
+          <ul *ngFor="let joinUser of travel.joinedUsers">
+            <li>
+              {{joinUser.fio}}
+            </li>
+          </ul>
+        </td>
+        <td>
+          <button mat-button matTooltip="Разослать причину отказа в чат всем участникам поездки"
+                  (click)="sendInChat(travel._id)">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </td>
+      </tr>
+    </table>
+  </mat-tab>
+  <mat-tab label="Запросы на удаление">
+    <app-delete-query-travels
+      [travels]="queryDeleteTravels"
+    ></app-delete-query-travels>
+  </mat-tab>
+</mat-tab-group>

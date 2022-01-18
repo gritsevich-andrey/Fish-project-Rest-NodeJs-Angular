@@ -84,6 +84,7 @@ export interface Travel {
   }]
   _id: string
   status: string
+  queryDelete: boolean
 }
 
 export interface Review {

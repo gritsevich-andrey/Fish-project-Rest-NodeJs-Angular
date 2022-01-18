@@ -80,6 +80,10 @@ const travelSchema = new Schema({
     status: {
         type: String,
         default: ''
+    },
+    queryDelete: {
+        type: Boolean,
+        default: false
     }
 })
 module.exports = mongoose.model('travels', travelSchema)

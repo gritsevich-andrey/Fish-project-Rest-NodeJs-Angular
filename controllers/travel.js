@@ -70,18 +70,23 @@ module.exports.update = function (req, res) {
         costPerPeople: req.body.costPerPeople,
         description: req.body.description,
         title: req.body.title,
-        startPoint: JSON.parse(req.body.startPoint),
-        endPoint: JSON.parse(req.body.endPoint),
         isPublic: req.body.isPublic,
         travelTechnique: req.body.travelTechnique,
         date: req.body.date,
         address: req.body.address,
         isOrganizer: req.body.isOrganizer,
         name: req.body.name,
-        userFIO: req.body.userFIO
+        userFIO: req.body.userFIO,
+        queryDelete: req.body.queryDelete
     }
     if (req.file) {
         updated.imageSrc = req.file.path;
+    }
+    if (req.body.startPoint) {
+        updated.startPoint = JSON.parse(req.body.startPoint)
+    }
+    if (req.body.endPoint) {
+        updated.endPoint = JSON.parse(req.body.endPoint)
     }
     Travel.findOneAndUpdate({_id: req.params.id}, updated).then(travel => res.status(200).json(travel))
         .catch(e => errorHandler(res, e))

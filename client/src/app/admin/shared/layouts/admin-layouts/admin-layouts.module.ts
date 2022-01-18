@@ -28,6 +28,7 @@ import {ReadMoreModule} from "ng-readmore";
 import {MatSelectModule} from "@angular/material/select";
 import {MatTabsModule} from "@angular/material/tabs";
 import {DeletePhotoModalComponent} from "../../../photos/delete-photo-modal/delete-photo-modal.component";
+import {DeleteQueryTravelsComponent} from "../../../travels/delete-query-travels/delete-query-travels.component";
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import {DeletePhotoModalComponent} from "../../../photos/delete-photo-modal/dele
     TravelsComponent,
     DeleteDialogComponent,
     RejectReasonComponent,
-    DeletePhotoModalComponent
+    DeletePhotoModalComponent,
+    DeleteQueryTravelsComponent
   ],
   imports: [
     CommonModule,
