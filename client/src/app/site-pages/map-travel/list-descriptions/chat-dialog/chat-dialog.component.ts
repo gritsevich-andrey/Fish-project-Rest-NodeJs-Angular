@@ -25,12 +25,18 @@ export class ChatDialogComponent {
 
   saveMessage() {
     const email = this.userService.getUserDataFromLocal();
-    if (this.message && (email !== this.data) && (typeof (this.data) === 'string')) {
-      this.formatSendObject(this.data, email);
-    } else {
-      this.data.forEach((value: string) => {
-        this.formatSendObject(value, email);
-      });
+    if (email === this.data) {
+      this.warningService.sendWarning('Вы не можете писать себе');
+      return;
+    }
+    else {
+      if (typeof (this.data) === 'string') {
+        this.formatSendObject(this.data, email);
+      } else {
+        this.data.forEach((value: string) => {
+          this.formatSendObject(value, email);
+        });
+      }
     }
   }
 

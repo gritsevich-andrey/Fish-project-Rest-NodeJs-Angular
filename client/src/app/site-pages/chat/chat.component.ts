@@ -36,12 +36,12 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // if (this.chatSub) {
-    //   this.chatSub.unsubscribe();
-    // }
-    // if (this.messSub) {
-    //   this.messSub.unsubscribe();
-    // }
+    if (this.chatSub) {
+      this.chatSub.unsubscribe();
+    }
+    if (this.messSub) {
+      this.messSub.unsubscribe();
+    }
   }
 
   ngOnInit(): void {
@@ -102,7 +102,6 @@ export class ChatComponent implements OnInit, OnDestroy {
       }
     });
     const uniqueUsers = [... new Set(infoUsers)];
-    console.log('Уникальный массив', uniqueUsers);
     const sortedArray = uniqueUsers.reverse();
     return sortedArray;
   }
