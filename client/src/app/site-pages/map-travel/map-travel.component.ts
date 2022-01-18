@@ -152,11 +152,7 @@ export class MapTravelComponent implements OnInit, OnDestroy {
     switch (type) {
       case 'enter':
         options.set('preset', 'islands#greenIcon');
-        break;
 
-      // case 'leave':
-      //   options.unset('preset');
-      //   break;
     }
   }
 

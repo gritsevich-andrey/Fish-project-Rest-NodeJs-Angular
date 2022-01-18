@@ -41,7 +41,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
       role: ['USER']
     }
 
-    this.aSub = this.auth.register(user).subscribe(
+    this.aSub = this.auth.register(user)
+      .subscribe(
       () => {
         this.router.navigate(['/login'], {
           queryParams: {

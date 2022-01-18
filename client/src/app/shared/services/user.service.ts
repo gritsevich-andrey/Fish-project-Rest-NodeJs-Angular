@@ -3,7 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import jwt_decode from "jwt-decode";
 import {environment} from "../../../environments/environment";
-import {shareReplay} from "rxjs/operators";
+import {distinctUntilChanged, shareReplay} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,11 @@ export class UserService {
   }
 
   getListUsers(): Observable<any> {
-    return this.http.get(environment.ADMIN_API);
+    return this.http.get(environment.ADMIN_API)
+      .pipe(
+        distinctUntilChanged(),
+        shareReplay()
+      )
   }
 
   createComplaint(data: any): Observable<any> {

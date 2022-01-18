@@ -1,4 +1,4 @@
 module.exports = {
-    mongoURI: 'mongodb://onloc:onlocPass123@connect.gkkot.ru/onloc',
+    mongoURI: 'mongodb://fish:fish89354!!@127.0.0.1:27017/fish',
     jwt: 'dev-jwt'
 }
