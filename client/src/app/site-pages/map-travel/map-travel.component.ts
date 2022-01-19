@@ -6,7 +6,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {UserService} from "../../shared/services/user.service";
 import * as CryptoJS from "crypto-js";
 import {AuthService} from "../../shared/services/auth.service";
-import {map} from "rxjs/operators";
+import {map, tap} from "rxjs/operators";
 import {Subscription} from "rxjs";
 
 interface PlacemarkConstructor {
@@ -133,6 +133,9 @@ export class MapTravelComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe(data => {
+        if(this.travels) {
+          this.travels = [];
+        }
         this.travels = data;
         this.getUniqueCategory();
       });

@@ -1,4 +1,4 @@
-import {Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment.prod";
 import {SocketMessageDto} from "../../shared/interfaces";
@@ -12,12 +12,15 @@ export class ChatService {
 
   constructor(
     private http: HttpClient,
-  private userService: UserService) { }
+    private userService: UserService) {
+  }
+
   saveMessage(chatInfoDto?: SocketMessageDto): Observable<SocketMessageDto> {
     return this.http.post<SocketMessageDto>(environment.CHAT_API, chatInfoDto);
   }
+
   getDriverSubscriber(): Observable<any> {
-    const email = this.getUserEmail();
+    const email = this.userService.getUserDataFromLocal();
     return this.http.get(environment.CHAT_API + `/${email}`);
   }
 

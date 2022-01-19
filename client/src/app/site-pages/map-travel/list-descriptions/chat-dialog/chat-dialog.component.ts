@@ -4,6 +4,7 @@ import {WarningService} from "../../../../shared/services/warning.service";
 import {UserService} from "../../../../shared/services/user.service";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {SocketMessageDto} from "../../../../shared/interfaces";
+import {switchMap} from "rxjs/operators";
 
 @Component({
   selector: 'app-chat-dialog',
@@ -56,16 +57,18 @@ export class ChatDialogComponent {
   }
 
   private saveInDb() {
-    this.chatService.saveMessage(this.chatInfoDto).subscribe(data => {
+    this.chatService.saveMessage(this.chatInfoDto)
+      .pipe(
+        switchMap(() => {
+          //@ts-ignore
+          this.chatInfoDto['userEmail'] = this.chatInfoDto['receiverEmail'];
+         return this.chatService.saveMessage(this.chatInfoDto)
+        })
+      )
+      .subscribe(() => {
         this.warningService.sendWarning(`Сообщение отравлено`)
-
       },
       error => this.warningService.sendWarning(`Ошибка отправки сообщения`, error));
-    //@ts-ignore
-    this.chatInfoDto['userEmail'] = this.chatInfoDto['receiverEmail'];
-    this.chatService.saveMessage(this.chatInfoDto).subscribe(data => {
-      },
-      error => console.error('Ошибка сохранения в базу чата', error));
     this.dialogRef.close({isMessageSend: true});
   }
 }

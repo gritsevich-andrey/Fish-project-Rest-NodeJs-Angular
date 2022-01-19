@@ -212,10 +212,4 @@ export class CabinetComponent implements OnInit, OnDestroy {
     this.countPage += 1;
   }
 
-  // handlePageSizeChange(event: Event) {
-  //   // @ts-ignore
-  //   this.itemsPerPage = event.target.value;
-  //   this.page = 1;
-  //   this.getMyPhoto();
-  // }
 }
