@@ -28,6 +28,7 @@ export class CreatedTravelComponent implements OnInit {
   form: FormGroup;
   rejectUserForm: FormGroup;
 
+
   constructor(
     public travelService: TravelService,
     public dialog: MatDialog,
@@ -43,8 +44,26 @@ export class CreatedTravelComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.setUsersRating()
     this.initMaterialize()
   }
+
+  setUsersRating() {
+    //@ts-ignore
+    let ratings: Rating[] = JSON.parse(localStorage.getItem('travelsRating'))
+
+    if (ratings) {
+      ratings.map(rating => {
+        this.getAcceptedUsers().map((user, index) => {
+          if (user.userEmail === rating.email) {
+            this.travel.joinedUsers[index].rating = rating.sumValue
+            this.travel.joinedUsers[index].isRatingSet = true
+          }
+        })
+      })
+    }
+  }
+
 
   initMaterialize() {
     const modals = document.querySelectorAll('.modal');
@@ -111,18 +130,34 @@ export class CreatedTravelComponent implements OnInit {
     dialogRef.afterClosed().subscribe();
   }
 
-  saveRating(receiverEmail: string) {
-    const stars = this.form.controls.rating.value
+  saveRating(receiverEmail: string, ratingCount?: number, isRatingSet?: boolean) {
     const rating = {
       travelId: this.travel._id,
-      travelTitle: this.travel.title,
-      sumValue: stars
+      travelName: this.travel.name,
+      sumValue: ratingCount
     };
-
-    if (!stars) {
+    if (isRatingSet) {
+      return MaterialService.toast('Вы уже установили рейтинг')
+    }
+    if (!ratingCount) {
       return MaterialService.toast('Укажите рейтинг')
     }
-    this.cabinetService.updateCabinetRating(receiverEmail, rating).subscribe();
+    this.cabinetService.updateCabinetRating(receiverEmail, rating).subscribe(
+      () => {
+        //localstorage
+        //@ts-ignore
+        let ratings = JSON.parse(localStorage.getItem('travelsRatings')) || []
+        ratings.push({
+          email: receiverEmail,
+          isRatingSet: true,
+          ...rating
+        })
+        localStorage.setItem('travelsRating', JSON.stringify(ratings))
+        debugger
+        MaterialService.toast('Рейтинг сохранен')
+      },
+      error => console.log(error)
+    );
   }
 
   rejectFormSubmit(userEmail: string) {

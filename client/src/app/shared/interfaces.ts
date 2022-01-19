@@ -57,6 +57,14 @@ export interface SocketMessageDto {
   }]
 }
 
+export interface Rating {
+  email: string
+  travelId: string
+  travelName: string
+  sumValue: number
+  isRatingSet: boolean
+}
+
 export interface Travel {
   name: string;
   travelId: string;
@@ -81,6 +89,8 @@ export interface Travel {
     status: string
     comment: string
     nickName: string
+    rating?: number
+    isRatingSet?: boolean
   }]
   _id: string
   status: string

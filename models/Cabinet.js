@@ -30,10 +30,9 @@ const cabinetSchema = new Schema({
         default: ''
     },
     ratings: [{
-        travelTitle: {type: String, default: ''},
+        travelName: {type: String, default: ''},
         travelId: {type: String, default: ''},
         sumValue: {type: Number, default: 0},
-        travelName: {type: String, default: ''}
     }],
     reviews: [{
         userEmail: {type: String, default: ''},
