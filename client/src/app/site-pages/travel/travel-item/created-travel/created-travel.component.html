@@ -1,6 +1,7 @@
 <span class="red-text">Созданная поездка</span>
 <div class="freeSeats mat-form-field-label">
-  Свободные места: <span class="red-text"> {{travel.peoplesCount - getJoinedUsers(travel.joinedUsers).length}} / {{travel.peoplesCount }} </span>
+  Свободные места: <span class="red-text"> {{travel.peoplesCount - getJoinedUsers(travel.joinedUsers).length}}
+  / {{travel.peoplesCount }} </span>
 </div>
 
 
@@ -20,7 +21,8 @@
     <tbody>
     <tr *ngFor="let user of getAcceptedUsers(), let j = index">
       <td>{{j + 1}}</td>
-      <td  (click)="openUserProfile(user.userEmail)"><span matTooltip="Открыть профиль пользователя" class="pointer">{{user.fio || user.nickName}}</span></td>
+      <td (click)="openUserProfile(user.userEmail)"><span matTooltip="Открыть профиль пользователя"
+                                                          class="pointer">{{user.fio || user.nickName}}</span></td>
       <td>{{user.status}}</td>
       <td>
         <button class="btn" (click)="openChat(user.userEmail)">Чат</button>
@@ -30,10 +32,8 @@
       </td>
       <td *ngIf="travel.status === 'ended'">
         <div class="ratingContainer">
-          <form [formGroup]="form">
-            <ngx-star-rating [id]="travel._id" formControlName="rating"></ngx-star-rating>
-          </form>
-          <button class="waves-effect waves-light btn" (click)="saveRating(user.userEmail)"
+          <ngx-star-rating [(ngModel)]="user.rating" [id]="user.userEmail" [disabled]="user.isRatingSet === true"></ngx-star-rating>
+          <button class="waves-effect waves-light btn" (click)="saveRating(user.userEmail, user.rating, user.isRatingSet)"
                   matTooltip="сохранить отзыв на попутчика">Сохранить
           </button>
         </div>
@@ -59,7 +59,8 @@
     <tbody>
     <tr *ngFor="let user of getNotAcceptedUsers(), let j = index">
       <td>{{j + 1}}</td>
-      <td (click)="openUserProfile(user.userEmail)"><span matTooltip="Открыть профиль пользователя" class="pointer">{{user.fio || user.nickName}}</span></td>
+      <td (click)="openUserProfile(user.userEmail)"><span matTooltip="Открыть профиль пользователя"
+                                                          class="pointer">{{user.fio || user.nickName}}</span></td>
       <td>{{user.status}}</td>
       <td>
         <button class="btn" (click)="openChat(user.userEmail)">Чат</button>
