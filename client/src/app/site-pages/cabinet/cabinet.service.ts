@@ -40,11 +40,7 @@ export class CabinetService {
   }
 
   updateCabinetRating(email: string, rating: any): Observable<any> {
-    return this.http.patch(environment.CABINET_API + `/rating/${email}`, {
-      travelTitle: rating.travelTitle,
-      travelId: rating.travelId,
-      sumValue: rating.sumValue
-    });
+    return this.http.patch(environment.CABINET_API + `/rating/${email}`, rating);
   }
 
   createFormData(data: any, image?: File) {

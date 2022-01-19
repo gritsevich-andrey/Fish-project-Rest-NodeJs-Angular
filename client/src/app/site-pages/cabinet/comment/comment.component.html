@@ -14,7 +14,7 @@
 <div class="stars-align">
   <div class="stars" *ngFor="let item of ratings | search: valueRadio">
     <ngx-star-rating [(ngModel)]="item.sumValue" [id]="item.travelId" [disabled]="true"></ngx-star-rating>
-    <p class="mat-card-subtitle center-align">{{item.travelTitle + ': ' + item.sumValue}}</p>
+    <p class="mat-card-subtitle center-align">{{item.travelName + ': ' + item.sumValue}}</p>
   </div>
 </div>
 <mat-paginator [length]="length"

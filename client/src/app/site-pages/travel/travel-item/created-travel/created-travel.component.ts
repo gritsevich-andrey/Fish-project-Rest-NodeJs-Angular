@@ -10,6 +10,7 @@ import {EditTravelModalComponent} from "./edit-travel-modal/edit-travel-modal.co
 import {UserProfileComponent} from "../../user-profile/user-profile.component";
 import {ChatDialogComponent} from "../../../map-travel/list-descriptions/chat-dialog/chat-dialog.component";
 import {Router} from "@angular/router";
+import {error} from "password-validator/typings/constants";
 
 declare var M: {
   Modal: { init: (arg0: NodeListOf<Element>) => any; }
@@ -115,14 +116,20 @@ export class CreatedTravelComponent implements OnInit {
     const stars = this.form.controls.rating.value
     const rating = {
       travelId: this.travel._id,
-      travelTitle: this.travel.title,
+      travelName: this.travel.name,
       sumValue: stars
     };
 
     if (!stars) {
       return MaterialService.toast('Укажите рейтинг')
     }
-    this.cabinetService.updateCabinetRating(receiverEmail, rating).subscribe();
+    this.cabinetService.updateCabinetRating(receiverEmail, rating).subscribe(
+      () => {
+        //localstorage
+        MaterialService.toast('Рейтинг сохранен')
+      },
+      error => console.log(error)
+    );
   }
 
   rejectFormSubmit(userEmail: string) {
