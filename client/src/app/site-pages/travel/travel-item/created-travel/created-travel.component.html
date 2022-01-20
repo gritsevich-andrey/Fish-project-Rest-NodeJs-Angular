@@ -32,9 +32,13 @@
       </td>
       <td *ngIf="travel.status === 'ended'">
         <div class="ratingContainer">
-          <ngx-star-rating [(ngModel)]="user.rating" [id]="user.userEmail" [disabled]="user.isRatingSet === true"></ngx-star-rating>
-          <button class="waves-effect waves-light btn" (click)="saveRating(user.userEmail, user.rating, user.isRatingSet)"
-                  matTooltip="сохранить отзыв на попутчика">Сохранить
+          <ngx-star-rating [(ngModel)]="user.rating" [id]="user.userEmail"
+                           [disabled]="user.isRatingSet === true"></ngx-star-rating>
+          <button class="waves-effect waves-light btn"
+                  (click)="saveRating(user.userEmail, user.rating)"
+                  matTooltip="сохранить отзыв на попутчика"
+                  [disabled]="user.isRatingSet === true"
+          >Сохранить
           </button>
         </div>
       </td>
@@ -134,14 +138,6 @@
     </button>
   </div>
   <br/>
-  <button
-    *ngIf="checkAllUsersPayed() && !travel.status "
-    class="waves-effect waves-light btn"
-    data-target="editTravel"
-    matTooltip="Начать поездку"
-    (click)="updateTravelStatus('started')"
-  >Начать
-  </button>
   <button
     *ngIf="travel.status === 'started'"
     class="waves-effect waves-light btn"

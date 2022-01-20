@@ -18,6 +18,7 @@ export class JoinedTravelComponent implements OnInit {
   @Input() userEmail!: string;
   @Input() getUserTravels!: any;
   form: FormGroup;
+  isRatingSet = false
 
   constructor(
     public travelService: TravelService,
@@ -25,11 +26,26 @@ export class JoinedTravelComponent implements OnInit {
     private cabinetService: CabinetService,
   ) {
     this.form = new FormGroup({
-      rating: new FormControl('', Validators.required)
+      rating: new FormControl('', Validators.required),
     });
   }
 
   ngOnInit(): void {
+    this.setUsersRating()
+  }
+
+  setUsersRating() {
+    //@ts-ignore
+    let ratings: Rating[] = JSON.parse(localStorage.getItem('travelsRating'))
+
+    if (ratings) {
+      ratings.map(rating => {
+        if (this.travel.userEmail === rating.email && rating.travelId === this.travel._id) {
+          this.form.controls.rating.setValue(rating.sumValue)
+          this.isRatingSet = true
+        }
+      })
+    }
   }
 
   getAcceptedUsers() {
@@ -131,11 +147,23 @@ export class JoinedTravelComponent implements OnInit {
       travelTitle: this.travel.title,
       sumValue: stars
     };
-
     if (!stars) {
       return MaterialService.toast('Укажите рейтинг')
     }
-    this.cabinetService.updateCabinetRating(receiverEmail, rating).subscribe();
+    this.cabinetService.updateCabinetRating(receiverEmail, rating).subscribe(
+      () => {
+        //@ts-ignore
+        let ratings = JSON.parse(localStorage.getItem('travelsRatings')) || []
+        ratings.push({
+          email: receiverEmail,
+          isRatingSet: true,
+          ...rating
+        })
+        localStorage.setItem('travelsRating', JSON.stringify(ratings))
+        MaterialService.toast('Рейтинг сохранен')
+      },
+      error => console.log(error)
+    );
   }
 
   leaveFromTravel() {

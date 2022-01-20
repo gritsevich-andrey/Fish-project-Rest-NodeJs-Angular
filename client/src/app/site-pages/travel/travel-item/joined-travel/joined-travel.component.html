@@ -43,9 +43,9 @@
       <div class="ratingContainer">
         <span>Оценить поездку:</span>
         <form [formGroup]="form">
-          <ngx-star-rating [id]="travel._id" formControlName="rating"></ngx-star-rating>
+          <ngx-star-rating [id]="travel._id" formControlName="rating" [disabled]="isRatingSet"></ngx-star-rating>
         </form>
-        <button class="waves-effect waves-light btn" (click)="saveRating(travel.userEmail)" matTooltip="сохранить отзыв на поездку">Сохранить
+        <button [disabled]="isRatingSet" class="waves-effect waves-light btn" (click)="saveRating(travel.userEmail)" matTooltip="сохранить отзыв на поездку">Сохранить
         </button>
       </div>
     </div>

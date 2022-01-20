@@ -56,7 +56,7 @@ export class CreateTravelModalComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    if(this.data.latitude && this.data.longitude) {
+    if (this.data.latitude && this.data.longitude) {
       this.isFromMap = true
       this.form.controls.endPointLatitude.setValue(this.data.latitude);
       this.form.controls.endPointLongitude.setValue(this.data.longitude);
@@ -86,7 +86,8 @@ export class CreateTravelModalComponent implements OnInit, OnDestroy {
         weekdaysAbbrev: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб']
       },
       firstDay: 1,
-      format: 'mm.dd.yyyy'
+      format: 'mm.dd.yyyy',
+      minDate: new Date()
     }
 
     const modals = document.querySelectorAll('.modal');
@@ -124,7 +125,7 @@ export class CreateTravelModalComponent implements OnInit, OnDestroy {
       userFIO: this.userFIO
     }
     if (this.form.valid) {
-     this.sub = this.travelService.createTravel(travelData).subscribe(
+      this.sub = this.travelService.createTravel(travelData).subscribe(
         () => {
           this.dialogRef.close()
           MaterialService.toast('Ваша поездка сохранена')
@@ -158,28 +159,36 @@ export class CreateTravelModalComponent implements OnInit, OnDestroy {
   }
 
   openEndPointMapDialog() {
-    let dialogRef = this.dialog.open(SelectPointComponent);
+    let dialogRef = this.dialog.open(SelectPointComponent, this.form.controls.endPointLatitude.value ? {
+      data: {
+        placemark: {
+          geometry: [this.form.controls.endPointLatitude.value, this.form.controls.endPointLongitude.value]
+        }
+      }
+    } : {});
     dialogRef.afterClosed().subscribe(({latitude, longitude, address}) => {
-      this.setEndPointData(latitude, longitude, address)
+      if (latitude && longitude) {
+        this.form.controls.endPointAddress.setValue(address)
+        this.form.controls.endPointLatitude.setValue(latitude)
+        this.form.controls.endPointLongitude.setValue(longitude)
+      }
     });
   }
 
   openStartPointMapDialog() {
-    let dialogRef = this.dialog.open(SelectPointComponent);
+    let dialogRef = this.dialog.open(SelectPointComponent, this.form.controls.startPointLatitude.value ? {
+      data: {
+        placemark: {
+          geometry: [this.form.controls.startPointLatitude.value, this.form.controls.startPointLongitude.value]
+        }
+      }
+    } : {});
     dialogRef.afterClosed().subscribe(({latitude, longitude}) => {
-      this.setStartPointData(latitude, longitude)
+      if (latitude && longitude) {
+        this.form.controls.startPointLatitude.setValue(latitude)
+        this.form.controls.startPointLongitude.setValue(longitude)
+      }
     });
-  }
-
-  setStartPointData(latitude: string, longitude: string) {
-    this.form.controls.startPointLatitude.setValue(latitude)
-    this.form.controls.startPointLongitude.setValue(longitude)
-  }
-
-  setEndPointData(latitude: string, longitude: string, address: string,) {
-    this.form.controls.endPointAddress.setValue(address)
-    this.form.controls.endPointLatitude.setValue(latitude)
-    this.form.controls.endPointLongitude.setValue(longitude)
   }
 
   openAddTransport() {
@@ -213,7 +222,7 @@ export class CreateTravelModalComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if(this.sub) {
+    if (this.sub) {
       this.sub.unsubscribe();
     }
   }

@@ -46,6 +46,10 @@ export class CreatedTravelComponent implements OnInit {
   ngOnInit(): void {
     this.setUsersRating()
     this.initMaterialize()
+
+    if(this.checkAllUsersPayed() && !this.travel.status) {
+      this.updateTravelStatus('started')
+    }
   }
 
   setUsersRating() {
@@ -55,7 +59,7 @@ export class CreatedTravelComponent implements OnInit {
     if (ratings) {
       ratings.map(rating => {
         this.getAcceptedUsers().map((user, index) => {
-          if (user.userEmail === rating.email) {
+          if (user.userEmail === rating.email && rating.travelId === this.travel._id) {
             this.travel.joinedUsers[index].rating = rating.sumValue
             this.travel.joinedUsers[index].isRatingSet = true
           }
@@ -63,7 +67,6 @@ export class CreatedTravelComponent implements OnInit {
       })
     }
   }
-
 
   initMaterialize() {
     const modals = document.querySelectorAll('.modal');
@@ -144,7 +147,6 @@ export class CreatedTravelComponent implements OnInit {
     }
     this.cabinetService.updateCabinetRating(receiverEmail, rating).subscribe(
       () => {
-        //localstorage
         //@ts-ignore
         let ratings = JSON.parse(localStorage.getItem('travelsRatings')) || []
         ratings.push({
@@ -153,7 +155,6 @@ export class CreatedTravelComponent implements OnInit {
           ...rating
         })
         localStorage.setItem('travelsRating', JSON.stringify(ratings))
-        debugger
         MaterialService.toast('Рейтинг сохранен')
       },
       error => console.log(error)

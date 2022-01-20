@@ -1,4 +1,4 @@
-<input (change)="setTravelDate($event)" [hidden]="true" type="text" class="datepicker" #datepicker>
+<input (change)="setTravelDate($event)"  [hidden]="true" type="text" class="datepicker" #datepicker>
 <mat-dialog-actions>
   <div class="mat-form-field-flex">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
@@ -32,7 +32,7 @@
         </div>
         <div class="input-field select-field-item">
           <select formControlName="travelType" class="icons" (change)="travelTypeChange()">
-            <option value="" disabled selected>Выбрать технику</option>
+            <option value="" disabled selected>Выберите технику</option>
             <option value="onFoot" class="left">Нет</option>
             <option value="technique" class="left">Выбрать</option>
           </select>
