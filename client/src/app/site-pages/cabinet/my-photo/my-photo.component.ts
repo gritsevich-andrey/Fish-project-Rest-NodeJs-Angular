@@ -7,6 +7,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {DeleteModalComponent} from "./delete-modal/delete-modal.component";
 import {Subscription} from "rxjs";
 import {ActivatedRoute} from "@angular/router";
+import {Lightbox} from "ngx-lightbox";
 
 @Component({
   selector: 'app-my-photo',
@@ -22,13 +23,13 @@ userPhotos: Photo[] = [];
   private subCab?: Subscription;
   isOrganizer = false;
   @Input() organizerEmail = '';
+  private _albums: Array<any> = [];
   constructor(public sortService: SortService,
               private cabinetService: CabinetService,
               private userService: UserService,
               private dialog: MatDialog,
               private router: ActivatedRoute) {
   }
-
   ngOnDestroy(): void {
        if(this.subCab) {
          this.subCab.unsubscribe();
