@@ -20,7 +20,6 @@ export class JoinWithMapComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(data => {
-      console.log('локация', data.coords);
       if (data.coords) {
         this.createTrip(data.coords.split(','));
       }

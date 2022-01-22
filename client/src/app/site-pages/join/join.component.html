@@ -1,13 +1,29 @@
+<mat-tab-group mat-align-tabs="end">
+  <mat-tab label="Информация">
 <mat-list class="map-container card-panel">
   <mat-list-item *ngFor="let userData of user">
     <div mat-line><b>ФИО:</b> {{ userData.fio}}</div>
     <div mat-line><b>Возраст:</b> {{ userData.age }}</div>
+    <div mat-line><b>Пол:</b> {{ userData.gender }}</div>
+    <div mat-line><b>Дата регистрации:</b>{{ userData.date | date:'dd.MM.yyyy'}}</div>
+    <div mat-line *ngIf="userData.inn"><b>Юридическое лицо:</b><br>
+    <span mat-line><b>ИНН:</b> {{ userData.inn}} </span>
+      <span mat-line><b>ИНН:</b> {{ userData.kpp}} </span>
+    </div>
     <div mat-line><b>Техника:</b>
       <span *ngFor="let technika of technique"> {{technika.name}}</span>
     </div>
-    <div mat-line><a class="waves-effect waves-light btn red" matTooltip="Присоединиться к поездке" (click)="goTravel()"><i class="material-icons left">add</i>Присоединиться</a></div>
+    <br><div mat-line><a class="waves-effect waves-light btn red" matTooltip="Присоединиться к поездке" (click)="goTravel()"><i class="material-icons left">add</i>Присоединиться</a></div>
   </mat-list-item>
-  <div>
-    <app-comment [reviews]="reviews" [ratings]="ratings"></app-comment>
-  </div>
+
 </mat-list>
+    <mat-tab label="Отзывы">
+      <div>
+        <app-comment [reviews]="reviews" [ratings]="ratings"></app-comment>
+      </div>
+    </mat-tab>
+  </mat-tab>
+  <mat-tab label="Фото">
+    <app-my-photo [organizerEmail]="organizerEmail"></app-my-photo>
+  </mat-tab>
+</mat-tab-group>

@@ -1,10 +1,10 @@
-<div>
+<div *ngIf="!isOrganizer">
   <table matSort (matSortChange)="sortService.sortData($event)">
     <thead>
     <tr>
       <th mat-sort-header="number">№</th>
       <th mat-sort-header="image">Изображение</th>
-      <th mat-sort-header="description">Описание</th>
+      <th  mat-sort-header="description">Описание</th>
       <th mat-sort-header="moderation" matTooltip="Одобрено ли модератором">Модерация</th>
       <th mat-sort-header="public" matTooltip="Фото/видео отображается в живой ленте">В ленте</th>
       <th matTooltip="Удаление фото">Удалить</th>
@@ -19,7 +19,7 @@
       <td>{{i + 1}}</td>
       <td class="image-preview"><img [src]="photo.imageSrc"></td>
       <td class="pl5"><app-read-more [text]="photo.description" [maxLength]="20"></app-read-more></td>
-      <td *ngIf="photo.moderation">{{'разрешено'}}</td>
+        <td *ngIf="photo.moderation">{{'разрешено'}}</td>
       <td *ngIf="!photo.moderation">{{'на модерации'}}</td>
       <td *ngIf="photo.public">{{'опубликовано'}}</td>
       <td *ngIf="!photo.public">{{'не опубликовано'}}</td>
@@ -28,10 +28,26 @@
     </tr>
     </tbody>
   </table>
-<!--  <span class="mt10"><button class="btn btn-dark" (click)="handlePageChange()">Загрузить еще</button></span>-->
+</div>
+<div class="container" *ngIf="isOrganizer">
+<div class="photo-row card">
+<div class="photo-column card-panel" *ngFor="let photo of userPhotos | paginate: {
+              itemsPerPage: pageSize,
+              currentPage: page
+            }; let i = index;">
+  <ng-container *ngIf="!photo.queryDeleted">
+  <span class="image-align">
+    <img [src]="photo.imageSrc">
+    </span>
+  <span class="pl5"><app-read-more [text]="photo.description" [maxLength]="20"></app-read-more></span>
+  </ng-container>
+</div>
+
+</div>
 </div>
 <pagination-controls
   previousLabel="Назад"
   nextLabel="Вперед"
   (pageChange)="page = $event"
 ></pagination-controls>
+

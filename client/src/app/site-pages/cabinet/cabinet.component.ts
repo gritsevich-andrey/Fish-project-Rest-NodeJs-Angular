@@ -4,7 +4,6 @@ import {mimeType} from "./mime-type.validator";
 import {WarningService} from "../../shared/services/warning.service";
 import {UserService} from "../../shared/services/user.service";
 import {CabinetService} from "./cabinet.service";
-import {Photo} from "../../shared/interfaces";
 import {Subscription} from "rxjs";
 
 @Component({

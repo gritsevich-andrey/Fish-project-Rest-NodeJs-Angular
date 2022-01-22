@@ -5,11 +5,40 @@
 .image-preview img {
   height: 100%;
   vertical-align: middle;
+  border-radius: 2px;
 }
+
+.image-align{
+  max-height: 220px;
+  margin: auto;
+}
+.image-align img {
+  height: 100%;
+  vertical-align: middle;
+  border-radius: 5px;
+}
+
 :host ::ng-deep a {
   position: relative!important;
 }
 .pl5 {
   padding-left: 1rem;
   padding-right: 1rem;
+}
+.photo-column {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: 300px;
+}
+.photo-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+:host ::ng-deep .card-panel {
+   padding: .2rem;
+  //margin: 0;
+margin: .5rem;
+  border-radius: 2px;
 }

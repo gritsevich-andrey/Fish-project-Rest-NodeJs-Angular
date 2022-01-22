@@ -14,7 +14,7 @@
     </mat-radio-group>
   </div>
   <div class="yandex-container">
-    <ya-map [center]="[54.83, 37.11]" [zoom]="1"
+    <ya-map [center]="[54.83, 37.11]"
             (ready)="onMapReady($event)"
             (yaclick)="onMapClick($event)"
     >
@@ -23,11 +23,21 @@
         <ya-placemark *ngFor="let endPoint of coordinate.endPoint"
                       [geometry]="[endPoint.latitude, endPoint.longitude]" [properties]="{
     balloonContentHeader: coordinate.name,
-    balloonContentBody: '<div class=text-limit>' +
-    '<img src=' + coordinate.imageSrc + ' width=100px />' + '<br/>' + '<b>Адрес:</b> ' + coordinate.address
+    balloonContentBody: '<div class=balloon__content>' +
+    '<div class=text-column><img src=' + coordinate.imageSrc + ' width=100px />' + '<br/>'
+    + '<b>Адрес:</b> ' + coordinate.address
+    + '<br/><b>Откуда:</b> ' + coordinate.fromAddress
      + '<br/><b>Описание:</b> ' + '<span class=text-limit>' + coordinate.description + '</span>'
-     + '<br><b>Когда:</b> ' + coordinate.date + '<br><b>Мест:</b> ' + coordinate.peoplesCount,
-    balloonContentFooter: '<b>Цена за чел:</b> ' + coordinate.costPerPeople + '<br/><a href=/join/' + coordinate.url + ' target=_blank' +'>Присоединиться к поездке</a>'  + '</div>',
+     + '<br><b>Когда:</b> ' + coordinate.date + '<br><b>Мест:</b> ' + coordinate.peoplesCount + '</div>' +
+     '<div class=text-column>'
+     +'<b>Организатор</b>'
+     + '<br><b>ФИО:</b>' + '&nbsp;' + coordinate.organizerInfo.fio
+     + '<br><b>Возраст:</b>' + '&nbsp;' + coordinate.organizerInfo.age
+     + '<br><b>Рейтинг:</b>' + '&nbsp;' + coordinate.organizerInfo.sumRating
+     + '<br><span class=rating-star' + ' ' + 'style=color:gold;' + ' ' +'>' + '&nbsp;' + coordinate.organizerInfo.templateRatings + '</span>'
+     + '<br><a href=/join/' + coordinate.url + ' target=_blank' +'>&nbsp;Подробнее</a>'
+     + '</div></div>',
+    balloonContentFooter: '<div class=balloon-content__footer><b>Цена за чел:</b> ' + coordinate.costPerPeople + '<br/><a href=/join/' + coordinate.url + ' target=_blank' +'>&nbsp;&nbsp;Присоединиться к поездке</a>'  + '</div>',
     hintContent: 'Место: ' + coordinate.address}"
                       [options]="{
                       preset: 'islands#orangeDotIcon'

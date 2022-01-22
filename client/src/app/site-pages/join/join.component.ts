@@ -42,12 +42,12 @@ export class JoinComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('Входим в join');
     this.cabinetService.getCabinetData(this.organizerEmail).subscribe(data => {
       // @ts-ignore
       this.technique = JSON.parse(data.technique);
       this.ratings = data.ratings;
       this.reviews = data.reviews;
+      console.log('Данные кабинета', data);
       this.user.push(data);
     });
   }

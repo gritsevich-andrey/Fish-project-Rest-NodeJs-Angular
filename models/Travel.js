@@ -61,6 +61,10 @@ const travelSchema = new Schema({
         type: String,
         required: true,
     },
+    fromAddress: {
+        type: String,
+        default: '',
+    },
     imageSrc: {
         type: String,
     },
