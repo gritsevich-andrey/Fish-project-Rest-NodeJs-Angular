@@ -37,7 +37,7 @@
             }; let i = index;">
   <ng-container *ngIf="!photo.queryDeleted">
   <span class="image-align">
-    <img [src]="photo.imageSrc">
+    <img class="pointer" [src]="photo.imageSrc" lightbox [properties]=cristalLightboxProp />
     </span>
   <span class="pl5"><app-read-more [text]="photo.description" [maxLength]="20"></app-read-more></span>
   </ng-container>

@@ -67,6 +67,7 @@ import {CreatePostComponent} from './site-pages/live-feed/create-post/create-pos
 import { JoinWithMapComponent } from './site-pages/map-travel/join-with-map/join-with-map.component';
 import {MatStepperModule} from "@angular/material/stepper";
 import { DeleteModalComponent } from './site-pages/cabinet/my-photo/delete-modal/delete-modal.component';
+import {CrystalLightboxModule} from "@crystalui/angular-lightbox";
 
 const mapConfig: YaConfig = {
   apikey: '6c5c5f61-fa87-4efd-8ad9-f652f1fd0727',
@@ -143,7 +144,8 @@ const mapConfig: YaConfig = {
         MatCardModule,
         MatListModule,
         MatSelectModule,
-        MatStepperModule
+        MatStepperModule,
+      CrystalLightboxModule
     ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
