@@ -18,6 +18,7 @@
             (ready)="onMapReady($event)"
             (yaclick)="onMapClick($event)"
     >
+      <ng-container *ngIf="travels">
       <div *ngFor="let coordinate of travels | search: valueRadio">
         <ya-placemark *ngFor="let endPoint of coordinate.endPoint"
                       [geometry]="[endPoint.latitude, endPoint.longitude]" [properties]="{
@@ -34,25 +35,24 @@
                       (yacontextmenu)="onContextMenu($event, coordinate._id)"
         >
         </ya-placemark>
-<!--        (yamouseenter)="onMouse($event, 'enter')"-->
       </div>
-      <ya-placemark
-        *ngFor="let placemark of placemarks"
-        [geometry]="placemark.geometry"
-        [properties]="placemark.properties"
-        [options]="placemark.options"
+      </ng-container>
+      <ya-placemark *ngIf="placemarks"
+                    [geometry]="placemarks.geometry"
+                    [properties]="placemarks.properties"
+                    [options]="placemarks.options"
       ></ya-placemark>
     </ya-map>
   </div>
 </div>
 <div class="map-container card-panel">
   <ng-container *ngIf="travelList.length === 0">
-  <div class="mat-list-base p10" *ngFor="let travel of travels | search: valueRadio | paginate: {
+    <div class="mat-list-base p10" *ngFor="let travel of travels | search: valueRadio | paginate: {
               itemsPerPage: pageSize,
               currentPage: page
             }">
       <app-list-descriptions [travels]="travel"></app-list-descriptions>
-  </div>
+    </div>
   </ng-container>
   <ng-container *ngIf="travelList.length > 0">
     <div class="mat-list-base p10" *ngFor="let travel of travelList | search: valueRadio | paginate: {

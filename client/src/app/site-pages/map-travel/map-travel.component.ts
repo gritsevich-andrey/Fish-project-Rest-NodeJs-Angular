@@ -6,13 +6,13 @@ import {MatDialog} from "@angular/material/dialog";
 import {UserService} from "../../shared/services/user.service";
 import * as CryptoJS from "crypto-js";
 import {AuthService} from "../../shared/services/auth.service";
-import {map, tap} from "rxjs/operators";
+import {map} from "rxjs/operators";
 import {Subscription} from "rxjs";
 
 interface PlacemarkConstructor {
   geometry: number[];
   properties: ymaps.IPlacemarkProperties;
-  options: ymaps.IPlacemarkOptions;
+  options?: ymaps.IPlacemarkOptions;
 }
 
 @Component({
@@ -32,7 +32,7 @@ export class MapTravelComponent implements OnInit, OnDestroy {
   travelList: any[] = [];
   page = 0;
   pageSize = 10;
-  placemarks: PlacemarkConstructor[] = [];
+  placemarks: any;
   email = '';
   // dialogRef: any;
   categoryTravels: string[] = [];
@@ -45,6 +45,7 @@ export class MapTravelComponent implements OnInit, OnDestroy {
               public dialog: MatDialog,
               private userService: UserService,
               private authService: AuthService) {
+    this.placemarks = {};
   }
 
   ngOnDestroy(): void {
@@ -64,19 +65,20 @@ export class MapTravelComponent implements OnInit, OnDestroy {
 
     this.map.events.add('click', (e) => {
       const coords = e.get('coords');
-      this.placemarks.push({
+      this.placemarks = {
         geometry: coords,
         properties: {
           balloonContent:
             '<p>Координаты: ' +
             [coords[0].toPrecision(6), coords[1].toPrecision(6)].join(', ') +
-            '</p><p>' + '<a target=_blank href=/create-trip/' + coords + '>Предложить поездку</a></p>',
+            '</p><p>' + '<a target=_blank href=/create-trip/' + coords + '>Организовать поездку</a></p>',
         },
         options: {
           preset: 'islands#redDotIcon',
           iconColor: 'red',
         }
-      })
+      }
+      console.log('Плейсмарк', this.placemarks);
     });
 
     ymaps.geolocation
@@ -90,7 +92,7 @@ export class MapTravelComponent implements OnInit, OnDestroy {
         result.geoObjects.get(0).properties.set({
           balloonContentBody:
           '<p> Ваши координаты: ' + coords +
-            '</p><p>' + '<a target=_blank href=/create-trip/' + coords + '>Предложить поездку</a></p>',
+            '</p><p>' + '<a target=_blank href=/create-trip/' + coords + '>Организовать поездку</a></p>',
         });
         this.map.geoObjects.add(result.geoObjects);
         this.map.setZoom(5);
