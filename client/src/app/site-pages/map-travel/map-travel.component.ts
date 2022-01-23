@@ -199,7 +199,7 @@ export class MapTravelComponent implements OnInit, OnDestroy {
         contentBody:
           '<p>Координаты: ' +
           [coords[0].toPrecision(6), coords[1].toPrecision(6)].join(', ') +
-          '</p>' + '<a target=_blank href=/create-trip/' + coords + '>Предложить поездку</a>',
+          '</p>' + '<a target=_blank href=/create-trip/' + coords + '>Организовать поездку</a>',
         contentFooter: '<sup></sup>',
       });
     } else {
