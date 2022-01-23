@@ -65,9 +65,7 @@ export class ChatDialogComponent {
          return this.chatService.saveMessage(this.chatInfoDto)
         })
       )
-      .subscribe(() => {
-        this.warningService.sendWarning(`Сообщение отравлено`)
-      },
+      .subscribe(() => {},
       error => this.warningService.sendWarning(`Ошибка отправки сообщения`, error));
     this.dialogRef.close({isMessageSend: true});
   }

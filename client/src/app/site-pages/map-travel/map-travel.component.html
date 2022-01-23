@@ -61,7 +61,7 @@
               itemsPerPage: pageSize,
               currentPage: page
             }">
-      <app-list-descriptions [travels]="travel"></app-list-descriptions>
+      <app-list-descriptions [travels]="travel" (chatMessageSuccess)="getMessageChat()"></app-list-descriptions>
     </div>
   </ng-container>
   <ng-container *ngIf="travelList.length > 0">

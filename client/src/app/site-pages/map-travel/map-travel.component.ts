@@ -6,10 +6,11 @@ import {MatDialog} from "@angular/material/dialog";
 import {UserService} from "../../shared/services/user.service";
 import * as CryptoJS from "crypto-js";
 import {AuthService} from "../../shared/services/auth.service";
-import {debounce, debounceTime, map} from "rxjs/operators";
+import {debounceTime, map} from "rxjs/operators";
 import {Subscription} from "rxjs";
-import {Travel, User} from "../../shared/interfaces";
+import {Travel} from "../../shared/interfaces";
 import {CabinetService} from "../cabinet/cabinet.service";
+import {WarningService} from "../../shared/services/warning.service";
 
 
 @Component({
@@ -43,7 +44,8 @@ export class MapTravelComponent implements OnInit, OnDestroy {
               public dialog: MatDialog,
               private userService: UserService,
               private authService: AuthService,
-              private cabinetService: CabinetService) {
+              private cabinetService: CabinetService,
+              private warningService: WarningService) {
     this.placemarks = {};
   }
 
@@ -59,7 +61,7 @@ export class MapTravelComponent implements OnInit, OnDestroy {
     this.getData();
   }
 
-  onMapReady(event: YaReadyEvent<any>) {
+  onMapReady(event: YaReadyEvent) {
     this.map = event.target;
     this.createMapBalloon();
     this.getCenterMapByIP();
@@ -124,29 +126,7 @@ export class MapTravelComponent implements OnInit, OnDestroy {
       .pipe(
         debounceTime(500),
         map(value => {
-          let arrayValues: any[] = [];
-          value.map((data: any) => {
-            const tempDataObj = {
-              address: data.address,
-              fromAddress: data.fromAddress,
-              costPerPeople: data.costPerPeople,
-              date: data.date,
-              description: data.description,
-              endPoint: data.endPoint,
-              imageSrc: data.imageSrc,
-              name: data.name,
-              peoplesCount: data.peoplesCount,
-              title: data.title,
-              travelTarget: data.travelTarget,
-              travelTechnique: data.travelTechnique,
-              userEmail: data.userEmail,
-              organizerInfo: this.getOrganizerInfo(data.userEmail),
-              _id: data._id,
-              url: this.createBCryptUrl(data.userEmail, data._id)
-            };
-            arrayValues.push(tempDataObj);
-          })
-          return arrayValues;
+          return this.modifyTravelsData(value);
         })
       )
       .subscribe(data => {
@@ -158,7 +138,33 @@ export class MapTravelComponent implements OnInit, OnDestroy {
       });
   }
 
-  private getUniqueCategory() {
+  private modifyTravelsData(value: Array<any>) {
+    let arrayValues: any[] = [];
+    value.map((data: any) => {
+      const tempDataObj = {
+        address: data.address,
+        fromAddress: data.fromAddress,
+        costPerPeople: data.costPerPeople,
+        date: data.date,
+        description: data.description,
+        endPoint: data.endPoint,
+        imageSrc: data.imageSrc,
+        name: data.name,
+        peoplesCount: data.peoplesCount,
+        title: data.title,
+        travelTarget: data.travelTarget,
+        travelTechnique: data.travelTechnique,
+        userEmail: data.userEmail,
+        organizerInfo: this.getOrganizerInfo(data.userEmail),
+        _id: data._id,
+        url: this.createBCryptUrl(data.userEmail, data._id)
+      };
+      arrayValues.push(tempDataObj);
+    })
+    return arrayValues;
+  }
+
+  private getUniqueCategory(): void {
     let category: string[] = [];
     this.travels.forEach(value => {
       category.push(value.title);
@@ -167,12 +173,11 @@ export class MapTravelComponent implements OnInit, OnDestroy {
     this.categoryTravels = [...uniq];
   }
 
-  onMouse(event: YaEvent<ymaps.Placemark>, type: "enter" | "leave"): void {
+  onMouse(event: YaEvent<ymaps.Placemark>, type: "enter"): void {
     const {options} = event.target;
     switch (type) {
       case 'enter':
         options.set('preset', 'islands#greenIcon');
-
     }
   }
 
@@ -200,9 +205,13 @@ export class MapTravelComponent implements OnInit, OnDestroy {
           [coords[0].toPrecision(6), coords[1].toPrecision(6)].join(', ') +
           '</p>' + '<a target=_blank href=/create-trip/' + coords + '>Организовать поездку</a>',
         contentFooter: '<sup></sup>',
-      });
+      })
+        .catch()
+        .catch(err => console.error('Ошибка map', err));
     } else {
-      target.balloon.close();
+      target.balloon.close()
+        .then()
+        .catch(error => console.error('Ошибка map', error));
     }
   }
 
@@ -258,8 +267,7 @@ export class MapTravelComponent implements OnInit, OnDestroy {
         const ratings = value.ratings;
        const sumRatings = ratings.map((value: { sumValue: number; }) => value.sumValue)
         organizerInfo.sumRating = sumRatings.reduce((prev: number, next: number) => {
-         const sum = (prev + next)/2;
-         return sum;
+         return (prev + next)/2;
         })
       }
     })
@@ -268,5 +276,9 @@ export class MapTravelComponent implements OnInit, OnDestroy {
       organizerInfo.templateRatings += `★`
     }
     return organizerInfo;
+  }
+
+  getMessageChat() {
+    this.warningService.sendWarning(`Сообщение отравлено организатору`);
   }
 }
