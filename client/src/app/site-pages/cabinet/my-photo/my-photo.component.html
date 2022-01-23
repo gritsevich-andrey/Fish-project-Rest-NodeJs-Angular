@@ -34,12 +34,12 @@
 <div class="photo-column card-panel" *ngFor="let photo of userPhotos | paginate: {
               itemsPerPage: pageSize,
               currentPage: page
-            }; let i = index;">
+            };">
   <ng-container *ngIf="!photo.queryDeleted">
   <span class="image-align">
     <img class="pointer" [src]="photo.imageSrc" lightbox [properties]=cristalLightboxProp />
     </span>
-  <span class="pl5"><app-read-more [text]="photo.description" [maxLength]="20"></app-read-more></span>
+  <span class="pl5 card-panel"><app-read-more [text]="photo.description" [maxLength]="20"></app-read-more></span>
   </ng-container>
 </div>
 
