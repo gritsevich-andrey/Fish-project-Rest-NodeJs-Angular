@@ -91,7 +91,7 @@ export class MapTravelComponent implements OnInit, OnDestroy {
         mapStateAutoApply: false,
       })
       .then((result: any) => {
-        result.geoObjects.options.set('preset', 'islands#redDotIcon');
+        result.geoObjects.options.set('preset', 'islands#greenDotIcon');
         const coords = result.geoObjects.position;
         result.geoObjects.get(0).properties.set({
           balloonContentBody:
