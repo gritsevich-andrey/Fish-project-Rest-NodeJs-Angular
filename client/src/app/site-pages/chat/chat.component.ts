@@ -5,7 +5,7 @@ import {ChatService} from "./chat.service";
 import {SocketService} from "./socket.service";
 import {WarningService} from "../../shared/services/warning.service";
 import {UserService} from "../../shared/services/user.service";
-import {mergeMap} from "rxjs/operators";
+import {distinctUntilChanged, filter, mergeMap} from "rxjs/operators";
 
 @Component({
   selector: 'app-chat',
@@ -37,9 +37,9 @@ export class ChatComponent implements OnInit {
       .subscribe(data => {
         if (data) {
           if(this.socketService.chatInfo.length > 0)
-          {this.socketService.chatInfo.length =0}
+          {this.socketService.chatInfo.length = 0}
           this.socketService.chatInfo.push(data);
-          data.passenger.forEach((value: any) => {
+           data.passenger.forEach((value: any) => {
             this.createConnection(value.email);
           })
         }

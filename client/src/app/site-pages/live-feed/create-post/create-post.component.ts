@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {MaterialService} from "../../../shared/classes/material.service";
 import {PhotoService} from "../../../shared/services/photo.service";
@@ -8,7 +8,8 @@ import {SelectPointComponent} from "../../travel/select-point/select-point.compo
 @Component({
   selector: 'app-create-post',
   templateUrl: './create-post.component.html',
-  styleUrls: ['./create-post.component.scss']
+  styleUrls: ['./create-post.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreatePostComponent implements OnInit {
   @Input()

@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Photo} from "../../../shared/interfaces";
 import {SortService} from "../../../shared/services/sort.service";
 import {CabinetService} from "../cabinet.service";
@@ -7,7 +7,6 @@ import {MatDialog} from "@angular/material/dialog";
 import {DeleteModalComponent} from "./delete-modal/delete-modal.component";
 import {Subscription} from "rxjs";
 import {ActivatedRoute} from "@angular/router";
-import {CrystalLightboxModule} from '@crystalui/angular-lightbox';
 import {Properties} from "@crystalui/angular-lightbox/lib/interfaces";
 
 @Component({
@@ -81,7 +80,6 @@ emailForPhoto = this.userService.getUserDataFromLocal();
               });
           }
         });
-        console.log('Фото', this.userPhotos);
       }
     })
   }

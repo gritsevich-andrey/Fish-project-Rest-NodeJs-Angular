@@ -154,7 +154,6 @@ export class MapTravelComponent implements OnInit, OnDestroy {
           this.travels = [];
         }
         this.travels = data;
-        console.log('Travels', this.travels);
         this.getUniqueCategory();
       });
   }
@@ -268,7 +267,6 @@ export class MapTravelComponent implements OnInit, OnDestroy {
     for (let i =0; i< parseInt(organizerInfo.sumRating); i++) {
       organizerInfo.templateRatings += `★`
     }
-   console.log('Рейтинг', organizerInfo.templateRatings);
     return organizerInfo;
   }
 }

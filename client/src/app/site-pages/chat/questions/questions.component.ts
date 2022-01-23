@@ -5,8 +5,7 @@ declare var M: { FormSelect: { init: (arg0: NodeListOf<Element>) => any; }; }
 
 @Component({
   selector: 'app-questions',
-  templateUrl: './questions.component.html',
-  styleUrls: ['./questions.component.scss']
+  templateUrl: './questions.component.html'
 })
 export class QuestionsComponent implements OnInit {
   form!: FormGroup;

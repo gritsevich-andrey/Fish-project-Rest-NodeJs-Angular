@@ -13,7 +13,7 @@ import {Router} from "@angular/router";
   templateUrl: './list-descriptions.component.html',
   styleUrls: ['./list-descriptions.component.scss']
 })
-export class ListDescriptionsComponent implements OnInit {
+export class ListDescriptionsComponent {
   //@ts-ignore
   @Input() travels: Travel;
   @Input() travelSelect?: any[];
@@ -24,11 +24,7 @@ export class ListDescriptionsComponent implements OnInit {
               private userService: UserService,
               private authService: AuthService,
               private router: Router
-  ) {
-  }
-
-  ngOnInit(): void {
-  }
+  ) {}
 
   openChatDialog(receiverEmail: string) {
     const dialogRef = this.dialog.open(ChatDialogComponent,

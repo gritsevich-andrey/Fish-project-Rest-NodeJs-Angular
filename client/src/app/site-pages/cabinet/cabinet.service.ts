@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
-import {map} from "rxjs/operators";
+import {map, shareReplay} from "rxjs/operators";
 import {User} from "../../shared/interfaces";
 
 @Injectable({
@@ -20,7 +20,10 @@ export class CabinetService {
   }
 
   getCabinetRating(travelId: string, email: string): Observable<any> {
-    return this.http.get<any>(environment.CABINET_API + `/rating/${travelId}/${email}`);
+    return this.http.get<any>(environment.CABINET_API + `/rating/${travelId}/${email}`)
+      .pipe(
+        shareReplay()
+      )
   }
 
   createCabinetData(data: any, image?: File): Observable<any> {
