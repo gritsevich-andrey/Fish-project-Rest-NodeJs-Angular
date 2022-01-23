@@ -2,12 +2,13 @@
   <div class="row">
     <div class="addPhoto">
       <span>Добавить изображение:</span>
-      <i class="material-icons" (click)="file.click()" matTooltip="Добавить фото">add_a_photo</i>
+      <i class="material-icons" [class.btn-danger]="filename" (click)="file.click()" matTooltip="Добавить фото в живую ленту">add_a_photo</i>
+      <span *ngIf="filename">&nbsp;Файл {{ filename }} прикреплен</span>
       <input [hidden]="true" type="file" (change)="onFileLoad($event)" #file/>
     </div>
     <div class="openMap">
       <span>Указать место на карте:</span>
-      <button type="button" (click)="openMap()" class="btn-small">указать</button>
+      <i class="material-icons" (click)="openMap()" matTooltip="Обязательно указать место, где сделано фото">&nbsp;&nbsp;add_location</i>
     </div>
     <div class="col-2">
       <input disabled type="text" class="form-control" name="user" id="input-user" [value]="userEmail">
@@ -16,6 +17,6 @@
             <textarea id="input-message" class="materialize-textarea" type="text" formControlName="description"
                       name="message"></textarea>
     </div>
-    <button type="submit" class="btn btn-primary">Отправить</button>
+    <button type="submit" matTooltip="Нужно обязательно указать место съемки" class="btn btn-primary">Отправить</button>
   </div>
 </form>

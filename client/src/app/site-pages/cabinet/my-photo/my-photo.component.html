@@ -1,5 +1,10 @@
-<div *ngIf="!isOrganizer">
-  <table matSort (matSortChange)="sortService.sortData($event)">
+<div class="container card-panel" *ngIf="!isOrganizer">
+  <button class="btn" [class.btn-primary]="isVisible" (click)="isVisible = !isVisible">
+    {{isVisible ? 'Закрыть панель' : 'Добавить фото в ленту'}}</button>
+  <div *ngIf="isVisible">
+    <app-create-post [userEmail]="emailForPhoto"></app-create-post>
+  </div>
+  <table class="card-panel" matSort (matSortChange)="sortService.sortData($event)">
     <thead>
     <tr>
       <th mat-sort-header="number">№</th>
@@ -18,7 +23,7 @@
       <ng-container *ngIf="!photo.queryDeleted">
       <td>{{i + 1}}</td>
       <td class="image-preview"><img [src]="photo.imageSrc"></td>
-      <td class="pl5"><app-read-more [text]="photo.description" [maxLength]="20"></app-read-more></td>
+      <td class="pl5"><app-read-more [text]="photo.description" [maxLength]="40"></app-read-more></td>
         <td *ngIf="photo.moderation">{{'разрешено'}}</td>
       <td *ngIf="!photo.moderation">{{'на модерации'}}</td>
       <td *ngIf="photo.public">{{'опубликовано'}}</td>

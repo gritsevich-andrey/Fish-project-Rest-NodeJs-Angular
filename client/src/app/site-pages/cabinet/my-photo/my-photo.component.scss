@@ -45,8 +45,8 @@
   flex-wrap: wrap;
 }
 :host ::ng-deep .card-panel {
-   padding: .2rem;
+   //padding: auto;
   //margin: 0;
-margin: .5rem;
+margin: auto;
   border-radius: 2px;
 }

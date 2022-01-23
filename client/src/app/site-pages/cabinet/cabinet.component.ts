@@ -30,7 +30,7 @@ export class CabinetComponent implements OnInit, OnDestroy {
   private photoSub!: Subscription;
   page = 0;
   pageSize: number = 5;
-  email = this.userService.getUserDataFromLocal();
+  email = '';
   countPage = 1;
   reviews?: any[] = [];
   ratings: any[] = [];
@@ -63,9 +63,14 @@ export class CabinetComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.email = this.userService.getUserDataFromLocal();
+    this.createForm();
+    this.handlePageChange();
+  }
+
+  private createForm() {
     this.techList = this.form.get('technique') as FormArray;
     this.photoSub = this.cabinetService.getCabinetData(this.email).subscribe(data => {
-      console.log('Данные для формирования рейтинга в кабинете', data)
       let splitReviews: {
         date: any; userEmail: string;
         travelName: any;
@@ -107,7 +112,6 @@ export class CabinetComponent implements OnInit, OnDestroy {
         this.isNew = false;
       }
     });
-    this.handlePageChange();
   }
 
   onSubmit() {
@@ -210,5 +214,8 @@ export class CabinetComponent implements OnInit, OnDestroy {
     // this.getMyPhoto();
     this.countPage += 1;
   }
-
+  splitEmail(email: string) {
+    const splitEmail = email.split('@');
+    return splitEmail[0];
+  }
 }

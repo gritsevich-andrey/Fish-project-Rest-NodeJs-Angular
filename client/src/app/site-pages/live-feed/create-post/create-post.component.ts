@@ -16,6 +16,7 @@ export class CreatePostComponent implements OnInit {
 
   form!: FormGroup;
   file!: File;
+  filename?: string;
 
   constructor(
     private photoService: PhotoService,
@@ -61,6 +62,7 @@ export class CreatePostComponent implements OnInit {
   onFileLoad(event: Event) {
     // @ts-ignore
     const file = (event.target as HTMLInputElement).files[0];
+    this.filename= file.name;
     this.form.patchValue({file})
   }
 
@@ -72,7 +74,7 @@ export class CreatePostComponent implements OnInit {
   openMap() {
     const dialogRef = this.dialog.open(SelectPointComponent)
     dialogRef.afterClosed().subscribe(({latitude, longitude, address}) => {
-      this.form.patchValue({latitude, longitude, address})
+      this.form.patchValue({latitude, longitude, address});
     });
   }
 }

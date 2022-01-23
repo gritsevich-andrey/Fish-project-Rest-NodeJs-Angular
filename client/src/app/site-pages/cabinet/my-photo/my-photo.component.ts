@@ -36,7 +36,8 @@ export class MyPhotoComponent implements OnInit, OnDestroy {
     disable: false,
     closeButtonText: "Закрыть"
   }
-
+  isVisible: boolean = false;
+emailForPhoto = this.userService.getUserDataFromLocal();
   constructor(public sortService: SortService,
               private cabinetService: CabinetService,
               private userService: UserService,
@@ -53,7 +54,6 @@ export class MyPhotoComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.router.params.subscribe(data => {
       if (data.email) {
-        console.log('Дата', data.email);
         this.email = this.organizerEmail;
         this.isOrganizer = true;
       } else {
