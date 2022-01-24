@@ -1,12 +1,13 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Travel} from "../../../../shared/interfaces";
+import {JoinedUser, Travel} from "../../../../shared/interfaces";
 import {TravelService} from "../../../../shared/services/travel.service";
 import {ReviewComponent} from "../../../map-travel/list-descriptions/review/review.component";
 import {MatDialog} from "@angular/material/dialog";
 import {MaterialService} from "../../../../shared/classes/material.service";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {Form, FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 import {CabinetService} from "../../../cabinet/cabinet.service";
 import {UserProfileComponent} from "../../user-profile/user-profile.component";
+import {mimeType} from "../../../cabinet/mime-type.validator";
 
 @Component({
   selector: 'app-joined-travel',
@@ -17,8 +18,8 @@ export class JoinedTravelComponent implements OnInit {
   @Input() travel!: Travel;
   @Input() userEmail!: string;
   @Input() getUserTravels!: any;
-  form: FormGroup;
-  isRatingSet = false
+  form!: FormGroup;
+  isSetRating = false
 
   constructor(
     public travelService: TravelService,
@@ -26,26 +27,32 @@ export class JoinedTravelComponent implements OnInit {
     private cabinetService: CabinetService,
   ) {
     this.form = new FormGroup({
-      rating: new FormControl('', Validators.required),
+      rating: new FormControl(0),
     });
   }
 
   ngOnInit(): void {
-    this.setUsersRating()
+    //this.setUsersRating()
+    const user = this.getJoinedUserFromTravel(this.userEmail)
+    this.form.controls.rating.setValue(user?.travelRating || 0)
+    this.isSetRating = user?.isTravelRatingSet || false
   }
 
-  setUsersRating() {
-    //@ts-ignore
-    let ratings: Rating[] = JSON.parse(localStorage.getItem('travelsRating'))
-
-    if (ratings) {
-      ratings.map(rating => {
-        if (this.travel.userEmail === rating.email && rating.travelId === this.travel._id) {
-          this.form.controls.rating.setValue(rating.sumValue)
-          this.isRatingSet = true
-        }
-      })
-    }
+  // setUsersRating() {
+  //   //@ts-ignore
+  //   let ratings: Rating[] = JSON.parse(localStorage.getItem('travelsRating'))
+  //
+  //   if (ratings) {
+  //     ratings.map(rating => {
+  //       if (this.travel.userEmail === rating.email && rating.travelId === this.travel._id) {
+  //         this.form.controls.rating.setValue(rating.sumValue)
+  //         this.isRatingSet = true
+  //       }
+  //     })
+  //   }
+  // }
+  getJoinedUserFromTravel(email: string) {
+    return this.travel.joinedUsers.find(user => user.userEmail === email)
   }
 
   getAcceptedUsers() {
@@ -153,14 +160,20 @@ export class JoinedTravelComponent implements OnInit {
     this.cabinetService.updateCabinetRating(receiverEmail, rating).subscribe(
       () => {
         //@ts-ignore
-        let ratings = JSON.parse(localStorage.getItem('travelsRatings')) || []
-        ratings.push({
-          email: receiverEmail,
-          isRatingSet: true,
-          ...rating
-        })
-        localStorage.setItem('travelsRating', JSON.stringify(ratings))
-        MaterialService.toast('Рейтинг сохранен')
+        // let ratings = JSON.parse(localStorage.getItem('travelsRatings')) || []
+        // ratings.push({
+        //   email: receiverEmail,
+        //   isRatingSet: true,
+        //   ...rating
+        // })
+        // localStorage.setItem('travelsRating', JSON.stringify(ratings))
+        this.travelService.updateUserTravelRating(this.travel._id, this.userEmail, stars).subscribe(
+          () => MaterialService.toast('Рейтинг сохранен'),
+          error => {
+            MaterialService.toast('Ошибка сохранения')
+            console.log(error)
+          }
+        )
       },
       error => console.log(error)
     );

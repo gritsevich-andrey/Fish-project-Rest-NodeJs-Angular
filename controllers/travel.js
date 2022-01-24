@@ -133,15 +133,49 @@ module.exports.changeUserStatus = function (req, res) {
 }
 
 module.exports.updateUserComment = function (req, res) {
+    //Переделать
     Travel.findById(req.body.travelId)
-        .then(data => {
-            let userIndex = data.joinedUsers.findIndex(el => el.userEmail === req.body.userEmail)
-            data.update({
+        .then(travel => {
+            let userIndex = travel.joinedUsers.findIndex(user => user.userEmail === req.body.userEmail)
+            travel.update({
                 '$set': {
                     [`joinedUsers.${userIndex}.comment`]: req.body.comment
                 }
             }).then(() => {
                 res.status(200).json({message: 'комментарий обновлен'})
+            })
+        })
+}
+
+module.exports.updateUserRating = function (req, res) {
+    //Переделать
+    Travel.findById(req.body.travelId)
+        .then(travel => {
+            let userIndex = travel.joinedUsers.findIndex(user => user.userEmail === req.body.userEmail)
+            console.log(travel.joinedUsers)
+            travel.update({
+                '$set': {
+                    [`joinedUsers.${userIndex}.rating`]: req.body.rating,
+                    [`joinedUsers.${userIndex}.isRatingSet`]: true
+                }
+            }).then(() => {
+                res.status(200).json({message: 'рейтинг был обновлен'})
+            })
+        })
+}
+
+module.exports.updateUserTravelRating = function (req, res) {
+    //Переделать
+    Travel.findById(req.body.travelId)
+        .then(travel => {
+            let userIndex = travel.joinedUsers.findIndex(user => user.userEmail === req.body.userEmail)
+            travel.update({
+                '$set': {
+                    [`joinedUsers.${userIndex}.travelRating`]: req.body.travelRating,
+                    [`joinedUsers.${userIndex}.isTravelRatingSet`]: true
+                }
+            }).then(() => {
+                res.status(200).json({message: 'рейтинг был обновлен'})
             })
         })
 }

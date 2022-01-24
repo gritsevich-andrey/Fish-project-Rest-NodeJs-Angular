@@ -65,6 +65,18 @@ export interface Rating {
   isRatingSet: boolean
 }
 
+export interface JoinedUser {
+  userEmail: string
+  fio: string
+  status: string
+  comment: string
+  nickName: string
+  rating: number
+  isRatingSet: boolean
+  travelRating: number
+  isTravelRatingSet: boolean
+}
+
 export interface Travel {
   name: string;
   travelId: string;
@@ -83,15 +95,7 @@ export interface Travel {
   travelTechnique: [string],
   travelType: string;
   imageSrc: string;
-  joinedUsers: [{
-    userEmail: string
-    fio: string
-    status: string
-    comment: string
-    nickName: string
-    rating?: number
-    isRatingSet?: boolean
-  }]
+  joinedUsers: JoinedUser[]
   _id: string
   status: string
   queryDelete: boolean

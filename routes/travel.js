@@ -15,6 +15,8 @@ router.delete('/:id', authenticate, controller.remove);
 router.patch('/join', authenticate, controller.join)
 router.patch('/change-user-status', authenticate, controller.changeUserStatus)
 router.patch('/update-user-comment', authenticate, controller.updateUserComment)
+router.patch('/update-user-rating', authenticate, controller.updateUserRating)
+router.patch('/update-user-travelRating', authenticate, controller.updateUserTravelRating)
 router.patch('/change-travel-status', authenticate, controller.changeTravelStatus)
 router.patch('/leave', authenticate, controller.leave)
 
