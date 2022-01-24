@@ -46,6 +46,7 @@ module.exports.create = function (req, res) {
             travelTechnique: req.body.travelTechnique,
             date: req.body.date,
             address: req.body.address,
+            fromAddress: req.body.address,
             isOrganizer: req.body.isOrganizer,
             name: req.body.name,
             userFIO: req.body.userFIO
@@ -74,6 +75,7 @@ module.exports.update = function (req, res) {
         travelTechnique: req.body.travelTechnique,
         date: req.body.date,
         address: req.body.address,
+        fromAddress: req.body.address,
         isOrganizer: req.body.isOrganizer,
         name: req.body.name,
         userFIO: req.body.userFIO,

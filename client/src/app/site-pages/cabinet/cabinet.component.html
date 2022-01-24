@@ -2,20 +2,24 @@
   <mat-tab-group mat-align-tabs="end">
     <mat-tab label="Профиль">
       <div class="card-cabinet">
+        <span class="title">&nbsp;<b>Логин:</b> {{ splitEmail(email)}}</span>
         <form
           [formGroup]="form"
           (ngSubmit)="onSubmit()"
           (mouseover)="changeBorderStyle()"
         >
           <div class="input-field">
+            <div class="avatar-row">
             <div class="image-preview"
                  *ngIf="imagePreview !== '' && imagePreview !== null"
             >
               <img [src]="imagePreview" [alt]="form.value.title">
             </div>
+            <span class="load-icon">
             <i class="material-icons" (click)="fileAvatar.click()" matTooltip="Добавить аватар">add_a_photo</i>
-            <input [hidden]="hide" type="file" (change)="onImageLoad($event)" #fileAvatar
-            />
+            <input [hidden]="hide" type="file" (change)="onImageLoad($event)" #fileAvatar/>
+            </span>
+            </div>
           </div>
           <div class="input-field">
             <input placeholder="ФИО" id="fio" type="text"
@@ -86,7 +90,8 @@
           </div>
           <ng-container *ngIf="urFlag">
             <div class="input-field">
-              <input formControlName="organizationName" class="ml5" placeholder="Название организации" id="nameCompany" type="text">
+              <input formControlName="organizationName" class="ml5" placeholder="Название организации" id="nameCompany"
+                     type="text">
               <input formControlName="inn" class="ml5" placeholder="ИНН" id="inn" type="text">
               <input formControlName="kpp" class="ml5" placeholder="КПП" id="kpp" type="text">
             </div>
@@ -105,7 +110,7 @@
     <mat-tab label="Мои отзывы">
       <app-my-reviews [userEmail]="email"></app-my-reviews>
     </mat-tab>
-    <mat-tab label="Мои посты">
+    <mat-tab label="Мои фото">
       <app-my-photo></app-my-photo>
     </mat-tab>
   </mat-tab-group>

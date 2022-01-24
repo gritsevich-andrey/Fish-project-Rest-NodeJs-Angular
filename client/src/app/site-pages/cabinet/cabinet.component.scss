@@ -57,3 +57,18 @@ p {
 .ml5 {
   margin-left: 5px!important;
 }
+.avatar-row {
+  display: flex;
+  flex-direction: row;
+}
+.load-icon {
+  margin-top: 80px;
+  margin-left: 20px;
+}
+:host ::ng-deep
+  .input-field {
+    margin: auto;
+}
+:host ::ng-deep .btn {
+  margin-bottom: 5px;
+}

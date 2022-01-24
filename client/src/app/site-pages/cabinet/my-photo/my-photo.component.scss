@@ -1,15 +1,53 @@
 .image-preview{
   height: 6rem;
   margin: 1rem 0;
+  text-align: center;
 }
 .image-preview img {
   height: 100%;
   vertical-align: middle;
+  border-radius: 2px;
 }
+
+.image-align{
+  max-height: 240px;
+  margin: auto;
+}
+.image-align img {
+  max-height: 220px;
+  vertical-align: middle;
+  border-radius: 5px;
+}
+
 :host ::ng-deep a {
   position: relative!important;
 }
 .pl5 {
   padding-left: 1rem;
   padding-right: 1rem;
+}
+.photo-column {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  max-width: 320px;
+}
+
+@media screen and (max-width: 923px) {
+  .photo-row {
+    justify-content: center;
+  }
+}
+
+.photo-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+:host ::ng-deep .card-panel {
+   padding: 2px;
+  //margin: 0;
+margin-left: 5px;
+  margin-bottom: 5px;
+  border-radius: 2px;
 }

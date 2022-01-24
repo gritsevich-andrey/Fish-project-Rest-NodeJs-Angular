@@ -6,8 +6,7 @@ import {UserService} from "../../../shared/services/user.service";
 
 @Component({
   selector: 'app-join-with-map',
-  templateUrl: './join-with-map.component.html',
-  styleUrls: ['./join-with-map.component.scss']
+  templateUrl: './join-with-map.component.html'
 })
 export class JoinWithMapComponent implements OnInit {
   private dialogRef: MatDialogRef<any> | undefined;
@@ -20,7 +19,6 @@ export class JoinWithMapComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(data => {
-      console.log('локация', data.coords);
       if (data.coords) {
         this.createTrip(data.coords.split(','));
       }

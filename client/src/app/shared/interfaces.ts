@@ -84,6 +84,7 @@ export interface Travel {
   userFIO: string;
   date: Date;
   address: string;
+  fromAddress?: string;
   endPoint: [{ latitude: string, longitude: string }],
   startPoint: [{ latitude: string, longitude: string }],
   costPerPeople: string,

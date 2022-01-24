@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {MaterialService} from "../../../shared/classes/material.service";
 import {PhotoService} from "../../../shared/services/photo.service";
@@ -8,7 +8,8 @@ import {SelectPointComponent} from "../../travel/select-point/select-point.compo
 @Component({
   selector: 'app-create-post',
   templateUrl: './create-post.component.html',
-  styleUrls: ['./create-post.component.scss']
+  styleUrls: ['./create-post.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreatePostComponent implements OnInit {
   @Input()
@@ -16,6 +17,7 @@ export class CreatePostComponent implements OnInit {
 
   form!: FormGroup;
   file!: File;
+  filename?: string;
 
   constructor(
     private photoService: PhotoService,
@@ -61,6 +63,7 @@ export class CreatePostComponent implements OnInit {
   onFileLoad(event: Event) {
     // @ts-ignore
     const file = (event.target as HTMLInputElement).files[0];
+    this.filename= file.name;
     this.form.patchValue({file})
   }
 
@@ -72,7 +75,7 @@ export class CreatePostComponent implements OnInit {
   openMap() {
     const dialogRef = this.dialog.open(SelectPointComponent)
     dialogRef.afterClosed().subscribe(({latitude, longitude, address}) => {
-      this.form.patchValue({latitude, longitude, address})
+      this.form.patchValue({latitude, longitude, address});
     });
   }
 }

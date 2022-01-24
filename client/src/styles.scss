@@ -10,6 +10,10 @@
   --button-color: #26a69a;
   --complaint-color: #FFCC00;
 }
+.btn-primary {
+  background: var(--primary-color)!important;
+  color: #fff;
+}
 .a-sidenav {
   transform: translateX(0) !important;
   width: 250px !important;
