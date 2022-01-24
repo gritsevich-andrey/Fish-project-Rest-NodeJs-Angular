@@ -55,7 +55,7 @@ export class TravelService {
     return this.http.patch(environment.TRAVEL_API + '/change-user-status', {travelId, userEmail, status})
   }
 
-  updateUserRating(travelId: string, userEmail: string, rating: string): Observable<any> {
+  updateUserRating(travelId: string, userEmail: string, rating: number): Observable<any> {
     return this.http.patch(environment.TRAVEL_API + '/update-user-rating', {travelId, userEmail, rating})
   }
 

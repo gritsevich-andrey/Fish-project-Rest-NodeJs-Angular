@@ -10,6 +10,7 @@ import {EditTravelModalComponent} from "./edit-travel-modal/edit-travel-modal.co
 import {UserProfileComponent} from "../../user-profile/user-profile.component";
 import {ChatDialogComponent} from "../../../map-travel/list-descriptions/chat-dialog/chat-dialog.component";
 import {Router} from "@angular/router";
+import {forkJoin} from "rxjs";
 
 declare var M: {
   Modal: { init: (arg0: NodeListOf<Element>) => any; }
@@ -44,29 +45,12 @@ export class CreatedTravelComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //this.setUsersRating()
     this.initMaterialize()
 
     if (this.checkAllUsersPayed() && !this.travel.status) {
       this.updateTravelStatus('started')
     }
   }
-
-  // setUsersRating() {
-  //   //@ts-ignore
-  //   let ratings: Rating[] = JSON.parse(localStorage.getItem('travelsRating'))
-  //
-  //   if (ratings) {
-  //     ratings.map(rating => {
-  //       this.getAcceptedUsers().map((user, index) => {
-  //         if (user.userEmail === rating.email && rating.travelId === this.travel._id) {
-  //           this.travel.joinedUsers[index].rating = rating.sumValue
-  //           this.travel.joinedUsers[index].isRatingSet = true
-  //         }
-  //       })
-  //     })
-  //   }
-  // }
 
   initMaterialize() {
     const modals = document.querySelectorAll('.modal');
@@ -139,38 +123,23 @@ export class CreatedTravelComponent implements OnInit {
       travelName: this.travel.name,
       sumValue: ratingCount
     };
-    // if (isRatingSet) {
-    //   return MaterialService.toast('Вы уже установили рейтинг')
-    // }
     if (!ratingCount) {
       return MaterialService.toast('Укажите рейтинг')
     }
-    this.cabinetService.updateCabinetRating(receiverEmail, rating).subscribe(
+
+    forkJoin([
+      this.cabinetService.updateCabinetRating(receiverEmail, rating),
+      this.travelService.updateUserRating(this.travel._id, receiverEmail, ratingCount)
+    ]).subscribe(
       () => {
-        //@ts-ignore
-        // let ratings = JSON.parse(localStorage.getItem('travelsRatings')) || []
-        // ratings.push({
-        //   email: receiverEmail,
-        //   isRatingSet: true,
-        //   ...rating
-        // })
-        // localStorage.setItem('travelsRating', JSON.stringify(ratings))
-        this.travelService.updateUserRating(this.travel._id, receiverEmail, ratingCount).subscribe(
-          () => {
-            user.isRatingSet = true
-            MaterialService.toast('Рейтинг сохранен')
-          },
-          error => {
-            MaterialService.toast('Ошибка сохранения')
-            console.log(error)
-          }
-        )
+        user.isRatingSet = true
+        MaterialService.toast('Рейтинг сохранен')
       },
       error => {
         MaterialService.toast('Ошибка сохранения')
         console.log(error)
       }
-    );
+    )
   }
 
   rejectFormSubmit(userEmail: string) {

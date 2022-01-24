@@ -121,70 +121,42 @@ module.exports.join = async function (req, res) {
 }
 
 module.exports.changeUserStatus = function (req, res) {
-    Travel.findById(req.body.travelId)
-        .then(data => {
-            let userIndex = data.joinedUsers.findIndex(el => el.userEmail === req.body.userEmail)
-            data.update({
-                '$set': {
-                    [`joinedUsers.${userIndex}.status`]: req.body.status
-                }
-            }).then(() => {
-                res.status(200).json({message: 'статус обновлен'})
-            })
-        })
+    Travel.updateOne({_id: req.body.travelId, 'joinedUsers.userEmail': req.body.userEmail}, {
+        'joinedUsers.$.status': req.body.status,
+    }).then(() => {
+        res.status(200).json({message: 'статус обновлен'})
+    })
 }
 
 module.exports.updateUserComment = function (req, res) {
-    //Переделать
-    Travel.findById(req.body.travelId)
-        .then(travel => {
-            let userIndex = travel.joinedUsers.findIndex(user => user.userEmail === req.body.userEmail)
-            travel.update({
-                '$set': {
-                    [`joinedUsers.${userIndex}.comment`]: req.body.comment
-                }
-            }).then(() => {
-                res.status(200).json({message: 'комментарий обновлен'})
-            })
-        })
+    Travel.updateOne({_id: req.body.travelId, 'joinedUsers.userEmail': req.body.userEmail}, {
+        'joinedUsers.$.comment': req.body.comment,
+    }).then(() => {
+        res.status(200).json({message: 'комментарий был обновлен'})
+    })
 }
 
 module.exports.updateUserRating = function (req, res) {
-    //Переделать
-    Travel.findById(req.body.travelId)
-        .then(travel => {
-            let userIndex = travel.joinedUsers.findIndex(user => user.userEmail === req.body.userEmail)
-            console.log(travel.joinedUsers)
-            travel.update({
-                '$set': {
-                    [`joinedUsers.${userIndex}.rating`]: req.body.rating,
-                    [`joinedUsers.${userIndex}.isRatingSet`]: true
-                }
-            }).then(() => {
-                res.status(200).json({message: 'рейтинг был обновлен'})
-            })
-        })
+    Travel.updateOne({_id: req.body.travelId, 'joinedUsers.userEmail': req.body.userEmail}, {
+        'joinedUsers.$.rating': req.body.rating,
+        'joinedUsers.$.isRatingSet': true
+    }).then(() => {
+        res.status(200).json({message: 'рейтинг был обновлен'})
+    })
 }
 
 module.exports.updateUserTravelRating = function (req, res) {
-    //Переделать
-    Travel.findById(req.body.travelId)
-        .then(travel => {
-            let userIndex = travel.joinedUsers.findIndex(user => user.userEmail === req.body.userEmail)
-            travel.update({
-                '$set': {
-                    [`joinedUsers.${userIndex}.travelRating`]: req.body.travelRating,
-                    [`joinedUsers.${userIndex}.isTravelRatingSet`]: true
-                }
-            }).then(() => {
-                res.status(200).json({message: 'рейтинг был обновлен'})
-            })
-        })
+    Travel.updateOne({_id: req.body.travelId, 'joinedUsers.userEmail': req.body.userEmail}, {
+        'joinedUsers.$.travelRating': req.body.travelRating,
+        'joinedUsers.$.isTravelRatingSet': true
+    }).then(() => {
+        res.status(200).json({message: 'рейтинг был обновлен'})
+    })
 }
 
 module.exports.changeTravelStatus = function (req, res) {
     Travel.findOneAndUpdate({_id: req.body.travelId}, {status: req.body.status})
-        .then((data) => res.status(200).json({message: 'статус обновлен'}))
+        .then(() => res.status(200).json({message: 'статус обновлен'}))
 }
 
 module.exports.leave = (req, res) => {

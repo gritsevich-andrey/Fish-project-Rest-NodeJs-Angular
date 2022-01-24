@@ -10,6 +10,7 @@ import * as CryptoJS from "crypto-js";
 import {AuthService} from "../../shared/services/auth.service";
 import {MaterialService} from "../../shared/classes/material.service";
 import {Travel} from "../../shared/interfaces";
+import {AcceptJoinComponent} from "./accept-join/accept-join.component";
 
 @Component({
   selector: 'app-travel',
@@ -35,10 +36,20 @@ export class TravelComponent implements OnInit {
     this.userEmail = this.userService.getUserDataFromLocal()
 
     if (urlParams) {
-      const pass = this.authService.getToken();
-      const data = CryptoJS.AES.decrypt(urlParams, pass).toString(CryptoJS.enc.Utf8);
-      let [userEmail, travelId] = data.split('/')
-      this.joinTravel(userEmail, travelId)
+      const dialogRef = this.dialog.open(AcceptJoinComponent);
+      dialogRef.afterClosed().subscribe(
+        ({accept}) => {
+          if (accept) {
+            const pass = this.authService.getToken();
+            // @ts-ignore
+            const data = CryptoJS.AES.decrypt(urlParams, pass).toString(CryptoJS.enc.Utf8);
+            let [userEmail, travelId] = data.split('/')
+            this.joinTravel(userEmail, travelId)
+          } else {
+            this.getUserTravels(this.userEmail)
+          }
+        }
+      );
     } else
       this.getUserTravels(this.userEmail)
   }

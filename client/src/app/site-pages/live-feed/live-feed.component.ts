@@ -23,6 +23,7 @@ export class LiveFeedComponent implements OnInit, OnDestroy {
   showSpinner = false;
   isAllPosts = false;
   likeCount: any = [];
+  bigPost!: LiveFeedPost;
 
   constructor(
     private userService: UserService,
@@ -38,7 +39,7 @@ export class LiveFeedComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.likeCount = JSON.parse(localStorage.getItem('likes') || '[]')
     this.userEmail = this.userService.getUserDataFromLocal()
-    this.getPhotos()
+    this.getPosts()
   }
 
   @HostListener('window:beforeunload')
@@ -79,7 +80,7 @@ export class LiveFeedComponent implements OnInit, OnDestroy {
     }
   }
 
-  getPhotos() {
+  getPosts() {
     this.photoService.getFeedPhotos(this.postsOnPage, 1).pipe(map(posts => {
       return posts.map((post: LiveFeedPost) => {
         post.isLiked = this.likeCount.includes(post._id)
@@ -87,7 +88,8 @@ export class LiveFeedComponent implements OnInit, OnDestroy {
       })
     })).subscribe(
       posts => {
-        this.posts = posts
+        this.bigPost = posts[0]
+        this.posts = posts.slice(1)
       },
       error => console.log(error)
     )
