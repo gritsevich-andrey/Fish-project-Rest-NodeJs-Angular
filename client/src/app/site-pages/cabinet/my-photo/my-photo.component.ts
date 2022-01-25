@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Photo} from "../../../shared/interfaces";
 import {SortService} from "../../../shared/services/sort.service";
 import {CabinetService} from "../cabinet.service";
@@ -36,7 +36,9 @@ export class MyPhotoComponent implements OnInit, OnDestroy {
     closeButtonText: "Закрыть"
   }
   isVisible: boolean = false;
-emailForPhoto = this.userService.getUserDataFromLocal();
+  emailForPhoto = this.userService.getUserDataFromLocal();
+  photoChecked = [{id: '', checked: false}];
+
   constructor(public sortService: SortService,
               private cabinetService: CabinetService,
               private userService: UserService,
@@ -105,5 +107,25 @@ emailForPhoto = this.userService.getUserDataFromLocal();
       },
       error => console.error('Ошибка получения изображений из базы', error)
     );
+  }
+
+  selectItem(event: any, id: string) {
+    const checked = event;
+    let newArray: any[] = [];
+    if (this.photoChecked.length === 0)
+    {
+      this.photoChecked.push({id, checked});
+      console.log('Первый массив', this.photoChecked);
+      return;
+    }
+    else {
+      const filterArray = this.photoChecked.filter((value: any) => {
+       return value.id !== id;
+      });
+      filterArray.push({id, checked})
+      newArray = filterArray;
+    }
+console.log('Новый массив', newArray);
+this.photoChecked = newArray;
   }
 }
