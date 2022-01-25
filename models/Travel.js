@@ -79,6 +79,10 @@ const travelSchema = new Schema({
             comment: {type: String},
             fio: {type: String},
             nickName: {type: String},
+            rating: {type: Number, default: 0},
+            isRatingSet: {type: Boolean, default: false},
+            travelRating: {type: Number, default: 0},
+            isTravelRatingSet: {type: Boolean, default: false},
         }
     ],
     status: {

@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Travel} from "../../../../shared/interfaces";
+import {JoinedUser, Travel} from "../../../../shared/interfaces";
 import {TravelService} from "../../../../shared/services/travel.service";
 import {MaterialService} from "../../../../shared/classes/material.service";
 import {MatDialog} from "@angular/material/dialog";
@@ -10,6 +10,7 @@ import {EditTravelModalComponent} from "./edit-travel-modal/edit-travel-modal.co
 import {UserProfileComponent} from "../../user-profile/user-profile.component";
 import {ChatDialogComponent} from "../../../map-travel/list-descriptions/chat-dialog/chat-dialog.component";
 import {Router} from "@angular/router";
+import {forkJoin} from "rxjs";
 
 declare var M: {
   Modal: { init: (arg0: NodeListOf<Element>) => any; }
@@ -44,27 +45,10 @@ export class CreatedTravelComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.setUsersRating()
     this.initMaterialize()
 
-    if(this.checkAllUsersPayed() && !this.travel.status) {
+    if (this.checkAllUsersPayed() && !this.travel.status) {
       this.updateTravelStatus('started')
-    }
-  }
-
-  setUsersRating() {
-    //@ts-ignore
-    let ratings: Rating[] = JSON.parse(localStorage.getItem('travelsRating'))
-
-    if (ratings) {
-      ratings.map(rating => {
-        this.getAcceptedUsers().map((user, index) => {
-          if (user.userEmail === rating.email && rating.travelId === this.travel._id) {
-            this.travel.joinedUsers[index].rating = rating.sumValue
-            this.travel.joinedUsers[index].isRatingSet = true
-          }
-        })
-      })
     }
   }
 
@@ -133,32 +117,29 @@ export class CreatedTravelComponent implements OnInit {
     dialogRef.afterClosed().subscribe();
   }
 
-  saveRating(receiverEmail: string, ratingCount?: number, isRatingSet?: boolean) {
+  saveRating(receiverEmail: string, ratingCount: number, user: JoinedUser) {
     const rating = {
       travelId: this.travel._id,
       travelName: this.travel.name,
       sumValue: ratingCount
     };
-    if (isRatingSet) {
-      return MaterialService.toast('Вы уже установили рейтинг')
-    }
     if (!ratingCount) {
       return MaterialService.toast('Укажите рейтинг')
     }
-    this.cabinetService.updateCabinetRating(receiverEmail, rating).subscribe(
+
+    forkJoin([
+      this.cabinetService.updateCabinetRating(receiverEmail, rating),
+      this.travelService.updateUserRating(this.travel._id, receiverEmail, ratingCount)
+    ]).subscribe(
       () => {
-        //@ts-ignore
-        let ratings = JSON.parse(localStorage.getItem('travelsRatings')) || []
-        ratings.push({
-          email: receiverEmail,
-          isRatingSet: true,
-          ...rating
-        })
-        localStorage.setItem('travelsRating', JSON.stringify(ratings))
+        user.isRatingSet = true
         MaterialService.toast('Рейтинг сохранен')
       },
-      error => console.log(error)
-    );
+      error => {
+        MaterialService.toast('Ошибка сохранения')
+        console.log(error)
+      }
+    )
   }
 
   rejectFormSubmit(userEmail: string) {

@@ -32,12 +32,12 @@
       </td>
       <td *ngIf="travel.status === 'ended'">
         <div class="ratingContainer">
-          <ngx-star-rating [(ngModel)]="user.rating" [id]="user.userEmail"
-                           [disabled]="user.isRatingSet === true"></ngx-star-rating>
+          <ngx-star-rating [(ngModel)]="user.rating" [id]="user.userEmail+travel._id"
+                           [disabled]="user.isRatingSet"></ngx-star-rating>
           <button class="waves-effect waves-light btn"
-                  (click)="saveRating(user.userEmail, user.rating)"
+                  (click)="saveRating(user.userEmail, user.rating, user)"
                   matTooltip="сохранить отзыв на попутчика"
-                  [disabled]="user.isRatingSet === true"
+                  [disabled]="user.isRatingSet"
           >Сохранить
           </button>
         </div>

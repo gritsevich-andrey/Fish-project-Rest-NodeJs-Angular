@@ -40,7 +40,7 @@ export class CreateTravelModalComponent implements OnInit, OnDestroy {
     this.form = new FormGroup({
       travelType: new FormControl('', Validators.required),
       travelTarget: new FormControl('', Validators.required),
-      peoplesCount: new FormControl(''),
+      peoplesCount: new FormControl('', Validators.required),
       costPerPeople: new FormControl('', Validators.required),
       description: new FormControl('', Validators.required),
       travelTechnique: new FormControl(),
@@ -49,7 +49,8 @@ export class CreateTravelModalComponent implements OnInit, OnDestroy {
       endPointLatitude: new FormControl('', Validators.required),
       endPointLongitude: new FormControl('', Validators.required),
       travelDate: new FormControl('', Validators.required),
-      endPointAddress: new FormControl('', Validators.required),
+      //нужно передавать адресс с карты
+      endPointAddress: new FormControl(''),
       file: new FormControl(''),
       name: new FormControl('', Validators.required),
     });
