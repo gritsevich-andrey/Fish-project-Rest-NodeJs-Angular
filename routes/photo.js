@@ -15,5 +15,5 @@ router.patch('/decrement-likes', authenticate, controller.decrementLikes);
 router.patch('/set-comment', authenticate, controller.setComment);
 router.patch('/:id', authenticate, controller.update);
 router.delete('/:id', authenticate, controller.remove);
-
+router.patch('/', authenticate, controller.updatePublic);
 module.exports = router;

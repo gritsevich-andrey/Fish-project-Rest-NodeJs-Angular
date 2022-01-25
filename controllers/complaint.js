@@ -9,7 +9,10 @@ module.exports.getByEmail = async function (req, res) {
         errorHandler(res, e);
     }
 }
-
+module.exports.createOCR= async function (req, res) {
+  console.log('OCR files', req.body);
+    res.status(200).json({message: 'OCR received'});
+}
 module.exports.updateComplaint = async function (req, res) {
     try {
         const complaintCandidate = await Complaint.findOne({email: req.body.email});

@@ -6,7 +6,7 @@ const server = require('http', {
     cors: {
         origin: "http://localhost:4200",
         credentials: true,
-        methods: ["GET", "POST"]
+        methods: ["GET", "POST", "OPTIONS"]
     }
 }).Server(app);
 

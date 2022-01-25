@@ -8,6 +8,8 @@ import {DeleteModalComponent} from "./delete-modal/delete-modal.component";
 import {Subscription} from "rxjs";
 import {ActivatedRoute} from "@angular/router";
 import {Properties} from "@crystalui/angular-lightbox/lib/interfaces";
+import {PhotoService} from "../../../shared/services/photo.service";
+import {WarningService} from "../../../shared/services/warning.service";
 
 @Component({
   selector: 'app-my-photo',
@@ -37,13 +39,15 @@ export class MyPhotoComponent implements OnInit, OnDestroy {
   }
   isVisible: boolean = false;
   emailForPhoto = this.userService.getUserDataFromLocal();
-  photoChecked = [{id: '', checked: false}];
+  photoChecked: any[] = [];
 
   constructor(public sortService: SortService,
               private cabinetService: CabinetService,
               private userService: UserService,
               private dialog: MatDialog,
-              private router: ActivatedRoute) {
+              private router: ActivatedRoute,
+              private photoService: PhotoService,
+              private warningService: WarningService) {
   }
 
   ngOnDestroy(): void {
@@ -125,7 +129,21 @@ export class MyPhotoComponent implements OnInit, OnDestroy {
       filterArray.push({id, checked})
       newArray = filterArray;
     }
-console.log('Новый массив', newArray);
 this.photoChecked = newArray;
+  }
+
+  updatePhotoPublic() {
+    if(this.photoChecked.length > 0)
+    {
+      this.photoChecked.forEach(value => {
+        this.photoService.updatePhotoPublic({id: value.id , public: value.checked}).subscribe(data => {
+          if(data)
+          {
+            this.photoChecked.length = 0;
+          }
+        });
+      });
+      this.warningService.sendWarning('Настройки успешно сохранены');
+    }
   }
 }

@@ -29,7 +29,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 app.use(cors({
-    origin: ['localhost:4200']
+    origin: ['http://localhost:4200']
 }));
 app.use('/api/auth', authRoutes);
 app.use('/api/cabinet', cabinetRoutes);

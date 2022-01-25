@@ -59,6 +59,9 @@ export class PhotoService {
     deletePhoto(imageId: string): Observable<any> {
         return this.http.delete(environment.PHOTO_API + '/' + imageId)
     }
+  updatePhotoPublic(photoInfo: any): Observable<any> {
+    return this.http.patch(environment.PHOTO_API + "/", {...photoInfo})
+  }
 }
 
 

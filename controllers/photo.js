@@ -83,10 +83,18 @@ module.exports.update = function (req, res) {
         .then(photo => res.status(200).json(photo))
         .catch(e => errorHandler(res, e))
 }
+module.exports.updatePublic =  function (req, res) {
+        const updated = {
+            public: req.body.public
+        }
+        Photo.findOneAndUpdate({_id: req.body.id}, updated)
+          .then(photo => res.status(200).json(photo))
+          .catch(e => errorHandler(res, e))
+}
+
 
 module.exports.incrementLikes = async (req, res) => {
     let photo = await Photo.findOne({_id: req.body.imageId})
-    console.log(req.body.imageId)
     let likesCount = photo.likesCount + 1
     await Photo.findOneAndUpdate({_id: req.body.imageId}, {likesCount})
     res.status(200).json({message: 'Успешно обновлено количество лайков'})

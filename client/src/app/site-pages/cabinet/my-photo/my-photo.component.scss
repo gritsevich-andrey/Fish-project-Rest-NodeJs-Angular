@@ -37,6 +37,11 @@
   .photo-row {
     justify-content: center;
   }
+  .btn-right {
+    display: flex;
+    justify-content: right;
+    margin-right: 20px;
+  }
 }
 
 .photo-row {
@@ -47,12 +52,12 @@
 :host ::ng-deep .card-panel {
    padding: 2px;
   //margin: 0;
-margin-left: 5px;
-  margin-bottom: 5px;
+//margin-left: 5px;
+  margin-bottom: 1px;
   border-radius: 2px;
 }
 
-.example-margin {
+.checkbox-margin {
   margin: 0 10px;
 }
 :host ::ng-deep .mat-checkbox-inner-container-no-side-margin {
@@ -61,4 +66,14 @@ margin-left: 5px;
   padding-left: 20px;
   padding-top: 18px;
 }
-
+.btn-right {
+  display: flex;
+  justify-content: right;
+}
+.photo-column.card-panel {
+  margin-left: .8rem;
+}
+.pl5.card-panel {
+  padding-left: .8rem;
+  padding-right: .8rem;
+}
