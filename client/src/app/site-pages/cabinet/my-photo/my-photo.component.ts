@@ -119,7 +119,6 @@ export class MyPhotoComponent implements OnInit, OnDestroy {
     if (this.photoChecked.length === 0)
     {
       this.photoChecked.push({id, checked});
-      console.log('Первый массив', this.photoChecked);
       return;
     }
     else {

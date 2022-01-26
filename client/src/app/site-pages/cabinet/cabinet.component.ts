@@ -34,7 +34,11 @@ export class CabinetComponent implements OnInit, OnDestroy {
   countPage = 1;
   reviews?: any[] = [];
   ratings: any[] = [];
-  sumRating = 0;
+  viewRating = {
+    sumRating: 0,
+    star: ''
+  }
+
   urFlag = false;
 
   constructor(private warningService: WarningService,
@@ -101,13 +105,16 @@ export class CabinetComponent implements OnInit, OnDestroy {
         this.reviews = splitReviews;
         this.ratings = data.ratings;
         this.ratings.forEach(value => {
-          if (this.sumRating === 0) {
-            this.sumRating = value.sumValue;
+          if (this.viewRating.sumRating === 0) {
+            this.viewRating.sumRating = value.sumValue;
           } else {
-            this.sumRating = (this.sumRating + value.sumValue) / 2;
+            this.viewRating.sumRating = parseFloat(((this.viewRating.sumRating + value.sumValue)/2).toFixed(1));
           }
           this.form.value.rating2 = value.sumRating;
-        })
+        });
+        for (let i =0; i< Math.round(this.viewRating.sumRating); i++) {
+          this.viewRating.star += `★`
+        }
         this.addDataOnForm(data);
         this.isNew = false;
       }

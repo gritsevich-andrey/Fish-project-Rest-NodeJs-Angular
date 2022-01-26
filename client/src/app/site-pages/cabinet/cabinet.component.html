@@ -102,9 +102,11 @@
       </div>
     </mat-tab>
     <mat-tab label="Рейтинг и отзывы">
-      <h3><span class="mat-card-subtitle">Общий рейтинг: <b class="mat-title"> {{sumRating}}</b></span></h3>
+      <h3><span class="mat-card-subtitle">Средний рейтинг: <b class="mat-title" style=color:#26a69a> {{viewRating.sumRating}}</b>
+      <b style=color:gold> {{viewRating.star}}</b>
+      </span></h3>
       <div class="card-cabinet">
-        <app-comment [reviews]="reviews" [ratings]="ratings" [sumRating]="sumRating"></app-comment>
+        <app-comment [reviews]="reviews" [ratings]="ratings" [sumRating]="viewRating.sumRating"></app-comment>
       </div>
     </mat-tab>
     <mat-tab label="Мои отзывы">
