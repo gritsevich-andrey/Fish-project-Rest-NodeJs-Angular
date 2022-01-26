@@ -40,7 +40,7 @@
 
     <div *ngIf="travel.status === 'ended'" class="reviewRatingContainer">
       <span>Оставить отзыв:</span>
-      <button class="waves-effect waves-light btn" (click)="openReviewDialog(travel.userEmail)">Отзыв</button>
+      <button [disabled]="isSetReview" class="waves-effect waves-light btn" (click)="openReviewDialog(travel.userEmail)">Отзыв</button>
       <div class="ratingContainer">
         <span>Оценить поездку:</span>
         <form [formGroup]="form">

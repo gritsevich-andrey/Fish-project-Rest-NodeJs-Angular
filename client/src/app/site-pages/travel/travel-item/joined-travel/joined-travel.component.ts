@@ -20,6 +20,7 @@ export class JoinedTravelComponent implements OnInit {
   @Input() getUserTravels!: any;
   form!: FormGroup;
   isSetRating = false
+  isSetReview = false
 
   constructor(
     public travelService: TravelService,
@@ -35,6 +36,7 @@ export class JoinedTravelComponent implements OnInit {
     const user = this.getJoinedUserFromTravel(this.userEmail)
     this.form.controls.rating.setValue(user?.travelRating || 0)
     this.isSetRating = user?.isTravelRatingSet || false
+    this.isSetReview = user?.isTravelReviewSet || false
   }
 
   getJoinedUserFromTravel(email: string) {
@@ -107,7 +109,14 @@ export class JoinedTravelComponent implements OnInit {
         data: transferData
       }
     );
-    dialogRef.afterClosed().subscribe();
+    dialogRef.afterClosed().subscribe(
+      ({success}) => {
+        if (success) {
+          this.isSetReview = true
+          this.travelService.updateUserTravelReview(this.travel._id, this.userEmail).subscribe()
+        }
+      }
+    );
   }
 
   getUserFIO() {
@@ -137,7 +146,7 @@ export class JoinedTravelComponent implements OnInit {
     const stars = this.form.controls.rating.value
     const rating = {
       travelId: this.travel._id,
-      travelTitle: this.travel.title,
+      travelName: this.travel.name,
       sumValue: stars
     };
     if (!stars) {

@@ -52,12 +52,17 @@ export class LiveFeedComponent implements OnInit, OnDestroy {
       this.photoService.incrementLikes(imageId).subscribe(
         () => {
           this.likeCount.push(imageId)
-          this.posts.forEach(post => {
-            if (post._id === imageId) {
-              post.isLiked = true
-              post.likesCount += 1
-            }
-          })
+          if (this.bigPost._id === imageId) {
+            this.bigPost.isLiked = true
+            this.bigPost.likesCount += 1
+          } else {
+            this.posts.forEach(post => {
+              if (post._id === imageId) {
+                post.isLiked = true
+                post.likesCount += 1
+              }
+            })
+          }
         },
         error => console.log(error)
       )
@@ -68,12 +73,17 @@ export class LiveFeedComponent implements OnInit, OnDestroy {
           const index = this.likeCount.findIndex((likeImageId: string) => likeImageId === imageId)
           this.likeCount.splice(index, 1)
 
-          this.posts.forEach(post => {
-            if (post._id === imageId) {
-              post.isLiked = false
-              post.likesCount -= 1
-            }
-          })
+          if (this.bigPost._id === imageId) {
+            this.bigPost.isLiked = false
+            this.bigPost.likesCount -= 1
+          } else {
+            this.posts.forEach(post => {
+              if (post._id === imageId) {
+                post.isLiked = false
+                post.likesCount -= 1
+              }
+            })
+          }
         },
         error => console.log(error)
       )

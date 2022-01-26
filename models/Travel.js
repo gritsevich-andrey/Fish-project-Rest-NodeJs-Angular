@@ -83,6 +83,8 @@ const travelSchema = new Schema({
             isRatingSet: {type: Boolean, default: false},
             travelRating: {type: Number, default: 0},
             isTravelRatingSet: {type: Boolean, default: false},
+            isTravelReviewSet: {type: Boolean, default: false},
+            isReviewSet:  {type: Boolean, default: false}
         }
     ],
     status: {

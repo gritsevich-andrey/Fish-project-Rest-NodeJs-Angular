@@ -28,7 +28,7 @@
         <button class="btn" (click)="openChat(user.userEmail)">Чат</button>
       </td>
       <td *ngIf="travel.status === 'ended'">
-        <button class="waves-effect waves-light btn" (click)="openReviewDialog(user.userEmail)">Отзыв</button>
+        <button [disabled]="user.isReviewSet" class="waves-effect waves-light btn" (click)="openReviewDialog(user.userEmail, user)">Отзыв</button>
       </td>
       <td *ngIf="travel.status === 'ended'">
         <div class="ratingContainer">

@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {WarningService} from "../../../../shared/services/warning.service";
 import {UserService} from "../../../../shared/services/user.service";
-import {MAT_DIALOG_DATA} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {CabinetService} from "../../../cabinet/cabinet.service";
 import {MaterialService} from "../../../../shared/classes/material.service";
 
@@ -18,6 +18,7 @@ export class ReviewComponent {
     private warningService: WarningService,
     private userService: UserService,
     private cabinetService: CabinetService,
+    private dialog: MatDialogRef<any>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
   }
@@ -37,7 +38,10 @@ export class ReviewComponent {
       travelName
     };
     this.cabinetService.updateCabinetReview(receiverEmail, review).subscribe(
-      () => MaterialService.toast('Отзыв оставлен'),
+      () => {
+        MaterialService.toast('Отзыв оставлен')
+        this.dialog.close({success: true})
+      },
       error => {
         console.log(error)
         if (error.status === 404) {

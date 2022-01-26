@@ -50,7 +50,7 @@ module.exports.create = async function (req, res) {
             latitude: req.body.latitude,
             address: req.body.address,
         }).save().then(() => {
-                res.status(201).json({message: 'Фото загружено'});
+            res.status(201).json({message: 'Фото загружено'});
         })
     } catch (e) {
         errorHandler(res, e);
@@ -83,28 +83,26 @@ module.exports.update = function (req, res) {
         .then(photo => res.status(200).json(photo))
         .catch(e => errorHandler(res, e))
 }
-module.exports.updatePublic =  function (req, res) {
-        const updated = {
-            public: req.body.public
-        }
-        Photo.findOneAndUpdate({_id: req.body.id}, updated)
-          .then(photo => res.status(200).json(photo))
-          .catch(e => errorHandler(res, e))
+module.exports.updatePublic = function (req, res) {
+    const updated = {
+        public: req.body.public
+    }
+    Photo.findOneAndUpdate({_id: req.body.id}, updated)
+        .then(photo => res.status(200).json(photo))
+        .catch(e => errorHandler(res, e))
 }
 
 
 module.exports.incrementLikes = async (req, res) => {
-    let photo = await Photo.findOne({_id: req.body.imageId})
-    let likesCount = photo.likesCount + 1
-    await Photo.findOneAndUpdate({_id: req.body.imageId}, {likesCount})
-    res.status(200).json({message: 'Успешно обновлено количество лайков'})
+    Photo.updateOne({_id: req.body.imageId}, {$inc: {likesCount: 1}})
+        .then(() => res.status(200).json())
+        .catch(e => errorHandler(res, e))
 }
 
 module.exports.decrementLikes = async (req, res) => {
-    let {likesCount} = await Photo.findOne({_id: req.body.imageId})
-    likesCount -= 1
-    await Photo.findOneAndUpdate({_id: req.body.imageId}, {likesCount})
-    res.status(200).json({message: 'Успешно обновлено количество лайков'})
+    Photo.updateOne({_id: req.body.imageId}, {$inc: {likesCount: -1}})
+        .then(() => res.status(200).json())
+        .catch(e => errorHandler(res, e))
 }
 
 module.exports.setComment = (req, res) => {
@@ -115,5 +113,7 @@ module.exports.setComment = (req, res) => {
                 value: req.body.value
             }
         }
-    }).then(() => res.status(200).json({message: 'Успешно добавлен комментарий'}))
+    })
+        .then(() => res.status(200).json({message: 'Успешно добавлен комментарий'}))
+        .catch(e => errorHandler(res, e))
 }

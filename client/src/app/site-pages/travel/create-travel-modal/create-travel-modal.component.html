@@ -13,6 +13,7 @@
           <button matTooltip="Дата поездки" (click)="datepicker.click()" class="waves-effect waves-light btn"
                   type="button">Дата
           </button>
+          <strong>{{form.controls.file.value.name | cutImageName }}</strong>
           <input (change)="onFileLoad($event)" type="file" [hidden]="true" #inputFile>
           <button matTooltip="Добавить изображение поездки" class="waves-effect waves-light btn" type="button"
                   (click)="inputFile.click()">Фото

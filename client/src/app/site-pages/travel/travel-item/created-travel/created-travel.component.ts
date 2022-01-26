@@ -91,7 +91,7 @@ export class CreatedTravelComponent implements OnInit {
     return PayedUsersCount == this.travel.peoplesCount
   }
 
-  openReviewDialog(receiverEmail: string) {
+  openReviewDialog(receiverEmail: string, user: JoinedUser) {
     const transferData = {
       travelId: this.travel._id,
       receiverEmail: receiverEmail,
@@ -102,7 +102,14 @@ export class CreatedTravelComponent implements OnInit {
         data: transferData
       }
     );
-    dialogRef.afterClosed().subscribe();
+    dialogRef.afterClosed().subscribe(
+      ({success}) => {
+        if (success) {
+          user.isReviewSet = true
+          this.travelService.updateUserReview(this.travel._id, user.userEmail).subscribe()
+        }
+      }
+    );
   }
 
   openEditTravelModal(travel: any) {

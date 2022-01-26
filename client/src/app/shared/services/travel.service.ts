@@ -47,7 +47,7 @@ export class TravelService {
     return this.http.get(environment.TRAVEL_API)
       .pipe(
         distinctUntilChanged(),
-      shareReplay()
+        shareReplay()
       )
   }
 
@@ -77,6 +77,14 @@ export class TravelService {
 
   leaveFromTravel(userEmail: string, travelId: string): Observable<any> {
     return this.http.patch(environment.TRAVEL_API + '/leave', {travelId, userEmail})
+  }
+
+  updateUserReview(travelId: string, userEmail: string) {
+    return this.http.patch(environment.TRAVEL_API + '/update-user-review', {travelId, userEmail})
+  }
+
+  updateUserTravelReview(travelId: string, userEmail: string) {
+    return this.http.patch(environment.TRAVEL_API + '/update-user-travelReview', {travelId, userEmail})
   }
 }
 
