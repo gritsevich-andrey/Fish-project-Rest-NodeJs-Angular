@@ -52,6 +52,7 @@ export class CreateTravelModalComponent implements OnInit, OnDestroy {
       endPointLongitude: new FormControl('', Validators.required),
       travelDate: new FormControl('', Validators.required),
       endPointAddress: new FormControl('', Validators.required),
+      startPointAddress: new FormControl('', Validators.required),
       file: new FormControl(''),
       name: new FormControl('', Validators.required),
     });
@@ -60,11 +61,13 @@ export class CreateTravelModalComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     if (this.data.latitude && this.data.longitude) {
       this.isFromMap = true
-      let endPointAddress = this.yaGeocoderService.geocode([this.data.latitude, this.data.longitude])
+      this.yaGeocoderService.geocode([this.data.latitude, this.data.longitude]).subscribe((result: any) => {
+        const address = result.geoObjects.get(0).properties._data.text;
+        this.form.controls.endPointAddress.setValue(address);
+      })
 
       this.form.controls.endPointLatitude.setValue(this.data.latitude);
       this.form.controls.endPointLongitude.setValue(this.data.longitude);
-      this.form.controls.endPointAddress.setValue(endPointAddress);
     }
     this.initMaterialize()
     this.getCabinet(this.data.userEmail)
@@ -128,7 +131,7 @@ export class CreateTravelModalComponent implements OnInit, OnDestroy {
       isOrganizer: true,
       name: this.form.controls.name.value,
       userFIO: this.userFIO,
-      fromAddress: this.yaGeocoderService.geocode([this.form.controls.startPointLatitude.value, this.form.controls.startPointLongitude.value])
+      fromAddress: this.form.controls.startPointAddress.value
     }
     if (this.form.valid) {
       this.sub = this.travelService.createTravel(travelData).subscribe(
@@ -189,8 +192,9 @@ export class CreateTravelModalComponent implements OnInit, OnDestroy {
         }
       }
     } : {});
-    dialogRef.afterClosed().subscribe(({latitude, longitude}) => {
+    dialogRef.afterClosed().subscribe(({latitude, longitude, address}) => {
       if (latitude && longitude) {
+        this.form.controls.startPointAddress.setValue(address)
         this.form.controls.startPointLatitude.setValue(latitude)
         this.form.controls.startPointLongitude.setValue(longitude)
       }

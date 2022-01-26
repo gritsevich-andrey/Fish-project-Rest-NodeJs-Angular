@@ -48,6 +48,7 @@ export class EditTravelModalComponent implements OnInit {
       endPointAddress: new FormControl('', Validators.required),
       file: new FormControl(''),
       name: new FormControl('', Validators.required),
+      startPointAddress: new FormControl('', Validators.required),
     });
   }
 
@@ -57,7 +58,9 @@ export class EditTravelModalComponent implements OnInit {
       this.form.controls[travelField]?.setValue(travel[travelField])
       if (travelField === 'date') this.form.controls.travelDate.setValue(travel[travelField])
       if (travelField === 'address') this.form.controls.endPointAddress.setValue(travel[travelField])
+      if (travelField === 'fromAddress') this.form.controls.startPointAddress.setValue(travel[travelField])
     }
+
     this.form.controls.startPointLatitude.setValue(travel.startPoint[0].latitude)
     this.form.controls.startPointLongitude.setValue(travel.startPoint[0].longitude)
     this.form.controls.endPointLatitude.setValue(travel.endPoint[0].latitude)
@@ -137,6 +140,7 @@ export class EditTravelModalComponent implements OnInit {
       isPublic: true,
       isOrganizer: true,
       name: this.form.controls.name.value,
+      fromAddress: this.form.controls.startPointAddress.value
     }
     if (this.form.valid) {
       this.travelService.updateTravel(travelData, this.data.travel._id).subscribe(
@@ -214,15 +218,15 @@ export class EditTravelModalComponent implements OnInit {
         // setData: this.setStartPointData.bind(this)
       }
     });
-    dialogRef.afterClosed().subscribe(({latitude, longitude}) => {
-      this.setStartPointData(latitude, longitude)
+    dialogRef.afterClosed().subscribe(({latitude, longitude, address}) => {
+      this.setStartPointData(latitude, longitude, address)
     });
   }
 
-  setStartPointData(latitude: string, longitude: string) {
-    debugger
+  setStartPointData(latitude: string, longitude: string, address: string) {
     this.form.controls.startPointLatitude.setValue(latitude)
     this.form.controls.startPointLongitude.setValue(longitude)
+    this.form.controls.startPointAddress.setValue(address)
   }
 
   setEndPointData(latitude: string, longitude: string, address: string,) {
