@@ -8,6 +8,7 @@ import {SelectPointComponent} from "../select-point/select-point.component";
 import {AddTransportModalComponent} from "../add-transport-modal/add-transport-modal.component";
 import {Subscription} from "rxjs";
 import {ViewPointMapComponent} from "../../live-feed/view-point-map/view-point-map.component";
+import {YaGeocoderService} from "angular8-yandex-maps";
 
 declare var M: {
   FormSelect: { init: (arg0: NodeListOf<Element>) => any; },
@@ -35,7 +36,8 @@ export class CreateTravelModalComponent implements OnInit, OnDestroy {
     private travelService: TravelService,
     private cabinetService: CabinetService,
     public dialog: MatDialog,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private yaGeocoderService: YaGeocoderService,
   ) {
     this.form = new FormGroup({
       travelType: new FormControl('', Validators.required),
@@ -49,8 +51,7 @@ export class CreateTravelModalComponent implements OnInit, OnDestroy {
       endPointLatitude: new FormControl('', Validators.required),
       endPointLongitude: new FormControl('', Validators.required),
       travelDate: new FormControl('', Validators.required),
-      //нужно передавать адресс с карты
-      endPointAddress: new FormControl(''),
+      endPointAddress: new FormControl('', Validators.required),
       file: new FormControl(''),
       name: new FormControl('', Validators.required),
     });
@@ -59,8 +60,11 @@ export class CreateTravelModalComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     if (this.data.latitude && this.data.longitude) {
       this.isFromMap = true
+      let endPointAddress = this.yaGeocoderService.geocode([this.data.latitude, this.data.longitude])
+
       this.form.controls.endPointLatitude.setValue(this.data.latitude);
       this.form.controls.endPointLongitude.setValue(this.data.longitude);
+      this.form.controls.endPointAddress.setValue(endPointAddress);
     }
     this.initMaterialize()
     this.getCabinet(this.data.userEmail)
@@ -123,7 +127,8 @@ export class CreateTravelModalComponent implements OnInit, OnDestroy {
       isPublic: true,
       isOrganizer: true,
       name: this.form.controls.name.value,
-      userFIO: this.userFIO
+      userFIO: this.userFIO,
+      fromAddress: this.yaGeocoderService.geocode([this.form.controls.startPointLatitude.value, this.form.controls.startPointLongitude.value])
     }
     if (this.form.valid) {
       this.sub = this.travelService.createTravel(travelData).subscribe(

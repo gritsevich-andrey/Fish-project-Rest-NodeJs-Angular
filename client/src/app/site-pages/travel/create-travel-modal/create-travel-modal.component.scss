@@ -63,7 +63,15 @@ textarea {
   height: 100%;
 }
 
+.travelName.input-field > label:not(.label-icon).active {
+  transform: translateY(0px) scale(0.8);
+  transform-origin: 0 0;
+}
+
 .input-width {
-  max-width: 40% !important;
   margin-right: 20px !important;
+}
+
+.row {
+  margin-bottom: 0;
 }

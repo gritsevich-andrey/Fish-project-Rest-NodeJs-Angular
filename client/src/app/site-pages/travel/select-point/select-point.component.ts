@@ -44,7 +44,7 @@ export class SelectPointComponent {
       const coords = e.get('coords');
       this.placemark.geometry = coords
 
-      this.getPointAddress(coords[0], coords[1]).subscribe((result: any) => {
+      this.yaGeocoderService.geocode([coords[0], coords[1]]).subscribe((result: any) => {
         const firstGeoObject = result.geoObjects.get(0);
         this.address = firstGeoObject.properties._data.text
       })
@@ -53,10 +53,6 @@ export class SelectPointComponent {
     map.controls.remove('fullscreenControl')
     map.controls.remove('searchControl');
     map.controls.add(searchControl);
-  }
-
-  getPointAddress(latitude: number, longitude: number) {
-    return this.yaGeocoderService.geocode([latitude, longitude])
   }
 
   confirm() {

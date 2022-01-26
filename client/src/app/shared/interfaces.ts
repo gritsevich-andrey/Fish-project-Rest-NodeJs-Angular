@@ -75,6 +75,8 @@ export interface JoinedUser {
   isRatingSet: boolean
   travelRating: number
   isTravelRatingSet: boolean
+  isReviewSet: boolean
+  isTravelReviewSet: boolean
 }
 
 export interface Travel {

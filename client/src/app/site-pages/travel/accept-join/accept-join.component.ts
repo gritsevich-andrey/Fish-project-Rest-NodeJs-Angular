@@ -20,4 +20,8 @@ export class AcceptJoinComponent implements OnInit {
     this.dialog.close({accept: true})
   }
 
+  close() {
+    window.close()
+  }
+
 }

@@ -177,7 +177,9 @@ module.exports.updateReviewShown = (req, res) => {
                 "reviews.$.rejectionReason": req.body.rejectionReason
             }
         },
-    ).then(() => res.status(200).json({message: 'Обновлено успешно'}))
+    )
+        .then(() => res.status(200).json({message: 'Обновлено успешно'}))
+        .catch(e => errorHandler(res, e))
 }
 
 module.exports.getUserReviews = (req, res) => {
@@ -188,4 +190,5 @@ module.exports.getUserReviews = (req, res) => {
             let userReviews = reviews.filter(review => review.userEmail === req.params.email)
             res.status(200).json(userReviews)
         })
+        .catch(e => errorHandler(res, e))
 }
