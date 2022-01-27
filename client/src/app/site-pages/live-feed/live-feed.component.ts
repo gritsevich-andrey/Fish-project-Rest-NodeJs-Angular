@@ -7,6 +7,7 @@ import {map} from "rxjs/operators";
 import {MatDialog} from "@angular/material/dialog";
 import {ViewPointMapComponent} from "./view-point-map/view-point-map.component";
 import {LiveFeedPost} from "../../shared/interfaces";
+import {Properties} from "@crystalui/angular-lightbox/lib/interfaces";
 
 @Component({
   selector: 'app-live-feed',
@@ -24,6 +25,18 @@ export class LiveFeedComponent implements OnInit, OnDestroy {
   isAllPosts = false;
   likeCount: any = [];
   bigPost!: LiveFeedPost;
+  cristalLightboxProp: Properties = {
+    imageMaxHeight: "100%",
+    imageMaxWidth: "100%",
+    counter: false,
+    counterSeparator: "/",
+    backgroundOpacity: 0.85,
+    animationDuration: 400,
+    animationTimingFunction: "cubic-bezier(0.475, 0.105, 0.445, 0.945)",
+    hideThumbnail: true,
+    disable: false,
+    closeButtonText: "Закрыть"
+  }
 
   constructor(
     private userService: UserService,
