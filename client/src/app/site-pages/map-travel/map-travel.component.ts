@@ -133,7 +133,7 @@ export class MapTravelComponent implements OnInit, OnDestroy {
         if (this.travels) {
           this.travels = [];
         }
-        this.travels = data;
+        this.travels = data.reverse();
         this.getUniqueCategory();
       });
   }

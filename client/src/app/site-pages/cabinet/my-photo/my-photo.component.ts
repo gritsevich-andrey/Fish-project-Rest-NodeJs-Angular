@@ -20,6 +20,8 @@ export class MyPhotoComponent implements OnInit, OnDestroy {
   userPhotos: Photo[] = [];
   page = 1;
   pageSize: number = 15;
+  pagePhoto = 1;
+  pageSizePhoto = 30;
   private countPage = 1;
   private email = '';
   private subCab?: Subscription;
@@ -90,10 +92,10 @@ export class MyPhotoComponent implements OnInit, OnDestroy {
     })
   }
 
-  handlePageChange() {
-    this.getMyPhoto();
-    this.countPage += 1;
-  }
+  // handlePageChange() {
+  //   this.getMyPhoto();
+  //   this.countPage += 1;
+  // }
 
   deleteImage(id: string) {
     this.openDialogConfirm(id);

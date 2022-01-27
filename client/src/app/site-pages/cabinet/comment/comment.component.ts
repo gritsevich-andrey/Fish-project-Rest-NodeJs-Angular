@@ -12,15 +12,12 @@ export class CommentComponent implements OnInit {
   @Input() sumRating: number = 0;
   valueRadio = '';
   idS = '100';
-  page = 0;
-  pageSize: number = 20;
-  length = 100;
-  pageSizeReview = 5;
-  pageSizeOptions: number[] = [5, 10, 25, 100];
+  pageReview = 1;
+  pageSize: number = 16;
 
-  // MatPaginator Output
-  //@ts-ignore
-  pageEvent: PageEvent;
+  currentPage: number = 1;
+  currentPageReview =1;
+  pageSizeReview = 20;
   constructor() {
   }
 
@@ -29,10 +26,5 @@ export class CommentComponent implements OnInit {
 
   sumRatings(event: any) {
     console.log('Эвент', event);
-  }
-  setPageSizeOptions(setPageSizeOptionsInput: string) {
-    if (setPageSizeOptionsInput) {
-      this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => +str);
-    }
   }
 }

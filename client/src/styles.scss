@@ -222,3 +222,8 @@ i.material-icons:hover {
   flex-direction: row;
   flex-wrap: wrap;
 }
+.paginator-container {
+  display: flex;
+  margin-right: 20px;
+  justify-content: right;
+}

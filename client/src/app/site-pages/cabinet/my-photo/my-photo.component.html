@@ -17,15 +17,16 @@
     </thead>
     <tbody>
     <tr *ngFor="let photo of userPhotos | paginate: {
-              itemsPerPage: pageSize,
-              currentPage: page
+    id: 'photo',
+              itemsPerPage: pageSizePhoto,
+              currentPage: pagePhoto
             }; let i = index;">
       <ng-container *ngIf="!photo.queryDeleted">
       <td class="p10">{{i + 1}}</td>
       <td class="image-preview pointer"><img [src]="photo.imageSrc" lightbox [properties]=cristalLightboxProp></td>
       <td class="pl5"><app-read-more [text]="photo.description" [maxLength]="40"></app-read-more></td>
-        <td *ngIf="photo.moderation">{{'опубликовано'}}</td>
-      <td *ngIf="!photo.moderation">{{'на модерации'}}</td>
+        <td [class.color-green]="photo.moderation" *ngIf="photo.moderation">{{'разрешено'}}</td>
+      <td [class.color-red]="!photo.moderation" *ngIf="!photo.moderation">{{'на модерации'}}</td>
       <td><mat-checkbox matTooltip="Отключить показ в ленте?" color="checkbox-margin" [ngModel]="photo.public" id="{{photo.id}}"
                         (ngModelChange)="selectItem($event, photo.id)"></mat-checkbox>
       </td>
@@ -45,8 +46,9 @@
 <div class="container" *ngIf="isOrganizer">
 <div class="photo-row card">
 <div class="photo-column card-panel" *ngFor="let photo of userPhotos | paginate: {
-              itemsPerPage: pageSize,
-              currentPage: page
+               id: 'photo',
+              itemsPerPage: pageSizePhoto,
+              currentPage: pagePhoto
             };">
   <ng-container *ngIf="!photo.queryDeleted">
   <span class="image-align">
@@ -58,12 +60,12 @@
   </span>
   </ng-container>
 </div>
-
 </div>
 </div>
-<pagination-controls
+<div class="paginator-container"><pagination-controls
+  id = 'photo'
   previousLabel="Назад"
   nextLabel="Вперед"
-  (pageChange)="page = $event"
-></pagination-controls>
+  (pageChange)="pagePhoto = $event"
+></pagination-controls></div>
 

@@ -12,21 +12,22 @@
 </mat-radio-group>
 
 <div class="stars-align">
-  <div class="stars" *ngFor="let item of ratings | search: valueRadio">
+  <div class="stars" *ngFor="let item of ratings | search: valueRadio | paginate: { id: 'star',
+                                                      itemsPerPage: pageSize,
+                                                      currentPage: currentPage }">
     <ngx-star-rating [(ngModel)]="item.sumValue" [id]="item.travelId" [disabled]="true"></ngx-star-rating>
     <p class="mat-card-subtitle center-align">{{item.travelName + ': ' + item.sumValue}}</p>
   </div>
 </div>
-<mat-paginator [length]="length"
-               [pageSize]="pageSizeReview"
-               [pageSizeOptions]="pageSizeOptions"
-               (page)="pageEvent = $event"
-               aria-label="Select page">
-</mat-paginator>
+<div class="rating-container"><pagination-controls  id="star"
+                      previousLabel="Назад"
+                      nextLabel="Вперед" (pageChange)="currentPage = $event">
+</pagination-controls></div>
 <div class="reviewView-container">
   <div class="align-column" *ngFor="let review of reviews | search: valueRadio | paginate: {
-              itemsPerPage: pageSize,
-              currentPage: page
+              id: 'review',
+              itemsPerPage: pageSizeReview,
+              currentPage: currentPageReview
             }">
     <div class="date">
       <mat-icon>rate_review</mat-icon>
@@ -37,8 +38,9 @@
     <div class="reviewText">{{review.reviewText}}</div>
   </div>
 </div>
-<pagination-controls
+<div class="rating-container"><pagination-controls
+  id="review"
   previousLabel="Назад"
   nextLabel="Вперед"
-  (pageChange)="page = $event"
-></pagination-controls>
+  (pageChange)="currentPageReview = $event"
+></pagination-controls></div>
