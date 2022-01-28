@@ -4,12 +4,12 @@
     Свободные места - {{travel.peoplesCount - getJoinedUsers().length}} / {{travel.peoplesCount }}
   </div>
   <div class="status">
-    Статус - {{getTravelStatus()}}
+    Статус - {{travelStatus}}
   </div>
-  <div class="status" *ngIf="getTravelStatus() === 'Отказано'">
+  <div class="status" *ngIf="travelStatus === 'Отказано'">
     Описание отказа - {{getRejectReason()}}
   </div>
-  <div *ngIf="getUserStatus() === 'Ожидает оплаты'">
+  <div *ngIf="userStatus === 'Ожидает оплаты'">
     <button
       data-target="makeOffer"
       matTooltip="Оплатить поездку"
@@ -19,7 +19,7 @@
       Оплатить
     </button>
   </div>
-  <div *ngIf="getUserStatus() === 'Оплачено'">
+  <div *ngIf="userStatus === 'Оплачено'">
     <div *ngIf="travel.status !== 'ended'">
       <h3 class="tableTitle">Присоединившиеся пользователи</h3>
       <table>
@@ -30,17 +30,37 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let user of getAcceptedUsers(), let j = index">
+        <tr *ngFor="let user of acceptedUsers, let j = index">
           <td>{{j + 1}}</td>
           <td (click)="openUserProfile(user.userEmail)"><span class="pointer">{{user.fio || user.nickName}}</span></td>
         </tr>
         </tbody>
       </table>
     </div>
-
     <div *ngIf="travel.status === 'ended'" class="reviewRatingContainer">
+      <table>
+        <thead>
+        <tr>
+          <th>№</th>
+          <th>ФИО</th>
+          <th>Жалоба</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let user of getUsersWithoutUser(acceptedUsers, userEmail), let j = index">
+          <td>{{j + 1}}</td>
+          <td (click)="openUserProfile(user.userEmail)"><span class="pointer">{{user.fio || user.nickName}}</span></td>
+          <td>
+            <button class="btn" (click)="openComplaint(user.userEmail)">Написать</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
       <span>Оставить отзыв:</span>
-      <button [disabled]="isSetReview" class="waves-effect waves-light btn" (click)="openReviewDialog(travel.userEmail)">Отзыв</button>
+      <button [disabled]="isSetReview" class="waves-effect waves-light btn"
+              (click)="openReviewDialog(travel.userEmail)">Отзыв
+      </button>
       <div class="ratingContainer">
         <span>Оценить поездку:</span>
         <form [formGroup]="form">
@@ -57,6 +77,9 @@
       </div>
     </div>
   </div>
+  <div class="rejectButton">
+    <button *ngIf="travel.status !== 'ended'" class="btn" (click)="leaveFromTravel()">Отказаться</button>
+    <button class="btn" (click)="openComplaint(travel.userEmail)">Пожаловаться на поездку</button>
+  </div>
 
-  <button *ngIf="travel.status !== 'ended'" class="btn rejectButton" (click)="leaveFromTravel()">Отказаться</button>
 </div>

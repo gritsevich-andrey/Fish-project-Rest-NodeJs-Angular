@@ -32,6 +32,10 @@ td, th {
 
 .reviewRatingContainer {
   margin-top: 20px;
+
+  table {
+    margin-bottom: 10px;
+  }
 }
 
 .ratingContainer {
@@ -93,7 +97,10 @@ label.star:before {
 }
 
 .rejectButton {
-  margin-top: 10px;
+  button {
+    margin-top: 10px;
+    margin-right: 10px;
+  }
 }
 
 @media screen and (max-width: 768px) {

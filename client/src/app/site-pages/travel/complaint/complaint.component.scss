@@ -1,0 +1,11 @@
+.mat-dialog-actions {
+  display: block;
+}
+
+::ng-deep.mat-dialog-container {
+  padding-top: 0;
+}
+
+button {
+  margin-right: 10px;
+}

@@ -11,6 +11,8 @@ import {UserProfileComponent} from "../../user-profile/user-profile.component";
 import {ChatDialogComponent} from "../../../map-travel/list-descriptions/chat-dialog/chat-dialog.component";
 import {Router} from "@angular/router";
 import {forkJoin} from "rxjs";
+import {error} from "password-validator/typings/constants";
+import {ComplaintComponent} from "../../complaint/complaint.component";
 
 declare var M: {
   Modal: { init: (arg0: NodeListOf<Element>) => any; }
@@ -25,10 +27,11 @@ export class CreatedTravelComponent implements OnInit {
   @Input() travel!: Travel;
   @Input() getUserTravels!: any;
   @Input() userEmail!: string;
-
   form: FormGroup;
   rejectUserForm: FormGroup;
-
+  joinedUsers = [];
+  acceptedUsers: any = [];
+  notAcceptedUsers: any = [];
 
   constructor(
     public travelService: TravelService,
@@ -46,6 +49,9 @@ export class CreatedTravelComponent implements OnInit {
 
   ngOnInit(): void {
     this.initMaterialize()
+    this.joinedUsers = this.getJoinedUsers(this.travel.joinedUsers)
+    this.acceptedUsers = this.getAcceptedUsers()
+    this.notAcceptedUsers = this.getNotAcceptedUsers()
 
     if (this.checkAllUsersPayed() && !this.travel.status) {
       this.updateTravelStatus('started')
@@ -65,14 +71,18 @@ export class CreatedTravelComponent implements OnInit {
     return this.travel.joinedUsers.filter(user => user.status !== 'Ожидает подтверждение от водителя' && user.status !== 'Отказано')
   }
 
-  updateUserStatus(userEmail: string, status: string) {
-    if (status === 'Ожидает оплаты' && this.travel.peoplesCount == this.getJoinedUsers(this.travel.joinedUsers).length) {
-      return MaterialService.toast('Уже добавлено максимальное количество пользователей')
+  acceptUser(userEmail: string, status: string, user: JoinedUser) {
+    if (this.travel.peoplesCount == this.joinedUsers.length) {
+      MaterialService.toast('Уже добавлено максимальное количество пользователей')
+    } else {
+      this.travelService.updateUserStatus(this.travel._id, userEmail, status).subscribe(
+        () => {
+          user.status = 'Ожидает оплаты'
+          this.joinedUsers = this.getJoinedUsers(this.travel.joinedUsers)
+        },
+        error => console.log(error)
+      )
     }
-    this.travelService.updateUserStatus(this.travel._id, userEmail, status).subscribe(
-      () => this.getUserTravels(this.userEmail),
-      error => console.log(error)
-    )
   }
 
   getJoinedUsers(users: any) {
@@ -149,14 +159,15 @@ export class CreatedTravelComponent implements OnInit {
     )
   }
 
-  rejectFormSubmit(userEmail: string) {
+  rejectFormSubmit(userEmail: string, user: JoinedUser) {
     if (!this.rejectUserForm.valid) {
       MaterialService.toast('Укажите причину отказа')
     } else {
-      this.travelService.updateUserRejectComment(this.travel._id, userEmail, this.rejectUserForm.controls.comment.value).subscribe(
-        () => {
-          this.updateUserStatus(userEmail, 'Отказано')
-        },
+      forkJoin([
+        this.travelService.updateUserRejectComment(this.travel._id, userEmail, this.rejectUserForm.controls.comment.value),
+        this.travelService.updateUserStatus(this.travel._id, userEmail, 'Отказано')
+      ]).subscribe(
+        () => user.status = 'Отказано',
         error => console.log(error)
       )
     }
@@ -199,5 +210,10 @@ export class CreatedTravelComponent implements OnInit {
       },
       error => console.log(error)
     )
+  }
+
+  openComplaint(email: string) {
+    const dialogRef = this.dialog.open(ComplaintComponent, {data: {email, senderEmail: this.userEmail}});
+    dialogRef.afterClosed().subscribe();
   }
 }

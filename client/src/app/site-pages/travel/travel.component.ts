@@ -38,8 +38,8 @@ export class TravelComponent implements OnInit {
     if (urlParams) {
       const dialogRef = this.dialog.open(AcceptJoinComponent);
       dialogRef.afterClosed().subscribe(
-        ({accept}) => {
-          if (accept) {
+        (res) => {
+          if (res?.accept) {
             const pass = this.authService.getToken();
             // @ts-ignore
             const data = CryptoJS.AES.decrypt(urlParams, pass).toString(CryptoJS.enc.Utf8);

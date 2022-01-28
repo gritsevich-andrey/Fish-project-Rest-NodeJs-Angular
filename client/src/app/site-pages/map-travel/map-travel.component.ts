@@ -157,9 +157,12 @@ export class MapTravelComponent implements OnInit, OnDestroy {
         userEmail: data.userEmail,
         organizerInfo: this.getOrganizerInfo(data.userEmail),
         _id: data._id,
-        url: this.createBCryptUrl(data.userEmail, data._id)
+        //url: this.createBCryptUrl(data.userEmail, data._id)
+        url: this.createBCryptUrl(this.email, data._id)
       };
-      arrayValues.push(tempDataObj);
+      if (!data.queryDelete) {
+        arrayValues.push(tempDataObj);
+      }
     })
     return arrayValues;
   }
@@ -182,16 +185,16 @@ export class MapTravelComponent implements OnInit, OnDestroy {
   }
 
   createBCryptUrl(userEmail: string, _id: string) {
-    if (userEmail === this.email) {
-      return 1;
-    } else {
-      const pass = this.authService.getToken();
-      const data = `${userEmail}/${_id}/${this.email}`
-      const dataCrypt = CryptoJS.AES.encrypt(data, pass).toString();
-      const pattern = "/";
-      const re = new RegExp(pattern, "g");
-      return String(dataCrypt.replace(re, '%2F'));
-    }
+    // if (userEmail === this.email) {
+    //   return 1;
+    // } else {
+    const pass = this.authService.getToken();
+    const data = `${userEmail}/${_id}/${this.email}`
+    const dataCrypt = CryptoJS.AES.encrypt(data, pass).toString();
+    const pattern = "/";
+    const re = new RegExp(pattern, "g");
+    return String(dataCrypt.replace(re, '%2F'));
+    // }
   }
 
   onMapClick(e: YaEvent<ymaps.Map>): void {
@@ -253,6 +256,7 @@ export class MapTravelComponent implements OnInit, OnDestroy {
     this.travelList = [];
     this.listBorderFlag = false;
   }
+
   getOrganizerInfo(organizerEmail: string) {
     let organizerInfo = {
       fio: '',
@@ -265,15 +269,15 @@ export class MapTravelComponent implements OnInit, OnDestroy {
         organizerInfo.fio = value.fio;
         organizerInfo.age = value.age;
         const ratings = value.ratings;
-       const sumRatings = ratings.map((value: { sumValue: number; }) => value.sumValue)
+        const sumRatings = ratings.map((value: { sumValue: number; }) => value.sumValue)
         const sumRating = sumRatings.reduce((prev: number, next: number) => {
-          return (prev + next)/2;
+          return (prev + next) / 2;
         });
         organizerInfo.sumRating = parseFloat(sumRating.toFixed(1));
       }
     })
     // @ts-ignore
-    for (let i =0; i< parseInt(organizerInfo.sumRating); i++) {
+    for (let i = 0; i < parseInt(organizerInfo.sumRating); i++) {
       organizerInfo.templateRatings += `★`
     }
     return organizerInfo;

@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {UserService} from "../../../shared/services/user.service";
+import {MaterialService} from "../../../shared/classes/material.service";
 
-interface Complains {
-  complaintDescription: string,
-  complaintId: string
+interface Complaint {
+  description: string,
+  _id: string,
+  senderEmail: string
 }
 
 @Component({
@@ -13,13 +15,14 @@ interface Complains {
   styleUrls: ['./complaints.component.scss']
 })
 export class ComplaintsComponent implements OnInit {
-  complains: Complains[] = [];
+  complaints: Complaint[] = [];
   email: string = '';
 
   constructor(
     private route: ActivatedRoute,
     private userService: UserService
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -31,7 +34,7 @@ export class ComplaintsComponent implements OnInit {
   getComplaints(email: string) {
     this.userService.getComplaintByEmail(email).subscribe(
       data => {
-        this.complains = data;
+        this.complaints = data;
       },
       error => console.log(error));
   }
@@ -39,8 +42,13 @@ export class ComplaintsComponent implements OnInit {
   deleteComplaint(email: string, id: string) {
     this.userService.deleteComplaintById(email, id).subscribe(
       () => {
-        this.getComplaints(email)
-      }
+        MaterialService.toast('Жалоба удалена')
+        this.complaints.map((complaint, index) => {
+          if (complaint._id === id)
+            this.complaints.splice(index, 1);
+        })
+      },
+      error => console.log(error)
     )
   }
 }

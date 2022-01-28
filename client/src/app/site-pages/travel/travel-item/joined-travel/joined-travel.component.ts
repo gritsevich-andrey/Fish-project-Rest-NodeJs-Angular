@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Travel} from "../../../../shared/interfaces";
+import {JoinedUser, Travel} from "../../../../shared/interfaces";
 import {TravelService} from "../../../../shared/services/travel.service";
 import {ReviewComponent} from "../../../map-travel/list-descriptions/review/review.component";
 import {MatDialog} from "@angular/material/dialog";
@@ -8,6 +8,7 @@ import {FormControl, FormGroup} from "@angular/forms";
 import {CabinetService} from "../../../cabinet/cabinet.service";
 import {UserProfileComponent} from "../../user-profile/user-profile.component";
 import {forkJoin} from "rxjs";
+import {ComplaintComponent} from "../../complaint/complaint.component";
 
 @Component({
   selector: 'app-joined-travel',
@@ -21,6 +22,9 @@ export class JoinedTravelComponent implements OnInit {
   form!: FormGroup;
   isSetRating = false
   isSetReview = false
+  travelStatus!: string;
+  userStatus!: string;
+  acceptedUsers: any = []
 
   constructor(
     public travelService: TravelService,
@@ -37,6 +41,9 @@ export class JoinedTravelComponent implements OnInit {
     this.form.controls.rating.setValue(user?.travelRating || 0)
     this.isSetRating = user?.isTravelRatingSet || false
     this.isSetReview = user?.isTravelReviewSet || false
+    this.travelStatus = this.getTravelStatus()
+    this.userStatus = this.getUserStatus()
+    this.acceptedUsers = this.getAcceptedUsers()
   }
 
   getJoinedUserFromTravel(email: string) {
@@ -62,6 +69,15 @@ export class JoinedTravelComponent implements OnInit {
       () => this.getUserTravels(this.userEmail),
       error => console.log(error)
     )
+  }
+
+  getUsersWithoutUser(users: JoinedUser[], deleteEmail: string) {
+    const newUsers: JoinedUser[] = []
+    users.map(user => {
+      if (user.userEmail !== deleteEmail)
+        newUsers.push(user)
+    })
+    return newUsers
   }
 
   checkAllUsersPayed() {
@@ -104,14 +120,15 @@ export class JoinedTravelComponent implements OnInit {
       receiverEmail: receiverEmail,
       userFIO: this.getUserFIO()
     }
+
     const dialogRef = this.dialog.open(ReviewComponent,
       {
         data: transferData
       }
     );
     dialogRef.afterClosed().subscribe(
-      ({success}) => {
-        if (success) {
+      (res) => {
+        if (res?.success) {
           this.isSetReview = true
           this.travelService.updateUserTravelReview(this.travel._id, this.userEmail).subscribe()
         }
@@ -120,15 +137,10 @@ export class JoinedTravelComponent implements OnInit {
   }
 
   getUserFIO() {
-    let userFIO = ''
+    //@ts-ignore
+    const {fio} = this.travel.joinedUsers.find(user => user.userEmail = this.userEmail)
 
-    this.travel.joinedUsers.map(user => {
-      if (user.userEmail = this.userEmail) {
-        userFIO = user.fio
-      }
-    })
-
-    return userFIO
+    return fio
   }
 
   openUserProfile(userEmail: string) {
@@ -174,5 +186,10 @@ export class JoinedTravelComponent implements OnInit {
       },
       error => console.log(error)
     )
+  }
+
+  openComplaint(email: string) {
+    const dialogRef = this.dialog.open(ComplaintComponent, {data: {email, senderEmail: this.userEmail}});
+    dialogRef.afterClosed().subscribe();
   }
 }

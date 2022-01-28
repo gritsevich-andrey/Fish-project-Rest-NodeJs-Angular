@@ -1,11 +1,10 @@
 const mongoose = require('mongoose');
-const {v4} = require("uuid");
 const Schema = mongoose.Schema;
 
 const complaintsSchema = new Schema({
     complaints: [{
-        complaintId: {type: String, default: v4()},
-        complaintDescription: {type: String, required: true, default: ''}
+        description: {type: String, required: true, default: ''},
+        senderEmail: {type: String, required: true}
     }],
     email: {
         type: String,

@@ -1,6 +1,6 @@
 <span class="red-text">Созданная поездка</span>
 <div class="freeSeats mat-form-field-label">
-  Свободные места: <span class="red-text"> {{travel.peoplesCount - getJoinedUsers(travel.joinedUsers).length}}
+  Свободные места: <span class="red-text"> {{travel.peoplesCount - joinedUsers.length}}
   / {{travel.peoplesCount }} </span>
 </div>
 
@@ -16,10 +16,11 @@
       <th>Чат</th>
       <th *ngIf="travel.status === 'ended'">Оставить отзыв</th>
       <th *ngIf="travel.status === 'ended'">Оставить рейтинг</th>
+      <th>Жалоба</th>
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let user of getAcceptedUsers(), let j = index">
+    <tr *ngFor="let user of acceptedUsers, let j = index">
       <td>{{j + 1}}</td>
       <td (click)="openUserProfile(user.userEmail)"><span matTooltip="Открыть профиль пользователя"
                                                           class="pointer">{{user.fio || user.nickName}}</span></td>
@@ -28,7 +29,9 @@
         <button class="btn" (click)="openChat(user.userEmail)">Чат</button>
       </td>
       <td *ngIf="travel.status === 'ended'">
-        <button [disabled]="user.isReviewSet" class="waves-effect waves-light btn" (click)="openReviewDialog(user.userEmail, user)">Отзыв</button>
+        <button [disabled]="user.isReviewSet" class="waves-effect waves-light btn"
+                (click)="openReviewDialog(user.userEmail, user)">Отзыв
+        </button>
       </td>
       <td *ngIf="travel.status === 'ended'">
         <div class="ratingContainer">
@@ -41,6 +44,11 @@
           >Сохранить
           </button>
         </div>
+      </td>
+      <td>
+        <button class="btn" (click)="openComplaint(user.userEmail)">
+          Написать
+        </button>
       </td>
     </tr>
     </tbody>
@@ -58,10 +66,11 @@
       <th>Чат</th>
       <th>Отказать</th>
       <th>Разрешить</th>
+      <th>Жалоба</th>
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let user of getNotAcceptedUsers(), let j = index">
+    <tr *ngFor="let user of notAcceptedUsers, let j = index">
       <td>{{j + 1}}</td>
       <td (click)="openUserProfile(user.userEmail)"><span matTooltip="Открыть профиль пользователя"
                                                           class="pointer">{{user.fio || user.nickName}}</span></td>
@@ -70,7 +79,7 @@
         <button class="btn" (click)="openChat(user.userEmail)">Чат</button>
       </td>
       <td>
-        <form [formGroup]="rejectUserForm" (ngSubmit)="rejectFormSubmit(user.userEmail)">
+        <form [formGroup]="rejectUserForm" (ngSubmit)="rejectFormSubmit(user.userEmail, user)">
           <div class="modal" id="rejectUser">
             <div class="modal-content">
               <h4>Напишите причину отказа</h4>
@@ -90,6 +99,7 @@
         <button
           data-target="rejectUser"
           class="btn modal-trigger"
+          [disabled]="user.status === 'Отказано'"
         >
           Отказать
         </button>
@@ -97,9 +107,14 @@
       <td>
         <button
           class="btn"
-          (click)="updateUserStatus(user.userEmail, 'Ожидает оплаты')"
+          (click)="acceptUser(user.userEmail, 'Ожидает оплаты', user)"
         >
           Разрешить
+        </button>
+      </td>
+      <td>
+        <button class="btn" (click)="openComplaint(user.userEmail)">
+          Написать
         </button>
       </td>
     </tr>

@@ -1,16 +1,14 @@
 <mat-dialog-actions>
+  <div class="mapContainer">
+    <ya-map [zoom]="10" (ready)="onMapReady($event)">
+      <ya-placemark
+        [geometry]="placemark?.geometry"
+        [options]="placemark?.options"
+      ></ya-placemark>
+    </ya-map>
+  </div>
   <div>
-    <div class="mapContainer">
-      <ya-map [zoom]="10" (ready)="onMapReady($event)">
-        <ya-placemark
-          [geometry]="placemark?.geometry"
-          [options]="placemark?.options"
-        ></ya-placemark>
-      </ya-map>
-    </div>
-    <div>
-      <button (click)="confirm()" class="waves-effect waves-green btn">Подтвердить</button>
-      <button  class="waves-effect waves-green btn" mat-dialog-close>Отмена</button>
-    </div>
+    <button (click)="confirm()" class="waves-effect waves-green btn">Подтвердить</button>
+    <button class="waves-effect waves-green btn" mat-dialog-close>Отмена</button>
   </div>
 </mat-dialog-actions>
