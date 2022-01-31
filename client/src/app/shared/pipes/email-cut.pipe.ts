@@ -5,7 +5,7 @@ import {Pipe, PipeTransform} from '@angular/core';
 })
 export class EmailCutPipe implements PipeTransform {
 
-  transform(email: string): string {
-    return email.split('@')[0]
+  transform(email?: string): string {
+    return email?.split('@')[0] || ''
   }
 }

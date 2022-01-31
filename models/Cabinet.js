@@ -59,6 +59,10 @@ const cabinetSchema = new Schema({
     kpp: {
         type: String,
         default: ''
-    }
+    },
+    complaints: [{
+        description: {type: String, required: true},
+        senderEmail: {type: String, required: true}
+    }],
 })
 module.exports = mongoose.model('cabinets', cabinetSchema)

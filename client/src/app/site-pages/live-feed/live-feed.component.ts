@@ -24,7 +24,22 @@ export class LiveFeedComponent implements OnInit, OnDestroy {
   showSpinner = false;
   isAllPosts = false;
   likeCount: any = [];
-  bigPost!: LiveFeedPost;
+  bigPost: LiveFeedPost = {
+    imageSrc: '',
+    userEmail: '',
+    description: '',
+    readMore: false,
+    showComments: false,
+    comments: [],
+    _id: '',
+    comment: '',
+    likesCount: 0,
+    isLiked: false,
+    date: '',
+    latitude: 0,
+    longitude: 0,
+    address: '',
+  };
   cristalLightboxProp: Properties = {
     imageMaxHeight: "100%",
     imageMaxWidth: "100%",

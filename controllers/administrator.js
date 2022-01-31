@@ -16,6 +16,7 @@ module.exports.getAll = function (req, res) {
                 cabinet.forEach(cabinet => {
                     if (cabinet.email === user.email) {
                         userData.fio = cabinet.fio
+                        userData.complaints = cabinet.complaints
                     }
                 })
                 resData.push(userData)
