@@ -9,7 +9,7 @@ module.exports.getByEmail = function (req, res) {
 
 module.exports.createOCR = async function (req, res) {
     console.log('OCR files', req.body);
-    res.status(200).json({message: 'OCR received'});
+    res.status(200).json({message: 'OCR received', body: req.body});
 }
 
 module.exports.updateComplaint = function (req, res) {
