@@ -65,9 +65,9 @@ let user of sortedData | searchFilter: searchValue | paginate: { itemsPerPage: u
       </button>
     </td>
     <td>
-      <a [routerLink]="['/administrator/complaints/' + user.email]">
-        <button class="waves-effect waves-light btn-small">Открыть</button>
-      </a>
+      <button class="waves-effect waves-light btn-small" [disabled]="user.complaints?.length === 0" [routerLink]="['/administrator/complaints/' + user.email]">
+        Открыть
+      </button>
     </td>
   </tr>
   </tbody>

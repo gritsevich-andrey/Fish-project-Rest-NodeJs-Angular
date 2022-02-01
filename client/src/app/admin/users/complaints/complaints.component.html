@@ -1,5 +1,6 @@
 <h1>Жалобы пользователя {{email}}</h1>
-<table>
+<h1 *ngIf="complaints.length === 0">На этого пользователя нет жалоб</h1>
+<table *ngIf="complaints.length !== 0">
   <thead>
   <tr>
     <th>№</th>
@@ -27,3 +28,4 @@
   </tr>
   </tbody>
 </table>
+

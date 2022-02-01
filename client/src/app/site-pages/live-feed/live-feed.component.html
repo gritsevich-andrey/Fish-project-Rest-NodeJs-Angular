@@ -6,7 +6,7 @@
         <strong class="teal-text">{{bigPost.date | date:'dd.MM.yyyy'}}</strong>
       </div>
       <span class="imageContainer">
-          <img class="pointer" [src]="bigPost.imageSrc" lightbox [properties]=cristalLightboxProp>
+          <img class="pointer" [src]="bigPost?.imageSrc" lightbox [properties]=cristalLightboxProp>
         </span>
       <div class="feedItemDescription">
         <label>Описание: </label>
@@ -14,7 +14,7 @@
       </div>
       <div class="feedbackBlock">
         <div class="feedItemFeedback">
-          <i class="material-icons {{ bigPost.isLiked ? 'red-text' : 'grey-text darken-2'}}"
+          <i class="material-icons {{ bigPost?.isLiked ? 'red-text' : 'grey-text darken-2'}}"
              (click)="setLike(bigPost._id, bigPost.isLiked)">
             {{bigPost.isLiked ? 'favorite' : 'favorite_border'}}
           </i>
@@ -66,61 +66,63 @@
       (scrolled)="onScrollDown()"
       [alwaysCallback]="true"
     >
-      <div *ngFor="let post of posts" class="feedItem">
-        <div class="feedItemData">
-          <strong>Пользователь: {{post.userEmail | emailCut}}</strong>
-          <strong class="teal-text">{{post.date | date:'dd.MM.yyyy'}}</strong>
-        </div>
-        <span class="imageContainer">
+      <div *ngFor="let post of posts" class="feedItemContainer">
+        <div class="feedItem">
+          <div class="feedItemData">
+            <strong>Пользователь: {{post.userEmail | emailCut}}</strong>
+            <strong class="teal-text">{{post.date | date:'dd.MM.yyyy'}}</strong>
+          </div>
+          <span class="imageContainer">
           <img class="pointer" [src]="post.imageSrc" lightbox [properties]=cristalLightboxProp>
         </span>
-        <div class="feedItemDescription">
-          <label>Описание: </label>
-          <app-read-more [text]="post.description.replace('\r\n', ' ')" [maxLength]="5"></app-read-more>
-        </div>
-        <div class="feedbackBlock">
-          <div class="feedItemFeedback">
-            <i class="material-icons {{ post.isLiked ? 'red-text' : 'grey-text darken-2'}}"
-               (click)="setLike(post._id, post.isLiked)">
-              {{post.isLiked ? 'favorite' : 'favorite_border'}}
-            </i>
-            <span>{{post.likesCount}}</span>
+          <div class="feedItemDescription">
+            <label>Описание: </label>
+            <app-read-more [text]="post.description.replace('\r\n', ' ')" [maxLength]="5"></app-read-more>
           </div>
-          <div
-            class="feedItemFeedback feedItemCommentsIcon"
-            (click)="post.showComments = !post.showComments;"
-          >
-            <i class="material-icons comment-icon grey-text darken-2">comment</i>
-            <span *ngIf="post.comments.length !== 0">{{post.comments.length}}</span>
-          </div>
-          <button *ngIf="post.latitude && post.longitude" class=" btn-small"
-                  (click)="openMap(post.latitude, post.longitude)">Место
-          </button>
-          <button *ngIf="!post.latitude && !post.longitude" class="disabled btn-small">Подробнее</button>
-        </div>
-        <div *ngIf="post.showComments" class="feedItemComments">
-          <hr/>
-          <div *ngFor="let comment of post.comments" class="feedItemComment">
-            <span class="commentEmail teal-text">{{comment.email | emailCut}}</span>
-            <div>
-              <app-read-more [text]="comment.value" [maxLength]="5"></app-read-more>
+          <div class="feedbackBlock">
+            <div class="feedItemFeedback">
+              <i class="material-icons {{ post.isLiked ? 'red-text' : 'grey-text darken-2'}}"
+                 (click)="setLike(post._id, post.isLiked)">
+                {{post.isLiked ? 'favorite' : 'favorite_border'}}
+              </i>
+              <span>{{post.likesCount}}</span>
             </div>
+            <div
+              class="feedItemFeedback feedItemCommentsIcon"
+              (click)="post.showComments = !post.showComments;"
+            >
+              <i class="material-icons comment-icon grey-text darken-2">comment</i>
+              <span *ngIf="post.comments.length !== 0">{{post.comments.length}}</span>
+            </div>
+            <button *ngIf="post.latitude && post.longitude" class=" btn-small"
+                    (click)="openMap(post.latitude, post.longitude)">Место
+            </button>
+            <button *ngIf="!post.latitude && !post.longitude" class="disabled btn-small">Подробнее</button>
           </div>
-          <span *ngIf="post.comments.length === 0">Комментариев нет</span>
-          <div class="row writeCommentBlock">
-            <div class="input-field">
+          <div *ngIf="post.showComments" class="feedItemComments">
+            <hr/>
+            <div *ngFor="let comment of post.comments" class="feedItemComment">
+              <span class="commentEmail teal-text">{{comment.email | emailCut}}</span>
+              <div>
+                <app-read-more [text]="comment.value" [maxLength]="5"></app-read-more>
+              </div>
+            </div>
+            <span *ngIf="post.comments.length === 0">Комментариев нет</span>
+            <div class="row writeCommentBlock">
+              <div class="input-field">
                           <textarea class="materialize-textarea" [(ngModel)]="post.comment"
                                     placeholder="Ваш комментарий"
                                     type="text"></textarea>
-            </div>
-            <div>
-              <a class="waves-effect waves-light btn"
-                 (click)="sendComment(post._id, post.comment, post); post.comment = ''">Отправить</a>
+              </div>
+              <div>
+                <a class="waves-effect waves-light btn"
+                   (click)="sendComment(post._id, post.comment, post); post.comment = ''">Отправить</a>
+              </div>
             </div>
           </div>
-        </div>
-        <div *ngIf="showSpinner">
-          Загрузка...
+          <div *ngIf="showSpinner">
+            Загрузка...
+          </div>
         </div>
       </div>
     </div>
