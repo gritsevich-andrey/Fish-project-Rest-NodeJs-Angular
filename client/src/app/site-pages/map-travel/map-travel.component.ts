@@ -90,7 +90,7 @@ export class MapTravelComponent implements OnInit, OnDestroy {
     ymaps.geolocation
       .get({
         provider: 'yandex',
-        mapStateAutoApply: false,
+        mapStateAutoApply: true,
       })
       .then((result: any) => {
         result.geoObjects.options.set('preset', 'islands#greenDotIcon');
@@ -269,17 +269,19 @@ export class MapTravelComponent implements OnInit, OnDestroy {
         organizerInfo.fio = value.fio;
         organizerInfo.age = value.age;
         const ratings = value.ratings;
-        const sumRatings = ratings.map((value: { sumValue: number; }) => value.sumValue)
-        const sumRating = sumRatings.reduce((prev: number, next: number) => {
-          return (prev + next) / 2;
-        });
-        organizerInfo.sumRating = parseFloat(sumRating.toFixed(1));
+        if(ratings) {
+          const sumRatings = ratings.map((value: { sumValue: number; }) => value.sumValue);
+          const sumRating = sumRatings.reduce((prev: number, next: number) => {
+            return (prev + next) / 2;
+          });
+          organizerInfo.sumRating = parseFloat(sumRating.toFixed(1));
+          // @ts-ignore
+          for (let i = 0; i < parseInt(organizerInfo.sumRating); i++) {
+            organizerInfo.templateRatings += `★`
+          }
+        }
       }
     })
-    // @ts-ignore
-    for (let i = 0; i < parseInt(organizerInfo.sumRating); i++) {
-      organizerInfo.templateRatings += `★`
-    }
     return organizerInfo;
   }
 
