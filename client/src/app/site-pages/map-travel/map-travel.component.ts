@@ -127,7 +127,7 @@ export class MapTravelComponent implements OnInit, OnDestroy {
         debounceTime(500),
         map(value => {
           return this.modifyTravelsData(value);
-        })
+        }),
       )
       .subscribe(data => {
         if (this.travels) {
@@ -260,14 +260,16 @@ export class MapTravelComponent implements OnInit, OnDestroy {
   getOrganizerInfo(organizerEmail: string) {
     let organizerInfo = {
       fio: '',
-      age: 0,
+      age: 0 || '',
       sumRating: 0,
       templateRatings: ''
     };
     this.allCabinetsInfo.map(value => {
       if (organizerEmail === value.email) {
-        organizerInfo.fio = value.fio;
-        organizerInfo.age = value.age;
+        if(value.fio === 'undefined') {organizerInfo.fio = 'Не указано'}
+        else {organizerInfo.fio = value.fio;}
+        if(value.age === 'undefined') {organizerInfo.age = 'Не указан'}
+        else {organizerInfo.age = value.age;}
         const ratings = value.ratings;
         if(ratings) {
           const sumRatings = ratings.map((value: { sumValue: number; }) => value.sumValue);
