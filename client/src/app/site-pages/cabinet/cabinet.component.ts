@@ -7,7 +7,6 @@ import {CabinetService} from "./cabinet.service";
 import {Subscription} from "rxjs";
 import {MatDialog} from "@angular/material/dialog";
 import {AskDialogComponent} from "./ask-dialog/ask-dialog.component";
-import {filter, tap} from "rxjs/operators";
 
 @Component({
   selector: 'app-cabinet',
@@ -83,7 +82,7 @@ export class CabinetComponent implements OnInit, OnDestroy {
         date: any; userEmail: string;
         travelName: any;
         reviewText: any;
-        userFIO: any;
+        userFIO: string;
       }[] = [];
       if (data) {
         this.urFlag = data.juridicalPerson === 'Юридическое лицо'
@@ -182,12 +181,28 @@ export class CabinetComponent implements OnInit, OnDestroy {
   }
 
   addDataOnForm(data: any) {
-    // @ts-ignore
-    this.form.get('fio').setValue(data.fio);
-    // @ts-ignore
-    this.form.get('fio').touched = true;
-    // @ts-ignore
-    this.form.get('age').setValue(data.age);
+    if(data.fio === 'undefined')
+    {
+      // @ts-ignore
+      this.form.get('fio').setValue('Не указано');
+    }
+    else {
+      // @ts-ignore
+      this.form.get('fio').setValue(data.fio);
+    }
+
+    if(data.age === 'undefined')
+    {
+      // @ts-ignore
+      this.form.get('age').setValue('Не указан');
+    }
+    else {
+      // @ts-ignore
+      this.form.get('age').setValue(data.age);
+    }
+
+
+
     // @ts-ignore
     this.form.get('gender').setValue(data.gender);
     const array = Object.keys(JSON.parse(data.technique));
@@ -212,7 +227,7 @@ export class CabinetComponent implements OnInit, OnDestroy {
     this.techList.push(this.createTechForm());
   }
 
-  removeTechnique(index: any) {
+  removeTechnique(index: number) {
    const dialogRef = this.dialog.open(AskDialogComponent);
     dialogRef.afterClosed()
       .subscribe(data => {
@@ -220,6 +235,10 @@ export class CabinetComponent implements OnInit, OnDestroy {
           this.techList.removeAt(index);
         }
       });
+    if(index === 0) {
+      this.addTechnique();
+    }
+
   }
 
 

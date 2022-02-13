@@ -2,7 +2,7 @@
   <mat-tab-group mat-align-tabs="end">
     <mat-tab label="Профиль">
       <div class="card-cabinet">
-        <span class="title">&nbsp;<b>Логин:</b> {{ splitEmail(email)}}</span>
+        <span class="title">&nbsp;<b>Логин:</b> {{splitEmail(email)}}</span>
         <form
           [formGroup]="form"
           (ngSubmit)="onSubmit()"
@@ -24,11 +24,9 @@
           <div class="input-field">
             <input placeholder="ФИО" id="fio" type="text"
                    formControlName="fio"
-                   [ngClass]="{invalid: f.fio.touched && f.fio.invalid}"
             >
-            <span class="helper-text red-text"
-                  *ngIf="f.fio.touched && f.fio.invalid">
-       <small *ngIf="f.fio.hasError('required')">Поле не должно быть пустым</small>
+            <span class="helper-text red-text">
+<!--       <small *ngIf="f.fio.hasError('required')">Поле не должно быть пустым</small>-->
       </span>
           </div>
           <div class="input-field">
