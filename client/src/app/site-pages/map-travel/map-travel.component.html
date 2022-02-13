@@ -36,6 +36,7 @@
      + '<br><b>Рейтинг:</b>' + '&nbsp;' + coordinate.organizerInfo.sumRating
      + '<br><span class=rating-star' + ' ' + 'style=color:gold;' + ' ' +'>' + '&nbsp;' + coordinate.organizerInfo.templateRatings + '</span>'
      + [email===coordinate.userEmail ? ' ' : '<br><a href=/join/' + coordinate.url + ' target=_blank' +'>&nbsp;Подробнее</a>']
+     + '<span id=chat><button class='+coordinate.userEmail+'>Написать в чат</button></span>'
      + '</div></div>',
     balloonContentFooter: '<div class=balloon-content__footer><b>Цена за чел:</b> '
     + coordinate.costPerPeople
