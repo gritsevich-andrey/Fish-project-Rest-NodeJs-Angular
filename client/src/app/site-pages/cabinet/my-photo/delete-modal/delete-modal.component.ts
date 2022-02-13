@@ -29,7 +29,9 @@ export class DeleteModalComponent implements OnInit, OnDestroy {
      _id: this.id,
      queryDeleted: true
    }
-   this.sub = this.photoService.updatePhotoInfo(transferObj).subscribe( data => console.log('Данные из диалога', data));
+   this.sub = this.photoService
+     .updatePhotoInfo(transferObj)
+     .subscribe( data => console.log('Данные из диалога', data));
       this.dialogRef.close({ data: true });
   }
 

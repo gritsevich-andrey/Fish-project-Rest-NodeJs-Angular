@@ -34,7 +34,7 @@ export class MyReviewsComponent implements OnInit {
           this.reviews = reviews
         }
       },
-      error => console.log(error)
+      error => console.error(error)
     )
   }
 
@@ -48,7 +48,7 @@ export class MyReviewsComponent implements OnInit {
         );
         dialogRef.afterClosed().subscribe();
       },
-      error => console.log(error)
+      error => console.error(error)
     )
   }
 }

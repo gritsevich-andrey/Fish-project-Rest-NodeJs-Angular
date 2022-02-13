@@ -5,6 +5,9 @@ import {WarningService} from "../../shared/services/warning.service";
 import {UserService} from "../../shared/services/user.service";
 import {CabinetService} from "./cabinet.service";
 import {Subscription} from "rxjs";
+import {MatDialog} from "@angular/material/dialog";
+import {AskDialogComponent} from "./ask-dialog/ask-dialog.component";
+import {filter, tap} from "rxjs/operators";
 
 @Component({
   selector: 'app-cabinet',
@@ -44,7 +47,8 @@ export class CabinetComponent implements OnInit, OnDestroy {
   constructor(private warningService: WarningService,
               private cabinetService: CabinetService,
               private userService: UserService,
-              private fb: FormBuilder) {
+              private fb: FormBuilder,
+              private dialog: MatDialog) {
 
     this.form = new FormGroup({
       fio: new FormControl('', Validators.required),
@@ -140,7 +144,7 @@ export class CabinetComponent implements OnInit, OnDestroy {
         .subscribe(() => {
           this.warningService.sendWarning('Данные успешно обновлены');
         }, err => {
-          console.log(err);
+          console.error(err);
           this.warningService.sendWarning('Ошибка обновления данных')
         });
     } else {
@@ -209,7 +213,13 @@ export class CabinetComponent implements OnInit, OnDestroy {
   }
 
   removeTechnique(index: any) {
-    this.techList.removeAt(index);
+   const dialogRef = this.dialog.open(AskDialogComponent);
+    dialogRef.afterClosed()
+      .subscribe(data => {
+        if(data === 'yes') {
+          this.techList.removeAt(index);
+        }
+      });
   }
 
 

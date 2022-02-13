@@ -71,7 +71,9 @@ export class MyPhotoComponent implements OnInit, OnDestroy {
   }
 
   private getMyPhoto() {
-    this.subCab = this.cabinetService.getPhotoByUserEmail(this.email, this.pageSize, this.countPage).subscribe(data => {
+    this.subCab = this.cabinetService
+      .getPhotoByUserEmail(this.email, this.pageSize, this.countPage)
+      .subscribe(data => {
       if (data) {
         this.userPhotos.length = 0;
         data.map((value: any) => {
@@ -137,7 +139,9 @@ this.photoChecked = newArray;
     if(this.photoChecked.length > 0)
     {
       this.photoChecked.forEach(value => {
-        this.photoService.updatePhotoPublic({id: value.id , public: value.checked}).subscribe(data => {
+        this.photoService
+          .updatePhotoPublic({id: value.id , public: value.checked})
+          .subscribe(data => {
           if(data)
           {
             this.photoChecked.length = 0;
