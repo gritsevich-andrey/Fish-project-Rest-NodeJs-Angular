@@ -1,5 +1,6 @@
 <form [formGroup]="form" (ngSubmit)="createPost()">
-  <div class="row">
+  <div class="card-panel">
+    <div class="card inner-card-align">
     <div class="addPhoto">
       <span>Добавить изображение:</span>
       <i class="material-icons" [class.btn-danger]="filename" (click)="file.click()" matTooltip="Добавить фото в живую ленту">add_a_photo</i>
@@ -18,5 +19,6 @@
                       name="message"></textarea>
     </div>
     <button type="submit" matTooltip="Нужно обязательно указать место съемки" class="btn btn-primary">Отправить</button>
-  </div>
+    </div>
+    </div>
 </form>
