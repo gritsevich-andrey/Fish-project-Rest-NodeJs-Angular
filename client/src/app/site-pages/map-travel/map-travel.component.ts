@@ -59,7 +59,6 @@ export class MapTravelComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.email = this.userService.getUserDataFromLocal();
     this.getData();
-  this.writeInChat();
   }
 
   onMapReady(event: YaReadyEvent) {
@@ -217,6 +216,7 @@ export class MapTravelComponent implements OnInit, OnDestroy {
         .then()
         .catch(error => console.error('Ошибка map', error));
     }
+
   }
 
   onContextMenu(event: YaEvent, id: string) {
@@ -291,12 +291,8 @@ export class MapTravelComponent implements OnInit, OnDestroy {
   getMessageChat() {
     this.warningService.sendWarning(`Сообщение отравлено организатору`);
   }
- writeInChat() {
-    const chatSpan = document.querySelectorAll('#chat');
-   console.log('спан', chatSpan);
-    // chatSpan?.addEventListener('click', () => {
-    //   console.log('Клик по кнопке');
-    // });
+
+  onClickPlacemark(userEmail: any) {
+    console.log('спан', userEmail);
   }
 }
-

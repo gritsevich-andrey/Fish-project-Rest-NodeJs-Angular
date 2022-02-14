@@ -4,7 +4,7 @@ const portSocket = process.env.PORT || 3001
 const cors = require('cors');
 const server = require('http', {
     cors: {
-        origin: "https://localhost:3000",
+        origin: "http://localhost:4200",
         credentials: true,
         methods: ["GET", "POST", "OPTIONS"]
     }
