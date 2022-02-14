@@ -73,6 +73,7 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import { CutImageNamePipe } from './pipe/cut-image-name.pipe';
 import { ComplaintComponent } from './site-pages/travel/complaint/complaint.component';
 import { AskDialogComponent } from './site-pages/cabinet/ask-dialog/ask-dialog.component';
+import { RejectComponent } from './site-pages/travel/reject/reject.component';
 
 const mapConfig: YaConfig = {
   apikey: '6c5c5f61-fa87-4efd-8ad9-f652f1fd0727',
@@ -123,6 +124,7 @@ const mapConfig: YaConfig = {
     CutImageNamePipe,
     ComplaintComponent,
     AskDialogComponent,
+    RejectComponent,
   ],
     imports: [
         NgImageSliderModule,

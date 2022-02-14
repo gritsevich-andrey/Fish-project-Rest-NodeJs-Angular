@@ -79,26 +79,10 @@
         <button class="btn" (click)="openChat(user.userEmail)">Чат</button>
       </td>
       <td>
-        <form [formGroup]="rejectUserForm" (ngSubmit)="rejectFormSubmit(user.userEmail, user)">
-          <div class="modal" id="rejectUser">
-            <div class="modal-content">
-              <h4>Напишите причину отказа</h4>
-              <div class="input-field">
-                <textarea formControlName="comment" id="rejectReason" class="materialize-textarea"></textarea>
-                <label for="rejectReason">Причина отказа</label>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button class="{{this.rejectUserForm.valid ? 'modal-close btn':'btn'}}">
-                Отказать
-              </button>
-            </div>
-          </div>
-        </form>
 
         <button
-          data-target="rejectUser"
-          class="btn modal-trigger"
+          (click)="openReject(user.userEmail, user)"
+          class="btn "
           [disabled]="user.status === 'Отказано'"
         >
           Отказать

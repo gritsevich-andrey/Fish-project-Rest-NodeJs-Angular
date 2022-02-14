@@ -13,6 +13,7 @@ import {Router} from "@angular/router";
 import {forkJoin} from "rxjs";
 import {error} from "password-validator/typings/constants";
 import {ComplaintComponent} from "../../complaint/complaint.component";
+import {RejectComponent} from "../../reject/reject.component";
 
 declare var M: {
   Modal: { init: (arg0: NodeListOf<Element>) => any; }
@@ -28,7 +29,6 @@ export class CreatedTravelComponent implements OnInit {
   @Input() getUserTravels!: any;
   @Input() userEmail!: string;
   form: FormGroup;
-  rejectUserForm: FormGroup;
   joinedUsers = [];
   acceptedUsers: any = [];
   notAcceptedUsers: any = [];
@@ -42,9 +42,6 @@ export class CreatedTravelComponent implements OnInit {
     this.form = new FormGroup({
       rating: new FormControl('', Validators.required)
     });
-    this.rejectUserForm = new FormGroup({
-      comment: new FormControl('', Validators.required)
-    })
   }
 
   ngOnInit(): void {
@@ -159,18 +156,37 @@ export class CreatedTravelComponent implements OnInit {
     )
   }
 
-  rejectFormSubmit(userEmail: string, user: JoinedUser) {
-    if (!this.rejectUserForm.valid) {
-      MaterialService.toast('Укажите причину отказа')
-    } else {
-      forkJoin([
-        this.travelService.updateUserRejectComment(this.travel._id, userEmail, this.rejectUserForm.controls.comment.value),
-        this.travelService.updateUserStatus(this.travel._id, userEmail, 'Отказано')
-      ]).subscribe(
-        () => user.status = 'Отказано',
-        error => console.log(error)
-      )
-    }
+  // rejectFormSubmit(userEmail: string, user: JoinedUser) {
+  //   if (!this.rejectUserForm.valid) {
+  //     MaterialService.toast('Укажите причину отказа')
+  //   } else {
+  //     forkJoin([
+  //       this.travelService.updateUserRejectComment(this.travel._id, userEmail, this.rejectUserForm.controls.comment.value),
+  //       this.travelService.updateUserStatus(this.travel._id, userEmail, 'Отказано')
+  //     ]).subscribe(
+  //       () => user.status = 'Отказано',
+  //       error => console.log(error)
+  //     )
+  //   }
+  // }
+
+
+  openReject(userEmail: string, user: JoinedUser) {
+    const dialogRef = this.dialog.open(RejectComponent);
+    dialogRef.afterClosed().subscribe(data => {
+      if(data) {
+        forkJoin([
+              this.travelService.updateUserRejectComment(this.travel._id, userEmail, data.reason),
+              this.travelService.updateUserStatus(this.travel._id, userEmail, 'Отказано')
+            ]).subscribe(
+              () => {
+                MaterialService.toast('Пользователю отказано в присоединении к поездке')
+                user.status = 'Отказано'
+              },
+              error => console.log(error)
+            )
+      }
+    });
   }
 
   openUserProfile(userEmail: string) {
