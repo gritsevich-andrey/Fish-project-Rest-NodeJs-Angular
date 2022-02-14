@@ -5,7 +5,7 @@
 </div>
 
 
-<div class="acceptedBlock">
+<div class="acceptedBlock" *ngIf="acceptedUsers.length > 0">
   <span class="mat-form-field-label">Участники</span>
   <table>
     <thead>
@@ -55,7 +55,7 @@
   </table>
 </div>
 
-<div class="requestsBlock">
+<div class="requestsBlock" *ngIf="notAcceptedUsers.length > 0">
   <span class="mat-form-field-label">В ожидании разрешения</span>
   <table>
     <thead>
@@ -89,7 +89,7 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button class="btn">
+              <button class="{{this.rejectUserForm.valid ? 'modal-close btn':'btn'}}">
                 Отказать
               </button>
             </div>

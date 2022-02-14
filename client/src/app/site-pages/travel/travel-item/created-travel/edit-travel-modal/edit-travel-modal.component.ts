@@ -36,8 +36,8 @@ export class EditTravelModalComponent implements OnInit {
     this.form = new FormGroup({
       travelType: new FormControl('', Validators.required),
       travelTarget: new FormControl('', Validators.required),
-      peoplesCount: new FormControl(''),
-      costPerPeople: new FormControl('', Validators.required),
+      peoplesCount: new FormControl('', Validators.required),
+      costPerPeople: new FormControl(''),
       description: new FormControl('', Validators.required),
       travelTechnique: new FormControl(),
       startPointLatitude: new FormControl('', Validators.required),
@@ -122,7 +122,7 @@ export class EditTravelModalComponent implements OnInit {
       travelType: this.form.controls.travelType.value,
       travelTarget: this.form.controls.travelTarget.value,
       peoplesCount: this.form.controls.peoplesCount.value,
-      costPerPeople: this.form.controls.costPerPeople.value,
+      costPerPeople: this.form.controls.costPerPeople.value | 0,
       description: this.form.controls.description.value,
       title: this.form.controls.travelTarget.value,
       startPoint: [{

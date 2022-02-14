@@ -54,7 +54,9 @@ button {
 }
 
 textarea {
-  width: 100%;
+  min-width: 100%;
+  max-width: 100%;
+  min-height: 50px;
   height: 100%;
 }
 :host ::ng-deep .mat-dialog-container {

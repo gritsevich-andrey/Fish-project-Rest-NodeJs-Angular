@@ -6,7 +6,7 @@
       <div>
         <div>
           <div class="coords" *ngIf="isFromMap">
-            <span>Вы выбрали точку на карте</span>
+            <span>Вы выбрали точку на карте (<strong>{{form.controls.endPointLatitude.value.toString().substring(0, 6)}} {{form.controls.endPointLongitude.value.toString().substring(0, 6)}}</strong>)</span>
             <button class="btn" type='button' (click)="openViewPointMap()">Показать</button>
           </div>
           <strong>{{form.controls.travelDate.value | date:'dd.MM.yyyy' }}</strong>
@@ -18,9 +18,12 @@
           <button matTooltip="Добавить изображение поездки" class="waves-effect waves-light btn" type="button"
                   (click)="inputFile.click()">Фото
           </button>
+          <strong
+            *ngIf="!isFromMap">{{form.controls.endPointLatitude.value.toString().substring(0, 6)}} {{form.controls.endPointLongitude.value.toString().substring(0, 6)}}</strong>
           <button *ngIf="!isFromMap" matTooltip="Куда поедем" (click)="openEndPointMapDialog()" type='button'
                   class="waves-effect waves-light btn ">Куда
           </button>
+          <strong>{{form.controls.startPointLatitude.value.toString().substring(0, 6)}} {{form.controls.startPointLongitude.value.toString().substring(0, 6)}}</strong>
           <button matTooltip="Откуда поедем" (click)="openStartPointMapDialog()" type='button'
                   class="waves-effect waves-light btn">Откуда
           </button>

@@ -24,6 +24,9 @@ export class ReviewComponent {
   }
 
   saveReview() {
+    if(!this.message)
+      return MaterialService.toast('Введите текст отзыва')
+
     const email = this.userService.getUserDataFromLocal();
     const receiverEmail = this.data.receiverEmail;
     const travelId = this.data.travelId;

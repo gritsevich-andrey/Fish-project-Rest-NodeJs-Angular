@@ -10,9 +10,9 @@ export class CutImageNamePipe implements PipeTransform {
     if (value.length > 20) {
       const arr = value.split('.')
       const firstPart = arr[0].split('').slice(0, 5).join('')
-      const secondPart = arr[0].split('').slice(-5).join('')
+      const secondPart = arr[arr.length-2].split('').slice(-5).join('')
 
-      return firstPart + '...' + secondPart + '.' + arr[1]
+      return firstPart + '...' + secondPart + '.' + arr[arr.length-1]
     } else {
       return value
     }

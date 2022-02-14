@@ -161,7 +161,7 @@ export class MapTravelComponent implements OnInit, OnDestroy {
         //url: this.createBCryptUrl(data.userEmail, data._id)
         url: this.createBCryptUrl(this.email, data._id)
       };
-      if (!data.queryDelete) {
+      if (!data.queryDelete && data.isPublic) {
         arrayValues.push(tempDataObj);
       }
     })
