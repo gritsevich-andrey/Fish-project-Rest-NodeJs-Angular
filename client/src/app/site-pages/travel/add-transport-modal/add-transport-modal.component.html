@@ -1,23 +1,27 @@
 <mat-dialog-actions>
   <form [formGroup]="techniqueForm" (ngSubmit)="techniqueFormSubmit()">
-    <div>
+    <div formArrayName="techList">
       <h1>Добавьте технику</h1>
-      <div formArrayName="technique" *ngFor="let technique of techList.controls; let i = index;">
-        <div [formGroupName]="i">
+      <h2 *ngIf="techList.controls.length === 0">Вы не добавили технику</h2>
+      <div [formGroupName]="i" *ngFor="let technique of techList.controls; let i = index;" class="tech">
+        <div>
           <label (change)="selectTransport(i, technique.value.selected)">
             <input type="checkbox" [checked]="technique.value.selected"/>
             <span>Выбрать</span>
           </label>
-          <input type="text" placeholder="Название техники" formControlName="name"
-                 matTooltip="Указать технику, на которой оказываются услуги">
-          <input type="text" placeholder="Права на управление" formControlName="license"
-                 matTooltip="Указать категорию прав на управление">
-          <div class="form-group">
-            <i class="material-icons" (click)="removeTechnique(i)" matTooltip="Удалить технику">remove_box</i>
-          </div>
+          <button class="btn-small" (click)="removeTechnique(i)" matTooltip="Удалить технику">Удалить технику</button>
         </div>
+        <input type="text" placeholder="Название техники" formControlName="name"
+               matTooltip="Указать технику, на которой оказываются услуги">
+        <input type="text" placeholder="Права на управление"
+               formControlName="license"
+               matTooltip="Указать категорию прав на управление">
       </div>
-      <i class="material-icons" (click)="addTechnique()" matTooltip="Добавить технику">add_box</i>
+      <div class="addTech">
+        <i class="material-icons" (click)="addTechnique()" matTooltip="Добавить технику">add_box</i>
+        <span>Добавить технику</span>
+      </div>
+
       <div>
         <button class="waves-effect waves-light btn" type="button" mat-dialog-close>Отмена</button>
         <button class="waves-effect waves-light btn" type="submit">Выбрать и Сохранить</button>

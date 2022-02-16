@@ -30,6 +30,13 @@ export class ListDescriptionsComponent {
   ) {
   }
 
+
+  /**/
+  getTechNames() {
+    //@ts-ignore
+    return JSON.parse(this.travels.travelTechnique).map((tech: any) => tech.name).join(', ')
+  }
+
   openChatDialog(receiverEmail: string) {
     const dialogRef = this.dialog.open(ChatDialogComponent,
       {

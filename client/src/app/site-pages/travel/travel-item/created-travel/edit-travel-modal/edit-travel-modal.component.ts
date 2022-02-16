@@ -82,18 +82,18 @@ export class EditTravelModalComponent implements OnInit {
     }
 
     this.initMaterialize()
-    this.getCabinet(this.data.userEmail)
+    //this.getCabinet(this.data.userEmail)
   }
 
-  getCabinet(userEmail: string) {
-    this.cabinetService.getCabinetData(userEmail).subscribe(
-      ({technique}) => {
-        // @ts-ignore
-        this.technique = JSON.parse(technique)
-      },
-      error => console.log(error)
-    )
-  }
+  // getCabinet(userEmail: string) {
+  //   this.cabinetService.getCabinetData(userEmail).subscribe(
+  //     ({technique}) => {
+  //       // @ts-ignore
+  //       this.technique = JSON.parse(technique)
+  //     },
+  //     error => console.log(error)
+  //   )
+  // }
 
   initMaterialize() {
     const options = {
@@ -119,7 +119,7 @@ export class EditTravelModalComponent implements OnInit {
   onSubmit() {
     let travelData = {
       userEmail: this.data.userEmail,
-      travelType: this.form.controls.travelType.value,
+      travelType: this.form.controls.travelTechnique.value?.length != 0 ? "technique" : "onFeet",
       travelTarget: this.form.controls.travelTarget.value,
       peoplesCount: this.form.controls.peoplesCount.value,
       costPerPeople: this.form.controls.costPerPeople.value | 0,
@@ -133,7 +133,7 @@ export class EditTravelModalComponent implements OnInit {
         latitude: this.form.controls.endPointLatitude.value,
         longitude: this.form.controls.endPointLongitude.value
       }],
-      travelTechnique: this.form.controls.travelTechnique.value,
+      travelTechnique: [this.form.controls.travelTechnique.value],
       date: this.form.controls.travelDate.value,
       address: this.form.controls.endPointAddress.value,
       file: this.form.controls.file.value,
@@ -184,6 +184,7 @@ export class EditTravelModalComponent implements OnInit {
     const file = (event.target as HTMLInputElement).files[0];
     this.form.patchValue({file})
   }
+
 
   get f() {
     return this.form.controls;
@@ -236,18 +237,24 @@ export class EditTravelModalComponent implements OnInit {
   }
 
   openAddTransport() {
-    let dialogRef = this.dialog.open(AddTransportModalComponent, {
+    const dialogRef = this.dialog.open(AddTransportModalComponent, {
       data: {
         userEmail: this.data.userEmail,
-        form: this.form,
-        technique: this.technique,
-        setTechnique: this.setTechnique
+        technique: JSON.parse(this.form.controls.travelTechnique.value),
       }
     });
-    dialogRef.afterClosed().subscribe();
+    dialogRef.afterClosed().subscribe((technique) => {
+      if (technique) {
+        this.form.controls.travelTechnique.setValue(JSON.stringify(technique))
+      }
+    });
   }
 
   setTechnique(tech: any) {
     this.form.controls.travelTechnique.setValue(tech)
+  }
+
+  getTechNames() {
+    return JSON.parse(this.form.controls.travelTechnique.value)?.map((tech: any) => `${tech.name} (${tech.license})`).join(', ')
   }
 }

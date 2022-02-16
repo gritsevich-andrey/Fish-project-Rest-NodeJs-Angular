@@ -77,3 +77,14 @@ textarea {
 .row {
   margin-bottom: 0;
 }
+
+.tech {
+  display: flex;
+  align-items: center;
+  button {
+    margin-right: 20px;
+  }
+  h4 {
+    margin-bottom: 10px;
+  }
+}

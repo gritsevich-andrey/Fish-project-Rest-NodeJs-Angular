@@ -65,3 +65,13 @@ textarea {
 ::ng-deep.mat-form-field-flex {
   display: block;
 }
+.tech {
+  display: flex;
+  align-items: center;
+  button {
+    margin-right: 20px;
+  }
+  h4 {
+    margin-bottom: 0px;
+  }
+}

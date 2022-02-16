@@ -1,8 +1,10 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {FormArray, FormControl, FormGroup} from "@angular/forms";
 import {CabinetService} from "../../cabinet/cabinet.service";
 import {MaterialService} from "../../../shared/classes/material.service";
+import {error} from "password-validator/typings/constants";
+import {AskDialogComponent} from "../../cabinet/ask-dialog/ask-dialog.component";
 
 @Component({
   selector: 'app-add-transport-modal',
@@ -11,104 +13,109 @@ import {MaterialService} from "../../../shared/classes/material.service";
 })
 export class AddTransportModalComponent implements OnInit {
   techniqueForm!: FormGroup
-  techList!: FormArray;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private cabinetService: CabinetService,
     private dialogRef: MatDialogRef<any>,
+    private dialog: MatDialog
   ) {
     this.techniqueForm = new FormGroup({
-      technique: new FormArray([]),
+      techList: new FormArray([])
     })
   }
 
   ngOnInit(): void {
-    this.loadTransport()
+    this.loadTechnique()
   }
 
-  loadTransport() {
-    this.techList = this.techniqueForm.get('technique') as FormArray;
-
-    //if(this.data.technique) {
-    this.techList.controls = []
-    let techArr: any = this.data.form?.controls.travelTechnique.value?.[0].split(',') ?? []
-    this.data.technique.forEach((transport: any) => {
-      //@ts-ignore
-      if (techArr.includes(transport.name))
-        transport.selected = true
-      this.addTechnique(transport)
-    })
-    // } else {
-    //   this.cabinetService.getTransportByEmail(this.data.userEmail).subscribe(
-    //     transports => {
-    //       this.techList.controls = []
-    //       let techArr: any = this.data.form.controls.travelTechnique.value?.[0].split(',')
-    //       transports.forEach((transport: any) => {
-    //         //@ts-ignore
-    //         if (techArr.includes(transport.name))
-    //           transport.selected = true
-    //         this.addTechnique(transport)
-    //       })
-    //     },
-    //     error => console.log(error)
-    //   )
-    // }
+  get techList() {
+    return this.techniqueForm.controls.techList as FormArray
   }
 
-  addTechnique(transport?: any) {
-    this.techList.push(this.createTechForm(transport));
-  }
-
-  createTechForm(transport?: any): FormGroup {
-    return new FormGroup({
-      name: new FormControl(transport?.name),
-      license: new FormControl(transport?.license),
-      selected: new FormControl(transport?.selected ?? false)
-    });
-  }
-
-  techniqueFormSubmit() {
-    this.cabinetService.getCabinetData(this.data.userEmail).subscribe(
-      cabinet => {
-        let tech: any = []
-        this.techList.value.forEach((technique: any) => {
-          tech.push({
-            name: technique.name,
-            license: technique.license
+  loadTechnique() {
+    this.cabinetService.getCabinetData(this.data.userEmail).subscribe(({technique}) => {
+      // @ts-ignore
+      technique = JSON.parse(technique)
+      if (this.data.technique) {
+        technique.map((tech: any) => {
+          this.data.technique.map((selectedTech: any) => {
+            if (tech.name === selectedTech.name && tech.license === selectedTech.license) {
+              //this.techList.push(this.createTechForm(tech.name, tech.license, true))
+              tech.selected = true
+            }
           })
         })
-        //@ts-ignore
-        cabinet.technique = tech
-        this.setTechnique(cabinet)
-      },
-      error => console.log(error)
-    )
+        technique.map((tech: any) => {
+          if(tech.selected) {
+            this.techList.push(this.createTechForm(tech.name, tech.license, true))
+          } else {
+            this.techList.push(this.createTechForm(tech.name, tech.license, false))
+          }
+        })
+
+      } else {
+        technique.map((tech: any) => {
+          this.techList.push(this.createTechForm(tech.name, tech.license, false))
+        })
+      }
+    })
   }
 
   selectTransport(index: number, status: boolean) {
     this.techList.value[index].selected = !status
   }
 
-  removeTechnique(index: any) {
-    this.techList.removeAt(index);
+  createTechForm(name?: string, license?: string, selected?: boolean): FormGroup {
+    return new FormGroup({
+      name: new FormControl(name ?? ''),
+      license: new FormControl(license ?? ''),
+      selected: new FormControl(selected ?? false)
+    })
   }
 
-  setTechnique(cabinet: any) {
-    this.cabinetService.updateCabinetData(cabinet).subscribe(
-      () => {
-        //@ts-ignore
-        let tech = []
-        this.techList.value.forEach((el: any) => {
-          if (el.selected) tech.push(el.name)
-        })
+  removeTechnique(index: number) {
+    // const dialogRef = this.dialog.open(AskDialogComponent);
+    // dialogRef.afterClosed()
+    //   .subscribe((data: string) => {
+    //     if (data === 'yes') {
+          this.techList.removeAt(index);
+          // const cabinetData = {
+          //   email: this.data.userEmail,
+          //   technique: this.techList.value.map(({selected, ...rest}: any) => rest)
+          // }
+          // this.cabinetService.updateCabinetData(cabinetData)
+          //   .subscribe(
+          //     () => MaterialService.toast('Техника удалена'),
+          //     error => MaterialService.toast('Ошибка удаления')
+          //   )
+        // }
+      // });
+  }
 
-        //@ts-ignore
-        this.data.setTechnique(tech)
-        this.dialogRef.close()
-        MaterialService.toast('Вы успешно загрузили технику')
-      },
-      error => console.log(error)
-    )
+  addTechnique() {
+    this.techList.push(this.createTechForm());
+    const cabinetData = {
+      email: this.data.userEmail,
+      technique: this.techList.value.map(({selected, ...rest}: any) => rest)
+    }
+    this.cabinetService.updateCabinetData(cabinetData)
+      .subscribe(
+        () => MaterialService.toast('Техника добавлена'),
+        error => MaterialService.toast('Ошибка добавления')
+      )
+  }
+
+  techniqueFormSubmit() {
+    const cabinetData = {
+      email: this.data.userEmail,
+      technique: this.techList.value.map(({selected, ...rest}: any) => rest)
+    }
+    this.cabinetService.updateCabinetData(cabinetData)
+      .subscribe(
+        () => {},
+        error => MaterialService.toast('Ошибка добавления')
+      )
+    this.dialogRef.close(this.techList.value.filter((tech: any) => tech.selected).map(({selected, ...rest}: any) => rest))
   }
 }

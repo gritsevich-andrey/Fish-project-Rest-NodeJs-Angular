@@ -11,7 +11,9 @@
     <p *ngIf="travels.fromAddress"><b>Откуда:</b> {{travels.fromAddress}}</p>
     <p><b>Когда:</b> {{travels.date | date: 'dd.MM.yyyy'}}</p>
     <span class="p10"><app-read-more [text]="travels.description" [maxLength]="15"></app-read-more></span>
-    <p *ngIf="!travels.travelTechnique.includes('') && travels.travelTechnique[0] !== 'null'"><b>Техника:</b> {{travels.travelTechnique | space: 'travels.travelTechnique'}}</p>
+    <p *ngIf="!travels.travelTechnique.includes('') && travels.travelTechnique[0] !== 'null'"><b>Техника:</b>{{getTechNames()}}</p>
+<!--      {{travels.travelTechnique | space: 'travels.travelTechnique'}}</p>-->
+
   </mat-card-content>
   <mat-card-actions>
     <span class="p10">

@@ -40,7 +40,6 @@ export class CreateTravelModalComponent implements OnInit, OnDestroy {
     private yaGeocoderService: YaGeocoderService,
   ) {
     this.form = new FormGroup({
-      travelType: new FormControl('', Validators.required),
       travelTarget: new FormControl('', Validators.required),
       peoplesCount: new FormControl('', Validators.required),
       costPerPeople: new FormControl('',),
@@ -78,7 +77,7 @@ export class CreateTravelModalComponent implements OnInit, OnDestroy {
       ({fio, technique}) => {
         this.userFIO = fio
         // @ts-ignore
-        this.technique = JSON.parse(technique)
+        //this.technique = JSON.parse(technique)
       },
       error => console.log(error)
     )
@@ -109,7 +108,7 @@ export class CreateTravelModalComponent implements OnInit, OnDestroy {
   onSubmit() {
     let travelData = {
       userEmail: this.data.userEmail,
-      travelType: this.form.controls.travelType.value,
+      travelType: this.form.controls.travelTechnique.value?.length != 0 ? "technique" : "onFeet",
       travelTarget: this.form.controls.travelTarget.value,
       peoplesCount: this.form.controls.peoplesCount.value,
       costPerPeople: this.form.controls.costPerPeople.value | 0,
@@ -123,7 +122,7 @@ export class CreateTravelModalComponent implements OnInit, OnDestroy {
         latitude: this.form.controls.endPointLatitude.value,
         longitude: this.form.controls.endPointLongitude.value
       }],
-      travelTechnique: this.form.controls.travelTechnique.value,
+      travelTechnique: [JSON.stringify(this.form.controls.travelTechnique.value)],
       date: this.form.controls.travelDate.value,
       address: this.form.controls.endPointAddress.value,
       file: this.form.controls.file.value,
@@ -133,6 +132,7 @@ export class CreateTravelModalComponent implements OnInit, OnDestroy {
       userFIO: this.userFIO,
       fromAddress: this.form.controls.startPointAddress.value
     }
+    console.log(this.form.controls.travelTechnique.value)
     if (this.form.valid) {
       this.sub = this.travelService.createTravel(travelData).subscribe(
         () => {
@@ -205,12 +205,14 @@ export class CreateTravelModalComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(AddTransportModalComponent, {
       data: {
         userEmail: this.data.userEmail,
-        setTechnique: this.setTechnique,
-        technique: this.technique,
-        form: this.form
+        technique: this.form.controls.travelTechnique.value,
       }
     });
-    dialogRef.afterClosed().subscribe();
+    dialogRef.afterClosed().subscribe((technique) => {
+      if (technique) {
+        this.form.controls.travelTechnique.setValue(technique)
+      }
+    });
   }
 
   setTechnique(tech: any) {
@@ -235,5 +237,9 @@ export class CreateTravelModalComponent implements OnInit, OnDestroy {
     if (this.sub) {
       this.sub.unsubscribe();
     }
+  }
+
+  getTechNames() {
+    return this.form.controls.travelTechnique.value?.map((tech: any) => `${tech.name} (${tech.license})`).join(', ')
   }
 }

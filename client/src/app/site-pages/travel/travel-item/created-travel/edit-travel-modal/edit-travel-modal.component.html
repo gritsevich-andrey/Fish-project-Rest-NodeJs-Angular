@@ -31,17 +31,22 @@
           </span>
         </div>
 
-        <div class="input-field select-field-item">
-          <select formControlName="travelType" class="icons" (change)="travelTypeChange()">
-            <option value="" disabled>Выбрать технику</option>
-            <option value="onFoot" class="left">Нет</option>
-            <option value="technique" class="left">Выбрать</option>
-          </select>
-        </div>
+<!--        <div class="input-field select-field-item">-->
+<!--          <select formControlName="travelType" class="icons" (change)="travelTypeChange()">-->
+<!--            <option value="" disabled>Выбрать технику</option>-->
+<!--            <option value="onFoot" class="left">Нет</option>-->
+<!--            <option value="technique" class="left">Выбрать</option>-->
+<!--          </select>-->
+<!--        </div>-->
 
-        <div *ngIf="this.form.controls.travelType.value === 'technique'">
-          <button type="button" class="waves-effect waves-light btn" (click)="openAddTransport()">Выбрать технику
-          </button>
+<!--        <div *ngIf="this.form.controls.travelType.value === 'technique'">-->
+<!--          <button type="button" class="waves-effect waves-light btn" (click)="openAddTransport()">Выбрать технику-->
+<!--          </button>-->
+<!--        </div>-->
+        <div class="tech">
+          <button class="btn" type='button' (click)="this.openAddTransport()">Выбрать технику</button>
+          <h4 *ngIf="form.controls.travelTechnique.value !== null && form.controls.travelTechnique.value?.length !== 0">{{getTechNames()}}</h4>
+          <h4 *ngIf="form.controls.travelTechnique.value === null || form.controls.travelTechnique.value.length === 0">Техника не выбрана</h4>
         </div>
 
         <div class="buttonBlock">

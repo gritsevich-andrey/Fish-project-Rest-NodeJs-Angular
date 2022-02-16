@@ -35,18 +35,24 @@
             <small *ngIf="f.name.hasError('required')">Поле не должно быть пустым</small>
           </span>
         </div>
-        <div class="input-field select-field-item">
-          <select formControlName="travelType" class="icons" (change)="travelTypeChange()">
-            <option value="" disabled selected>Выберите технику</option>
-            <option value="onFoot" class="left">Нет</option>
-            <option value="technique" class="left">Выбрать</option>
-          </select>
+        <!--        <div class="input-field select-field-item">-->
+        <!--          <select formControlName="travelType" class="icons" (change)="travelTypeChange()">-->
+        <!--            <option value="" disabled selected>Выберите технику</option>-->
+        <!--            <option value="onFoot" class="left">Нет</option>-->
+        <!--            <option value="technique" class="left">Выбрать</option>-->
+        <!--          </select>-->
+        <!--        </div>-->
+        <!--        <div *ngIf="isTechnique">-->
+        <!--        <button type='button' data-target="addTransport" class="waves-effect waves-light btn modal-trigger"-->
+        <!--                (click)="this.openAddTransport()">Выбрать технику-->
+        <!--        </button>-->
+        <!--        </div>-->
+        <div class="tech">
+          <button class="btn" type='button' (click)="this.openAddTransport()">Выбрать технику</button>
+          <h4 *ngIf="form.controls.travelTechnique.value !== null && form.controls.travelTechnique.value?.length !== 0">{{getTechNames()}}</h4>
+          <h4 *ngIf="form.controls.travelTechnique.value === null || form.controls.travelTechnique.value.length === 0">Техника не выбрана</h4>
         </div>
-        <div *ngIf="isTechnique">
-          <button type='button' data-target="addTransport" class="waves-effect waves-light btn modal-trigger"
-                  (click)="this.openAddTransport()">Выбрать технику
-          </button>
-        </div>
+
         <div class="input-field select-field-item">
           <select class="icons" formControlName="travelTarget">
             <option value="" selected disabled>Цель поездки</option>
