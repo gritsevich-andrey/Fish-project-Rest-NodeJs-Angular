@@ -240,7 +240,6 @@ export class MapTravelComponent implements OnInit, OnDestroy {
     }
     this.idTrainForSelect = [...new Set(arrayIds)];
     this.createTravelList();
-    console.log('Контекстное меню');
   }
 
   createTravelList() {
@@ -279,7 +278,6 @@ export class MapTravelComponent implements OnInit, OnDestroy {
         if(ratings) {
           const sumRatings = ratings.map((value: { sumValue: number; }) => value.sumValue);
           const sumRating = sumRatings.reduce((prev: number, next: number) => {
-            console.log(prev, next);
             if(prev === 0)
             {
               return (prev + next);
@@ -305,10 +303,12 @@ export class MapTravelComponent implements OnInit, OnDestroy {
 
   onClickPlacemarkButton(receivedEmail: string) {
     const mes = document.getElementById('message');
-    // @ts-ignore
-    mes.addEventListener('click', (e)=>{
-      this.openChatDialog(receivedEmail);
-    })
+    if(mes) {
+      // @ts-ignore
+      mes.addEventListener('click', (e)=>{
+        this.openChatDialog(receivedEmail);
+      })
+    }
   }
  openChatDialog(receiverEmail: string) {
     const dialogRef = this.dialog.open(ChatDialogComponent,
