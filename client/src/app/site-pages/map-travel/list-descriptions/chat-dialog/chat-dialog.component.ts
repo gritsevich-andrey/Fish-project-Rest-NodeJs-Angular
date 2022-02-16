@@ -53,7 +53,12 @@ export class ChatDialogComponent {
         date: Date.now()
       }]
     }
-    this.saveInDb();
+    if(this.message) {
+      this.saveInDb();
+    }
+    else {
+      this.warningService.sendWarning('Тело сообщения не может быть пустым');
+    }
   }
 
   private saveInDb() {

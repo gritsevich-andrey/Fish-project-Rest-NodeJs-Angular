@@ -1,6 +1,7 @@
 <div class="container card-panel" *ngIf="!isOrganizer">
-  <button class="btn" [class.btn-primary]="isVisible" (click)="isVisible = !isVisible">
-    {{isVisible ? 'Закрыть панель' : 'Добавить фото в ленту'}}</button>
+  <a class="waves-effect btn-primary waves-light btn-small" (click)="isVisible = !isVisible"><i class="material-icons left"><span class="material-icons">add_to_photos</span></i>{{isVisible ? 'Закрыть панель' : 'Добавить фото в ленту'}}</a>
+<!--  <button class="btn" [class.btn-primary]="isVisible" (click)="isVisible = !isVisible">-->
+<!--    {{isVisible ? 'Закрыть панель' : 'Добавить фото в ленту'}}</button>-->
   <div *ngIf="isVisible">
     <app-create-post [userEmail]="emailForPhoto"></app-create-post>
   </div>

@@ -3,6 +3,6 @@
     <mat-label>Текст сообщения</mat-label>
     <textarea matInput name="message" [(ngModel)]="message"></textarea>
   </mat-form-field>
-  <button mat-button mat-dialog-close>Отмена</button>
-  <button mat-button cdkFocusInitial (click)="saveMessage()">Отправить</button>
+  <button class="btn-primary" mat-button mat-dialog-close>Отмена</button>
+  <button class="btn-primary" mat-button cdkFocusInitial (click)="saveMessage()">Отправить</button>
 </mat-dialog-actions>

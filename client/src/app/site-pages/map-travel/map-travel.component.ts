@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import {YaEvent, YaReadyEvent} from "angular8-yandex-maps";
 import {TravelService} from "../../shared/services/travel.service";
 import {EmitterService} from "../../shared/services/emitter.service";
@@ -6,11 +6,12 @@ import {MatDialog} from "@angular/material/dialog";
 import {UserService} from "../../shared/services/user.service";
 import * as CryptoJS from "crypto-js";
 import {AuthService} from "../../shared/services/auth.service";
-import {debounceTime, map} from "rxjs/operators";
+import {debounceTime, filter, map, tap} from "rxjs/operators";
 import {Subscription} from "rxjs";
 import {Travel} from "../../shared/interfaces";
 import {CabinetService} from "../cabinet/cabinet.service";
 import {WarningService} from "../../shared/services/warning.service";
+import {ChatDialogComponent} from "./list-descriptions/chat-dialog/chat-dialog.component";
 
 
 @Component({
@@ -37,7 +38,10 @@ export class MapTravelComponent implements OnInit, OnDestroy {
   idTrainForSelect: string[] = [];
   listBorderFlag = false;
   allCabinetsInfo: any[] = [];
+  isSuccess = false;
   private subTravel?: Subscription;
+  @Output()
+  private chatMessageSuccess = new EventEmitter();
 
   constructor(private travelService: TravelService,
               private emitterService: EmitterService,
@@ -59,7 +63,6 @@ export class MapTravelComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.email = this.userService.getUserDataFromLocal();
     this.getData();
-  this.writeInChat();
   }
 
   onMapReady(event: YaReadyEvent) {
@@ -237,6 +240,7 @@ export class MapTravelComponent implements OnInit, OnDestroy {
     }
     this.idTrainForSelect = [...new Set(arrayIds)];
     this.createTravelList();
+    console.log('Контекстное меню');
   }
 
   createTravelList() {
@@ -291,12 +295,29 @@ export class MapTravelComponent implements OnInit, OnDestroy {
   getMessageChat() {
     this.warningService.sendWarning(`Сообщение отравлено организатору`);
   }
- writeInChat() {
-    const chatSpan = document.querySelectorAll('#chat');
-   console.log('спан', chatSpan);
-    // chatSpan?.addEventListener('click', () => {
-    //   console.log('Клик по кнопке');
-    // });
+
+  onClickPlacemarkButton(receivedEmail: string) {
+    const mes = document.getElementById('message');
+    // @ts-ignore
+    mes.addEventListener('click', (e)=>{
+      this.openChatDialog(receivedEmail);
+    })
+  }
+ openChatDialog(receiverEmail: string) {
+    const dialogRef = this.dialog.open(ChatDialogComponent,
+      {data: receiverEmail}
+    );
+  dialogRef.afterClosed()
+      .pipe(
+        filter(value => !!value),
+        tap(() => this.chatMessageSuccess.emit('success'))
+      )
+      .subscribe(()=> {
+        this.warningService.sendWarning('Сообщение успешно отправлено');
+        const btn = document.querySelector('button');
+        // @ts-ignore
+        btn.disabled = true;
+      });
   }
 }
 

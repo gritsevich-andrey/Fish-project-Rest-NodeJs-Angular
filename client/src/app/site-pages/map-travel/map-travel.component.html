@@ -36,7 +36,7 @@
      + '<br><b>Рейтинг:</b>' + '&nbsp;' + coordinate.organizerInfo.sumRating
      + '<br><span class=rating-star' + ' ' + 'style=color:gold;' + ' ' +'>' + '&nbsp;' + coordinate.organizerInfo.templateRatings + '</span>'
      + [email===coordinate.userEmail ? ' ' : '<br><a href=/join/' + coordinate.url + ' target=_blank' +'>&nbsp;Подробнее</a>']
-     + '<span id=chat><button class='+coordinate.userEmail+'>Написать в чат</button></span>'
+     + [email===coordinate.userEmail ? ' ' :'<button id=message class=btn-primary>Написать в чат</button>']
      + '</div></div>',
     balloonContentFooter: '<div class=balloon-content__footer><b>Цена за чел:</b> '
     + coordinate.costPerPeople
@@ -48,6 +48,7 @@
                       preset: 'islands#orangeDotIcon'
         }"
                       (yacontextmenu)="onContextMenu($event, coordinate._id)"
+                      (balloonopen)="onClickPlacemarkButton(coordinate.userEmail)"
         >
         </ya-placemark>
       </div>
