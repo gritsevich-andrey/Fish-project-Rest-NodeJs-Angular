@@ -279,7 +279,14 @@ export class MapTravelComponent implements OnInit, OnDestroy {
         if(ratings) {
           const sumRatings = ratings.map((value: { sumValue: number; }) => value.sumValue);
           const sumRating = sumRatings.reduce((prev: number, next: number) => {
-            return (prev + next) / 2;
+            console.log(prev, next);
+            if(prev === 0)
+            {
+              return (prev + next);
+            }
+            else {
+              return (prev + next) / 2;
+            }
           }, 0);
           organizerInfo.sumRating = parseFloat(sumRating.toFixed(1));
           // @ts-ignore
