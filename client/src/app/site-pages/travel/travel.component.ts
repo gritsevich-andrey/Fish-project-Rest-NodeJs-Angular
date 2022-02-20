@@ -36,7 +36,13 @@ export class TravelComponent implements OnInit {
     this.userEmail = this.userService.getUserDataFromLocal()
 
     if (urlParams) {
-      const dialogRef = this.dialog.open(AcceptJoinComponent);
+      const dialogRef = this.dialog.open(AcceptJoinComponent,
+        {
+          data: {
+            text: 'присоединиться к этой поездке'
+          }
+        }
+      );
       dialogRef.afterClosed().subscribe(
         (res) => {
           if (res?.accept) {
@@ -78,7 +84,8 @@ export class TravelComponent implements OnInit {
     )
   }
 
-  sortData(sort: Sort) {
+  sortData(sort: Sort
+  ) {
     const data = this.userTravels.slice();
     if (!sort.active || sort.direction === '') {
       this.userTravels = data;
@@ -103,7 +110,14 @@ export class TravelComponent implements OnInit {
     });
   }
 
-  compare(a: string | number, b: string | number, isAsc: boolean) {
+  compare(a
+            :
+            string | number, b
+            :
+            string | number, isAsc
+            :
+            boolean
+  ) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
 
@@ -115,6 +129,11 @@ export class TravelComponent implements OnInit {
         }
       }
     );
-    dialogRef.afterClosed().subscribe();
+    dialogRef.afterClosed().subscribe((res) => {
+      if (res?.created) {
+        this.getUserTravels(this.userEmail)
+      }
+    });
+
   }
 }

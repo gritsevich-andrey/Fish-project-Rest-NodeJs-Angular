@@ -105,7 +105,8 @@ export class EditTravelModalComponent implements OnInit {
         weekdaysAbbrev: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб']
       },
       firstDay: 1,
-      format: 'mm.dd.yyyy'
+      format: 'mm.dd.yyyy',
+      minDate: new Date()
     }
 
     const modals = document.querySelectorAll('.modal');
@@ -145,8 +146,7 @@ export class EditTravelModalComponent implements OnInit {
     if (this.form.valid) {
       this.travelService.updateTravel(travelData, this.data.travel._id).subscribe(
         () => {
-          //reload
-          this.dialogRef.close()
+          this.dialogRef.close({updated: true})
           MaterialService.toast('Ваша поездка обновлена')
         },
         error => {
@@ -182,7 +182,12 @@ export class EditTravelModalComponent implements OnInit {
   onFileLoad(event: Event) {
     // @ts-ignore
     const file = (event.target as HTMLInputElement).files[0];
-    this.form.patchValue({file})
+    // @ts-ignore
+    if (!file.name.endsWith('.png') && !file.name.endsWith('.jpeg') && !file.name.endsWith('.jpg')) {
+      MaterialService.toast('Можно загрузить только фотографию')
+    } else {
+      this.form.patchValue({file})
+    }
   }
 
 
@@ -250,11 +255,11 @@ export class EditTravelModalComponent implements OnInit {
     });
   }
 
-  setTechnique(tech: any) {
-    this.form.controls.travelTechnique.setValue(tech)
-  }
-
   getTechNames() {
     return JSON.parse(this.form.controls.travelTechnique.value)?.map((tech: any) => `${tech.name} (${tech.license})`).join(', ')
+  }
+
+  checkIsTechSet() {
+    return this.form.controls.travelTechnique.value !== null && JSON.parse(this.form.controls.travelTechnique.value)?.length !== 0
   }
 }

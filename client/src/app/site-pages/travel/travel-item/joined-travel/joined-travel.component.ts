@@ -93,13 +93,9 @@ export class JoinedTravelComponent implements OnInit {
     } else if (userStatus === 'Ожидает оплаты') {
       return 'Ожидает оплаты'
     } else if (userStatus === 'Оплачено') {
-      if (this.checkAllUsersPayed()) {
-        if (this.travel.status === 'ended') {
-          //Нужно добавить условие
-          return 'Ожидает отзывы и рейтинг'
-        } else {
-          return 'Готов к поездке'
-        }
+      if (this.travel.status === 'ended') {
+        //Нужно добавить условие
+        return 'Ожидает отзывы и рейтинг'
       } else {
         return 'Комплектуется'
       }
@@ -114,7 +110,10 @@ export class JoinedTravelComponent implements OnInit {
     return comment
   }
 
-  openReviewDialog(receiverEmail: string) {
+  openReviewDialog(receiverEmail
+                     :
+                     string
+  ) {
     const transferData = {
       travelId: this.travel._id,
       receiverEmail: receiverEmail,
@@ -143,7 +142,10 @@ export class JoinedTravelComponent implements OnInit {
     return fio
   }
 
-  openUserProfile(userEmail: string) {
+  openUserProfile(userEmail
+                    :
+                    string
+  ) {
     const dialogRef = this.dialog.open(UserProfileComponent,
       {
         data: {
@@ -154,7 +156,10 @@ export class JoinedTravelComponent implements OnInit {
     dialogRef.afterClosed().subscribe();
   }
 
-  saveRating(receiverEmail: string) {
+  saveRating(receiverEmail
+               :
+               string
+  ) {
     const stars = this.form.controls.rating.value
     const rating = {
       travelId: this.travel._id,
@@ -188,7 +193,10 @@ export class JoinedTravelComponent implements OnInit {
     )
   }
 
-  openComplaint(email: string) {
+  openComplaint(email
+                  :
+                  string
+  ) {
     const dialogRef = this.dialog.open(ComplaintComponent, {data: {email, senderEmail: this.userEmail}});
     dialogRef.afterClosed().subscribe();
   }

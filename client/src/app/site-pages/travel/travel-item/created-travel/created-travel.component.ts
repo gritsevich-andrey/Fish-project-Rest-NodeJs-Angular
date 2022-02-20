@@ -14,6 +14,7 @@ import {forkJoin} from "rxjs";
 import {error} from "password-validator/typings/constants";
 import {ComplaintComponent} from "../../complaint/complaint.component";
 import {RejectComponent} from "../../reject/reject.component";
+import {AcceptJoinComponent} from "../../accept-join/accept-join.component";
 
 declare var M: {
   Modal: { init: (arg0: NodeListOf<Element>) => any; }
@@ -128,7 +129,11 @@ export class CreatedTravelComponent implements OnInit {
         }
       }
     );
-    dialogRef.afterClosed().subscribe();
+    dialogRef.afterClosed().subscribe((res) => {
+      if (res?.updated) {
+        this.getUserTravels(this.userEmail)
+      }
+    });
   }
 
   saveRating(receiverEmail: string, ratingCount: number, user: JoinedUser) {
@@ -174,17 +179,17 @@ export class CreatedTravelComponent implements OnInit {
   openReject(userEmail: string, user: JoinedUser) {
     const dialogRef = this.dialog.open(RejectComponent);
     dialogRef.afterClosed().subscribe(data => {
-      if(data) {
+      if (data) {
         forkJoin([
-              this.travelService.updateUserRejectComment(this.travel._id, userEmail, data.reason),
-              this.travelService.updateUserStatus(this.travel._id, userEmail, 'Отказано')
-            ]).subscribe(
-              () => {
-                MaterialService.toast('Пользователю отказано в присоединении к поездке')
-                user.status = 'Отказано'
-              },
-              error => console.log(error)
-            )
+          this.travelService.updateUserRejectComment(this.travel._id, userEmail, data.reason),
+          this.travelService.updateUserStatus(this.travel._id, userEmail, 'Отказано')
+        ]).subscribe(
+          () => {
+            MaterialService.toast('Пользователю отказано в присоединении к поездке')
+            user.status = 'Отказано'
+          },
+          error => console.log(error)
+        )
       }
     });
   }
@@ -219,16 +224,32 @@ export class CreatedTravelComponent implements OnInit {
   }
 
   deleteTravel(travelId: string) {
-    this.travelService.updateTravel({queryDelete: true}, travelId).subscribe(
-      () => {
-        MaterialService.toast('Поездка удалена')
-        this.getUserTravels(this.userEmail)
-      },
-      error => console.log(error)
+    const dialogRef = this.dialog.open(AcceptJoinComponent,
+      {
+        data: {
+          text: 'удалить эту поездку'
+        }
+      }
+    );
+    dialogRef.afterClosed().subscribe(
+      (res) => {
+        if (res?.accept) {
+          this.travelService.updateTravel({queryDelete: true}, travelId).subscribe(
+            () => {
+              MaterialService.toast('Поездка удалена')
+              this.getUserTravels(this.userEmail)
+            },
+            error => console.log(error)
+          )
+        }
+      }
     )
   }
 
-  openComplaint(email: string) {
+  openComplaint(email
+                  :
+                  string
+  ) {
     const dialogRef = this.dialog.open(ComplaintComponent, {data: {email, senderEmail: this.userEmail}});
     dialogRef.afterClosed().subscribe();
   }

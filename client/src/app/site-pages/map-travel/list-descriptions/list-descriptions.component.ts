@@ -34,7 +34,7 @@ export class ListDescriptionsComponent {
   /**/
   getTechNames() {
     //@ts-ignore
-    return JSON.parse(this.travels.travelTechnique).map((tech: any) => tech.name).join(', ')
+    return JSON.parse(this.travels.travelTechnique).map((tech: any) => tech.name).join(', ') || 'Техника не указана'
   }
 
   openChatDialog(receiverEmail: string) {

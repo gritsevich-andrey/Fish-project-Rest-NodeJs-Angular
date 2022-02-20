@@ -53,24 +53,37 @@ button {
   justify-content: space-between;
 }
 
+.input-field.col {
+  label {
+    left: 0 !important;
+    top: 10px !important;
+  }
+}
+
 textarea {
   min-width: 100%;
   max-width: 100%;
   min-height: 50px;
   height: 100%;
+  margin-top: 15px;
 }
+
 :host ::ng-deep .mat-dialog-container {
   width: auto;
 }
+
 ::ng-deep.mat-form-field-flex {
   display: block;
 }
+
 .tech {
   display: flex;
   align-items: center;
+
   button {
     margin-right: 20px;
   }
+
   h4 {
     margin-bottom: 0px;
   }

@@ -52,7 +52,7 @@ export class CreateTravelModalComponent implements OnInit, OnDestroy {
       travelDate: new FormControl('', Validators.required),
       endPointAddress: new FormControl('', Validators.required),
       startPointAddress: new FormControl('', Validators.required),
-      file: new FormControl(''),
+      file: new FormControl('', Validators.required),
       name: new FormControl('', Validators.required),
     });
   }
@@ -132,11 +132,10 @@ export class CreateTravelModalComponent implements OnInit, OnDestroy {
       userFIO: this.userFIO,
       fromAddress: this.form.controls.startPointAddress.value
     }
-    console.log(this.form.controls.travelTechnique.value)
     if (this.form.valid) {
       this.sub = this.travelService.createTravel(travelData).subscribe(
         () => {
-          this.dialogRef.close()
+          this.dialogRef.close({created: true})
           MaterialService.toast('Ваша поездка сохранена')
         },
         error => {
@@ -144,7 +143,37 @@ export class CreateTravelModalComponent implements OnInit, OnDestroy {
           MaterialService.toast('Ошибка сохранения')
         }
       )
-    } else MaterialService.toast('Заполните все поля')
+    } else {
+      controlsLoop:
+      for (let name in this.form.controls) {
+        if (this.form.controls[name].invalid) {
+          switch (name) {
+            case 'travelDate':
+              MaterialService.toast('Укажите дату')
+              break controlsLoop
+            case 'file':
+              MaterialService.toast('Загрузите фотографию')
+              break controlsLoop
+            case 'startPointLatitude':
+              MaterialService.toast('Укажите откуда вы направляетесь')
+              break controlsLoop
+            case 'endPointLatitude':
+              MaterialService.toast('Укажите куда вы направляетесь')
+              break controlsLoop
+            case 'travelTarget':
+              MaterialService.toast('Укажите цель поездки')
+              break controlsLoop
+            case 'peoplesCount':
+              MaterialService.toast('Укажите количество человек')
+              break controlsLoop
+            case 'description':
+              MaterialService.toast('Укажите подробное описание')
+              break controlsLoop
+          }
+
+        }
+      }
+    }
   }
 
   setTravelDate(event: any) {
@@ -154,7 +183,14 @@ export class CreateTravelModalComponent implements OnInit, OnDestroy {
   onFileLoad(event: Event) {
     // @ts-ignore
     const file = (event.target as HTMLInputElement).files[0];
-    this.form.patchValue({file})
+    // @ts-ignore
+    if ((event.target as HTMLInputElement).files.length > 1) {
+      MaterialService.toast('Можно загрузить только одну фотографию')
+    } else if (!file.name.endsWith('.png') && !file.name.endsWith('.jpeg') && !file.name.endsWith('.jpg')) {
+      MaterialService.toast('Можно загрузить только фотографию')
+    } else {
+      this.form.patchValue({file})
+    }
   }
 
   get f() {

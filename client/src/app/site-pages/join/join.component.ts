@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {AuthService} from "../../shared/services/auth.service";
 import * as CryptoJS from 'crypto-js';
 import {WarningService} from "../../shared/services/warning.service";
+import {UserService} from "../../shared/services/user.service";
 
 @Component({
   selector: 'app-join',
@@ -11,6 +12,7 @@ import {WarningService} from "../../shared/services/warning.service";
   styleUrls: ['./join.component.scss']
 })
 export class JoinComponent implements OnInit {
+  isOwnTravel = false
   organizerEmail = '';
   userEmail = '';
   travelId = '';
@@ -19,25 +21,28 @@ export class JoinComponent implements OnInit {
   ratings: any[] = [];
   reviews: any[] = [];
 
-  constructor(private cabinetService: CabinetService,
-              private route: ActivatedRoute,
-              private router: Router,
-              private authService: AuthService,
-              private warningService: WarningService) {
+  constructor(
+    private cabinetService: CabinetService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private authService: AuthService,
+    private warningService: WarningService,
+    private userService: UserService
+  ) {
     this.route.params.subscribe(params => {
-      // this.email = params.email
-      if(params.email === '1') {
-        this.warningService.sendWarning('Вы не можете присоединиться к своей поездке');
-        setTimeout(()=> {
-          window.close();
-        }, 2000)
-      }
       const pass = this.authService.getToken();
       const data = CryptoJS.AES.decrypt(params.email, pass).toString(CryptoJS.enc.Utf8);
       const dataSplitArray = data.split('/');
       this.organizerEmail = dataSplitArray[0];
       this.travelId = dataSplitArray[1];
       this.userEmail = dataSplitArray[2];
+      if (this.organizerEmail === this.userEmail) {
+        this.warningService.sendWarning('Вы не можете присоединиться к своей поездке');
+        // setTimeout(() => {
+        //   window.close();
+        // }, 2000)
+        this.isOwnTravel = true
+      }
     });
   }
 

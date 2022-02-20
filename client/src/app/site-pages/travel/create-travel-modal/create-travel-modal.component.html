@@ -49,8 +49,12 @@
         <!--        </div>-->
         <div class="tech">
           <button class="btn" type='button' (click)="this.openAddTransport()">Выбрать технику</button>
-          <h4 *ngIf="form.controls.travelTechnique.value !== null && form.controls.travelTechnique.value?.length !== 0">{{getTechNames()}}</h4>
-          <h4 *ngIf="form.controls.travelTechnique.value === null || form.controls.travelTechnique.value.length === 0">Техника не выбрана</h4>
+          <strong>
+            <span
+              *ngIf="form.controls.travelTechnique.value !== null && form.controls.travelTechnique.value?.length !== 0">Техника: {{getTechNames()}}</span>
+            <span
+              *ngIf="form.controls.travelTechnique.value === null || form.controls.travelTechnique.value.length === 0">Техника не выбрана</span>
+          </strong>
         </div>
 
         <div class="input-field select-field-item">
@@ -63,17 +67,17 @@
         </div>
         <div class="row">
           <div class="input-field col s6">
-            <input id="peoplesCount" placeholder="Кол-во человек" formControlName="peoplesCount" type="number" min="1"
+            <input id="peoplesCount" formControlName="peoplesCount" type="number" min="1"
                    class="validate input-width"/>
-            <!--          <label for="peoplesCount">Количество человек</label>-->
+            <label for="peoplesCount">Количество человек</label>
             <span class="helper-text red-text" *ngIf="f.peoplesCount.touched && f.peoplesCount.invalid">
               <small *ngIf="f.peoplesCount.hasError('required')">Поле не должно быть пустым</small>
             </span>
           </div>
           <div class="input-field col s6">
-            <input id="costPerPeople" placeholder="Цена за 1 чел" formControlName="costPerPeople" type="number" min="0"
+            <input id="costPerPeople" formControlName="costPerPeople" type="number" min="0"
                    class="validate input-width"/>
-            <!--          <label for="costPerPeople">Цена за 1 чел.</label>-->
+            <label for="costPerPeople">Цена за 1 чел.</label>
             <span class="helper-text red-text" *ngIf="f.costPerPeople.touched && f.costPerPeople.invalid">
               <small *ngIf="f.costPerPeople.hasError('required')">Поле не должно быть пустым</small>
             </span>
