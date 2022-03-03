@@ -19,7 +19,12 @@ const cabinetSchema = new Schema({
     },
     technique: {
         type: [],
-        default: [{name: '', license: ''}]
+        default: [
+            {
+                name: '',
+                license: ''
+            }
+        ]
     },
     juridicalPerson: {
         type: String,

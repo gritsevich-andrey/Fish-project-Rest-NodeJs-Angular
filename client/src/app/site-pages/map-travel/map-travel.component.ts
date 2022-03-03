@@ -137,7 +137,8 @@ export class MapTravelComponent implements OnInit, OnDestroy {
         if (this.travels) {
           this.travels = [];
         }
-        this.travels = data.reverse();
+        //this.travels = data.filter(travel => travel.status !== 'ended').reverse();
+        this.travels = data.filter(travel => travel.status !== 'ended').reverse();
         this.getUniqueCategory();
       });
   }
@@ -159,6 +160,7 @@ export class MapTravelComponent implements OnInit, OnDestroy {
         travelTarget: data.travelTarget,
         travelTechnique: data.travelTechnique,
         userEmail: data.userEmail,
+        status: data.status,
         organizerInfo: this.getOrganizerInfo(data.userEmail),
         _id: data._id,
         //url: this.createBCryptUrl(data.userEmail, data._id)

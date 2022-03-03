@@ -10,12 +10,12 @@
         >
           <div class="input-field">
             <div class="avatar-row">
-            <div class="image-preview"
-                 *ngIf="imagePreview !== '' && imagePreview !== null"
-            >
-              <img [src]="imagePreview" [alt]="form.value.title">
-            </div>
-            <span class="load-icon">
+              <div class="image-preview"
+                   *ngIf="imagePreview !== '' && imagePreview !== null"
+              >
+                <img [src]="imagePreview" [alt]="form.value.title">
+              </div>
+              <span class="load-icon">
             <i class="material-icons" (click)="fileAvatar.click()" matTooltip="Добавить аватар">add_a_photo</i>
             <input [hidden]="hide" type="file" (change)="onImageLoad($event)" #fileAvatar/>
             </span>
@@ -55,13 +55,13 @@
             </p>
           </div>
           <div class="input-field">
-            <span>Техника и права:</span>
+            <span>Техника:</span>
             <div formArrayName="technique" *ngFor="let technique of techList.controls; let i = index;">
               <div [formGroupName]="i">
                 <input class="ml5" type="text" placeholder="Название техники" formControlName="name"
                        matTooltip="Указать технику, на которой оказываются услуги">
-                <input class="ml5" type="text" placeholder="Права на управление" formControlName="license"
-                       matTooltip="Указать категорию прав на управление">
+                <!--                <input class="ml5" type="text" placeholder="Права на управление" formControlName="license"-->
+                <!--                       matTooltip="Указать категорию прав на управление">-->
                 <div class="form-group">
                   <i #addTech class="material-icons" (click)="addTechnique()" matTooltip="Добавить технику">add_box</i>
                   <i class="material-icons" (click)="removeTechnique(i)" matTooltip="Удалить технику">remove_box</i>
@@ -100,7 +100,8 @@
       </div>
     </mat-tab>
     <mat-tab label="Рейтинг и отзывы">
-      <h3><span class="mat-card-subtitle">Средний рейтинг: <b class="mat-title" style=color:#26a69a> {{viewRating.sumRating}}</b>
+      <h3><span class="mat-card-subtitle">Средний рейтинг: <b class="mat-title"
+                                                              style=color:#26a69a> {{viewRating.sumRating}}</b>
       <b style=color:gold> {{viewRating.star}}</b>
       </span></h3>
       <div class="card-cabinet">

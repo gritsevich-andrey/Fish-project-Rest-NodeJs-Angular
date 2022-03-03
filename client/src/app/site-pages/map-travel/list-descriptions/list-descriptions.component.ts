@@ -22,11 +22,12 @@ export class ListDescriptionsComponent {
   @Output()
   private chatMessageSuccess = new EventEmitter();
 
-  constructor(public dialog: MatDialog,
-              private cabinetService: CabinetService,
-              private userService: UserService,
-              private authService: AuthService,
-              private router: Router
+  constructor(
+    public dialog: MatDialog,
+    private cabinetService: CabinetService,
+    private userService: UserService,
+    private authService: AuthService,
+    private router: Router
   ) {
   }
 

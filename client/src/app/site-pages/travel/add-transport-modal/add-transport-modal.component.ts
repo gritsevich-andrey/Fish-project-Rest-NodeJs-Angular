@@ -69,7 +69,7 @@ export class AddTransportModalComponent implements OnInit {
   createTechForm(name?: string, license?: string, selected?: boolean): FormGroup {
     return new FormGroup({
       name: new FormControl(name ?? ''),
-      license: new FormControl(license ?? ''),
+      //license: new FormControl(license ?? ''),
       selected: new FormControl(selected ?? false)
     })
   }

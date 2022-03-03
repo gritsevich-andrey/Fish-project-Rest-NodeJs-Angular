@@ -209,7 +209,7 @@ export class CabinetComponent implements OnInit, OnDestroy {
     for (let i = 0; i < array.length - 1; i++) {
       this.addTechnique();
     }
-// @ts-ignore
+    // @ts-ignore
     this.form.get('technique').setValue(JSON.parse(data.technique));
     this.imagePreview = data.avatar || 'uploads/avatar.jpg';
     // @ts-ignore

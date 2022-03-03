@@ -256,7 +256,8 @@ export class EditTravelModalComponent implements OnInit {
   }
 
   getTechNames() {
-    return JSON.parse(this.form.controls.travelTechnique.value)?.map((tech: any) => `${tech.name} (${tech.license})`).join(', ')
+    //return JSON.parse(this.form.controls.travelTechnique.value)?.map((tech: any) => `${tech.name} (${tech.license})`).join(', ')
+    return JSON.parse(this.form.controls.travelTechnique.value)?.map((tech: any) => `${tech.name}`).join(', ')
   }
 
   checkIsTechSet() {

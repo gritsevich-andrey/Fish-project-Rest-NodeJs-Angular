@@ -276,6 +276,7 @@ export class CreateTravelModalComponent implements OnInit, OnDestroy {
   }
 
   getTechNames() {
-    return this.form.controls.travelTechnique.value?.map((tech: any) => `${tech.name} (${tech.license})`).join(', ')
+    //return this.form.controls.travelTechnique.value?.map((tech: any) => `${tech.name} (${tech.license})`).join(', ')
+    return this.form.controls.travelTechnique.value?.map((tech: any) => `${tech.name}`).join(', ')
   }
 }

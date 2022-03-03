@@ -19,7 +19,8 @@ import {AcceptJoinComponent} from "./accept-join/accept-join.component";
 })
 export class TravelComponent implements OnInit {
   userEmail!: string
-  userTravels: any[] = []
+  activeTravels: Travel[] = []
+  endedTravels: Travel[] = []
 
   constructor(
     private userService: UserService,
@@ -79,16 +80,18 @@ export class TravelComponent implements OnInit {
 
   getUserTravels(userEmail: string) {
     this.travelService.getUserTravels(userEmail).subscribe(
-      (travels: Travel[]) => this.userTravels = travels.reverse().filter(travel => !travel.queryDelete),
+      (travels: Travel[]) => {
+        this.activeTravels = travels.reverse().filter(travel => !travel.queryDelete && travel.status !== 'ended')
+        this.endedTravels = travels.reverse().filter(travel => !travel.queryDelete && travel.status === 'ended')
+      },
       error => console.log(error)
     )
   }
 
-  sortData(sort: Sort
-  ) {
-    const data = this.userTravels.slice();
+  sortData(sort: Sort) {
+    const data = this.activeTravels.slice();
     if (!sort.active || sort.direction === '') {
-      this.userTravels = data;
+      this.activeTravels = data;
       return;
     }
 
