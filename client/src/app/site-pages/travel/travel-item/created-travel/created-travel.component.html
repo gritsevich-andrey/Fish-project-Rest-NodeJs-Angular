@@ -106,7 +106,7 @@
   </table>
 </div>
 
-<div class="buttonsBlock">
+<div class="buttonsBlock" *ngIf="!deleted">
   <div *ngIf="travel.status !== 'ended'">
     <button
       *ngIf="travel.isPublic"

@@ -27,6 +27,7 @@ export class MyPhotoComponent implements OnInit, OnDestroy {
   private subCab?: Subscription;
   isOrganizer = false;
   @Input() organizerEmail = '';
+  @Input() onlyModerated = false;
   cristalLightboxProp: Properties = {
     imageMaxHeight: "100%",
     imageMaxWidth: "100%",
@@ -78,16 +79,31 @@ export class MyPhotoComponent implements OnInit, OnDestroy {
         this.userPhotos.length = 0;
         data.map((value: any) => {
           if (!value.queryDeleted) {
-            this.userPhotos.push(
-              {
-                id: value._id,
-                userEmail: value.userEmail,
-                description: value.description,
-                imageSrc: value.imageSrc,
-                moderation: value.moderation,
-                public: value.public,
-                queryDeleted: value.queryDeleted
-              });
+            if(this.onlyModerated ) {
+              if(value.moderation) {
+                this.userPhotos.push(
+                  {
+                    id: value._id,
+                    userEmail: value.userEmail,
+                    description: value.description,
+                    imageSrc: value.imageSrc,
+                    moderation: value.moderation,
+                    public: value.public,
+                    queryDeleted: value.queryDeleted
+                  });
+              }
+            } else {
+              this.userPhotos.push(
+                {
+                  id: value._id,
+                  userEmail: value.userEmail,
+                  description: value.description,
+                  imageSrc: value.imageSrc,
+                  moderation: value.moderation,
+                  public: value.public,
+                  queryDeleted: value.queryDeleted
+                });
+            }
           }
         });
       }

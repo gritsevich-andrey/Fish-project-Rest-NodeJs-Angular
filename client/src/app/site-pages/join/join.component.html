@@ -4,16 +4,17 @@
   <mat-list-item *ngFor="let userData of user">
     <div mat-line><b>ФИО:</b> {{userData.fio !=='undefined' ? userData.fio : 'Не указано'}}</div>
     <div mat-line><b>Возраст:</b> {{ userData.age !=='undefined' ? userData.age : 'Не указан' }}</div>
-    <div mat-line><b>Пол:</b> {{ userData.gender }}</div>
+    <div mat-line><b>Пол:</b> {{ userData.gender !=='undefined' ? userData.gender : 'Не указано'}}</div>
     <div mat-line><b>Дата регистрации:</b> {{' ' + userData.date | date:'dd.MM.yyyy'}}</div>
-    <div mat-line *ngIf="userData.inn"><b>Юридическое лицо:</b><br>
-    <span mat-line><b>ИНН:</b> {{ userData.inn}} </span>
-      <span mat-line><b>ИНН:</b> {{ userData.kpp}} </span>
+    <div mat-line *ngIf="userData.inn"><b>Юридическое лицо:</b> {{ userData.juridicalPerson !=='undefined' ? userData.juridicalPerson : 'Не указано'}}<br>
+    <span mat-line><b>ИНН:</b> {{ userData.inn !=='undefined' ? userData.inn : 'Не указано'}} </span>
+      <span mat-line><b>ИНН:</b> {{ userData.kpp !=='undefined' ? userData.kpp : 'Не указано'}} </span>
     </div>
     <div mat-line><b>Техника:</b>
-      <ul>
+      <ul *ngIf="technique.length !== 0">
         <span *ngFor="let technika of technique; let i = index"><li>{{i+1 +'. ' + technika.name}}</li></span>
       </ul>
+      <span *ngIf="technique.length === 0">Техника не указана</span>
     </div>
     <br><div mat-line><button [disabled]="isOwnTravel" class="waves-effect waves-light btn red" matTooltip="Присоединиться к поездке" (click)="goTravel()"><i class="material-icons left">add</i>Присоединиться</button></div>
   </mat-list-item>
@@ -26,6 +27,6 @@
     </mat-tab>
   </mat-tab>
   <mat-tab label="Фото">
-    <app-my-photo [organizerEmail]="organizerEmail"></app-my-photo>
+    <app-my-photo [onlyModerated]="true" [organizerEmail]="organizerEmail"></app-my-photo>
   </mat-tab>
 </mat-tab-group>

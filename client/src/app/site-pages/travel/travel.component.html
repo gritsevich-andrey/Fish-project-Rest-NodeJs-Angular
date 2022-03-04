@@ -1,7 +1,7 @@
 <mat-tab-group >
   <mat-tab label="Активные поездки">
     <h1>Список предложенных мест</h1>
-    <div matSort (matSortChange)="sortData($event)" *ngIf="activeTravels.length !== 0">
+    <div matSort (matSortChange)="sortData($event, activeTravels)" *ngIf="activeTravels.length !== 0">
       <div class="travelsList">
         <div mat-sort-header="title">
           <strong>Название:</strong>
@@ -35,7 +35,7 @@
 
   <mat-tab label="Архивные поездки">
     <h1>Список архивных поездок</h1>
-    <div matSort (matSortChange)="sortData($event)" *ngIf="endedTravels.length !== 0">
+    <div matSort (matSortChange)="sortData($event, endedTravels)" *ngIf="endedTravels.length !== 0">
       <div class="travelsList">
         <div mat-sort-header="title">
           <strong>Название:</strong>
@@ -55,5 +55,29 @@
       </div>
     </div>
     <h2 *ngIf="endedTravels.length === 0">У вас нет архивных поездок</h2>
+  </mat-tab>
+  <mat-tab label="Удаленные поездки">
+    <h1>Список удаленных поездок</h1>
+    <h2 *ngIf="deletedTravels.length === 0">У вас нет удаленных поездок</h2>
+    <div matSort (matSortChange)="sortData($event, deletedTravels)" *ngIf="endedTravels.length !== 0">
+      <div class="travelsList">
+        <div mat-sort-header="title">
+          <strong>Название:</strong>
+        </div>
+        <div mat-sort-header="date">
+          <strong>Дата:</strong>
+        </div>
+        <div>
+          <strong>Описание:</strong>
+        </div>
+      </div>
+      <div *ngFor="let item of deletedTravels, let i = index">
+        <app-travel-item [travel]="item"
+                         [userEmail]="userEmail"
+                         [getUserTravels]="getUserTravels.bind(this)"
+                         [deleted]="true"
+        ></app-travel-item>
+      </div>
+    </div>
   </mat-tab>
 </mat-tab-group>

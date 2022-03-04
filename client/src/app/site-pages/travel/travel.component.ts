@@ -21,6 +21,7 @@ export class TravelComponent implements OnInit {
   userEmail!: string
   activeTravels: Travel[] = []
   endedTravels: Travel[] = []
+  deletedTravels: Travel[] = []
 
   constructor(
     private userService: UserService,
@@ -83,13 +84,14 @@ export class TravelComponent implements OnInit {
       (travels: Travel[]) => {
         this.activeTravels = travels.reverse().filter(travel => !travel.queryDelete && travel.status !== 'ended')
         this.endedTravels = travels.reverse().filter(travel => !travel.queryDelete && travel.status === 'ended')
+        this.deletedTravels = travels.reverse().filter(travel => travel.queryDelete)
       },
       error => console.log(error)
     )
   }
 
-  sortData(sort: Sort) {
-    const data = this.activeTravels.slice();
+  sortData(sort: Sort, array: Travel[]) {
+    const data = array.slice();
     if (!sort.active || sort.direction === '') {
       this.activeTravels = data;
       return;

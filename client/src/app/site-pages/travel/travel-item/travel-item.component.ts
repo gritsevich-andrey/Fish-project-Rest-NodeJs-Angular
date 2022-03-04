@@ -10,6 +10,7 @@ export class TravelItemComponent implements OnInit {
     @Input() travel!: Travel;
     @Input() userEmail!: string;
     @Input() getUserTravels!: any;
+    @Input() deleted!: boolean;
 
     constructor() {
     }

@@ -29,6 +29,7 @@ export class CreatedTravelComponent implements OnInit {
   @Input() travel!: Travel;
   @Input() getUserTravels!: any;
   @Input() userEmail!: string;
+  @Input() deleted = false;
   form: FormGroup;
   joinedUsers = [];
   acceptedUsers: any = [];

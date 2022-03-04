@@ -16,6 +16,7 @@
     <app-created-travel [getUserTravels]="getUserTravels"
                         [travel]="travel"
                         [userEmail]="userEmail"
+                        [deleted]="deleted"
     ></app-created-travel>
   </div>
   <div *ngIf="userEmail !== travel.userEmail" class="travel-item">
