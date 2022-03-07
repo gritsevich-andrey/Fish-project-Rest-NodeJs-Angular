@@ -183,7 +183,8 @@ module.exports.changeTravelStatus = function (req, res) {
 
 module.exports.leave = (req, res) => {
     Travel.updateOne({_id: req.body.travelId}, {
-        $pull: {joinedUsers: {userEmail: req.body.userEmail}}
+        $pull: {joinedUsers: {userEmail: req.body.userEmail}},
+        $push: {rejects: {author: req.body.author, reason: req.body.reason}}
     })
         .then(() => res.status(200).json('Вы успешно покинули поездку'))
         .catch(e => errorHandler(res, e))

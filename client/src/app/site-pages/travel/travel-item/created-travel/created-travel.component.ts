@@ -15,6 +15,7 @@ import {error} from "password-validator/typings/constants";
 import {ComplaintComponent} from "../../complaint/complaint.component";
 import {RejectComponent} from "../../reject/reject.component";
 import {AcceptJoinComponent} from "../../accept-join/accept-join.component";
+import {RejectsListComponent} from "./rejects-list/rejects-list.component";
 
 declare var M: {
   Modal: { init: (arg0: NodeListOf<Element>) => any; }
@@ -247,11 +248,13 @@ export class CreatedTravelComponent implements OnInit {
     )
   }
 
-  openComplaint(email
-                  :
-                  string
-  ) {
+  openComplaint(email: string) {
     const dialogRef = this.dialog.open(ComplaintComponent, {data: {email, senderEmail: this.userEmail}});
+    dialogRef.afterClosed().subscribe();
+  }
+
+  openRejects() {
+    const dialogRef = this.dialog.open(RejectsListComponent, {data: this.travel.rejects})
     dialogRef.afterClosed().subscribe();
   }
 }

@@ -87,6 +87,16 @@ const travelSchema = new Schema({
             isReviewSet:  {type: Boolean, default: false}
         }
     ],
+    rejects: [
+        {
+            author: String,
+            reason: String,
+            date: {
+                type: Date,
+                default: Date.now
+            },
+        }
+    ],
     status: {
         type: String,
         default: ''

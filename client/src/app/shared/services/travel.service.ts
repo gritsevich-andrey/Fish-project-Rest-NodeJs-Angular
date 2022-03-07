@@ -75,15 +75,15 @@ export class TravelService {
     return this.http.patch(environment.TRAVEL_API + '/join', {travelId, userEmail})
   }
 
-  leaveFromTravel(userEmail: string, travelId: string): Observable<any> {
-    return this.http.patch(environment.TRAVEL_API + '/leave', {travelId, userEmail})
+  leaveFromTravel(userEmail: string, travelId: string, reason: string, author: string): Observable<any> {
+    return this.http.patch(environment.TRAVEL_API + '/leave', {travelId, userEmail, reason, author})
   }
 
-  updateUserReview(travelId: string, userEmail: string) {
+  updateUserReview(travelId: string, userEmail: string): Observable<any> {
     return this.http.patch(environment.TRAVEL_API + '/update-user-review', {travelId, userEmail})
   }
 
-  updateUserTravelReview(travelId: string, userEmail: string) {
+  updateUserTravelReview(travelId: string, userEmail: string): Observable<any> {
     return this.http.patch(environment.TRAVEL_API + '/update-user-travelReview', {travelId, userEmail})
   }
 }

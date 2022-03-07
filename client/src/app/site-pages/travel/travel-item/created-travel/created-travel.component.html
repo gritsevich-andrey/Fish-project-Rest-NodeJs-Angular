@@ -106,6 +106,16 @@
   </table>
 </div>
 
+<div class="buttonsBlock" *ngIf="travel.rejects.length !== 0">
+  <button
+    class="waves-effect waves-light btn"
+    matTooltip="открыть отказы от поездки"
+    (click)="openRejects()"
+  >отказы от поездки
+  </button>
+</div>
+
+
 <div class="buttonsBlock" *ngIf="!deleted">
   <div *ngIf="travel.status !== 'ended'">
     <button

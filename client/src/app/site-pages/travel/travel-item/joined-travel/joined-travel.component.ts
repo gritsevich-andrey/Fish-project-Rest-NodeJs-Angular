@@ -9,6 +9,8 @@ import {CabinetService} from "../../../cabinet/cabinet.service";
 import {UserProfileComponent} from "../../user-profile/user-profile.component";
 import {forkJoin} from "rxjs";
 import {ComplaintComponent} from "../../complaint/complaint.component";
+import {RejectsListComponent} from "../created-travel/rejects-list/rejects-list.component";
+import {RejectComponent} from "../../reject/reject.component";
 
 @Component({
   selector: 'app-joined-travel',
@@ -110,10 +112,7 @@ export class JoinedTravelComponent implements OnInit {
     return comment
   }
 
-  openReviewDialog(receiverEmail
-                     :
-                     string
-  ) {
+  openReviewDialog(receiverEmail: string) {
     const transferData = {
       travelId: this.travel._id,
       receiverEmail: receiverEmail,
@@ -138,14 +137,10 @@ export class JoinedTravelComponent implements OnInit {
   getUserFIO() {
     //@ts-ignore
     const {fio} = this.travel.joinedUsers.find(user => user.userEmail = this.userEmail)
-
     return fio
   }
 
-  openUserProfile(userEmail
-                    :
-                    string
-  ) {
+  openUserProfile(userEmail: string) {
     const dialogRef = this.dialog.open(UserProfileComponent,
       {
         data: {
@@ -156,10 +151,7 @@ export class JoinedTravelComponent implements OnInit {
     dialogRef.afterClosed().subscribe();
   }
 
-  saveRating(receiverEmail
-               :
-               string
-  ) {
+  saveRating(receiverEmail: string) {
     const stars = this.form.controls.rating.value
     const rating = {
       travelId: this.travel._id,
@@ -183,8 +175,19 @@ export class JoinedTravelComponent implements OnInit {
       )
   }
 
-  leaveFromTravel() {
-    this.travelService.leaveFromTravel(this.userEmail, this.travel._id).subscribe(
+  openReject() {
+    const dialogRef = this.dialog.open(RejectComponent)
+    dialogRef.afterClosed().subscribe((res: { reason?: string }) => {
+      if (res?.reason) {
+        this.leaveFromTravel(res.reason)
+      }
+    })
+  }
+
+  leaveFromTravel(reject: string) {
+    const author: string = this.getUserFIO() || this.userEmail.split('@')[0]
+
+    this.travelService.leaveFromTravel(this.userEmail, this.travel._id, reject, author).subscribe(
       () => {
         MaterialService.toast('Вы отказались от поездки')
         this.getUserTravels(this.userEmail)
@@ -193,10 +196,7 @@ export class JoinedTravelComponent implements OnInit {
     )
   }
 
-  openComplaint(email
-                  :
-                  string
-  ) {
+  openComplaint(email: string) {
     const dialogRef = this.dialog.open(ComplaintComponent, {data: {email, senderEmail: this.userEmail}});
     dialogRef.afterClosed().subscribe();
   }

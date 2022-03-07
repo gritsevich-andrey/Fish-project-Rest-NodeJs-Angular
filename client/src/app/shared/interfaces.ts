@@ -102,6 +102,13 @@ export interface Travel {
   _id: string
   status: string
   queryDelete: boolean
+  rejects: TravelReject[]
+}
+
+export interface TravelReject {
+  author: string
+  date: string
+  reason: string
 }
 
 export interface Review {

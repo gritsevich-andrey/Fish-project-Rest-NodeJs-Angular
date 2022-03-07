@@ -1,0 +1,21 @@
+<mat-dialog-actions>
+  <h1>Список отказов от поездки:</h1>
+  <table>
+    <thead>
+    <tr>
+      <th>№</th>
+      <th>Автор</th>
+      <th>Дата</th>
+      <th>Причина</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let reject of rejects; let i = index">
+      <td>{{i + 1}}</td>
+      <td>{{reject.author}}</td>
+      <td>{{reject.date | date: 'HH:mm dd.MM.yyyy'}}</td>
+      <td>{{reject.reason}}</td>
+    </tr>
+    </tbody>
+  </table>
+</mat-dialog-actions>

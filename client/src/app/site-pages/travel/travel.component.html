@@ -59,7 +59,7 @@
   <mat-tab label="Удаленные поездки">
     <h1>Список удаленных поездок</h1>
     <h2 *ngIf="deletedTravels.length === 0">У вас нет удаленных поездок</h2>
-    <div matSort (matSortChange)="sortData($event, deletedTravels)" *ngIf="endedTravels.length !== 0">
+    <div matSort (matSortChange)="sortData($event, deletedTravels)" *ngIf="deletedTravels.length > 0">
       <div class="travelsList">
         <div mat-sort-header="title">
           <strong>Название:</strong>

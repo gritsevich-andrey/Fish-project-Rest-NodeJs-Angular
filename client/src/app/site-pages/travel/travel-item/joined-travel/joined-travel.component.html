@@ -79,7 +79,7 @@
     </div>
   </div>
   <div class="rejectButton">
-    <button *ngIf="travel.status !== 'ended'" class="btn" (click)="leaveFromTravel()">Отказаться</button>
+    <button *ngIf="travel.status !== 'ended'" class="btn" (click)="openReject()">Отказаться</button>
     <button class="btn" (click)="openComplaint(travel.userEmail)">Пожаловаться на поездку</button>
   </div>
 
