@@ -272,19 +272,23 @@ export class MapTravelComponent implements OnInit, OnDestroy {
     };
     this.allCabinetsInfo.map(value => {
       if (organizerEmail === value.email) {
-        if(value.fio === 'undefined') {organizerInfo.fio = 'Не указано'}
-        else {organizerInfo.fio = value.fio;}
-        if(value.age === 'undefined') {organizerInfo.age = 'Не указан'}
-        else {organizerInfo.age = value.age;}
+        if (value.fio === 'undefined') {
+          organizerInfo.fio = 'Не указано'
+        } else {
+          organizerInfo.fio = value.fio;
+        }
+        if (value.age === 'undefined') {
+          organizerInfo.age = 'Не указан'
+        } else {
+          organizerInfo.age = value.age;
+        }
         const ratings = value.ratings;
-        if(ratings) {
+        if (ratings) {
           const sumRatings = ratings.map((value: { sumValue: number; }) => value.sumValue);
           const sumRating = sumRatings.reduce((prev: number, next: number) => {
-            if(prev === 0)
-            {
+            if (prev === 0) {
               return (prev + next);
-            }
-            else {
+            } else {
               return (prev + next) / 2;
             }
           }, 0);
@@ -305,23 +309,24 @@ export class MapTravelComponent implements OnInit, OnDestroy {
 
   onClickPlacemarkButton(receivedEmail: string) {
     const mes = document.getElementById('message');
-    if(mes) {
+    if (mes) {
       // @ts-ignore
-      mes.addEventListener('click', (e)=>{
+      mes.addEventListener('click', (e) => {
         this.openChatDialog(receivedEmail);
       })
     }
   }
- openChatDialog(receiverEmail: string) {
+
+  openChatDialog(receiverEmail: string) {
     const dialogRef = this.dialog.open(ChatDialogComponent,
       {data: receiverEmail}
     );
-  dialogRef.afterClosed()
+    dialogRef.afterClosed()
       .pipe(
         filter(value => !!value),
         tap(() => this.chatMessageSuccess.emit('success'))
       )
-      .subscribe(()=> {
+      .subscribe(() => {
         this.warningService.sendWarning('Сообщение успешно отправлено');
         const btn = document.querySelector('button');
         // @ts-ignore

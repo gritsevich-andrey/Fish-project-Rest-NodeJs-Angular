@@ -19,9 +19,9 @@
             (yaclick)="onMapClick($event)"
     >
       <ng-container *ngIf="travels">
-      <div *ngFor="let coordinate of travels | search: valueRadio">
-        <ya-placemark *ngFor="let endPoint of coordinate.endPoint"
-                      [geometry]="[endPoint.latitude, endPoint.longitude]" [properties]="{
+        <div *ngFor="let coordinate of travels | search: valueRadio">
+          <ya-placemark *ngFor="let endPoint of coordinate.endPoint"
+                        [geometry]="[endPoint.latitude, endPoint.longitude]" [properties]="{
     balloonContentHeader: coordinate.name,
     balloonContentBody: '<div class=balloon__content>' +
     '<div class=text-column><img src=' + coordinate.imageSrc + ' width=100px />' + '<br/>'
@@ -44,14 +44,14 @@
     +'>&nbsp;&nbsp;Присоединиться к поездке</a>']
     +'</div>',
     hintContent: 'Место: ' + coordinate.address}"
-                      [options]="{
+                        [options]="{
                       preset: 'islands#orangeDotIcon'
         }"
-                      (yacontextmenu)="onContextMenu($event, coordinate._id)"
-                      (balloonopen)="onClickPlacemarkButton(coordinate.userEmail)"
-        >
-        </ya-placemark>
-      </div>
+                        (yacontextmenu)="onContextMenu($event, coordinate._id)"
+                        (balloonopen)="onClickPlacemarkButton(coordinate.userEmail)"
+          >
+          </ya-placemark>
+        </div>
       </ng-container>
       <ya-placemark *ngIf="placemarks"
                     [geometry]="placemarks.geometry"
