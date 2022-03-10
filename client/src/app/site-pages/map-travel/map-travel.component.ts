@@ -69,6 +69,7 @@ export class MapTravelComponent implements OnInit, OnDestroy {
     this.map = event.target;
     this.createMapBalloon();
     this.getCenterMapByIP();
+    this.handleRightClick()
   }
 
   private createMapBalloon() {
@@ -88,6 +89,59 @@ export class MapTravelComponent implements OnInit, OnDestroy {
         }
       }
     });
+  }
+
+  private handleRightClick() {
+    this.map.events.add('contextmenu', (e) => {
+      // if (!this.map.balloon.isOpen()) {
+      const coords = e.get('coords');
+      this.map.balloon.open(coords, {
+        contentHeader: '<label class="mat-card-subtitle">Ваша метка<label>',
+        contentBody:
+          '<p>Координаты: ' +
+          [coords[0].toPrecision(6), coords[1].toPrecision(6)].join(', ') +
+          '</p>' + '<a target=_blank href=/create-trip/' + coords + '>Организовать поездку</a>',
+        contentFooter: '<sup></sup>',
+      });
+      this.placemarks = {
+        geometry: coords,
+        properties: {
+          balloonContent:
+            '<p>Координаты: ' +
+            [coords[0].toPrecision(6), coords[1].toPrecision(6)].join(', ') +
+            '</p><p>' + '<a target=_blank href=/create-trip/' + coords + '>Организовать поездку</a></p>',
+        },
+        options: {
+          preset: 'islands#redDotIcon',
+          iconColor: 'red'
+        }
+      }
+      // } else {
+      //   this.map.balloon.close();
+      // }
+    });
+  }
+
+  onMapClick(e: YaEvent<ymaps.Map>): void {
+    // const {target, event} = e;
+    // console.log(event)
+    // if (!target.balloon.isOpen()) {
+    //   const coords = event.get('coords');
+    //   target.balloon.open(coords, {
+    //     contentHeader: '<label class="mat-card-subtitle">Ваша метка<label>',
+    //     contentBody:
+    //       '<p>Координаты: ' +
+    //       [coords[0].toPrecision(6), coords[1].toPrecision(6)].join(', ') +
+    //       '</p>' + '<a target=_blank href=/create-trip/' + coords + '>Организовать поездку</a>',
+    //     contentFooter: '<sup></sup>',
+    //   })
+    //     .catch()
+    //     .catch(err => console.error('Ошибка map', err));
+    // } else {
+    //   target.balloon.close()
+    //     .then()
+    //     .catch(error => console.error('Ошибка map', error));
+    // }
   }
 
   private getCenterMapByIP() {
@@ -201,27 +255,6 @@ export class MapTravelComponent implements OnInit, OnDestroy {
     const re = new RegExp(pattern, "g");
     return String(dataCrypt.replace(re, '%2F'));
     // }
-  }
-
-  onMapClick(e: YaEvent<ymaps.Map>): void {
-    const {target, event} = e;
-    if (!target.balloon.isOpen()) {
-      const coords = event.get('coords');
-      target.balloon.open(coords, {
-        contentHeader: '<label class="mat-card-subtitle">Ваша метка<label>',
-        contentBody:
-          '<p>Координаты: ' +
-          [coords[0].toPrecision(6), coords[1].toPrecision(6)].join(', ') +
-          '</p>' + '<a target=_blank href=/create-trip/' + coords + '>Организовать поездку</a>',
-        contentFooter: '<sup></sup>',
-      })
-        .catch()
-        .catch(err => console.error('Ошибка map', err));
-    } else {
-      target.balloon.close()
-        .then()
-        .catch(error => console.error('Ошибка map', error));
-    }
   }
 
   onContextMenu(event: YaEvent, id: string) {

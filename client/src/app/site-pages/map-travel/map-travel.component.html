@@ -16,7 +16,6 @@
   <div class="yandex-container">
     <ya-map [center]="[54.83, 37.11]"
             (ready)="onMapReady($event)"
-            (yaclick)="onMapClick($event)"
     >
       <ng-container *ngIf="travels">
         <div *ngFor="let coordinate of travels | search: valueRadio">
