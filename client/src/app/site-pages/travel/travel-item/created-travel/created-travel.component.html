@@ -116,7 +116,7 @@
 </div>
 
 
-<div class="buttonsBlock" *ngIf="!deleted">
+<div class="buttonsBlock" *ngIf="!deleted && canChange">
   <div *ngIf="travel.status !== 'ended'">
     <button
       *ngIf="travel.isPublic"

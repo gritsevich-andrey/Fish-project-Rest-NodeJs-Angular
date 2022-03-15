@@ -35,6 +35,7 @@ export class CreatedTravelComponent implements OnInit {
   joinedUsers = [];
   acceptedUsers: any = [];
   notAcceptedUsers: any = [];
+  canChange = true
 
   constructor(
     public travelService: TravelService,
@@ -51,6 +52,7 @@ export class CreatedTravelComponent implements OnInit {
     this.initMaterialize()
     this.joinedUsers = this.getJoinedUsers(this.travel.joinedUsers)
     this.acceptedUsers = this.getAcceptedUsers()
+    this.canChange = !this.acceptedUsers.some((user: JoinedUser) => user.status === 'Оплачено')
     this.notAcceptedUsers = this.getNotAcceptedUsers()
 
     if (this.checkAllUsersPayed() && !this.travel.status) {
@@ -79,8 +81,10 @@ export class CreatedTravelComponent implements OnInit {
         () => {
           user.status = 'Ожидает оплаты'
           this.joinedUsers = this.getJoinedUsers(this.travel.joinedUsers)
+          this.notAcceptedUsers = this.getNotAcceptedUsers()
+          this.acceptedUsers = this.getAcceptedUsers()
         },
-        error => console.log(error)
+        error => MaterialService.toast('Ошибка присоединения пользователя')
       )
     }
   }

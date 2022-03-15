@@ -28,7 +28,7 @@ export class MapTravelComponent implements OnInit, OnDestroy {
   map: ymaps.Map;
   valueRadio: string | undefined;
   travels: Travel[] = [];
-  travelList: any[] = [];
+  travelList: Travel[] = [];
   page = 0;
   pageSize = 10;
   placemarks: any;
@@ -39,6 +39,8 @@ export class MapTravelComponent implements OnInit, OnDestroy {
   listBorderFlag = false;
   allCabinetsInfo: any[] = [];
   isSuccess = false;
+  focusedTravelId: string = ''
+  prevFocusedTravelId: string = ''
   private subTravel?: Subscription;
   @Output()
   private chatMessageSuccess = new EventEmitter();
@@ -72,8 +74,38 @@ export class MapTravelComponent implements OnInit, OnDestroy {
     this.handleRightClick()
   }
 
+  balloonClose(travelId: string) {
+    if (travelId === this.focusedTravelId) {
+      this.focusedTravelId = ''
+    }
+  }
+
+  placemarkClick(travelId: string) {
+    this.focusedTravelId = travelId
+    for (let i = 0; i < this.travels.length; i++) {
+      if (this.travels[i]._id === travelId) {
+        this.travels.unshift(this.travels[i])
+        this.travels.splice(i + 1, 1)
+        break
+      }
+    }
+
+    //не совсем понимаю то такое ravelList
+    if (this.travelList.length > 0) {
+      for (let i = 0; i < this.travelList.length; i++) {
+        if (this.travelList[i]._id === travelId) {
+          this.travelList.unshift(this.travelList[i])
+          this.travelList.splice(i, 1)
+          break
+        }
+      }
+    }
+
+  }
+
   private createMapBalloon() {
     this.map.events.add('click', (e) => {
+      this.map.balloon.close()
       const coords = e.get('coords');
       this.placemarks = {
         geometry: coords,
@@ -84,8 +116,8 @@ export class MapTravelComponent implements OnInit, OnDestroy {
             '</p><p>' + '<a target=_blank href=/create-trip/' + coords + '>Организовать поездку</a></p>',
         },
         options: {
-          preset: 'islands#redDotIcon',
-          iconColor: 'red'
+          preset: 'islands#blueDotIcon',
+          iconColor: 'blue'
         }
       }
     });
@@ -112,8 +144,8 @@ export class MapTravelComponent implements OnInit, OnDestroy {
             '</p><p>' + '<a target=_blank href=/create-trip/' + coords + '>Организовать поездку</a></p>',
         },
         options: {
-          preset: 'islands#redDotIcon',
-          iconColor: 'red'
+          preset: 'islands#blueDotIcon',
+          iconColor: 'blue'
         }
       }
       // } else {

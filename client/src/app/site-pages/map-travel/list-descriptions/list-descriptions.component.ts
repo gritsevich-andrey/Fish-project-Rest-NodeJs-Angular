@@ -18,6 +18,7 @@ export class ListDescriptionsComponent {
   //@ts-ignore
   @Input() travels: Travel;
   @Input() travelSelect?: any[];
+  @Input() isFocused?: boolean
   imageNull = 'uploads/avatar.jpg';
   @Output()
   private chatMessageSuccess = new EventEmitter();

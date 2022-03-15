@@ -48,6 +48,8 @@
         }"
                         (yacontextmenu)="onContextMenu($event, coordinate._id)"
                         (balloonopen)="onClickPlacemarkButton(coordinate.userEmail)"
+                        (yaclick)="placemarkClick(coordinate._id)"
+                        (balloonclose)="balloonClose(coordinate._id)"
           >
           </ya-placemark>
         </div>
@@ -66,7 +68,7 @@
               itemsPerPage: pageSize,
               currentPage: page
             }">
-      <app-list-descriptions [travels]="travel" (chatMessageSuccess)="getMessageChat()"></app-list-descriptions>
+      <app-list-descriptions [isFocused]="travel._id === focusedTravelId"  [travels]="travel" (chatMessageSuccess)="getMessageChat()"></app-list-descriptions>
     </div>
   </ng-container>
   <ng-container *ngIf="travelList.length > 0">
@@ -74,7 +76,7 @@
               itemsPerPage: pageSize,
               currentPage: page
             }">
-      <app-list-descriptions [travels]="travel"></app-list-descriptions>
+      <app-list-descriptions [isFocused]="travel._id === focusedTravelId" [travels]="travel"></app-list-descriptions>
     </div>
   </ng-container>
 </div>
