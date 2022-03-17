@@ -1,7 +1,9 @@
 const multer = require('multer');
 const moment = require('moment');
 const {v4} = require('uuid');
-
+multer({
+    limits: { fieldSize: 2 * 1024 * 1024 }
+});
 const storage = multer.diskStorage({
     destination(req, file, cb) {
         cb(null, 'uploads/')

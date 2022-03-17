@@ -42,6 +42,8 @@ module.exports.updateComplaint = function (req, res) {
 }
 
 module.exports.createComplaint = function (req, res) {
+    console.log('body', req.body);
+    res.status(200).json('receive from server: ' + req.body)
     // Complaint.findOneAndUpdate({email: req.body.email}, {
     //     $push: {
     //         complaints: {
@@ -52,16 +54,16 @@ module.exports.createComplaint = function (req, res) {
     // }, {upsert: true, setDefaultsOnInsert: true})
     //     .then(data => res.status(201).json(data))
     //     .catch(e => errorHandler(res, e))
-    Cabinet.updateOne({email: req.body.email}, {
-        $push: {
-            complaints: {
-                description: req.body.description,
-                senderEmail: req.body.senderEmail
-            }
-        }
-    })
-        .then(data => res.status(201).json(data))
-        .catch(e => errorHandler(res, e))
+    // Cabinet.updateOne({email: req.body.email}, {
+    //     $push: {
+    //         complaints: {
+    //             description: req.body.description,
+    //             senderEmail: req.body.senderEmail
+    //         }
+    //     }
+    // })
+    //     .then(data => res.status(201).json(data))
+    //     .catch(e => errorHandler(res, e))
 }
 
 module.exports.deleteByEmail = function (req, res) {
