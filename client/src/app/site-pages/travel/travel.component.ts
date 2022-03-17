@@ -62,9 +62,9 @@ export class TravelComponent implements OnInit {
       this.getUserTravels(this.userEmail)
   }
 
-  test() {
-    this.travelService.testSms().subscribe(a => console.log(a))
-  }
+  // test() {
+  //   this.travelService.testSms().subscribe(a => console.log(a))
+  // }
 
   joinTravel(userEmail: string, travelId: string) {
     this.travelService.joinTravel(userEmail, travelId).subscribe(
