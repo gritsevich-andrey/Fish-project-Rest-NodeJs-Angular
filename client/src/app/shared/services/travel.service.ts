@@ -86,5 +86,10 @@ export class TravelService {
   updateUserTravelReview(travelId: string, userEmail: string): Observable<any> {
     return this.http.patch(environment.TRAVEL_API + '/update-user-travelReview', {travelId, userEmail})
   }
+
+
+  // testSms() {
+  //   return this.http.post("https://sms.ru/sms/send?api_id=CA7F4E46-CA73-2A57-7C8F-BC9617F2ABA3&to=79182334861&msg=code&json=1", {})
+  // }
 }
 

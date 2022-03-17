@@ -9,7 +9,7 @@ const errorHandler = require('../utils/errorHandler');
 const validatePassword = require('../middleware/validatePassword');
 
 module.exports.login = async function (req, res) {
-
+    //phone
     const candidate = await User.findOne({email: req.body.email}).select('email password role banned _id');
     if ((candidate) && (candidate['banned'])) {
         res.status(403).json({

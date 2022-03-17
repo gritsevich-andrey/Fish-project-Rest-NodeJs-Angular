@@ -1,6 +1,7 @@
 <mat-tab-group >
   <mat-tab label="Активные поездки">
     <h1>Список предложенных мест</h1>
+<!--    <button (click)="test()">test</button>-->
     <div matSort (matSortChange)="sortData($event, activeTravels)" *ngIf="activeTravels.length !== 0">
       <div class="travelsList">
         <div mat-sort-header="title">
